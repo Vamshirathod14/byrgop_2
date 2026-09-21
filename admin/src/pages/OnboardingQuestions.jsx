@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api/client.js';
 import { adminBrand as brand } from '../theme/brand.js';
 import { darkText, answerColourError, answerColourHex, DEFAULT_YES_COLOR, DEFAULT_NO_COLOR } from '../utils/color.js';
-import { categoryDisplayName } from '../utils/categories.js';
 import StageSelect from '../components/StageSelect.jsx';
 import { StageChip, StageDot, stageColour } from '../components/StageChip.jsx';
 import ColourField from '../components/ColourField.jsx';
@@ -18,8 +17,20 @@ const BUSINESS_TYPE_LABELS = {
 };
 const BUSINESS_TYPE_KEYS = Object.keys(BUSINESS_TYPE_LABELS);
 
+// The three fixed onboarding pillars — the exact Category keys the backend
+// model and engine use (Category enum: strategic / operational / revenue). The
+// dropdown is built from this fixed config and does NOT depend on the generic
+// categories collection being populated.
+const ONBOARDING_PILLARS = [
+  { key: 'strategic', label: 'Strategy', color: '#0A78CF' },
+  { key: 'operational', label: 'Operations', color: '#0D8845' },
+  { key: 'revenue', label: 'Financial', color: '#F5630D' },
+];
+const PILLAR_LABEL = Object.fromEntries(ONBOARDING_PILLARS.map((p) => [p.key, p.label]));
+const PILLAR_COLOR = Object.fromEntries(ONBOARDING_PILLARS.map((p) => [p.key, p.color]));
+
 // Each business type serves exactly three onboarding questions — one per pillar
-// (Strategy / Operations / Finances). This mirrors the engine, which resolves
+// (Strategy / Operations / Financial). This mirrors the engine, which resolves
 // deterministically one question per (category, businessType) pair.
 const MAX_QUESTIONS_PER_TYPE = 3;
 
@@ -38,9 +49,9 @@ const empty = {
 function OnboardingQuestionForm({
   initial,
   businessType,
-  categories,
+  pillars,
   stages,
-  usedCategoryIds,
+  usedPillarKeys,
   onCancel,
   onSaved,
 }) {
@@ -48,7 +59,7 @@ function OnboardingQuestionForm({
     initial
       ? {
           text: initial.text || '',
-          category: initial.category?._id || initial.category || '',
+          category: initial.category?.key || initial.category || '',
           weight: initial.weight ?? 10,
           stageKey: initial.stageKey || '',
           active: initial.active !== false,
@@ -156,8 +167,6 @@ function OnboardingQuestionForm({
     }
   };
 
-  const activeCategories = categories.filter((c) => c.active !== false);
-
   return (
     <form onSubmit={submit} className="card space-y-4">
       <div>
@@ -187,11 +196,11 @@ function OnboardingQuestionForm({
             <option value="" disabled>
               Select category
             </option>
-            {activeCategories
-              .filter((c) => !usedCategoryIds.has(c._id) || c._id === form.category)
-              .map((c) => (
-                <option key={c._id} value={c._id}>
-                  {categoryDisplayName(c.key, c.name)}
+            {pillars
+              .filter((p) => !usedPillarKeys.has(p.key) || p.key === form.category)
+              .map((p) => (
+                <option key={p.key} value={p.key}>
+                  {p.label}
                 </option>
               ))}
           </select>
@@ -343,7 +352,6 @@ function OnboardingQuestionForm({
 export default function OnboardingQuestions() {
   const [businessType, setBusinessType] = useState('service');
   const [questions, setQuestions] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [stages, setStages] = useState([]);
   const [editing, setEditing] = useState(null);
   const [showCreate, setShowCreate] = useState(false);
@@ -351,13 +359,11 @@ export default function OnboardingQuestions() {
 
   const load = useCallback(async () => {
     try {
-      const [qs, cats, sts] = await Promise.all([
+      const [qs, sts] = await Promise.all([
         api.onboardingQuestions(businessType),
-        api.categories(),
         api.stages(),
       ]);
       setQuestions(Array.isArray(qs) ? qs : []);
-      setCategories(Array.isArray(cats) ? cats : []);
       setStages(Array.isArray(sts) ? sts : []);
       setErr(null);
     } catch (e) {
@@ -387,18 +393,27 @@ export default function OnboardingQuestions() {
     }
   };
 
-  const catOf = (id) => categories.find((c) => c._id === id);
   const stageOf = (key) => stages.find((s) => s.key === key);
-  const activeCount = questions.filter((q) => q.active).length;
+  // Only active questions consume a pillar slot. Inactive questions must never
+  // block creation of a replacement, so ALL occupancy/fullness checks are
+  // derived from the active subset only.
+  const activeQuestions = questions.filter((q) => q.active);
+  const activeCount = activeQuestions.length;
 
-  const usedCategoryIds = new Set(
-    questions
-      .map((q) => q.category?._id || q.category)
-      .filter(Boolean)
-      .map((id) => String(id))
+  // Pillar occupancy is tracked by the fixed pillar key (strategic /
+  // operational / revenue), not by the generic categories collection. A
+  // question's category is populated by the API, so `q.category?.key` is the
+  // stable pillar identifier. Anything we cannot map to a known pillar is
+  // ignored — it can never occupy a real onboarding pillar slot.
+  const usedPillarKeys = new Set(
+    activeQuestions
+      .map((q) => q.category?.key)
+      .filter((key) => ONBOARDING_PILLARS.some((p) => p.key === key))
   );
-  const freeCategory = categories.some((c) => c.active !== false && !usedCategoryIds.has(String(c._id)));
-  const full = questions.length >= MAX_QUESTIONS_PER_TYPE;
+  // A pillar is "free" when it has no active question. The fixed three-pillar
+  // list is the source of truth — no dependency on the categories collection.
+  const freeCategory = ONBOARDING_PILLARS.some((p) => !usedPillarKeys.has(p.key));
+  const full = activeQuestions.length >= MAX_QUESTIONS_PER_TYPE;
   const canCreate = freeCategory && !full;
 
   const openCreate = () => {
@@ -443,7 +458,7 @@ export default function OnboardingQuestions() {
           ))}
         </select>
         <span className="text-xs text-mist-muted">
-          {activeCount} active · {questions.length} / {MAX_QUESTIONS_PER_TYPE} total
+          {activeCount} / {MAX_QUESTIONS_PER_TYPE} active · {questions.length} total
         </span>
       </div>
 
@@ -453,9 +468,9 @@ export default function OnboardingQuestions() {
         <div className="mt-5">
           <OnboardingQuestionForm
             businessType={businessType}
-            categories={categories}
+            pillars={ONBOARDING_PILLARS}
             stages={stages}
-            usedCategoryIds={usedCategoryIds}
+            usedPillarKeys={usedPillarKeys}
             onCancel={() => setShowCreate(false)}
             onSaved={async () => {
               setShowCreate(false);
@@ -484,90 +499,94 @@ export default function OnboardingQuestions() {
           </div>
         )}
 
-        {questions.map((q) => (
-          <div key={q._id} className="card">
-            {editing?._id === q._id ? (
-              <OnboardingQuestionForm
-                initial={q}
-                businessType={businessType}
-                categories={categories}
-                stages={stages}
-                usedCategoryIds={usedCategoryIds}
-                onCancel={() => setEditing(null)}
-                onSaved={async () => {
-                  setEditing(null);
-                  await load();
-                }}
-              />
-            ) : (
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span
-                      className="badge"
-                      style={{
-                        background: `${catOf(q.category?._id)?.color || brand.textMuted}22`,
-                        color: darkText(catOf(q.category?._id)?.color || brand.textMuted),
-                      }}
-                    >
-                      {categoryDisplayName(q.category?.key, q.category?.name || '—')}
-                    </span>
-                    <span className="badge bg-slate-200 text-mist">
-                      weight {q.weight}
-                    </span>
-                    {q.stageKey && stageOf(q.stageKey) && (
-                      <StageChip stage={stageOf(q.stageKey)} />
-                    )}
-                    <span className="badge bg-slate-200 text-mist">
-                      {(q.options || []).filter((o) => o.active).length} active options
-                    </span>
-                    <span
-                      className={`badge ${
-                        q.active ? 'bg-green-400/15 text-green-700' : 'bg-red-400/15 text-red-700'
-                      }`}
-                    >
-                      {q.active ? 'active' : 'inactive'}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm font-medium text-mist">{q.text}</p>
-                  <div className="mt-2 flex flex-wrap items-center gap-2">
-                    {(q.options || []).map((o) => (
+        {questions.map((q) => {
+          const pillarKey = q.category?.key;
+          const pillarColor = PILLAR_COLOR[pillarKey] || brand.textMuted;
+          return (
+            <div key={q._id} className="card">
+              {editing?._id === q._id ? (
+                <OnboardingQuestionForm
+                  initial={q}
+                  businessType={businessType}
+                  pillars={ONBOARDING_PILLARS}
+                  stages={stages}
+                  usedPillarKeys={usedPillarKeys}
+                  onCancel={() => setEditing(null)}
+                  onSaved={async () => {
+                    setEditing(null);
+                    await load();
+                  }}
+                />
+              ) : (
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span
-                        key={o._id || o.text}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] ${
-                          o.active !== false ? 'border-slate-300 text-mist-muted' : 'border-slate-200 text-mist-muted/40'
+                        className="badge"
+                        style={{
+                          background: `${pillarColor}22`,
+                          color: darkText(pillarColor),
+                        }}
+                      >
+                        {PILLAR_LABEL[pillarKey] || q.category?.name || '—'}
+                      </span>
+                      <span className="badge bg-slate-200 text-mist">
+                        weight {q.weight}
+                      </span>
+                      {q.stageKey && stageOf(q.stageKey) && (
+                        <StageChip stage={stageOf(q.stageKey)} />
+                      )}
+                      <span className="badge bg-slate-200 text-mist">
+                        {(q.options || []).filter((o) => o.active).length} active options
+                      </span>
+                      <span
+                        className={`badge ${
+                          q.active ? 'bg-green-400/15 text-green-700' : 'bg-red-400/15 text-red-700'
                         }`}
                       >
-                        <span
-                          className="h-2.5 w-2.5 shrink-0 rounded-full"
-                          style={{ background: answerColourHex(o.color) || 'transparent' }}
-                          title={answerColourHex(o.color) ? `${answerColourHex(o.color)} hex` : 'default colour'}
-                        />
-                        <span className="font-medium">{o.text}</span>
-                        <span className="opacity-60">· {o.score}</span>
-                        {o.stageKey && stageOf(o.stageKey) && (
-                          <StageChip
-                            stage={stageOf(o.stageKey)}
-                            showColour={false}
-                            className="border-transparent bg-transparent px-1"
-                          />
-                        )}
+                        {q.active ? 'active' : 'inactive'}
                       </span>
-                    ))}
+                    </div>
+                    <p className="mt-2 text-sm font-medium text-mist">{q.text}</p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      {(q.options || []).map((o) => (
+                        <span
+                          key={o._id || o.text}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] ${
+                            o.active !== false ? 'border-slate-300 text-mist-muted' : 'border-slate-200 text-mist-muted/40'
+                          }`}
+                        >
+                          <span
+                            className="h-2.5 w-2.5 shrink-0 rounded-full"
+                            style={{ background: answerColourHex(o.color) || 'transparent' }}
+                            title={answerColourHex(o.color) ? `${answerColourHex(o.color)} hex` : 'default colour'}
+                          />
+                          <span className="font-medium">{o.text}</span>
+                          <span className="opacity-60">· {o.score}</span>
+                          {o.stageKey && stageOf(o.stageKey) && (
+                            <StageChip
+                              stage={stageOf(o.stageKey)}
+                              showColour={false}
+                              className="border-transparent bg-transparent px-1"
+                            />
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <button className="btn-ghost px-3 py-1.5 text-xs" onClick={() => setEditing(q)}>
+                      Edit
+                    </button>
+                    <button className="btn-danger" onClick={() => remove(q)}>
+                      Delete
+                    </button>
                   </div>
                 </div>
-                <div className="flex shrink-0 gap-2">
-                  <button className="btn-ghost px-3 py-1.5 text-xs" onClick={() => setEditing(q)}>
-                    Edit
-                  </button>
-                  <button className="btn-danger" onClick={() => remove(q)}>
-                    Delete
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

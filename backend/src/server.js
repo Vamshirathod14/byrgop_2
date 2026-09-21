@@ -20,6 +20,8 @@ app.set('trust proxy', 1);
 const DEFAULT_CLIENT_ORIGINS = [
   'https://byrgop.com',
   'https://www.byrgop.com',
+  'https://byrgop.in',
+  'https://www.byrgop.in',
   'http://localhost:5175',
   'http://localhost:5174',
 ].join(',');

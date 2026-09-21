@@ -19,34 +19,21 @@ function resolveCategory(category) {
   return null;
 }
 
-function classifyAnswerColour(hex) {
-  const clean = String(hex || '').trim().replace(/^#/, '');
-  const h = clean.length === 3 ? clean.split('').map((c) => c + c).join('') : clean;
-  if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
-  const greenDominance = g - Math.max(r, b);
-  const redDominance = r - Math.max(g, b);
-  if (greenDominance > 0 && greenDominance >= redDominance) return 'green';
-  if (redDominance > 0 && redDominance > greenDominance) return 'red';
-  return null;
-}
-
+// The centre emoji reflects the actual onboarding Yes/No answers — how many of
+// the three pillars were answered "Yes" — NOT the Admin-configured answer
+// colours. The colours are visual only and must never drive the emoji, so the
+// count is derived from each category's stored answer text ("Yes"/"No").
 function getCenterEmoji(data) {
-  const greenCount = data.filter((d) => classifyAnswerColour(d.color) === 'green').length;
-  const redCount = data.filter((d) => classifyAnswerColour(d.color) === 'red').length;
+  const yesCount = data.filter((d) => normalizedKey(d.answer) === 'yes').length;
 
-  if (greenCount === 3) {
+  if (yesCount === 3) {
     return { emoji: '😄', status: 'Strong Foundation' };
-  } else if (greenCount === 2 && redCount === 1) {
+  } else if (yesCount === 2) {
     return { emoji: '🙂', status: 'Growing Steady' };
-  } else if (greenCount === 1 && redCount === 2) {
+  } else if (yesCount === 1) {
     return { emoji: '😐', status: 'Needs Attention' };
-  } else if (greenCount === 0 && redCount === 3) {
-    return { emoji: '😢', status: 'Immediate Action' };
   }
-  return { emoji: '😐', status: 'Needs Attention' };
+  return { emoji: '😢', status: 'Immediate Action' };
 }
 
 export default function ResultScreen({ result, onKY, onAbout, onLogoClick, onRetake, onLogout }) {
