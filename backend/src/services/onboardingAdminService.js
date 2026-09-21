@@ -10,6 +10,38 @@ import { resolveOptionColor, DEFAULT_YES_COLOR, DEFAULT_NO_COLOR } from '../conf
 // strictly to it: an Admin can never read, edit or delete a question belonging
 // to another business type through a mismatched businessType request.
 
+// The three fixed onboarding pillars. Onboarding questions always reference one
+// of these categories (key = canonical identifier); the Admin dropdown is built
+// from this fixed set and must work even when the generic categories collection
+// has no documents yet.
+const ONBOARDING_PILLAR_DEFAULTS = Object.freeze({
+  strategic: { name: 'Strategic', color: '#0A78CF', sortOrder: 1, description: 'Strategy, goals, direction and competitive positioning.' },
+  operational: { name: 'Operational', color: '#0D8845', sortOrder: 2, description: 'Efficiency, process maturity and day-to-day execution.' },
+  revenue: { name: 'Revenue', color: '#F5630D', sortOrder: 3, description: 'Commercial health, growth engine and client acquisition.' },
+});
+
+// Resolve an onboarding question category from either its canonical key
+// (strategic / operational / revenue) or an ObjectId. The three fixed pillar
+// documents are auto-ensured on demand so the engine's key-based lookups
+// (`Category.findOne({ key, active: true })`) can always resolve them.
+export async function resolveOnboardingCategory(ref) {
+  if (ref == null || String(ref).trim() === '') return null;
+
+  const text = String(ref).trim();
+  const key = text.toLowerCase();
+
+  if (ONBOARDING_PILLAR_DEFAULTS[key]) {
+    return Category.findOneAndUpdate(
+      { key },
+      { $setOnInsert: { ...ONBOARDING_PILLAR_DEFAULTS[key], key, active: true } },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+  }
+
+  const byId = await Category.findById(text).catch(() => null);
+  return byId;
+}
+
 export const YES_STAGE_KEY = 'recommendations';
 export const NO_STAGE_KEY = 'initiation';
 
@@ -76,7 +108,7 @@ export async function createOnboardingQuestion(payload = {}) {
   const businessType = requireBusinessType(payload.businessType);
   const category = payload.category;
   if (!category) throw Object.assign(new Error('A category is required'), { status: 400 });
-  const cat = await Category.findById(category);
+  const cat = await resolveOnboardingCategory(category);
   if (!cat) throw Object.assign(new Error('Invalid category'), { status: 400 });
   const text = String(payload.text || '').trim();
   if (!text) throw Object.assign(new Error('Question text is required'), { status: 400 });
@@ -99,7 +131,7 @@ export async function updateOnboardingQuestion({ id, businessType, patch = {} })
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
   if (patch.category) {
-    const cat = await Category.findById(patch.category);
+    const cat = await resolveOnboardingCategory(patch.category);
     if (!cat) throw Object.assign(new Error('Invalid category'), { status: 400 });
     q.category = cat._id;
   }
