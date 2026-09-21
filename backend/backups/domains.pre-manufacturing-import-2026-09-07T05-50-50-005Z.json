@@ -1,0 +1,50 @@
+{
+  "exportedAt": "2026-09-07T05:50:50.013Z",
+  "count": 4,
+  "docs": [
+    {
+      "_id": "6a8d7a280f847fe349126032",
+      "name": "Consumer Packaged Goods (CPG) & Food Processing",
+      "slug": "cpg_food_processing",
+      "description": "",
+      "active": true,
+      "businessTypeId": "6a893b7419b432aba43298b2",
+      "createdAt": "2026-08-25T11:19:04.684Z",
+      "updatedAt": "2026-08-25T11:19:32.012Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a8687248c1bca9fa9be1181",
+      "__v": 0,
+      "active": true,
+      "createdAt": "2026-08-20T04:48:36.437Z",
+      "description": "",
+      "name": "Manufacturing & Industrial Operations",
+      "slug": "manufacturing",
+      "updatedAt": "2026-08-25T11:19:31.959Z",
+      "businessTypeId": "6a893b7419b432aba43298b2"
+    },
+    {
+      "_id": "6a8d7a280f847fe349126035",
+      "name": "Raw Materials, Mining & Metallurgy",
+      "slug": "raw_materials_mining_metallurgy",
+      "description": "",
+      "active": true,
+      "businessTypeId": "6a893b7419b432aba43298b2",
+      "createdAt": "2026-08-25T11:19:04.731Z",
+      "updatedAt": "2026-08-25T11:19:32.037Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a8687248c1bca9fa9be1198",
+      "__v": 0,
+      "active": true,
+      "createdAt": "2026-08-20T04:48:36.572Z",
+      "description": "",
+      "name": "Real Estate, Construction & Infrastructure",
+      "slug": "real_estate_construction",
+      "updatedAt": "2026-08-25T11:19:31.986Z",
+      "businessTypeId": "6a893b7419b432aba43298b2"
+    }
+  ]
+}

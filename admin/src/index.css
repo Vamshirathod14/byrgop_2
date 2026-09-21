@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* Admin Console is light-mode only. Opt out of browser/OS auto dark UI
+   (form controls, scrollbars) so it never follows system preferences. */
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  /* ONE FONT across the whole Admin Console — Poppins only. */
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: #f6f5f1;
+  color: #20242c;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm;
+  }
+  .input {
+    @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-ink-950 outline-none transition-colors placeholder:text-slate-500 focus:border-brand-accent/70;
+  }
+  /* Same family as the site-wide PrimaryButton: brand accent, ink text,
+     warm hover, subtle glow — compact for dense admin layouts. */
+  .btn-primary {
+    @apply rounded-xl bg-brand-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-all duration-300 hover:bg-brand-accentHover hover:shadow-[0_0_28px_-6px_rgba(252,167,0,0.45)] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply rounded-lg border border-slate-300 px-4 py-2 text-sm text-ink-950 transition-colors hover:border-slate-400 hover:bg-slate-50;
+  }
+  .btn-danger {
+    @apply rounded-lg border border-red-400/40 px-3 py-1.5 text-xs text-red-600 transition-colors hover:bg-red-50;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium;
+  }
+}

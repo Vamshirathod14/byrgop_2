@@ -1,0 +1,2939 @@
+[
+ {
+  "_id": "6a86a579ceccdd3adc6bb584",
+  "sessionId": "671BE3D6F35D",
+  "status": "completed",
+  "email": "vamshinaikramavath@gmail.com",
+  "domain": "manufacturing",
+  "domainLabel": "Manufacturing & Industrial Operations",
+  "selectedQuestions": [
+   {
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "text": "Do you have real-time visibility into production metrics?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1924f",
+      "text": "Yes, full real-time visibility",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19250",
+      "text": "Mostly real-time",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19251",
+      "text": "Some visibility",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19252",
+      "text": "No visibility",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70d164ed6ef27eba5615",
+    "text": "Do you have a clear budget for operational expenses?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70d164ed6ef27eba5616",
+      "text": "Detailed and adhered to",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70d164ed6ef27eba5617",
+      "text": "General budget, mostly followed",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70d164ed6ef27eba5618",
+      "text": "Loose or informal budget",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70d164ed6ef27eba5619",
+      "text": "No budget in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d707e64ed6ef27eba55eb",
+    "text": "How effective is your current marketing strategy in generating leads?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ec",
+      "text": "Highly effective, consistent lead growth",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ed",
+      "text": "Moderately effective, some growth",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ee",
+      "text": "Limited effectiveness",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ef",
+      "text": "Not effective or no strategy",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d708664ed6ef27eba55f1",
+    "text": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d708664ed6ef27eba55f2",
+      "text": "Extensively, with measurable results",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f3",
+      "text": "Moderately, with some results",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f4",
+      "text": "Rarely, with minimal impact",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f5",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "text": "How standardized are your operational processes?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926d",
+      "text": "Highly standardized",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926e",
+      "text": "Mostly standardized",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926f",
+      "text": "Somewhat standardized",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19270",
+      "text": "Largely ad hoc",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "text": "How well-integrated are your supply chain systems?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19277",
+      "text": "Fully integrated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19278",
+      "text": "Mostly integrated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19279",
+      "text": "Partially integrated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1927a",
+      "text": "Not integrated",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70b864ed6ef27eba5609",
+    "text": "Is your financial forecasting accurate and regularly updated?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70b864ed6ef27eba560a",
+      "text": "Highly accurate, updated monthly",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560b",
+      "text": "Moderately accurate, updated quarterly",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560c",
+      "text": "Inconsistent or outdated",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560d",
+      "text": "No forecasting in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70fc64ed6ef27eba5633",
+    "text": "How compliant are you with industry regulations?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5634",
+      "text": "Fully compliant, regularly audited",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5635",
+      "text": "Mostly compliant, occasional checks",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5636",
+      "text": "Partial compliance, some gaps",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5637",
+      "text": "Non-compliant or unaware",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d707564ed6ef27eba55e5",
+    "text": "Do you have a clear Unique Selling Proposition (USP)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d707564ed6ef27eba55e6",
+      "text": "Well-defined and communicated",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e7",
+      "text": "Defined but not consistently used",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e8",
+      "text": "Vaguely defined",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e9",
+      "text": "Not defined",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70b064ed6ef27eba5603",
+    "text": "How diversified are your revenue streams?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70b064ed6ef27eba5604",
+      "text": "Multiple streams, well-balanced",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70b064ed6ef27eba5605",
+      "text": "A few streams, somewhat balanced",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70b064ed6ef27eba5606",
+      "text": "Limited to one or two streams",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70b064ed6ef27eba5607",
+      "text": "Single revenue stream",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "text": "How automated is your production process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923a",
+      "text": "Highly automated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923b",
+      "text": "Mostly automated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923c",
+      "text": "Partially automated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923d",
+      "text": "Largely manual",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70ea64ed6ef27eba5627",
+    "text": "How well-trained is your staff for their roles?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70ea64ed6ef27eba5628",
+      "text": "Highly trained, ongoing development",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70ea64ed6ef27eba5629",
+      "text": "Adequately trained, occasional training",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70ea64ed6ef27eba562a",
+      "text": "Basic training, gaps exist",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70ea64ed6ef27eba562b",
+      "text": "Minimal or no training",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "text": "Do you have a clear capacity planning process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19295",
+      "text": "Yes, clear process",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19296",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19297",
+      "text": "Some process exists",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19298",
+      "text": "No process",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "text": "How frequently do you experience production downtime?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19259",
+      "text": "Rarely",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925a",
+      "text": "Sometimes",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925b",
+      "text": "Often",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925c",
+      "text": "Very often",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "text": "Do you have clear cost tracking per product/unit?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19281",
+      "text": "Yes, clear per-unit tracking",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19282",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19283",
+      "text": "Partial tracking",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19284",
+      "text": "No tracking",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "text": "Do you use predictive maintenance for machinery?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19263",
+      "text": "Yes, fully implemented",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19264",
+      "text": "Mostly implemented",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19265",
+      "text": "Partially",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19266",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "text": "How efficient is your inventory management?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19245",
+      "text": "Very efficient",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19246",
+      "text": "Efficient",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19247",
+      "text": "Somewhat efficient",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19248",
+      "text": "Not efficient",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "text": "Do you have a system to collect and act on customer feedback?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70a764ed6ef27eba55fe",
+      "text": "Robust system with regular action",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba55ff",
+      "text": "Basic system, occasional action",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5600",
+      "text": "Informal or inconsistent system",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5601",
+      "text": "No system in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70c864ed6ef27eba560f",
+    "text": "How would you describe your cash flow management?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70c864ed6ef27eba5610",
+      "text": "Strong, with reserves for 6+ months",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70c864ed6ef27eba5611",
+      "text": "Stable, with reserves for 3-6 months",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70c864ed6ef27eba5612",
+      "text": "Tight, with reserves for 1-3 months",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70c864ed6ef27eba5613",
+      "text": "Unstable or no reserves",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "text": "How effectively do you manage quality control?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928b",
+      "text": "Very effectively",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928c",
+      "text": "Effectively",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928d",
+      "text": "Somewhat effectively",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928e",
+      "text": "Not effectively",
+      "score": 1
+     }
+    ]
+   }
+  ],
+  "answers": [
+   {
+    "questionIndex": 0,
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "questionText": "Do you have real-time visibility into production metrics?",
+    "optionId": "6a82b05f6d7933e7a9e1924f",
+    "optionText": "Yes, full real-time visibility",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:09.390Z"
+   },
+   {
+    "questionIndex": 1,
+    "questionId": "6a7d70d164ed6ef27eba5615",
+    "questionText": "Do you have a clear budget for operational expenses?",
+    "optionId": "6a7d70d164ed6ef27eba5616",
+    "optionText": "Detailed and adhered to",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:11.103Z"
+   },
+   {
+    "questionIndex": 2,
+    "questionId": "6a7d707e64ed6ef27eba55eb",
+    "questionText": "How effective is your current marketing strategy in generating leads?",
+    "optionId": "6a7d707e64ed6ef27eba55ec",
+    "optionText": "Highly effective, consistent lead growth",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:12.864Z"
+   },
+   {
+    "questionIndex": 3,
+    "questionId": "6a7d708664ed6ef27eba55f1",
+    "questionText": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+    "optionId": "6a7d708664ed6ef27eba55f4",
+    "optionText": "Rarely, with minimal impact",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:58:14.904Z"
+   },
+   {
+    "questionIndex": 4,
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "questionText": "How standardized are your operational processes?",
+    "optionId": "6a82b05f6d7933e7a9e19270",
+    "optionText": "Largely ad hoc",
+    "score": 1,
+    "answeredAt": "2026-08-20T06:58:17.069Z"
+   },
+   {
+    "questionIndex": 5,
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "questionText": "How well-integrated are your supply chain systems?",
+    "optionId": "6a82b05f6d7933e7a9e19279",
+    "optionText": "Partially integrated",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:58:18.811Z"
+   },
+   {
+    "questionIndex": 6,
+    "questionId": "6a7d70b864ed6ef27eba5609",
+    "questionText": "Is your financial forecasting accurate and regularly updated?",
+    "optionId": "6a7d70b864ed6ef27eba560b",
+    "optionText": "Moderately accurate, updated quarterly",
+    "score": 3,
+    "answeredAt": "2026-08-20T06:58:20.602Z"
+   },
+   {
+    "questionIndex": 7,
+    "questionId": "6a7d70fc64ed6ef27eba5633",
+    "questionText": "How compliant are you with industry regulations?",
+    "optionId": "6a7d70fc64ed6ef27eba5636",
+    "optionText": "Partial compliance, some gaps",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:58:22.248Z"
+   },
+   {
+    "questionIndex": 8,
+    "questionId": "6a7d707564ed6ef27eba55e5",
+    "questionText": "Do you have a clear Unique Selling Proposition (USP)?",
+    "optionId": "6a7d707564ed6ef27eba55e6",
+    "optionText": "Well-defined and communicated",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:25.685Z"
+   },
+   {
+    "questionIndex": 9,
+    "questionId": "6a7d70b064ed6ef27eba5603",
+    "questionText": "How diversified are your revenue streams?",
+    "optionId": "6a7d70b064ed6ef27eba5604",
+    "optionText": "Multiple streams, well-balanced",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:27.965Z"
+   },
+   {
+    "questionIndex": 10,
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "questionText": "How automated is your production process?",
+    "optionId": "6a82b05f6d7933e7a9e1923a",
+    "optionText": "Highly automated",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:35.586Z"
+   },
+   {
+    "questionIndex": 11,
+    "questionId": "6a7d70ea64ed6ef27eba5627",
+    "questionText": "How well-trained is your staff for their roles?",
+    "optionId": "6a7d70ea64ed6ef27eba562a",
+    "optionText": "Basic training, gaps exist",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:58:37.248Z"
+   },
+   {
+    "questionIndex": 12,
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "questionText": "Do you have a clear capacity planning process?",
+    "optionId": "6a82b05f6d7933e7a9e19296",
+    "optionText": "Mostly clear",
+    "score": 3,
+    "answeredAt": "2026-08-20T06:58:38.737Z"
+   },
+   {
+    "questionIndex": 13,
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "questionText": "How frequently do you experience production downtime?",
+    "optionId": "6a82b05f6d7933e7a9e19259",
+    "optionText": "Rarely",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:58:40.096Z"
+   },
+   {
+    "questionIndex": 14,
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "questionText": "Do you have clear cost tracking per product/unit?",
+    "optionId": "6a82b05f6d7933e7a9e19283",
+    "optionText": "Partial tracking",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:58:41.855Z"
+   },
+   {
+    "questionIndex": 15,
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "questionText": "Do you use predictive maintenance for machinery?",
+    "optionId": "6a82b05f6d7933e7a9e19265",
+    "optionText": "Partially",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:59:07.408Z"
+   },
+   {
+    "questionIndex": 16,
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "questionText": "How efficient is your inventory management?",
+    "optionId": "6a82b05f6d7933e7a9e19248",
+    "optionText": "Not efficient",
+    "score": 1,
+    "answeredAt": "2026-08-20T06:59:08.857Z"
+   },
+   {
+    "questionIndex": 17,
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "questionText": "Do you have a system to collect and act on customer feedback?",
+    "optionId": "6a7d70a764ed6ef27eba55fe",
+    "optionText": "Robust system with regular action",
+    "score": 4,
+    "answeredAt": "2026-08-20T06:59:10.941Z"
+   },
+   {
+    "questionIndex": 18,
+    "questionId": "6a7d70c864ed6ef27eba560f",
+    "questionText": "How would you describe your cash flow management?",
+    "optionId": "6a7d70c864ed6ef27eba5611",
+    "optionText": "Stable, with reserves for 3-6 months",
+    "score": 3,
+    "answeredAt": "2026-08-20T06:59:12.502Z"
+   },
+   {
+    "questionIndex": 19,
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "questionText": "How effectively do you manage quality control?",
+    "optionId": "6a82b05f6d7933e7a9e1928d",
+    "optionText": "Somewhat effectively",
+    "score": 2,
+    "answeredAt": "2026-08-20T06:59:13.993Z"
+   }
+  ],
+  "result": {
+   "score": 57,
+   "maxScore": 80,
+   "band": "MODERATE PERFORMANCE",
+   "message": "Targeted Improvements Needed",
+   "domain": "manufacturing",
+   "domainLabel": "Manufacturing & Industrial Operations"
+  },
+  "startedAt": "2026-08-20T06:58:01.372Z",
+  "completedAt": "2026-08-20T06:59:13.994Z",
+  "phone": null,
+  "contactConsent": false,
+  "contactSubmittedAt": null,
+  "proBonoRequested": true,
+  "proBonoEmail": "vamshinaikramavath@gmail.com",
+  "proBonoPhone": "9014243908",
+  "proBonoConsent": true,
+  "proBonoSubmittedAt": "2026-08-20T06:59:38.279Z",
+  "lastActiveAt": "2026-08-20T06:59:13.993Z",
+  "createdAt": "2026-08-20T06:58:01.391Z",
+  "updatedAt": "2026-08-20T06:59:38.289Z",
+  "__v": 20
+ },
+ {
+  "_id": "6a87f2c42de32ddc04a9f69a",
+  "sessionId": "E71D9D83F0B5",
+  "status": "completed",
+  "email": "ramavathvamshicse@gmail.com",
+  "domain": "manufacturing",
+  "domainLabel": "Manufacturing & Industrial Operations",
+  "selectedQuestions": [
+   {
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "text": "Do you use predictive maintenance for machinery?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19263",
+      "text": "Yes, fully implemented",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19264",
+      "text": "Mostly implemented",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19265",
+      "text": "Partially",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19266",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "text": "How effectively do you manage quality control?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928b",
+      "text": "Very effectively",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928c",
+      "text": "Effectively",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928d",
+      "text": "Somewhat effectively",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928e",
+      "text": "Not effectively",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "text": "How efficient is your inventory management?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19245",
+      "text": "Very efficient",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19246",
+      "text": "Efficient",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19247",
+      "text": "Somewhat efficient",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19248",
+      "text": "Not efficient",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "text": "Do you have clear cost tracking per product/unit?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19281",
+      "text": "Yes, clear per-unit tracking",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19282",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19283",
+      "text": "Partial tracking",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19284",
+      "text": "No tracking",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "text": "How standardized are your operational processes?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926d",
+      "text": "Highly standardized",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926e",
+      "text": "Mostly standardized",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926f",
+      "text": "Somewhat standardized",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19270",
+      "text": "Largely ad hoc",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "text": "How automated is your production process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923a",
+      "text": "Highly automated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923b",
+      "text": "Mostly automated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923c",
+      "text": "Partially automated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923d",
+      "text": "Largely manual",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "text": "Do you have a system to collect and act on customer feedback?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70a764ed6ef27eba55fe",
+      "text": "Robust system with regular action",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba55ff",
+      "text": "Basic system, occasional action",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5600",
+      "text": "Informal or inconsistent system",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5601",
+      "text": "No system in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "text": "Do you have a clear capacity planning process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19295",
+      "text": "Yes, clear process",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19296",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19297",
+      "text": "Some process exists",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19298",
+      "text": "No process",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70da64ed6ef27eba561b",
+    "text": "How optimized are your business processes (e.g., supply chain, production)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70da64ed6ef27eba561c",
+      "text": "Highly optimized, minimal waste",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70da64ed6ef27eba561d",
+      "text": "Moderately optimized, some inefficiencies",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70da64ed6ef27eba561e",
+      "text": "Significant inefficiencies",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70da64ed6ef27eba561f",
+      "text": "Not optimized or chaotic",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70b064ed6ef27eba5603",
+    "text": "How diversified are your revenue streams?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70b064ed6ef27eba5604",
+      "text": "Multiple streams, well-balanced",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70b064ed6ef27eba5605",
+      "text": "A few streams, somewhat balanced",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70b064ed6ef27eba5606",
+      "text": "Limited to one or two streams",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70b064ed6ef27eba5607",
+      "text": "Single revenue stream",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d707564ed6ef27eba55e5",
+    "text": "Do you have a clear Unique Selling Proposition (USP)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d707564ed6ef27eba55e6",
+      "text": "Well-defined and communicated",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e7",
+      "text": "Defined but not consistently used",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e8",
+      "text": "Vaguely defined",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e9",
+      "text": "Not defined",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d708664ed6ef27eba55f1",
+    "text": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d708664ed6ef27eba55f2",
+      "text": "Extensively, with measurable results",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f3",
+      "text": "Moderately, with some results",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f4",
+      "text": "Rarely, with minimal impact",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f5",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "text": "How well-integrated are your supply chain systems?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19277",
+      "text": "Fully integrated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19278",
+      "text": "Mostly integrated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19279",
+      "text": "Partially integrated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1927a",
+      "text": "Not integrated",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d712364ed6ef27eba564b",
+    "text": "How would you rate your overall business scalability?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d712364ed6ef27eba564c",
+      "text": "Highly scalable, ready for growth",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564d",
+      "text": "Moderately scalable, some constraints",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564e",
+      "text": "Limited scalability, major constraints",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564f",
+      "text": "Not scalable",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d700d64ed6ef27eba55c3",
+    "text": "How often do you review market trends relevant to your industry?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c4",
+      "text": "Monthly or more frequently",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c5",
+      "text": "Quarterly",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c6",
+      "text": "Annually",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c7",
+      "text": "Rarely or never",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a87f0b42de32ddc04a9f458",
+    "text": "hello",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a87f0b42de32ddc04a9f459",
+      "text": "1",
+      "score": 1
+     },
+     {
+      "optionId": "6a87f0b42de32ddc04a9f45a",
+      "text": "2",
+      "score": 2
+     },
+     {
+      "optionId": "6a87f0b42de32ddc04a9f45b",
+      "text": "3",
+      "score": 3
+     },
+     {
+      "optionId": "6a87f0b42de32ddc04a9f45c",
+      "text": "4",
+      "score": 4
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "text": "How frequently do you experience production downtime?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19259",
+      "text": "Rarely",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925a",
+      "text": "Sometimes",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925b",
+      "text": "Often",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925c",
+      "text": "Very often",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "text": "Do you have real-time visibility into production metrics?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1924f",
+      "text": "Yes, full real-time visibility",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19250",
+      "text": "Mostly real-time",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19251",
+      "text": "Some visibility",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19252",
+      "text": "No visibility",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70b864ed6ef27eba5609",
+    "text": "Is your financial forecasting accurate and regularly updated?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70b864ed6ef27eba560a",
+      "text": "Highly accurate, updated monthly",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560b",
+      "text": "Moderately accurate, updated quarterly",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560c",
+      "text": "Inconsistent or outdated",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560d",
+      "text": "No forecasting in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d707e64ed6ef27eba55eb",
+    "text": "How effective is your current marketing strategy in generating leads?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ec",
+      "text": "Highly effective, consistent lead growth",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ed",
+      "text": "Moderately effective, some growth",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ee",
+      "text": "Limited effectiveness",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d707e64ed6ef27eba55ef",
+      "text": "Not effective or no strategy",
+      "score": 1
+     }
+    ]
+   }
+  ],
+  "answers": [
+   {
+    "questionIndex": 0,
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "questionText": "Do you use predictive maintenance for machinery?",
+    "optionId": "6a82b05f6d7933e7a9e19263",
+    "optionText": "Yes, fully implemented",
+    "score": 4,
+    "answeredAt": "2026-08-21T06:40:09.155Z"
+   },
+   {
+    "questionIndex": 1,
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "questionText": "How effectively do you manage quality control?",
+    "optionId": "6a82b05f6d7933e7a9e1928e",
+    "optionText": "Not effectively",
+    "score": 1,
+    "answeredAt": "2026-08-21T06:40:10.749Z"
+   },
+   {
+    "questionIndex": 2,
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "questionText": "How efficient is your inventory management?",
+    "optionId": "6a82b05f6d7933e7a9e19247",
+    "optionText": "Somewhat efficient",
+    "score": 2,
+    "answeredAt": "2026-08-21T06:40:12.059Z"
+   },
+   {
+    "questionIndex": 3,
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "questionText": "Do you have clear cost tracking per product/unit?",
+    "optionId": "6a82b05f6d7933e7a9e19282",
+    "optionText": "Mostly clear",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:14.058Z"
+   },
+   {
+    "questionIndex": 4,
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "questionText": "How standardized are your operational processes?",
+    "optionId": "6a82b05f6d7933e7a9e1926d",
+    "optionText": "Highly standardized",
+    "score": 4,
+    "answeredAt": "2026-08-21T06:40:15.245Z"
+   },
+   {
+    "questionIndex": 5,
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "questionText": "How automated is your production process?",
+    "optionId": "6a82b05f6d7933e7a9e1923c",
+    "optionText": "Partially automated",
+    "score": 2,
+    "answeredAt": "2026-08-21T06:40:16.686Z"
+   },
+   {
+    "questionIndex": 6,
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "questionText": "Do you have a system to collect and act on customer feedback?",
+    "optionId": "6a7d70a764ed6ef27eba5601",
+    "optionText": "No system in place",
+    "score": 1,
+    "answeredAt": "2026-08-21T06:40:18.365Z"
+   },
+   {
+    "questionIndex": 7,
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "questionText": "Do you have a clear capacity planning process?",
+    "optionId": "6a82b05f6d7933e7a9e19295",
+    "optionText": "Yes, clear process",
+    "score": 4,
+    "answeredAt": "2026-08-21T06:40:21.148Z"
+   },
+   {
+    "questionIndex": 8,
+    "questionId": "6a7d70da64ed6ef27eba561b",
+    "questionText": "How optimized are your business processes (e.g., supply chain, production)?",
+    "optionId": "6a7d70da64ed6ef27eba561d",
+    "optionText": "Moderately optimized, some inefficiencies",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:22.657Z"
+   },
+   {
+    "questionIndex": 9,
+    "questionId": "6a7d70b064ed6ef27eba5603",
+    "questionText": "How diversified are your revenue streams?",
+    "optionId": "6a7d70b064ed6ef27eba5607",
+    "optionText": "Single revenue stream",
+    "score": 1,
+    "answeredAt": "2026-08-21T06:40:24.403Z"
+   },
+   {
+    "questionIndex": 10,
+    "questionId": "6a7d707564ed6ef27eba55e5",
+    "questionText": "Do you have a clear Unique Selling Proposition (USP)?",
+    "optionId": "6a7d707564ed6ef27eba55e8",
+    "optionText": "Vaguely defined",
+    "score": 2,
+    "answeredAt": "2026-08-21T06:40:26.494Z"
+   },
+   {
+    "questionIndex": 11,
+    "questionId": "6a7d708664ed6ef27eba55f1",
+    "questionText": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+    "optionId": "6a7d708664ed6ef27eba55f3",
+    "optionText": "Moderately, with some results",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:27.992Z"
+   },
+   {
+    "questionIndex": 12,
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "questionText": "How well-integrated are your supply chain systems?",
+    "optionId": "6a82b05f6d7933e7a9e19278",
+    "optionText": "Mostly integrated",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:29.640Z"
+   },
+   {
+    "questionIndex": 13,
+    "questionId": "6a7d712364ed6ef27eba564b",
+    "questionText": "How would you rate your overall business scalability?",
+    "optionId": "6a7d712364ed6ef27eba564d",
+    "optionText": "Moderately scalable, some constraints",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:31.626Z"
+   },
+   {
+    "questionIndex": 14,
+    "questionId": "6a7d700d64ed6ef27eba55c3",
+    "questionText": "How often do you review market trends relevant to your industry?",
+    "optionId": "6a7d700d64ed6ef27eba55c7",
+    "optionText": "Rarely or never",
+    "score": 1,
+    "answeredAt": "2026-08-21T06:40:34.626Z"
+   },
+   {
+    "questionIndex": 15,
+    "questionId": "6a87f0b42de32ddc04a9f458",
+    "questionText": "hello",
+    "optionId": "6a87f0b42de32ddc04a9f459",
+    "optionText": "1",
+    "score": 1,
+    "answeredAt": "2026-08-21T06:40:39.427Z"
+   },
+   {
+    "questionIndex": 16,
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "questionText": "How frequently do you experience production downtime?",
+    "optionId": "6a82b05f6d7933e7a9e1925a",
+    "optionText": "Sometimes",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:41.186Z"
+   },
+   {
+    "questionIndex": 17,
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "questionText": "Do you have real-time visibility into production metrics?",
+    "optionId": "6a82b05f6d7933e7a9e1924f",
+    "optionText": "Yes, full real-time visibility",
+    "score": 4,
+    "answeredAt": "2026-08-21T06:40:42.713Z"
+   },
+   {
+    "questionIndex": 18,
+    "questionId": "6a7d70b864ed6ef27eba5609",
+    "questionText": "Is your financial forecasting accurate and regularly updated?",
+    "optionId": "6a7d70b864ed6ef27eba560b",
+    "optionText": "Moderately accurate, updated quarterly",
+    "score": 3,
+    "answeredAt": "2026-08-21T06:40:44.057Z"
+   },
+   {
+    "questionIndex": 19,
+    "questionId": "6a7d707e64ed6ef27eba55eb",
+    "questionText": "How effective is your current marketing strategy in generating leads?",
+    "optionId": "6a7d707e64ed6ef27eba55ec",
+    "optionText": "Highly effective, consistent lead growth",
+    "score": 4,
+    "answeredAt": "2026-08-21T06:40:46.764Z"
+   }
+  ],
+  "result": {
+   "score": 52,
+   "maxScore": 80,
+   "band": "MODERATE PERFORMANCE",
+   "message": "Targeted Improvements Needed",
+   "domain": "manufacturing",
+   "domainLabel": "Manufacturing & Industrial Operations"
+  },
+  "startedAt": "2026-08-21T06:40:04.865Z",
+  "completedAt": "2026-08-21T06:40:46.765Z",
+  "phone": null,
+  "contactConsent": false,
+  "contactSubmittedAt": null,
+  "proBonoRequested": true,
+  "proBonoEmail": "ramavathvamshicse@gmail.com",
+  "proBonoPhone": "9014243908",
+  "proBonoConsent": true,
+  "proBonoSubmittedAt": "2026-08-21T06:40:59.150Z",
+  "lastActiveAt": "2026-08-21T06:40:46.765Z",
+  "createdAt": "2026-08-21T06:40:04.887Z",
+  "updatedAt": "2026-08-21T06:40:59.156Z",
+  "__v": 20
+ },
+ {
+  "_id": "6a87f96ebc880bd67af1d8b9",
+  "sessionId": "05E67D3FF3DB",
+  "status": "in_progress",
+  "email": "ramavathvamshicse@gmail.com",
+  "domain": "manufacturing",
+  "domainLabel": "Manufacturing & Industrial Operations",
+  "selectedQuestions": [
+   {
+    "questionId": "6a7d707564ed6ef27eba55e5",
+    "text": "Do you have a clear Unique Selling Proposition (USP)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d707564ed6ef27eba55e6",
+      "text": "Well-defined and communicated",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e7",
+      "text": "Defined but not consistently used",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e8",
+      "text": "Vaguely defined",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d707564ed6ef27eba55e9",
+      "text": "Not defined",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70fc64ed6ef27eba5633",
+    "text": "How compliant are you with industry regulations?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5634",
+      "text": "Fully compliant, regularly audited",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5635",
+      "text": "Mostly compliant, occasional checks",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5636",
+      "text": "Partial compliance, some gaps",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5637",
+      "text": "Non-compliant or unaware",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "text": "Do you use predictive maintenance for machinery?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19263",
+      "text": "Yes, fully implemented",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19264",
+      "text": "Mostly implemented",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19265",
+      "text": "Partially",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19266",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70ea64ed6ef27eba5627",
+    "text": "How well-trained is your staff for their roles?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70ea64ed6ef27eba5628",
+      "text": "Highly trained, ongoing development",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70ea64ed6ef27eba5629",
+      "text": "Adequately trained, occasional training",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70ea64ed6ef27eba562a",
+      "text": "Basic training, gaps exist",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70ea64ed6ef27eba562b",
+      "text": "Minimal or no training",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "text": "How automated is your production process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923a",
+      "text": "Highly automated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923b",
+      "text": "Mostly automated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923c",
+      "text": "Partially automated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923d",
+      "text": "Largely manual",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d712364ed6ef27eba564b",
+    "text": "How would you rate your overall business scalability?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d712364ed6ef27eba564c",
+      "text": "Highly scalable, ready for growth",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564d",
+      "text": "Moderately scalable, some constraints",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564e",
+      "text": "Limited scalability, major constraints",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564f",
+      "text": "Not scalable",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "text": "How frequently do you experience production downtime?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19259",
+      "text": "Rarely",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925a",
+      "text": "Sometimes",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925b",
+      "text": "Often",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925c",
+      "text": "Very often",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d708664ed6ef27eba55f1",
+    "text": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d708664ed6ef27eba55f2",
+      "text": "Extensively, with measurable results",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f3",
+      "text": "Moderately, with some results",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f4",
+      "text": "Rarely, with minimal impact",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d708664ed6ef27eba55f5",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "text": "Do you have real-time visibility into production metrics?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1924f",
+      "text": "Yes, full real-time visibility",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19250",
+      "text": "Mostly real-time",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19251",
+      "text": "Some visibility",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19252",
+      "text": "No visibility",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "text": "How efficient is your inventory management?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19245",
+      "text": "Very efficient",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19246",
+      "text": "Efficient",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19247",
+      "text": "Somewhat efficient",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19248",
+      "text": "Not efficient",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "text": "How effectively do you manage quality control?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928b",
+      "text": "Very effectively",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928c",
+      "text": "Effectively",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928d",
+      "text": "Somewhat effectively",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928e",
+      "text": "Not effectively",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "text": "How well-integrated are your supply chain systems?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19277",
+      "text": "Fully integrated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19278",
+      "text": "Mostly integrated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19279",
+      "text": "Partially integrated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1927a",
+      "text": "Not integrated",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d710b64ed6ef27eba563f",
+    "text": "How strong is your competitive positioning in the market?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d710b64ed6ef27eba5640",
+      "text": "Market leader or strong differentiator",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d710b64ed6ef27eba5641",
+      "text": "Competitive but not leading",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d710b64ed6ef27eba5642",
+      "text": "Struggling to differentiate",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d710b64ed6ef27eba5643",
+      "text": "Weak or no clear position",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "text": "Do you have clear cost tracking per product/unit?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19281",
+      "text": "Yes, clear per-unit tracking",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19282",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19283",
+      "text": "Partial tracking",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19284",
+      "text": "No tracking",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d711b64ed6ef27eba5645",
+    "text": "Do you invest in research & development (R&D)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d711b64ed6ef27eba5646",
+      "text": "Significant investment, drives innovation",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d711b64ed6ef27eba5647",
+      "text": "Moderate investment, some innovation",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d711b64ed6ef27eba5648",
+      "text": "Minimal investment, little innovation",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d711b64ed6ef27eba5649",
+      "text": "No investment in R&D",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70d164ed6ef27eba5615",
+    "text": "Do you have a clear budget for operational expenses?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70d164ed6ef27eba5616",
+      "text": "Detailed and adhered to",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70d164ed6ef27eba5617",
+      "text": "General budget, mostly followed",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70d164ed6ef27eba5618",
+      "text": "Loose or informal budget",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70d164ed6ef27eba5619",
+      "text": "No budget in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "text": "How standardized are your operational processes?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926d",
+      "text": "Highly standardized",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926e",
+      "text": "Mostly standardized",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926f",
+      "text": "Somewhat standardized",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19270",
+      "text": "Largely ad hoc",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "text": "Do you have a system to collect and act on customer feedback?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70a764ed6ef27eba55fe",
+      "text": "Robust system with regular action",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba55ff",
+      "text": "Basic system, occasional action",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5600",
+      "text": "Informal or inconsistent system",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5601",
+      "text": "No system in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "text": "Do you have a clear capacity planning process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19295",
+      "text": "Yes, clear process",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19296",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19297",
+      "text": "Some process exists",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19298",
+      "text": "No process",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70c864ed6ef27eba560f",
+    "text": "How would you describe your cash flow management?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70c864ed6ef27eba5610",
+      "text": "Strong, with reserves for 6+ months",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70c864ed6ef27eba5611",
+      "text": "Stable, with reserves for 3-6 months",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70c864ed6ef27eba5612",
+      "text": "Tight, with reserves for 1-3 months",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70c864ed6ef27eba5613",
+      "text": "Unstable or no reserves",
+      "score": 1
+     }
+    ]
+   }
+  ],
+  "answers": [
+   {
+    "questionIndex": 0,
+    "questionId": "6a7d707564ed6ef27eba55e5",
+    "questionText": "Do you have a clear Unique Selling Proposition (USP)?",
+    "optionId": "6a7d707564ed6ef27eba55e9",
+    "optionText": "Not defined",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:11:15.671Z"
+   },
+   {
+    "questionIndex": 1,
+    "questionId": "6a7d70fc64ed6ef27eba5633",
+    "questionText": "How compliant are you with industry regulations?",
+    "optionId": "6a7d70fc64ed6ef27eba5636",
+    "optionText": "Partial compliance, some gaps",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:11:23.919Z"
+   },
+   {
+    "questionIndex": 2,
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "questionText": "Do you use predictive maintenance for machinery?",
+    "optionId": "6a82b05f6d7933e7a9e19265",
+    "optionText": "Partially",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:11:47.453Z"
+   },
+   {
+    "questionIndex": 3,
+    "questionId": "6a7d70ea64ed6ef27eba5627",
+    "questionText": "How well-trained is your staff for their roles?",
+    "optionId": "6a7d70ea64ed6ef27eba562a",
+    "optionText": "Basic training, gaps exist",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:11:55.027Z"
+   },
+   {
+    "questionIndex": 4,
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "questionText": "How automated is your production process?",
+    "optionId": "6a82b05f6d7933e7a9e1923b",
+    "optionText": "Mostly automated",
+    "score": 3,
+    "answeredAt": "2026-08-21T07:12:04.955Z"
+   },
+   {
+    "questionIndex": 5,
+    "questionId": "6a7d712364ed6ef27eba564b",
+    "questionText": "How would you rate your overall business scalability?",
+    "optionId": "6a7d712364ed6ef27eba564f",
+    "optionText": "Not scalable",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:13:54.753Z"
+   },
+   {
+    "questionIndex": 6,
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "questionText": "How frequently do you experience production downtime?",
+    "optionId": "6a82b05f6d7933e7a9e19259",
+    "optionText": "Rarely",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:14:34.035Z"
+   },
+   {
+    "questionIndex": 7,
+    "questionId": "6a7d708664ed6ef27eba55f1",
+    "questionText": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+    "optionId": "6a7d708664ed6ef27eba55f4",
+    "optionText": "Rarely, with minimal impact",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:14:50.048Z"
+   },
+   {
+    "questionIndex": 8,
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "questionText": "Do you have real-time visibility into production metrics?",
+    "optionId": "6a82b05f6d7933e7a9e19252",
+    "optionText": "No visibility",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:14:53.214Z"
+   },
+   {
+    "questionIndex": 9,
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "questionText": "How efficient is your inventory management?",
+    "optionId": "6a82b05f6d7933e7a9e19246",
+    "optionText": "Efficient",
+    "score": 3,
+    "answeredAt": "2026-08-21T07:14:55.745Z"
+   },
+   {
+    "questionIndex": 10,
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "questionText": "How effectively do you manage quality control?",
+    "optionId": "6a82b05f6d7933e7a9e1928b",
+    "optionText": "Very effectively",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:14:59.733Z"
+   },
+   {
+    "questionIndex": 11,
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "questionText": "How well-integrated are your supply chain systems?",
+    "optionId": "6a82b05f6d7933e7a9e19279",
+    "optionText": "Partially integrated",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:15:02.822Z"
+   }
+  ],
+  "result": null,
+  "startedAt": "2026-08-21T07:08:30.780Z",
+  "completedAt": null,
+  "phone": null,
+  "contactConsent": false,
+  "contactSubmittedAt": null,
+  "proBonoRequested": false,
+  "proBonoEmail": null,
+  "proBonoPhone": null,
+  "proBonoConsent": false,
+  "proBonoSubmittedAt": null,
+  "lastActiveAt": "2026-08-21T07:15:02.822Z",
+  "createdAt": "2026-08-21T07:08:30.803Z",
+  "updatedAt": "2026-08-21T07:15:02.832Z",
+  "__v": 12
+ },
+ {
+  "_id": "6a87fd93bc880bd67af1dab6",
+  "sessionId": "46E2DE00CF3E",
+  "status": "completed",
+  "email": "ramavathvamshicse@gmail.com",
+  "domain": "manufacturing",
+  "domainLabel": "Manufacturing & Industrial Operations",
+  "selectedQuestions": [
+   {
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "text": "How automated is your production process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923a",
+      "text": "Highly automated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923b",
+      "text": "Mostly automated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923c",
+      "text": "Partially automated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1923d",
+      "text": "Largely manual",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70fc64ed6ef27eba5633",
+    "text": "How compliant are you with industry regulations?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5634",
+      "text": "Fully compliant, regularly audited",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5635",
+      "text": "Mostly compliant, occasional checks",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5636",
+      "text": "Partial compliance, some gaps",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70fc64ed6ef27eba5637",
+      "text": "Non-compliant or unaware",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d710b64ed6ef27eba563f",
+    "text": "How strong is your competitive positioning in the market?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d710b64ed6ef27eba5640",
+      "text": "Market leader or strong differentiator",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d710b64ed6ef27eba5641",
+      "text": "Competitive but not leading",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d710b64ed6ef27eba5642",
+      "text": "Struggling to differentiate",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d710b64ed6ef27eba5643",
+      "text": "Weak or no clear position",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "text": "How effectively do you manage quality control?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928b",
+      "text": "Very effectively",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928c",
+      "text": "Effectively",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928d",
+      "text": "Somewhat effectively",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1928e",
+      "text": "Not effectively",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70da64ed6ef27eba561b",
+    "text": "How optimized are your business processes (e.g., supply chain, production)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70da64ed6ef27eba561c",
+      "text": "Highly optimized, minimal waste",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70da64ed6ef27eba561d",
+      "text": "Moderately optimized, some inefficiencies",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70da64ed6ef27eba561e",
+      "text": "Significant inefficiencies",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70da64ed6ef27eba561f",
+      "text": "Not optimized or chaotic",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "text": "Do you have a clear capacity planning process?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19295",
+      "text": "Yes, clear process",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19296",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19297",
+      "text": "Some process exists",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19298",
+      "text": "No process",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "text": "Do you have a system to collect and act on customer feedback?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70a764ed6ef27eba55fe",
+      "text": "Robust system with regular action",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba55ff",
+      "text": "Basic system, occasional action",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5600",
+      "text": "Informal or inconsistent system",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70a764ed6ef27eba5601",
+      "text": "No system in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "text": "How standardized are your operational processes?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926d",
+      "text": "Highly standardized",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926e",
+      "text": "Mostly standardized",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1926f",
+      "text": "Somewhat standardized",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19270",
+      "text": "Largely ad hoc",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "text": "How well-integrated are your supply chain systems?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19277",
+      "text": "Fully integrated",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19278",
+      "text": "Mostly integrated",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19279",
+      "text": "Partially integrated",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1927a",
+      "text": "Not integrated",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "text": "Do you have real-time visibility into production metrics?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e1924f",
+      "text": "Yes, full real-time visibility",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19250",
+      "text": "Mostly real-time",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19251",
+      "text": "Some visibility",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19252",
+      "text": "No visibility",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d711b64ed6ef27eba5645",
+    "text": "Do you invest in research & development (R&D)?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d711b64ed6ef27eba5646",
+      "text": "Significant investment, drives innovation",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d711b64ed6ef27eba5647",
+      "text": "Moderate investment, some innovation",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d711b64ed6ef27eba5648",
+      "text": "Minimal investment, little innovation",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d711b64ed6ef27eba5649",
+      "text": "No investment in R&D",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d712364ed6ef27eba564b",
+    "text": "How would you rate your overall business scalability?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d712364ed6ef27eba564c",
+      "text": "Highly scalable, ready for growth",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564d",
+      "text": "Moderately scalable, some constraints",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564e",
+      "text": "Limited scalability, major constraints",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d712364ed6ef27eba564f",
+      "text": "Not scalable",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d6ed464ed6ef27eba55b8",
+    "text": "Does your business have a documented 3-5 year growth plan",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d6ed464ed6ef27eba55b9",
+      "text": "Yes, comprehensive and regularly updated",
+      "score": 1
+     },
+     {
+      "optionId": "6a7d6ed464ed6ef27eba55ba",
+      "text": "Yes, but outdated or incomplete",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d6ed464ed6ef27eba55bb",
+      "text": "In progress or informal",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d6ed464ed6ef27eba55bc",
+      "text": "No plan exists",
+      "score": 4
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "text": "How frequently do you experience production downtime?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19259",
+      "text": "Rarely",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925a",
+      "text": "Sometimes",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925b",
+      "text": "Often",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e1925c",
+      "text": "Very often",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "text": "Do you have clear cost tracking per product/unit?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19281",
+      "text": "Yes, clear per-unit tracking",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19282",
+      "text": "Mostly clear",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19283",
+      "text": "Partial tracking",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19284",
+      "text": "No tracking",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d709b64ed6ef27eba55f7",
+    "text": "How would you rate your customer retention rate?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d709b64ed6ef27eba55f8",
+      "text": "Above 80%",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d709b64ed6ef27eba55f9",
+      "text": "60-80%",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d709b64ed6ef27eba55fa",
+      "text": "40-60%",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d709b64ed6ef27eba55fb",
+      "text": "Below 40% or unknown",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d70b864ed6ef27eba5609",
+    "text": "Is your financial forecasting accurate and regularly updated?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d70b864ed6ef27eba560a",
+      "text": "Highly accurate, updated monthly",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560b",
+      "text": "Moderately accurate, updated quarterly",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560c",
+      "text": "Inconsistent or outdated",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d70b864ed6ef27eba560d",
+      "text": "No forecasting in place",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "text": "Do you use predictive maintenance for machinery?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19263",
+      "text": "Yes, fully implemented",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19264",
+      "text": "Mostly implemented",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19265",
+      "text": "Partially",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19266",
+      "text": "Not at all",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "text": "How efficient is your inventory management?",
+    "source": "domain",
+    "options": [
+     {
+      "optionId": "6a82b05f6d7933e7a9e19245",
+      "text": "Very efficient",
+      "score": 4
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19246",
+      "text": "Efficient",
+      "score": 3
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19247",
+      "text": "Somewhat efficient",
+      "score": 2
+     },
+     {
+      "optionId": "6a82b05f6d7933e7a9e19248",
+      "text": "Not efficient",
+      "score": 1
+     }
+    ]
+   },
+   {
+    "questionId": "6a7d700d64ed6ef27eba55c3",
+    "text": "How often do you review market trends relevant to your industry?",
+    "source": "generic",
+    "options": [
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c4",
+      "text": "Monthly or more frequently",
+      "score": 4
+     },
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c5",
+      "text": "Quarterly",
+      "score": 3
+     },
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c6",
+      "text": "Annually",
+      "score": 2
+     },
+     {
+      "optionId": "6a7d700d64ed6ef27eba55c7",
+      "text": "Rarely or never",
+      "score": 1
+     }
+    ]
+   }
+  ],
+  "answers": [
+   {
+    "questionIndex": 0,
+    "questionId": "6a82b05f6d7933e7a9e1923e",
+    "questionText": "How automated is your production process?",
+    "optionId": "6a82b05f6d7933e7a9e1923a",
+    "optionText": "Highly automated",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:26:14.578Z"
+   },
+   {
+    "questionIndex": 1,
+    "questionId": "6a7d70fc64ed6ef27eba5633",
+    "questionText": "How compliant are you with industry regulations?",
+    "optionId": "6a7d70fc64ed6ef27eba5637",
+    "optionText": "Non-compliant or unaware",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:16.400Z"
+   },
+   {
+    "questionIndex": 2,
+    "questionId": "6a7d710b64ed6ef27eba563f",
+    "questionText": "How strong is your competitive positioning in the market?",
+    "optionId": "6a7d710b64ed6ef27eba5640",
+    "optionText": "Market leader or strong differentiator",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:26:18.670Z"
+   },
+   {
+    "questionIndex": 3,
+    "questionId": "6a82b05f6d7933e7a9e1928f",
+    "questionText": "How effectively do you manage quality control?",
+    "optionId": "6a82b05f6d7933e7a9e1928e",
+    "optionText": "Not effectively",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:23.342Z"
+   },
+   {
+    "questionIndex": 4,
+    "questionId": "6a7d70da64ed6ef27eba561b",
+    "questionText": "How optimized are your business processes (e.g., supply chain, production)?",
+    "optionId": "6a7d70da64ed6ef27eba561c",
+    "optionText": "Highly optimized, minimal waste",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:26:27.716Z"
+   },
+   {
+    "questionIndex": 5,
+    "questionId": "6a82b05f6d7933e7a9e19299",
+    "questionText": "Do you have a clear capacity planning process?",
+    "optionId": "6a82b05f6d7933e7a9e19298",
+    "optionText": "No process",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:31.734Z"
+   },
+   {
+    "questionIndex": 6,
+    "questionId": "6a7d70a764ed6ef27eba55fd",
+    "questionText": "Do you have a system to collect and act on customer feedback?",
+    "optionId": "6a7d70a764ed6ef27eba5601",
+    "optionText": "No system in place",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:35.316Z"
+   },
+   {
+    "questionIndex": 7,
+    "questionId": "6a82b05f6d7933e7a9e19271",
+    "questionText": "How standardized are your operational processes?",
+    "optionId": "6a82b05f6d7933e7a9e19270",
+    "optionText": "Largely ad hoc",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:37.783Z"
+   },
+   {
+    "questionIndex": 8,
+    "questionId": "6a82b05f6d7933e7a9e1927b",
+    "questionText": "How well-integrated are your supply chain systems?",
+    "optionId": "6a82b05f6d7933e7a9e19279",
+    "optionText": "Partially integrated",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:26:41.686Z"
+   },
+   {
+    "questionIndex": 9,
+    "questionId": "6a82b05f6d7933e7a9e19253",
+    "questionText": "Do you have real-time visibility into production metrics?",
+    "optionId": "6a82b05f6d7933e7a9e19252",
+    "optionText": "No visibility",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:44.938Z"
+   },
+   {
+    "questionIndex": 10,
+    "questionId": "6a7d711b64ed6ef27eba5645",
+    "questionText": "Do you invest in research & development (R&D)?",
+    "optionId": "6a7d711b64ed6ef27eba5648",
+    "optionText": "Minimal investment, little innovation",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:26:47.735Z"
+   },
+   {
+    "questionIndex": 11,
+    "questionId": "6a7d712364ed6ef27eba564b",
+    "questionText": "How would you rate your overall business scalability?",
+    "optionId": "6a7d712364ed6ef27eba564f",
+    "optionText": "Not scalable",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:50.269Z"
+   },
+   {
+    "questionIndex": 12,
+    "questionId": "6a7d6ed464ed6ef27eba55b8",
+    "questionText": "Does your business have a documented 3-5 year growth plan",
+    "optionId": "6a7d6ed464ed6ef27eba55bb",
+    "optionText": "In progress or informal",
+    "score": 3,
+    "answeredAt": "2026-08-21T07:26:52.846Z"
+   },
+   {
+    "questionIndex": 13,
+    "questionId": "6a82b05f6d7933e7a9e1925d",
+    "questionText": "How frequently do you experience production downtime?",
+    "optionId": "6a82b05f6d7933e7a9e1925c",
+    "optionText": "Very often",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:55.114Z"
+   },
+   {
+    "questionIndex": 14,
+    "questionId": "6a82b05f6d7933e7a9e19285",
+    "questionText": "Do you have clear cost tracking per product/unit?",
+    "optionId": "6a82b05f6d7933e7a9e19284",
+    "optionText": "No tracking",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:26:58.803Z"
+   },
+   {
+    "questionIndex": 15,
+    "questionId": "6a7d709b64ed6ef27eba55f7",
+    "questionText": "How would you rate your customer retention rate?",
+    "optionId": "6a7d709b64ed6ef27eba55fb",
+    "optionText": "Below 40% or unknown",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:27:03.393Z"
+   },
+   {
+    "questionIndex": 16,
+    "questionId": "6a7d70b864ed6ef27eba5609",
+    "questionText": "Is your financial forecasting accurate and regularly updated?",
+    "optionId": "6a7d70b864ed6ef27eba560c",
+    "optionText": "Inconsistent or outdated",
+    "score": 2,
+    "answeredAt": "2026-08-21T07:27:05.569Z"
+   },
+   {
+    "questionIndex": 17,
+    "questionId": "6a82b05f6d7933e7a9e19267",
+    "questionText": "Do you use predictive maintenance for machinery?",
+    "optionId": "6a82b05f6d7933e7a9e19263",
+    "optionText": "Yes, fully implemented",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:27:07.509Z"
+   },
+   {
+    "questionIndex": 18,
+    "questionId": "6a82b05f6d7933e7a9e19249",
+    "questionText": "How efficient is your inventory management?",
+    "optionId": "6a82b05f6d7933e7a9e19248",
+    "optionText": "Not efficient",
+    "score": 1,
+    "answeredAt": "2026-08-21T07:27:10.950Z"
+   },
+   {
+    "questionIndex": 19,
+    "questionId": "6a7d700d64ed6ef27eba55c3",
+    "questionText": "How often do you review market trends relevant to your industry?",
+    "optionId": "6a7d700d64ed6ef27eba55c4",
+    "optionText": "Monthly or more frequently",
+    "score": 4,
+    "answeredAt": "2026-08-21T07:27:12.626Z"
+   }
+  ],
+  "result": {
+   "score": 40,
+   "maxScore": 80,
+   "band": "SIGNIFICANT GAPS",
+   "message": "Strategic Overhaul Recommended",
+   "domain": "manufacturing",
+   "domainLabel": "Manufacturing & Industrial Operations"
+  },
+  "startedAt": "2026-08-21T07:26:11.996Z",
+  "completedAt": "2026-08-21T07:27:12.627Z",
+  "phone": null,
+  "contactConsent": false,
+  "contactSubmittedAt": null,
+  "proBonoRequested": false,
+  "proBonoEmail": null,
+  "proBonoPhone": null,
+  "proBonoConsent": false,
+  "proBonoSubmittedAt": null,
+  "lastActiveAt": "2026-08-21T07:27:12.626Z",
+  "createdAt": "2026-08-21T07:26:12.015Z",
+  "updatedAt": "2026-08-21T07:27:12.633Z",
+  "__v": 20
+ }
+]

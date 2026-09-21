@@ -1,0 +1,194 @@
+import { useCallback, useEffect, useState } from 'react';
+import { api } from '../api/client.js';
+import { motion } from 'framer-motion';
+
+const defaultOptions = [
+  { text: '', score: 1 },
+  { text: '', score: 2 },
+  { text: '', score: 3 },
+  { text: '', score: 4 },
+];
+
+const empty = {
+  text: '',
+  type: 'generic',
+  domain: '',
+  active: true,
+  options: defaultOptions.map((o) => ({ ...o })),
+};
+
+export default function KnowYourselfQuestions() {
+  const [questions, setQuestions] = useState([]);
+  const [domains, setDomains] = useState([]);
+  const [editing, setEditing] = useState(null);
+  const [showCreate, setShowCreate] = useState(false);
+  const [filterType, setFilterType] = useState('all');
+  const [err, setErr] = useState(null);
+
+  const load = useCallback(async () => {
+    try {
+      const [qs, doms] = await Promise.all([api.kyQuestions(), api.domains()]);
+      setQuestions(qs);
+      setDomains(doms);
+    } catch (e) {
+      setErr(e.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const remove = async (q) => {
+    if (!window.confirm(`Delete question "${q.text.slice(0, 60)}…"?`)) return;
+    try {
+      await api.deleteKYQuestion(`/admin/know-yourself/${q._id}`);
+      await load();
+    } catch (e) {
+      setErr(e.message);
+    }
+  };
+
+  const filtered = filterType === 'all' ? questions : questions.filter((q) => q.type === filterType);
+  const genericCount = questions.filter((q) => q.type === 'generic' || !q.type).length;
+  const domainCount = questions.filter((q) => q.type === 'domain').length;
+  const activeGeneric = questions.filter((q) => (q.type === 'generic' || !q.type) && q.active).length;
+  const activeDomain = questions.filter((q) => q.type === 'domain' && q.active).length;
+
+  const domainLabel = (slug) => domains.find((d) => d.slug === slug)?.name || slug;
+
+  return (
+    <div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center justify-between">
+          <h1 className="font-display text-3xl font-semibold text-mist">Know Yourself</h1>
+          <p className="mt-1 text-sm text-mist-muted">
+            {genericCount} generic ({activeGeneric} active) · {domainCount} domain ({activeDomain} active)
+            {activeGeneric < 10 && (
+              <span className="ml-2 text-[#f87171]">(need 10+ generic)</span>
+            )}
+            {activeDomain < 10 && domainCount > 0 && (
+              <span className="ml-2 text-[#f87171]">(need 10+ per domain)</span>
+            )}
+          </p>
+        </div>
+      </motion.div>
+
+      <div className="mt-4 flex gap-2">
+        {[
+          { key: 'all', label: 'All' },
+          { key: 'generic', label: 'Generic' },
+          { key: 'domain', label: 'Domain' },
+        ].map((f) => (
+          <button
+            key={f.key}
+            onClick={() => setFilterType(f.key)}
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              filterType === f.key
+                ? 'bg-brand-accent/15 text-brand-accent'
+                : 'text-mist-muted hover:bg-white/5 hover:text-mist'
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {err && <p className="mt-3 text-sm text-[#f87171]">{err}</p>}
+
+      {showCreate && (
+        <div className="mt-5">
+          <KYQuestionForm
+            domains={domains}
+            onCancel={() => setShowCreate(false)}
+            onSaved={async () => {
+              setShowCreate(false);
+              await load();
+            }}
+          />
+        </div>
+      )}
+
+      <div className="mt-6">
+        <h2 className="font-display text-xl font-semibold text-mist">Questions</h2>
+        {questions.length === 0 && !showCreate && <p className="text-mist-muted">No questions yet.</p>}
+
+        <div className="mt-4 space-y-3 overflow-x-auto">
+          {filtered.length === 0 && <p className="text-mist-muted">No questions match your filter.</p>}
+
+          {filtered.map((q) => (
+            <div key={q._id} className="card">
+              {editing?._id === q._id ? (
+                <KYQuestionForm
+                  initial={q}
+                  domains={domains}
+                  onCancel={() => setEditing(null)}
+                  onSaved={async () => {
+                    setEditing(null);
+                    await load();
+                  }}
+                />
+              ) : (
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span
+                        className={`badge ${
+                          q.type === 'domain' ? 'bg-purple-500/15 text-purple-400' : 'bg-blue-500/15 text-blue-400'
+                        }`}
+                      >
+                        {q.type === 'domain' ? 'Domain' : 'Generic'}
+                      </span>
+                      {q.type === 'domain' && q.domain && (
+                        <span className="badge bg-white/10 text-mist text-[10px]">
+                          {domainLabel(q.domain)}
+                        </span>
+                      )}
+                      <span
+                        className={`badge ${
+                          q.active ? 'bg-[#4ade80]/15 text-[#4ade80]' : 'bg-[#f87171]/15 text-[#f87171]'
+                        }`}
+                      >
+                        {q.active ? 'active' : 'inactive'}
+                      </span>
+                      <span className="badge bg-white/10 text-mist">
+                        {q.options.filter((o) => o.active !== false).length} options
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm font-medium text-mist">{q.text}</p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                      {q.options.map((o, i) => (
+                        <span
+                          key={i}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] ${
+                            o.active !== false ? 'border-white/15 text-mist-muted' : 'border-white/5 text-mist-muted/40'
+                          }`}
+                        >
+                          <span className="font-medium">{o.text}</span>
+                          <span className="opacity-60">· {o.score}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <button className="btn-ghost px-3 py-1.5 text-xs" onClick={() => setEditing(q)}>
+                      Edit
+                    </button>
+                    <button className="btn-danger" onClick={() => remove(q)}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

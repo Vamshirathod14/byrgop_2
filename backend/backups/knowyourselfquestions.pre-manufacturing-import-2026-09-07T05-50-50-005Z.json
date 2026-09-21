@@ -1,0 +1,1376 @@
+{
+  "exportedAt": "2026-09-07T05:50:50.013Z",
+  "count": 36,
+  "docs": [
+    {
+      "_id": "6a8dc9a9355bfce152a25b5f",
+      "text": "What maintenance strategy is used to keep factory machinery running reliably?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Reactive maintenance: Repairs occur exclusively after machinery breaks down.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b60"
+        },
+        {
+          "text": "Preventive maintenance: Physical inspections occur based on fixed calendar intervals.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b61"
+        },
+        {
+          "text": "Condition-based maintenance: Sensor alerts and run-hour counters trigger maintenance work orders in a CMMS.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b62"
+        },
+        {
+          "text": "Predictive maintenance: IoT vibration/thermal sensors and machine learning forecast mechanical failures before lines halt.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b63"
+        }
+      ],
+      "active": true,
+      "category": "strategic-direction",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.425Z",
+      "updatedAt": "2026-08-26T04:45:29.834Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b64",
+      "text": "How is shop floor execution and work-in-progress (WIP) tracked through production?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Paper job travelers move physically with parts across work centers.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b65"
+        },
+        {
+          "text": "Operators scan barcodes at major production gates, with daily reconciliations in spreadsheets.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b66"
+        },
+        {
+          "text": "A Manufacturing Execution System (MES) tracks real-time WIP movement, station routing, and operator sign-offs.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b67"
+        },
+        {
+          "text": "Real-time location systems (RTLS/RFID) integrated with the MES dynamically reroute WIP based on machine availability and bottleneck alerts.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b68"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 1,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-09-02T05:31:40.593Z",
+      "glossary": []
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b69",
+      "text": "How do you track and evaluate Overall Equipment Effectiveness (OEE)?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "OEE is not calculated; productivity is evaluated purely on total units produced at shift end.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b6a"
+        },
+        {
+          "text": "Machine operators record downtime reasons manually on paper sheets at the end of every shift.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b6b"
+        },
+        {
+          "text": "Digital OEE software allows operators to enter downtime reason codes directly into touchscreen terminals.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b6c"
+        },
+        {
+          "text": "Machine PLCs connect directly to the network, tracking real-time OEE (Availability, Performance, Quality) and micro-stoppages automatically.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b6d"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 3,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-09-02T06:06:17.437Z",
+      "glossary": []
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b6e",
+      "text": "How is part quality monitored and controlled during the manufacturing process?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Defective units are identified and separated during manual inspection at the end of the line.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b6f"
+        },
+        {
+          "text": "Operators measure sample parts hourly with manual gauges and record readings on paper control sheets.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b70"
+        },
+        {
+          "text": "Digital Statistical Process Control (SPC) software generates real-time control charts and alerts operators to dimension drifts.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b71"
+        },
+        {
+          "text": "Automated inline vision/laser inspection systems feed data directly back to machine controls for real-time dimensional compensation.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b72"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:29.990Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b73",
+      "text": "How are production tooling, dies, and assembly fixtures managed and tracked?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Tooling is stored on open shop racks, with operators searching for needed dies manually.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b74"
+        },
+        {
+          "text": "Tool checkout is recorded in a paper logbook to track which technician is holding specific fixtures.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b75"
+        },
+        {
+          "text": "Tool crib management software tracks tool storage locations, shot counts, and scheduled sharpening cycles.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b76"
+        },
+        {
+          "text": "RFID-tagged smart tooling systems monitor live tool wear, automatically adjusting CNC toolpaths and scheduling preventive re-grinds.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b77"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.063Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b78",
+      "text": "How are factory production schedules and machine capacity planned?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Daily production sequencing is written on a dry-erase whiteboard by the shop foreman.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b79"
+        },
+        {
+          "text": "Static weekly Gantt charts are created in spreadsheets without dynamic constraint modeling.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b7a"
+        },
+        {
+          "text": "Finite capacity scheduling software schedules jobs against machine limits, tooling readiness, and labor availability.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b7b"
+        },
+        {
+          "text": "Dynamic AI-driven Advanced Planning & Scheduling (APS) engines reschedule production automatically when material delays or line stoppages occur.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b7c"
+        }
+      ],
+      "active": true,
+      "category": "strategic-direction",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.100Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b7d",
+      "text": "How are Bills of Materials (BOM) and Engineering Change Orders (ECO) updated on the line?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Paper engineering drawings are marked up by hand, with change orders communicated verbally to operators.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b7e"
+        },
+        {
+          "text": "CAD drawings and BOM files are saved in shared folders with manual file version naming conventions.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b7f"
+        },
+        {
+          "text": "A Product Lifecycle Management (PLM) system coordinates multi-level BOMs and digital ECO approval workflows.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b80"
+        },
+        {
+          "text": "Direct PLM-to-ERP/MES integration updates digital work instructions and BOM revisions instantly at all shop floor operator terminals.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b81"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:06.265Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b82",
+      "text": "How do you monitor energy consumption and industrial sustainability on the plant floor?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Factory utility bills are reviewed monthly without sub-metering individual machine energy draws.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b83"
+        },
+        {
+          "text": "Energy efficiency audits are conducted periodically by external consulting engineers.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b84"
+        },
+        {
+          "text": "Digital sub-meters on major equipment (compressors, furnaces) track peak kilowatt demand and consumption trends.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b85"
+        },
+        {
+          "text": "An Industrial Energy Management System (IEMS) balances machine startup sequences to avoid utility surge penalties and tracks unit carbon footprints.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b86"
+        }
+      ],
+      "active": true,
+      "category": "strategic-direction",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.140Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b87",
+      "text": "How are shop floor safety incidents, near-misses, and OSHA compliance managed?",
+      "type": "domain",
+      "domain": "manufacturing",
+      "options": [
+        {
+          "text": "Paper accident forms are filled out only when a recordable injury occurs.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b88"
+        },
+        {
+          "text": "Monthly safety committee meetings review printed suggestion box notes and near-miss reports.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b89"
+        },
+        {
+          "text": "A digital EHS platform manages machine guarding inspections, incident investigations, and safety training records.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b8a"
+        },
+        {
+          "text": "AI-powered optical safety monitors and wearable sensors detect hazard zone intrusions and trigger automated machinery shut-offs.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b8b"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.173Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b8c",
+      "text": "How do you track project schedules, milestones, and critical path activities on job sites?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "The job schedule is marked on a dry-erase board in the job-site trailer and reviewed in weekly meetings.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b8d"
+        },
+        {
+          "text": "Project managers maintain spreadsheet Gantt charts that are updated manually for monthly owner reviews.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b8e"
+        },
+        {
+          "text": "Construction scheduling software (e.g., Primavera P6, MS Project) tracks task logic ties, crew sequencing, and the critical path.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b8f"
+        },
+        {
+          "text": "A 4D BIM scheduling platform links 3D architectural models directly to project timelines to simulate construction sequences and detect spatial clashes.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b90"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.316Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b91",
+      "text": "How are subcontractor bids, trade contracts, and procurement packages managed?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Trade bids are collected via email and paper mail, and compared in ad-hoc paper folders.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b92"
+        },
+        {
+          "text": "Project teams track subcontractor bids in spreadsheets and manually draft contract scopes of work.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b93"
+        },
+        {
+          "text": "A digital construction procurement portal manages RFP distribution, digital plan rooms, and structured bid-leveling matrices.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b94"
+        },
+        {
+          "text": "An enterprise procurement platform tracks historical subcontractor performance ratings, verifies insurance status, and models cost trends.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b95"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:06.552Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b96",
+      "text": "How are job-site safety inspections, daily hazard logs, and OSHA audits handled?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Paper safety checklists are completed sporadically or when external safety inspectors arrive on site.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b97"
+        },
+        {
+          "text": "Weekly safety toolbox talks are documented on printed sign-in sheets filed in job trailers.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b98"
+        },
+        {
+          "text": "A mobile safety app enables daily digital inspections, safety violation photos, and automated corrective task assignment.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b99"
+        },
+        {
+          "text": "An IoT-connected job-site platform utilizes wearable worker sensors for fall detection, environmental hazard monitors, and vision-based PPE compliance tracking.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b9a"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.352Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25b9b",
+      "text": "How are Requests for Information (RFIs) and architectural submittals coordinated?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "RFIs are asked verbally or via unstructured emails, with submittals stored in physical job-site binders.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b9c"
+        },
+        {
+          "text": "Project engineers maintain spreadsheet logs of RFIs and submittals, manually emailing stamped PDF files.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b9d"
+        },
+        {
+          "text": "Cloud construction management software (e.g., Procore) routes RFIs and submittals with automated tracking and overdue alerts.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b9e"
+        },
+        {
+          "text": "A BIM-to-field platform pins RFIs directly to 3D model geometry, calculating cost impacts and updating master contract drawings automatically.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25b9f"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:06.618Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25ba0",
+      "text": "How are job costs, budget commitments, and progress billings tracked?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Job profitability is evaluated only after project closeout by reviewing general bank account balances.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba1"
+        },
+        {
+          "text": "Monthly cost-to-complete spreadsheets are reconciled manually against general accounting software entries.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba2"
+        },
+        {
+          "text": "Construction accounting software tracks committed purchase orders, change orders, and progress billings (e.g., AIA G702/G703).",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba3"
+        },
+        {
+          "text": "Real-time Earned Value Management (EVM) dashboards link field production quantities to cost codes, forecasting final profit margins continuously.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba4"
+        }
+      ],
+      "active": true,
+      "category": "financial-performance",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.482Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25ba5",
+      "text": "How are quality assurance walkthroughs and project punch lists executed?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Punch lists are handwritten on paper notepads during walkthroughs and items are crossed off as trades verbally report completion.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba6"
+        },
+        {
+          "text": "Spreadsheets containing punch lists and cell phone photos are emailed to trade subcontractors.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba7"
+        },
+        {
+          "text": "A mobile QA/QC app allows superintendents to pin punch list issues with photos directly onto 2D floor plans with sign-off workflows.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba8"
+        },
+        {
+          "text": "360-degree reality-capture cameras map weekly job-site photo walks against BIM design models to verify installation quality automatically.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25ba9"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.518Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25baa",
+      "text": "How do you track heavy equipment locations, run-time hours, and preventive maintenance?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Equipment is dispatched via phone calls, with maintenance performed only when machines break down on site.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bab"
+        },
+        {
+          "text": "Equipment locations and paper maintenance logs are tracked on a central office whiteboard.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bac"
+        },
+        {
+          "text": "Telematics software tracks GPS coordinates, machine operating hours, and scheduled service intervals.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bad"
+        },
+        {
+          "text": "An integrated fleet platform monitors engine fault codes, idle time waste, and fuel consumption, automating internal job-cost allocations.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bae"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:30.550Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25baf",
+      "text": "How are job-site material deliveries and staging areas coordinated?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Delivery trucks arrive unannounced, leading to site congestion and manual unloading delays.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb0"
+        },
+        {
+          "text": "Deliveries are tracked on shared spreadsheets, and materials are staged wherever ground space is available.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb1"
+        },
+        {
+          "text": "Digital delivery coordination software manages loading gate booking schedules and designated staging zones.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb2"
+        },
+        {
+          "text": "A Just-In-Time (JIT) logistics system tracks supplier transit via GPS geofencing, automating crane lift sequencing upon vehicle arrival.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb3"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:06.671Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bb4",
+      "text": "How are commercial property lease contracts, tenant requests, and renewals managed?",
+      "type": "domain",
+      "domain": "real_estate_construction",
+      "options": [
+        {
+          "text": "Physical lease agreements are stored in office filing cabinets, and rent checks are logged by hand.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb5"
+        },
+        {
+          "text": "Spreadsheets track lease expiration dates and rent rolls, with manual preparation of monthly tenant invoices.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb6"
+        },
+        {
+          "text": "Commercial property management software manages tenant billing, lease indexation (CPI adjustments), and work order requests.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb7"
+        },
+        {
+          "text": "An integrated asset management portal automates digital lease execution, tenant maintenance requests, and building telemetry integration.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bb8"
+        }
+      ],
+      "active": true,
+      "category": "financial-performance",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:06.759Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bb9",
+      "text": "How are product batch recipes and ingredient proportions scaled and measured?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Operators scale ingredient quantities from memory or follow paper recipe cards taped to mixing tanks.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bba"
+        },
+        {
+          "text": "Standardized recipe binders are followed, with operators calculating batch multipliers manually on paper.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bbb"
+        },
+        {
+          "text": "Digital batch formulation software connects to industrial scales, requiring operator verification for each ingredient addition.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bbc"
+        },
+        {
+          "text": "Automated recipe management software controls computerized ingredient dosing, mixing temperatures, and agitator speeds automatically.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bbd"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:05.948Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bbe",
+      "text": "How do you track lot numbers and execute mock product recalls?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Lot numbers are written in paper batch binders, and performing a mock recall takes several days.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bbf"
+        },
+        {
+          "text": "Lot numbers are recorded in spreadsheets, with mock recall completion requiring 24 to 48 hours.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc0"
+        },
+        {
+          "text": "A barcode-driven MES/ERP system links ingredient lots to finished pallet tags, enabling mock recalls in under 2 hours.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc1"
+        },
+        {
+          "text": "An end-to-end digital traceability platform maps supplier lot genealogy to retail distribution centers, generating recall reports in minutes.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc2"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:46:05.987Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bc3",
+      "text": "How are Critical Control Points (CCP) and food safety logs (HACCP/FSMA) monitored?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Operators record temperature and sanitation checks on paper logs at irregular intervals during production.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc4"
+        },
+        {
+          "text": "CCP measurements are entered into spreadsheets at the conclusion of each manufacturing shift.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc5"
+        },
+        {
+          "text": "Cloud food safety software guides operators through digital checklists using Bluetooth-connected measurement probes.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc6"
+        },
+        {
+          "text": "Automated inline CCP sensors monitor continuous temperatures and metal detection, automatically diverting non-compliant product off the line.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc7"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.426Z",
+      "updatedAt": "2026-08-26T04:45:29.521Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bc8",
+      "text": "How are sanitation cycles and Clean-In-Place (CIP) systems verified?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Processing equipment is washed manually by operators without standardized time or chemical titration records.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bc9"
+        },
+        {
+          "text": "CIP wash cycles are initiated manually, with operators logging wash times on paper log sheets.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bca"
+        },
+        {
+          "text": "Automated CIP units run programmed wash cycles, with digital logging of ATP hygiene swab tests prior to line startup.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bcb"
+        },
+        {
+          "text": "Smart CIP systems optimize wash times, water usage, and chemical dosing based on real-time conductivity sensors, logging automated release certificates.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bcc"
+        }
+      ],
+      "active": true,
+      "category": "digital-innovation",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:45:29.560Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bcd",
+      "text": "How do you control package net weights and minimize product giveaway?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Filling equipment is adjusted by hand, with random manual scale checks resulting in high product overfill.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bce"
+        },
+        {
+          "text": "Operators weigh sample packages hourly and record weights on paper statistical tracking sheets.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bcf"
+        },
+        {
+          "text": "Automated inline checkweighers reject off-weight packages and display digital weight distribution curves to operators.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd0"
+        },
+        {
+          "text": "Inline checkweighers provide continuous automated feedback loops that adjust upstream filling heads dynamically to eliminate giveaway.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd1"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:46:06.140Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bd2",
+      "text": "How are product expiration dates and lot codes applied and verified on packaging?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Manual date coders are set by hand, occasionally leading to incorrect date stamps on packages.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd3"
+        },
+        {
+          "text": "Operators program standalone inkjet coders manually at the beginning of each production run.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd4"
+        },
+        {
+          "text": "Networked industrial coders receive automated date and batch data directly from the MES to prevent human coding error.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd5"
+        },
+        {
+          "text": "High-speed vision inspection cameras inspect and verify the legibility and accuracy of every printed date code, auto-rejecting flawed packages.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd6"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:46:06.174Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bd7",
+      "text": "How are raw allergens isolated in storage and managed during line changeovers?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Allergen-containing raw materials are stored alongside non-allergens without dedicated physical separation.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd8"
+        },
+        {
+          "text": "Color-coded storage areas separate allergens, with paper sign-off sheets for sanitation washdowns between runs.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bd9"
+        },
+        {
+          "text": "Digital allergen management protocols enforce barcode-scanned ingredient staging and mandatory pre-run allergen swab validations.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bda"
+        },
+        {
+          "text": "Production scheduling algorithms sequence runs from least-to-most allergenic products, locking out line restarts until sanitation validation is logged.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bdb"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:46:06.209Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bdc",
+      "text": "How do you integrate sales forecasts, trade promotions, and production plans (S&OP)?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Production volumes are determined based purely on current warehouse inventory levels.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bdd"
+        },
+        {
+          "text": "Sales forecasts are compiled monthly in spreadsheets without factoring in retail promotional lifts.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bde"
+        },
+        {
+          "text": "A Sales and Operations Planning (S&OP) platform reconciles marketing promotions, retail forecasts, and plant manufacturing capacity.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bdf"
+        },
+        {
+          "text": "An Integrated Business Planning (IBP) platform incorporates retail POS consumption feeds (EDI 852) and machine learning to balance production schedules.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be0"
+        }
+      ],
+      "active": true,
+      "category": "strategic-direction",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:45:29.701Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25be1",
+      "text": "How do you monitor packaging scrap and material yield efficiency?",
+      "type": "domain",
+      "domain": "cpg_food_processing",
+      "options": [
+        {
+          "text": "Packaging film and carton scrap are discarded without measuring scrap percentages.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be2"
+        },
+        {
+          "text": "Packaging scrap weight is calculated from monthly scrap disposal invoices.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be3"
+        },
+        {
+          "text": "Digital line monitoring measures packaging scrap rates per run and tracks scrap root causes.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be4"
+        },
+        {
+          "text": "Real-time yield monitoring optimizes packaging machine tensions, minimizing material waste and tracking unit carbon footprints.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be5"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:45:29.761Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25be6",
+      "text": "How are geological drilling logs, assays, and ore body models maintained?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Drill core logs and assay laboratory results are filed in paper logbooks.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be7"
+        },
+        {
+          "text": "Assay data is maintained in spreadsheets and converted into 2D cross-sections in basic CAD software.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be8"
+        },
+        {
+          "text": "3D geological modeling software (e.g., Leapfrog, Datamine) models ore body structures and grade distributions.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25be9"
+        },
+        {
+          "text": "Dynamic 3D/4D block models update continuously from automated Measurement-While-Drilling (MWD) sensor data and automated geostatistics.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bea"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:46:06.349Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25beb",
+      "text": "How are short-term mine extraction sequences and cut-off grades determined?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Extraction locations are decided daily by mine supervisors based on visual face observations.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bec"
+        },
+        {
+          "text": "Mine plans are compiled in monthly spreadsheets using static commodity price assumptions.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bed"
+        },
+        {
+          "text": "Mine planning software (e.g., Deswik) generates optimized pit shells and extraction schedules.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bee"
+        },
+        {
+          "text": "Dynamic mine optimization engines adjust extraction sequencing and cut-off grades in real time based on live commodity market prices and plant recoveries.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bef"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:46:06.396Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bf0",
+      "text": "How are haul trucks, shovels, and mobile mining fleets dispatched?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Haul truck operators are assigned to loading units verbally over two-way radio channels.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf1"
+        },
+        {
+          "text": "A manual dispatch board tracks equipment allocations at the start of each 12-hour shift.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf2"
+        },
+        {
+          "text": "A Computerized Fleet Management System (FMS) optimizes truck routing to shovels based on haul cycle times.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf3"
+        },
+        {
+          "text": "Autonomous haulage and drilling systems operate with dynamic route optimization, anti-collision radar, and zero operator intervention.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf4"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:46:06.435Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bf5",
+      "text": "How is mineral processing plant recovery and reagent dosing controlled?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Reagent and water flow rates are adjusted manually based on visual inspection of flotation froth.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf6"
+        },
+        {
+          "text": "Shift-composite laboratory assays provide feedback, with operators adjusting chemical feed rates hours later.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf7"
+        },
+        {
+          "text": "On-Stream Analyzers (OSA) provide elemental slurry analysis with automated PID feedback loop controls.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf8"
+        },
+        {
+          "text": "Advanced Process Control (APC) expert systems utilize machine vision on flotation froths and predictive AI models to maximize mineral recovery.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bf9"
+        }
+      ],
+      "active": true,
+      "category": "strategic-direction",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:45:30.208Z"
+    },
+    {
+      "_id": "6a8dc9a9355bfce152a25bfa",
+      "text": "How are smelting furnaces, temperatures, and alloy chemistry monitored?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Furnace burners and tapping cycles are managed manually based on operator visual experience.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bfb"
+        },
+        {
+          "text": "Thermocouple temperatures are logged in control room spreadsheets with manual alloy additions.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bfc"
+        },
+        {
+          "text": "SCADA automation controls furnace power inputs, oxygen lance injection, and automated alloy feed hoppers.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bfd"
+        },
+        {
+          "text": "A thermodynamic digital twin models molten bath chemistry and refractory lining wear in real time, optimizing energy use.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8dc9a9355bfce152a25bfe"
+        }
+      ],
+      "active": true,
+      "category": "digital-innovation",
+      "businessType": null,
+      "__v": 0,
+      "createdAt": "2026-08-25T16:58:17.427Z",
+      "updatedAt": "2026-08-26T04:45:30.279Z"
+    },
+    {
+      "_id": "6a8e87eb355bfce152a28472",
+      "text": "How is tailings dam integrity and geotechnical stability monitored?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Tailings dam walls are inspected visually on physical drive-by inspections.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8e87eb355bfce152a28473"
+        },
+        {
+          "text": "Manual readings of piezometers and settlement markers are recorded on paper forms monthly.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8e87eb355bfce152a28474"
+        },
+        {
+          "text": "Automated geotechnical instruments stream pore pressure, water level, and seismic vibration data to a central portal.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8e87eb355bfce152a28475"
+        },
+        {
+          "text": "A continuous monitoring platform integrates satellite InSAR radar displacement data, IoT piezometers, and predictive dam breach modeling.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8e87eb355bfce152a28476"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": "product",
+      "createdAt": "2026-08-26T06:30:03.847Z",
+      "updatedAt": "2026-08-26T06:30:03.847Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a8e8833355bfce152a28752",
+      "text": "How are blast patterns, explosive loading, and rock fragmentation designed?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Drill hole spacing and explosive powder factors are determined using rule-of-thumb field estimates.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8e8833355bfce152a28753"
+        },
+        {
+          "text": "Blast patterns are drafted in 2D software with manual powder factor calculations.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8e8833355bfce152a28754"
+        },
+        {
+          "text": "3D blast design software calculates electronic detonator timing sequences, flyrock exclusion zones, and vibration limits.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8e8833355bfce152a28755"
+        },
+        {
+          "text": "Integrated blast optimization links rock hardness data from drills with automated drone image fragmentation analysis to maximize downstream mill throughput.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8e8833355bfce152a28756"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": "product",
+      "createdAt": "2026-08-26T06:31:15.027Z",
+      "updatedAt": "2026-08-26T06:31:15.027Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a8e888b355bfce152a28a36",
+      "text": "How is underground air quality, ventilation, and worker safety managed?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Underground gas levels are checked with handheld detectors only when personnel report fumes.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8e888b355bfce152a28a37"
+        },
+        {
+          "text": "Physical brass tag-in/tag-out boards track workers entering and exiting underground mine portals.",
+          "score": 2,
+          "active": true,
+          "_id": "6a8e888b355bfce152a28a38"
+        },
+        {
+          "text": "SCADA-linked gas sensors (CO, NOx, CH4) monitor air quality and control primary ventilation fan speeds.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8e888b355bfce152a28a39"
+        },
+        {
+          "text": "Real-time tracking meshes locate all personnel underground, pairing with Ventilation-on-Demand (VOD) to direct airflow only to active working zones.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8e888b355bfce152a28a3a"
+        }
+      ],
+      "active": true,
+      "category": "people-organization",
+      "businessType": "product",
+      "createdAt": "2026-08-26T06:32:43.479Z",
+      "updatedAt": "2026-08-26T06:32:43.479Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a8e88ce355bfce152a28d1e",
+      "text": "How do you monitor raw bulk material stockpiles and rail/port logistics?",
+      "type": "domain",
+      "domain": "raw_materials_mining_metallurgy",
+      "options": [
+        {
+          "text": "Stockpile tonnage is estimated visually, with train loading coordinated through phone calls.",
+          "score": 1,
+          "active": true,
+          "_id": "6a8e88ce355bfce152a28d1f"
+        },
+        {
+          "text": "Surveyors perform manual periodic stockpile surveys, with shipment logs tracked in spreadsheets",
+          "score": 2,
+          "active": true,
+          "_id": "6a8e88ce355bfce152a28d20"
+        },
+        {
+          "text": "Drone LiDAR scans measure stockpile volumes, and automated rail loadout systems use dynamic weigh-in-motion scales.",
+          "score": 3,
+          "active": true,
+          "_id": "6a8e88ce355bfce152a28d21"
+        },
+        {
+          "text": "An integrated pit-to-port logistics system manages real-time ore grade blending across stockpiles, train sequencing, and automated ship loading.",
+          "score": 4,
+          "active": true,
+          "_id": "6a8e88ce355bfce152a28d22"
+        }
+      ],
+      "active": true,
+      "category": "operations-execution",
+      "businessType": "product",
+      "createdAt": "2026-08-26T06:33:50.832Z",
+      "updatedAt": "2026-08-26T06:33:50.832Z",
+      "__v": 0
+    }
+  ]
+}

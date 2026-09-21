@@ -1,0 +1,27 @@
+{
+  "name": "byrgop-assessment-backend",
+  "version": "1.0.0",
+  "description": "BYRGOP interactive business assessment backend",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "seed": "node scripts/seed.js",
+    "test": "node --experimental-test-module-mocks --test test/"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.6.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5",
+    "multer": "^2.2.0",
+    "nodemailer": "^10.0.1",
+    "pdfkit": "^0.20.2",
+    "read-excel-file": "^9.3.10",
+    "write-excel-file": "^4.1.1"
+  }
+}

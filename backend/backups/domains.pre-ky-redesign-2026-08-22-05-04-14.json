@@ -1,0 +1,112 @@
+[
+ {
+  "_id": "6a8687248c1bca9fa9be1181",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.437Z",
+  "description": "",
+  "name": "Manufacturing & Industrial Operations",
+  "slug": "manufacturing",
+  "updatedAt": "2026-08-20T04:48:36.437Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be1186",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.524Z",
+  "description": "",
+  "name": "Retail & E-Commerce",
+  "slug": "retail_ecommerce",
+  "updatedAt": "2026-08-20T04:48:36.524Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be1189",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.552Z",
+  "description": "",
+  "name": "Professional Services & Consulting",
+  "slug": "professional_services",
+  "updatedAt": "2026-08-20T04:48:36.552Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be118c",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.556Z",
+  "description": "",
+  "name": "Healthcare & Wellness Operations",
+  "slug": "healthcare_wellness",
+  "updatedAt": "2026-08-20T04:48:36.556Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be118f",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.560Z",
+  "description": "",
+  "name": "Supply Chain, Logistics & Distribution",
+  "slug": "supply_chain_logistics",
+  "updatedAt": "2026-08-20T04:48:36.560Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be1192",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.564Z",
+  "description": "",
+  "name": "Technology & SaaS / Digital Products",
+  "slug": "technology_saas",
+  "updatedAt": "2026-08-20T04:48:36.564Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be1195",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.566Z",
+  "description": "",
+  "name": "Financial Services & FinTech",
+  "slug": "financial_services",
+  "updatedAt": "2026-08-20T04:48:36.566Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be1198",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.572Z",
+  "description": "",
+  "name": "Real Estate, Construction & Infrastructure",
+  "slug": "real_estate_construction",
+  "updatedAt": "2026-08-20T04:48:36.572Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be119b",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.577Z",
+  "description": "",
+  "name": "Hospitality, Food & Beverage (F&B)",
+  "slug": "hospitality_food_beverage",
+  "updatedAt": "2026-08-20T04:48:36.577Z"
+ },
+ {
+  "_id": "6a8687248c1bca9fa9be119e",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T04:48:36.579Z",
+  "description": "",
+  "name": "Franchise & Multi-Unit Chains",
+  "slug": "franchise_multi_unit",
+  "updatedAt": "2026-08-20T04:48:36.579Z"
+ },
+ {
+  "_id": "6a868a43d331db7a8c45cd7b",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-20T05:01:55.657Z",
+  "description": "",
+  "name": "Fitness, Gym & Wellness Operations",
+  "slug": "fitness-gym-wellness-operations",
+  "updatedAt": "2026-08-20T05:01:55.657Z"
+ }
+]

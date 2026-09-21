@@ -1,0 +1,1098 @@
+[
+ {
+  "_id": "6a7d6ed464ed6ef27eba55b8",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:14:28.649Z",
+  "options": [
+   {
+    "text": "Yes, comprehensive and regularly updated",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d6ed464ed6ef27eba55b9"
+   },
+   {
+    "text": "Yes, but outdated or incomplete",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d6ed464ed6ef27eba55ba"
+   },
+   {
+    "text": "In progress or informal",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d6ed464ed6ef27eba55bb"
+   },
+   {
+    "text": "No plan exists",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d6ed464ed6ef27eba55bc"
+   }
+  ],
+  "text": "Does your business have a documented 3-5 year growth plan",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:14:28.649Z"
+ },
+ {
+  "_id": "6a7d700d64ed6ef27eba55c3",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:19:41.968Z",
+  "options": [
+   {
+    "text": "Monthly or more frequently",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d700d64ed6ef27eba55c4"
+   },
+   {
+    "text": "Quarterly",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d700d64ed6ef27eba55c5"
+   },
+   {
+    "text": "Annually",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d700d64ed6ef27eba55c6"
+   },
+   {
+    "text": "Rarely or never",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d700d64ed6ef27eba55c7"
+   }
+  ],
+  "text": "How often do you review market trends relevant to your industry?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:19:41.968Z"
+ },
+ {
+  "_id": "6a7d707564ed6ef27eba55e5",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:21:25.262Z",
+  "options": [
+   {
+    "text": "Well-defined and communicated",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d707564ed6ef27eba55e6"
+   },
+   {
+    "text": "Defined but not consistently used",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d707564ed6ef27eba55e7"
+   },
+   {
+    "text": "Vaguely defined",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d707564ed6ef27eba55e8"
+   },
+   {
+    "text": "Not defined",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d707564ed6ef27eba55e9"
+   }
+  ],
+  "text": "Do you have a clear Unique Selling Proposition (USP)?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:21:25.262Z"
+ },
+ {
+  "_id": "6a7d707e64ed6ef27eba55eb",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:21:34.908Z",
+  "options": [
+   {
+    "text": "Highly effective, consistent lead growth",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d707e64ed6ef27eba55ec"
+   },
+   {
+    "text": "Moderately effective, some growth",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d707e64ed6ef27eba55ed"
+   },
+   {
+    "text": "Limited effectiveness",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d707e64ed6ef27eba55ee"
+   },
+   {
+    "text": "Not effective or no strategy",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d707e64ed6ef27eba55ef"
+   }
+  ],
+  "text": "How effective is your current marketing strategy in generating leads?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:21:34.908Z"
+ },
+ {
+  "_id": "6a7d708664ed6ef27eba55f1",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:21:42.975Z",
+  "options": [
+   {
+    "text": "Extensively, with measurable results",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d708664ed6ef27eba55f2"
+   },
+   {
+    "text": "Moderately, with some results",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d708664ed6ef27eba55f3"
+   },
+   {
+    "text": "Rarely, with minimal impact",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d708664ed6ef27eba55f4"
+   },
+   {
+    "text": "Not at all",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d708664ed6ef27eba55f5"
+   }
+  ],
+  "text": "Do you use digital marketing tools (e.g., SEO, social media, email campaigns)?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:21:42.975Z"
+ },
+ {
+  "_id": "6a7d709b64ed6ef27eba55f7",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:22:03.006Z",
+  "options": [
+   {
+    "text": "Above 80%",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d709b64ed6ef27eba55f8"
+   },
+   {
+    "text": "60-80%",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d709b64ed6ef27eba55f9"
+   },
+   {
+    "text": "40-60%",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d709b64ed6ef27eba55fa"
+   },
+   {
+    "text": "Below 40% or unknown",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d709b64ed6ef27eba55fb"
+   }
+  ],
+  "text": "How would you rate your customer retention rate?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:22:03.006Z"
+ },
+ {
+  "_id": "6a7d70a764ed6ef27eba55fd",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:22:15.791Z",
+  "options": [
+   {
+    "text": "Robust system with regular action",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70a764ed6ef27eba55fe"
+   },
+   {
+    "text": "Basic system, occasional action",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70a764ed6ef27eba55ff"
+   },
+   {
+    "text": "Informal or inconsistent system",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70a764ed6ef27eba5600"
+   },
+   {
+    "text": "No system in place",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70a764ed6ef27eba5601"
+   }
+  ],
+  "text": "Do you have a system to collect and act on customer feedback?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:22:15.791Z"
+ },
+ {
+  "_id": "6a7d70b064ed6ef27eba5603",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:22:24.335Z",
+  "options": [
+   {
+    "text": "Multiple streams, well-balanced",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70b064ed6ef27eba5604"
+   },
+   {
+    "text": "A few streams, somewhat balanced",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70b064ed6ef27eba5605"
+   },
+   {
+    "text": "Limited to one or two streams",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70b064ed6ef27eba5606"
+   },
+   {
+    "text": "Single revenue stream",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70b064ed6ef27eba5607"
+   }
+  ],
+  "text": "How diversified are your revenue streams?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:22:24.335Z"
+ },
+ {
+  "_id": "6a7d70b864ed6ef27eba5609",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:22:32.470Z",
+  "options": [
+   {
+    "text": "Highly accurate, updated monthly",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70b864ed6ef27eba560a"
+   },
+   {
+    "text": "Moderately accurate, updated quarterly",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70b864ed6ef27eba560b"
+   },
+   {
+    "text": "Inconsistent or outdated",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70b864ed6ef27eba560c"
+   },
+   {
+    "text": "No forecasting in place",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70b864ed6ef27eba560d"
+   }
+  ],
+  "text": "Is your financial forecasting accurate and regularly updated?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:22:32.470Z"
+ },
+ {
+  "_id": "6a7d70c864ed6ef27eba560f",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:22:48.920Z",
+  "options": [
+   {
+    "text": "Strong, with reserves for 6+ months",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70c864ed6ef27eba5610"
+   },
+   {
+    "text": "Stable, with reserves for 3-6 months",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70c864ed6ef27eba5611"
+   },
+   {
+    "text": "Tight, with reserves for 1-3 months",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70c864ed6ef27eba5612"
+   },
+   {
+    "text": "Unstable or no reserves",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70c864ed6ef27eba5613"
+   }
+  ],
+  "text": "How would you describe your cash flow management?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:22:48.920Z"
+ },
+ {
+  "_id": "6a7d70d164ed6ef27eba5615",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:22:57.957Z",
+  "options": [
+   {
+    "text": "Detailed and adhered to",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70d164ed6ef27eba5616"
+   },
+   {
+    "text": "General budget, mostly followed",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70d164ed6ef27eba5617"
+   },
+   {
+    "text": "Loose or informal budget",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70d164ed6ef27eba5618"
+   },
+   {
+    "text": "No budget in place",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70d164ed6ef27eba5619"
+   }
+  ],
+  "text": "Do you have a clear budget for operational expenses?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:22:57.957Z"
+ },
+ {
+  "_id": "6a7d70da64ed6ef27eba561b",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:06.241Z",
+  "options": [
+   {
+    "text": "Highly optimized, minimal waste",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70da64ed6ef27eba561c"
+   },
+   {
+    "text": "Moderately optimized, some inefficiencies",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70da64ed6ef27eba561d"
+   },
+   {
+    "text": "Significant inefficiencies",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70da64ed6ef27eba561e"
+   },
+   {
+    "text": "Not optimized or chaotic",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70da64ed6ef27eba561f"
+   }
+  ],
+  "text": "How optimized are your business processes (e.g., supply chain, production)?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:06.241Z"
+ },
+ {
+  "_id": "6a7d70e164ed6ef27eba5621",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:13.726Z",
+  "options": [
+   {
+    "text": "Extensively, with clear ROI",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70e164ed6ef27eba5622"
+   },
+   {
+    "text": "Moderately, with some benefits",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70e164ed6ef27eba5623"
+   },
+   {
+    "text": "Limited use, minimal impact",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70e164ed6ef27eba5624"
+   },
+   {
+    "text": "No technology used",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70e164ed6ef27eba5625"
+   }
+  ],
+  "text": "Do you use technology to improve operational efficiency?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:13.726Z"
+ },
+ {
+  "_id": "6a7d70ea64ed6ef27eba5627",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:22.374Z",
+  "options": [
+   {
+    "text": "Highly trained, ongoing development",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70ea64ed6ef27eba5628"
+   },
+   {
+    "text": "Adequately trained, occasional training",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70ea64ed6ef27eba5629"
+   },
+   {
+    "text": "Basic training, gaps exist",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70ea64ed6ef27eba562a"
+   },
+   {
+    "text": "Minimal or no training",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70ea64ed6ef27eba562b"
+   }
+  ],
+  "text": "How well-trained is your staff for their roles?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:22.374Z"
+ },
+ {
+  "_id": "6a7d70f364ed6ef27eba562d",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:31.991Z",
+  "options": [
+   {
+    "text": "Well-defined and active",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70f364ed6ef27eba562e"
+   },
+   {
+    "text": "In progress or informal",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70f364ed6ef27eba562f"
+   },
+   {
+    "text": "Discussed but not implemented",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70f364ed6ef27eba5630"
+   },
+   {
+    "text": "No plan in place",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70f364ed6ef27eba5631"
+   }
+  ],
+  "text": "Do you have a succession plan or leadership pipeline?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:31.991Z"
+ },
+ {
+  "_id": "6a7d70fc64ed6ef27eba5633",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:40.451Z",
+  "options": [
+   {
+    "text": "Fully compliant, regularly audited",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d70fc64ed6ef27eba5634"
+   },
+   {
+    "text": "Mostly compliant, occasional checks",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d70fc64ed6ef27eba5635"
+   },
+   {
+    "text": "Partial compliance, some gaps",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d70fc64ed6ef27eba5636"
+   },
+   {
+    "text": "Non-compliant or unaware",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d70fc64ed6ef27eba5637"
+   }
+  ],
+  "text": "How compliant are you with industry regulations?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:40.451Z"
+ },
+ {
+  "_id": "6a7d710464ed6ef27eba5639",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:48.265Z",
+  "options": [
+   {
+    "text": "Comprehensive and tested",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d710464ed6ef27eba563a"
+   },
+   {
+    "text": "Basic plan, not tested",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d710464ed6ef27eba563b"
+   },
+   {
+    "text": "Informal or incomplete plan",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d710464ed6ef27eba563c"
+   },
+   {
+    "text": "No plan in place",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d710464ed6ef27eba563d"
+   }
+  ],
+  "text": "Do you have a crisis management or contingency plan?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:48.265Z"
+ },
+ {
+  "_id": "6a7d710b64ed6ef27eba563f",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:23:55.634Z",
+  "options": [
+   {
+    "text": "Market leader or strong differentiator",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d710b64ed6ef27eba5640"
+   },
+   {
+    "text": "Competitive but not leading",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d710b64ed6ef27eba5641"
+   },
+   {
+    "text": "Struggling to differentiate",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d710b64ed6ef27eba5642"
+   },
+   {
+    "text": "Weak or no clear position",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d710b64ed6ef27eba5643"
+   }
+  ],
+  "text": "How strong is your competitive positioning in the market?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:23:55.634Z"
+ },
+ {
+  "_id": "6a7d711b64ed6ef27eba5645",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:24:11.488Z",
+  "options": [
+   {
+    "text": "Significant investment, drives innovation",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d711b64ed6ef27eba5646"
+   },
+   {
+    "text": "Moderate investment, some innovation",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d711b64ed6ef27eba5647"
+   },
+   {
+    "text": "Minimal investment, little innovation",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d711b64ed6ef27eba5648"
+   },
+   {
+    "text": "No investment in R&D",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d711b64ed6ef27eba5649"
+   }
+  ],
+  "text": "Do you invest in research & development (R&D)?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:24:11.488Z"
+ },
+ {
+  "_id": "6a7d712364ed6ef27eba564b",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-13T07:24:19.458Z",
+  "options": [
+   {
+    "text": "Highly scalable, ready for growth",
+    "score": 4,
+    "active": true,
+    "_id": "6a7d712364ed6ef27eba564c"
+   },
+   {
+    "text": "Moderately scalable, some constraints",
+    "score": 3,
+    "active": true,
+    "_id": "6a7d712364ed6ef27eba564d"
+   },
+   {
+    "text": "Limited scalability, major constraints",
+    "score": 2,
+    "active": true,
+    "_id": "6a7d712364ed6ef27eba564e"
+   },
+   {
+    "text": "Not scalable",
+    "score": 1,
+    "active": true,
+    "_id": "6a7d712364ed6ef27eba564f"
+   }
+  ],
+  "text": "How would you rate your overall business scalability?",
+  "type": "generic",
+  "updatedAt": "2026-08-13T07:24:19.458Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e1923e",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.243Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Highly automated",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1923a"
+   },
+   {
+    "text": "Mostly automated",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1923b"
+   },
+   {
+    "text": "Partially automated",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1923c"
+   },
+   {
+    "text": "Largely manual",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1923d"
+   }
+  ],
+  "text": "How automated is your production process?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.243Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e19249",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.257Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Very efficient",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19245"
+   },
+   {
+    "text": "Efficient",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19246"
+   },
+   {
+    "text": "Somewhat efficient",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19247"
+   },
+   {
+    "text": "Not efficient",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19248"
+   }
+  ],
+  "text": "How efficient is your inventory management?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.257Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e19253",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.261Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Yes, full real-time visibility",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1924f"
+   },
+   {
+    "text": "Mostly real-time",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19250"
+   },
+   {
+    "text": "Some visibility",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19251"
+   },
+   {
+    "text": "No visibility",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19252"
+   }
+  ],
+  "text": "Do you have real-time visibility into production metrics?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.261Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e1925d",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.263Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Rarely",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19259"
+   },
+   {
+    "text": "Sometimes",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1925a"
+   },
+   {
+    "text": "Often",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1925b"
+   },
+   {
+    "text": "Very often",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1925c"
+   }
+  ],
+  "text": "How frequently do you experience production downtime?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.263Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e19267",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.266Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Yes, fully implemented",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19263"
+   },
+   {
+    "text": "Mostly implemented",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19264"
+   },
+   {
+    "text": "Partially",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19265"
+   },
+   {
+    "text": "Not at all",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19266"
+   }
+  ],
+  "text": "Do you use predictive maintenance for machinery?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.266Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e19271",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.270Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Highly standardized",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1926d"
+   },
+   {
+    "text": "Mostly standardized",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1926e"
+   },
+   {
+    "text": "Somewhat standardized",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1926f"
+   },
+   {
+    "text": "Largely ad hoc",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19270"
+   }
+  ],
+  "text": "How standardized are your operational processes?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.270Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e1927b",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.323Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Fully integrated",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19277"
+   },
+   {
+    "text": "Mostly integrated",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19278"
+   },
+   {
+    "text": "Partially integrated",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19279"
+   },
+   {
+    "text": "Not integrated",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1927a"
+   }
+  ],
+  "text": "How well-integrated are your supply chain systems?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.323Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e19285",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.326Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Yes, clear per-unit tracking",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19281"
+   },
+   {
+    "text": "Mostly clear",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19282"
+   },
+   {
+    "text": "Partial tracking",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19283"
+   },
+   {
+    "text": "No tracking",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19284"
+   }
+  ],
+  "text": "Do you have clear cost tracking per product/unit?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.326Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e1928f",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.329Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Very effectively",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1928b"
+   },
+   {
+    "text": "Effectively",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1928c"
+   },
+   {
+    "text": "Somewhat effectively",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1928d"
+   },
+   {
+    "text": "Not effectively",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e1928e"
+   }
+  ],
+  "text": "How effectively do you manage quality control?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.329Z"
+ },
+ {
+  "_id": "6a82b05f6d7933e7a9e19299",
+  "__v": 0,
+  "active": true,
+  "createdAt": "2026-08-17T06:55:27.332Z",
+  "domain": "manufacturing",
+  "options": [
+   {
+    "text": "Yes, clear process",
+    "score": 4,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19295"
+   },
+   {
+    "text": "Mostly clear",
+    "score": 3,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19296"
+   },
+   {
+    "text": "Some process exists",
+    "score": 2,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19297"
+   },
+   {
+    "text": "No process",
+    "score": 1,
+    "active": true,
+    "_id": "6a82b05f6d7933e7a9e19298"
+   }
+  ],
+  "text": "Do you have a clear capacity planning process?",
+  "type": "domain",
+  "updatedAt": "2026-08-17T06:55:27.332Z"
+ },
+ {
+  "_id": "6a86b03fceccdd3adc6bbb99",
+  "text": "What is your annualized inventory turnover rate, and how often are slow-moving or dead stock SKUs liquidated?",
+  "type": "domain",
+  "domain": "retail_ecommerce",
+  "options": [
+   {
+    "text": "Industry-leading turnover; monthly reviews trigger structured liquidation paths",
+    "score": 4,
+    "active": true,
+    "_id": "6a86b03fceccdd3adc6bbb9a"
+   },
+   {
+    "text": "Moderate turnover rate; formal reviews and markdowns occur quarterly",
+    "score": 3,
+    "active": true,
+    "_id": "6a86b03fceccdd3adc6bbb9b"
+   },
+   {
+    "text": "Slow turnover; clearance actions are taken annually or during seasonal shifts",
+    "score": 2,
+    "active": true,
+    "_id": "6a86b03fceccdd3adc6bbb9c"
+   },
+   {
+    "text": "Low turnover or untracked; dead stock accumulates indefinitely on shelves",
+    "score": 1,
+    "active": true,
+    "_id": "6a86b03fceccdd3adc6bbb9d"
+   }
+  ],
+  "active": true,
+  "createdAt": "2026-08-20T07:43:59.464Z",
+  "updatedAt": "2026-08-20T07:43:59.464Z",
+  "__v": 0
+ }
+]

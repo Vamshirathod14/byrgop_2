@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  /* ONE FONT — IntroScreen renders all text in Cormorant Garamond (font-display);
+     Inter stays as the fallback for UI glyphs and dense numerals. */
+  font-family: 'Cormorant Garamond', 'Inter', sans-serif;
+  background: #0a0e16;
+  color: #f6f7fa;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(252, 167, 0, 0.32);
+}
+
+/* Global copy protection wrapper (public frontend only): page content is not
+   selectable, but form fields must keep full native editing behaviour. */
+.global-copy-guard {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.global-copy-guard input,
+.global-copy-guard textarea,
+.global-copy-guard select,
+.global-copy-guard [contenteditable='true'],
+.global-copy-guard [contenteditable=''] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+/* BYRGOP loader — six mark balls sweep in, assemble into the brand arc,
+   hold, then release. CSS-only, no external assets. */
+.byrgop-loader {
+  position: relative;
+}
+
+.byrgop-ball {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform, opacity;
+  animation: byrgop-ball-assemble 2.6s ease-in-out infinite;
+}
+
+@keyframes byrgop-ball-assemble {
+  0% {
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(0.35);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  58% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  78% {
+    transform: translate(var(--ex, 0px), var(--ey, 0px)) scale(0.35);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(var(--ex, 0px), var(--ey, 0px)) scale(0.35);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .byrgop-ball {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .font-script-te {
+    font-family: 'Noto Sans Telugu', 'Inter', system-ui, sans-serif;
+  }
+  .font-script-hi {
+    font-family: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Page gradient background — matches from-[#0a0a0f] to-[#14141e] used on every screen. */
+  .bg-page {
+    background: linear-gradient(to bottom, #0a0a0f, #14141e);
+  }
+}

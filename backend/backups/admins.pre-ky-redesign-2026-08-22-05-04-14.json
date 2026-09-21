@@ -1,0 +1,50 @@
+[
+ {
+  "_id": "6a869b07e8d9abd88e55dcbe",
+  "name": "Super Admin",
+  "email": "admin@byrgop.local",
+  "passwordHash": "$2b$12$pnBEhsQV6uSi.AQmMZHBhuyPJtFO1Rw9bENhIl5OlsPe.XEZagIMu",
+  "role": "SUPER_ADMIN",
+  "active": true,
+  "permissions": [
+   "dashboard.view",
+   "assessments.view",
+   "sessions.view",
+   "contacts.view",
+   "questions.view",
+   "questions.create",
+   "questions.edit",
+   "questions.delete",
+   "domains.view",
+   "domains.manage",
+   "results.manage",
+   "stages.manage",
+   "admins.view",
+   "admins.create",
+   "admins.manage",
+   "audit.view"
+  ],
+  "lastLoginAt": "2026-08-21T06:55:11.233Z",
+  "tokenVersion": 3,
+  "createdAt": "2026-08-20T06:13:27.938Z",
+  "updatedAt": "2026-08-21T06:55:11.234Z",
+  "__v": 0
+ },
+ {
+  "_id": "6a87e6ac2de32ddc04a9e3af",
+  "name": "vamshi",
+  "email": "vamshi@gmail.com",
+  "passwordHash": "$2b$12$8xfeoyitCLt.AFXXliOZ2OLEQzZP8tnAtHBA2ow1wh/AMusySIRkS",
+  "role": "ADMIN",
+  "active": true,
+  "permissions": [
+   "dashboard.view",
+   "contacts.view"
+  ],
+  "lastLoginAt": "2026-08-21T06:53:44.958Z",
+  "tokenVersion": 2,
+  "createdAt": "2026-08-21T05:48:28.283Z",
+  "updatedAt": "2026-08-21T06:54:42.815Z",
+  "__v": 0
+ }
+]

@@ -1,0 +1,38 @@
+[
+ {
+  "_id": "6a7b5c9d318539853a18d22f",
+  "__v": 0,
+  "active": true,
+  "color": "#0A78CF",
+  "createdAt": "2026-08-11T17:32:13.042Z",
+  "description": "UPDATED-DESC",
+  "key": "strategic",
+  "name": "Strategic",
+  "sortOrder": 1,
+  "updatedAt": "2026-08-12T07:59:47.816Z"
+ },
+ {
+  "_id": "6a7b5c9d318539853a18d230",
+  "__v": 0,
+  "active": true,
+  "color": "#0D8845",
+  "createdAt": "2026-08-11T17:32:13.295Z",
+  "description": "Efficiency, process maturity and day-to-day execution.",
+  "key": "operational",
+  "name": "Operational",
+  "sortOrder": 2,
+  "updatedAt": "2026-08-12T07:54:09.873Z"
+ },
+ {
+  "_id": "6a7b5c9d318539853a18d231",
+  "__v": 0,
+  "active": true,
+  "color": "#F5630D",
+  "createdAt": "2026-08-11T17:32:13.300Z",
+  "description": "Commercial health, growth engine and client acquisition.",
+  "key": "revenue",
+  "name": "Revenue",
+  "sortOrder": 3,
+  "updatedAt": "2026-08-12T07:54:09.874Z"
+ }
+]
