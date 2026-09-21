@@ -170,6 +170,22 @@ export default function LoginScreen({ onLogin, onAdminLogin, errorText = '' }) {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-5"
+        >
+          <a
+            href="https://byrgop.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-full px-9 py-4 text-sm font-semibold uppercase tracking-[0.16em] border border-white/15 text-mist hover:border-white/35 hover:bg-white/5 transition-all duration-300"
+          >
+            Please visit byrgop.com
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-6 text-center"
         >
