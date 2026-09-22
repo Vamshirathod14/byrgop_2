@@ -1,6 +1,6 @@
 import { MongoClient } from '/Users/vamshirathod/Desktop/byrgop_testing/backend/node_modules/mongodb/lib/index.js';
 
-const uri = process.env.MONGO_URI || 'mongodb+srv://ramavathvamshicse_db_user:jVmZTtjiS9EhowPN@cluster0.p4u8yex.mongodb.net/?appName=Cluster0';
+const uri = process.env.MONGO_URI ||  ;
 const c = new MongoClient(uri);
 await c.connect();
 const db = c.db();
