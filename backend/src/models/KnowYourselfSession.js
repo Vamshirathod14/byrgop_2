@@ -94,10 +94,12 @@ const knowYourselfSessionSchema = new mongoose.Schema(
     domain: { type: String, default: null },
     domainLabel: { type: String, default: null },
     domainId: { type: mongoose.Schema.Types.ObjectId, ref: 'Domain', default: null },
-    // Business type selected at entry: 'service' | 'product' | 'ngo'
+    // Business type key selected at entry. Keys are admin-managed in the
+    // BusinessType collection (e.g. services, manufacture, startup, non-profit)
+    // and are validated against that collection before a session is created,
+    // so no static enum is enforced here.
     businessType: {
       type: String,
-      enum: [null, 'service', 'product', 'ngo'],
       default: null,
     },
     businessTypeId: {
