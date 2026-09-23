@@ -7,15 +7,7 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
-const STATUS = { loading: 'loading', ready: 'ready', empty: 'empty', error: 'error', comingSoon: 'coming-soon' };
-
-// Non-Profit assessments are intentionally not yet available. This business
-// type's Coming Soon state is driven by the live (inactive) assessment state:
-// whenever the API reports no available domains for Non-Profit we show a
-// friendly "coming soon" message instead of a hard error. If Non-Profit domains
-// become active in the future, the normal domain-selection flow continues to
-// work automatically.
-const NON_PROFIT_KEY = 'ngo';
+const STATUS = { loading: 'loading', ready: 'ready', error: 'error', comingSoon: 'coming-soon' };
 
 // Last option in the domain list. The slug has no matching Domain document, so
 // the backend serves the existing generic 18-question pool for the assignment.
@@ -48,13 +40,12 @@ export default function DomainSelectionScreen({
     try {
       const data = await api.domains(businessType?.key);
       if (!Array.isArray(data) || data.length === 0) {
-        // Non-Profit has no active assessment yet — treat it as "coming soon"
-        // rather than an error or an empty-domain message.
-        if (businessType?.key === NON_PROFIT_KEY) {
-          setStatus(STATUS.comingSoon);
-          return;
-        }
-        setStatus(STATUS.empty);
+        // No available domains for the selected business type — its assessment
+        // is not ready yet (e.g. Startup / Non-Profit). Shown explicitly as a
+        // "Coming Soon" state instead of a broken/empty list. The backend is
+        // the source of truth: adding domains for the type there automatically
+        // flips this back to the normal domain-selection flow.
+        setStatus(STATUS.comingSoon);
         return;
       }
       setDomains(data);
@@ -199,17 +190,7 @@ export default function DomainSelectionScreen({
             </div>
           )}
 
-          {/* Empty */}
-          {status === STATUS.empty && (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-8 text-center sm:px-5 sm:py-10">
-              <p className="font-display text-sm" style={{ color: premiumWhite.warm }}>
-                No domains are available for {businessType?.label || 'this business type'} yet.
-                Please go back and choose another business type.
-              </p>
-            </div>
-          )}
-
-          {/* Coming Soon (Non-Profit) */}
+          {/* Coming Soon (assessment not available for this business type yet) */}
           {status === STATUS.comingSoon && (
             <motion.div
               initial={{ opacity: 0, scale: 0.99 }}
@@ -228,11 +209,11 @@ export default function DomainSelectionScreen({
                 Coming Soon
               </span>
               <h2 className="font-display mt-4 text-xl font-bold tracking-[-0.01em] sm:text-2xl" style={{ color: premiumWhite.bright }}>
-                Non-Profit assessments are coming soon.
+                {businessType?.label || 'This'} assessment is coming soon.
               </h2>
               <p className="font-display mt-3 max-w-md text-sm leading-relaxed sm:text-base" style={{ color: premiumWhite.warm }}>
-                We&rsquo;re currently preparing the Know Yourself assessment for
-                Non-Profit businesses.
+                The Know Yourself assessment for {businessType?.label || 'this'} businesses
+                isn&rsquo;t available yet — we&rsquo;re currently preparing it.
               </p>
               <button
                 type="button"
@@ -241,7 +222,7 @@ export default function DomainSelectionScreen({
                 style={{ color: premiumWhite.bright }}
               >
                 <span aria-hidden="true">←</span>
-                Back to Business Type
+                {isChange ? 'Back to Questions' : 'Back to Business Type'}
               </button>
             </motion.div>
           )}
