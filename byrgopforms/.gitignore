@@ -1,0 +1,8 @@
+# Local env files (private) — never commit
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Keep the example template tracked
+!.env.example

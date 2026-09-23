@@ -72,10 +72,15 @@ select {
   margin: 4px 0 16px;
 }
 
+/* Both logos occupy the SAME fixed box at every size; object-fit: contain
+   scales each image inside it preserving aspect ratio (no crop/distortion),
+   so BNI and ACES always render at an identical visual size. */
 .logo {
-  height: 64px;
-  width: auto;
+  display: block;
+  width: 120px;
+  height: 56px;
   object-fit: contain;
+  object-position: center;
 }
 
 .logo-left {
@@ -600,7 +605,8 @@ select.select {
   }
 
   .logo {
-    height: 84px;
+    width: 160px;
+    height: 75px;
   }
 
   .event-heading {
@@ -622,7 +628,8 @@ select.select {
   }
 
   .logo {
-    height: 52px;
+    width: 96px;
+    height: 44px;
   }
 
   .event-heading {

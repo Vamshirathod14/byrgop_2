@@ -1,4 +1,9 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+// API base URL. Override with VITE_API_URL (set via .env* or the build
+// environment). Falls back to the production API in production builds and to
+// the local backend during dev, so localhost never ships to production.
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://api3.byrgop.com/api/v1' : 'http://localhost:5000/api/v1');
 const STAFF_TOKEN_KEY = 'byrgop_visitor_staff_token';
 
 export const staffAuth = {
