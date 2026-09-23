@@ -3,6 +3,7 @@
 // for tracking or anything beyond resume-of-session identification.
 const ID_KEY = 'byrgop_ky_browser_id';
 const EMAIL_KEY = 'byrgop_ky_email';
+const BUSINESS_TYPE_KEY = 'byrgop_ky_business_type';
 const REJECTED_RESUME_KEY = 'byrgop_ky_rejected_resume_session';
 
 // Sentinel value stored in in-memory KY answers to represent a "Not Applicable"
@@ -44,6 +45,35 @@ export function saveEmail(email) {
   try {
     if (email) localStorage.setItem(EMAIL_KEY, email);
     else localStorage.removeItem(EMAIL_KEY);
+  } catch (_) {}
+}
+
+// The most recently selected Know Yourself business type, so a returning user
+// does not have to re-pick it on every Business tab entry. Same identity
+// persistence as email/browserId; the in-memory kyBusinessType state remains
+// the single source of truth while the app is running.
+export function getSavedBusinessType() {
+  try {
+    const raw = localStorage.getItem(BUSINESS_TYPE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && parsed.key) return { key: parsed.key, label: parsed.label || '' };
+    return null;
+  } catch (_) {
+    return null;
+  }
+}
+
+export function saveBusinessType(businessType) {
+  try {
+    if (businessType && businessType.key) {
+      localStorage.setItem(
+        BUSINESS_TYPE_KEY,
+        JSON.stringify({ key: businessType.key, label: businessType.label || '' })
+      );
+    } else {
+      localStorage.removeItem(BUSINESS_TYPE_KEY);
+    }
   } catch (_) {}
 }
 

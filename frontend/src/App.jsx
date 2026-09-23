@@ -17,8 +17,10 @@ import LoginScreen from './screens/LoginScreen.jsx';
 import {
   getBrowserId,
   getRejectedResumeSession,
+  getSavedBusinessType,
   getSavedEmail,
   NOT_APPLICABLE_VALUE,
+  saveBusinessType,
   saveEmail,
   setRejectedResumeSession,
 } from './lib/kyIdentity.js';
@@ -486,7 +488,12 @@ export default function App() {
   // where the user confirms/updates a domain under the new type before the
   // assessment restarts.
   const handleBusinessTypeSelect = useCallback((key, label) => {
-    setKyBusinessType({ key, label });
+    const next = { key, label };
+    setKyBusinessType(next);
+    saveBusinessType(next);
+    // The previously selected domain may not belong to the new Business Type —
+    // clear it so Domain Selection starts fresh under the new type.
+    setKyDomain(null);
     setKyDomainNonce((n) => n + 1);
     setScreen('kyDomainSelect');
   }, []);
@@ -613,7 +620,11 @@ export default function App() {
     (origin = 'result') => {
       setKyDisclaimerOrigin(origin);
       setScreen('kyDisclaimer');
-      setKyBusinessType(null);
+      // Reuse the previously selected Business Type (persisted alongside the
+      // KY email/browser identity) so re-entering the Business tab skips the
+      // Business Type selection — the in-memory state stays the single source
+      // of truth, this only hydrates it on a fresh page/visit.
+      setKyBusinessType(getSavedBusinessType() || null);
       setKySessionId(null);
       setKyQuestions([]);
       setKyIndex(0);
@@ -650,7 +661,9 @@ export default function App() {
     setKyResumeCandidate(null);
     kyResumeCheckRef.current += 1;
     setKySessionId(session.sessionId);
-    setKyBusinessType({ key: session.businessType, label: session.businessTypeLabel });
+    const resumedBt = { key: session.businessType, label: session.businessTypeLabel };
+    setKyBusinessType(resumedBt);
+    saveBusinessType(resumedBt);
     setKyDomain({ slug: session.domain, label: session.domainLabel });
     setKyQuestions(session.questions);
     setKyAnswers(session.answers);
@@ -810,7 +823,11 @@ export default function App() {
                 setKyResumeCandidate(null);
                 saveEmail(email || '');
                 setKyEmail(email || '');
-                setScreen('kyBusinessType');
+                // A previously selected Business Type is reused: skip the
+                // Business Type screen and go straight to Domain Selection
+                // (filtered server-side by the selected type). Fresh visitors
+                // with no prior selection keep the existing selection flow.
+                setScreen(kyBusinessType ? 'kyDomainSelect' : 'kyBusinessType');
               }}
               onDecline={() => {
                 setScreen(kyDisclaimerOrigin === 'about' ? 'about' : 'result');
