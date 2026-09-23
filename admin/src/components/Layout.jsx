@@ -44,6 +44,7 @@ export default function Layout({ active, onNavigate, children }) {
     { key: 'kySessions', label: 'KY Submissions', icon: '✦', show: can('contacts.view') },
     { key: 'contacts', label: 'Contacts', icon: '✆', show: can('contacts.view') },
     { key: 'websiteContacts', label: 'Website Contacts', icon: '✉', show: can('contacts.view') },
+    { key: 'visitors', label: 'Visitors', icon: '✓', show: can('contacts.view') },
     { key: 'businessTypes', label: 'KY Business Types', icon: '⬢', show: can('domains.view') },
     { key: 'domains', label: 'KY Domains', icon: '❖', show: can('domains.view') },
     { key: 'onboardingQuestions', label: 'Onboarding Questions', icon: '≡', show: can('questions.view') },

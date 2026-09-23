@@ -26,6 +26,8 @@ import { listKYCategories, createKYCategory, updateKYCategory, reorderKYCategori
 import { listActiveDomains, listAdminDomains, getAdminDomain, createDomain, updateDomain, deleteDomain } from '../controllers/domainController.js';
 import { listBusinessTypes, getBusinessType, createBusinessType, updateBusinessType, deleteBusinessType } from '../controllers/businessTypeController.js';
 import { submitContact, listContacts } from '../controllers/contactController.js';
+import { adminListVisitors, adminVisitorDetail } from '../controllers/visitorController.js';
+import visitorRoutes from './visitorRoutes.js';
 import { bulkUploadKnowYourselfQuestions, downloadKYQuestionTemplate } from '../controllers/bulkUploadController.js';
 
 const router = Router();
@@ -74,6 +76,10 @@ router.get('/know-yourself/:sessionId/result', getKYResult);
 
 // General website contact (independent of any assessment session)
 router.post('/contact', submitContact);
+
+// Visitor registration + QR check-in (12th Anniversary). Public registration
+// lives here; token resolution + attendance are guarded inside visitorRoutes.
+router.use('/visitors', visitorRoutes);
 
 // ─── Admin auth (public) ──────────────────────────────────
 router.post('/admin/auth/login', loginRateLimiter, login);
@@ -168,5 +174,9 @@ router.post(
   kyExcelUpload.single('file'),
   bulkUploadKnowYourselfQuestions
 );
+
+// Visitors (12th Anniversary) – admin list + detail
+router.get('/admin/visitors', requirePermission('contacts.view'), adminListVisitors);
+router.get('/admin/visitors/:visitorId', requirePermission('contacts.view'), adminVisitorDetail);
 
 export default router;

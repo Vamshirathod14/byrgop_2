@@ -24,6 +24,7 @@ const DEFAULT_CLIENT_ORIGINS = [
   'https://www.byrgop.in',
   'http://localhost:5175',
   'http://localhost:5174',
+  'http://localhost:5176', // byrgopforms visitor registration app
 ].join(',');
 
 const allowedOrigins = (process.env.CLIENT_ORIGINS || DEFAULT_CLIENT_ORIGINS)
