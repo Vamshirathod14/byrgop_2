@@ -1,0 +1,18 @@
+# SPA routing for forms.byrgop.com (Hostinger / Apache / LiteSpeed).
+# All unknown application routes (e.g. /vamshi) fall back to index.html so
+# direct loads and refreshes keep working. Existing files are served as-is,
+# so API calls (separate origin https://api3.byrgop.com) are never affected.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Existing files and directories are served directly.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Never expose server-side or source files.
+  RewriteRule ^(\.env|\.git|node_modules) - [F,L]
+
+  # Everything else -> single-page app entry point.
+  RewriteRule ^ index.html [L]
+</IfModule>
