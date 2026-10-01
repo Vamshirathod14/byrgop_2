@@ -16,8 +16,16 @@ import KnowYourselfQuestion from '../src/models/KnowYourselfQuestion.js';
 import BusinessType from '../src/models/BusinessType.js';
 import KYCategory from '../src/models/KYCategory.js';
 
-const ATLAS_URI = "mongodb+srv://ramavathvamshicse_db_user:vamshi123@cluster0.p4u8yex.mongodb.net/?appName=Cluster0";
+// Atlas URI must be provided via environment variable.
+// Never hard-code credentials. Do not log the URI.
+const ATLAS_URI = process.env.ATLAS_MONGO_URI;
 const LOCAL_URI = "mongodb://127.0.0.1:27017/byrgop";
+
+if (!ATLAS_URI) {
+  console.error('Error: ATLAS_MONGO_URI environment variable is required but not set.');
+  console.error('Set it to your Atlas connection string (mongodb+srv://...)');
+  process.exit(1);
+}
 
 // Connect to both databases
 const atlasConn = mongoose.createConnection(ATLAS_URI);
