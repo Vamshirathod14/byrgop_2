@@ -41,7 +41,7 @@ export default function DomainSelectionScreen({
       const data = await api.domains(businessType?.key);
       if (!Array.isArray(data) || data.length === 0) {
         // No available domains for the selected business type — its assessment
-        // is not ready yet (e.g. Startup / Non-Profit). Shown explicitly as a
+        // is not ready yet (e.g. Start-Up / Non-Profit). Shown explicitly as a
         // "Coming Soon" state instead of a broken/empty list. The backend is
         // the source of truth: adding domains for the type there automatically
         // flips this back to the normal domain-selection flow.

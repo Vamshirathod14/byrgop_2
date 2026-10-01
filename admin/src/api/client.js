@@ -108,11 +108,40 @@ export const api = {
   deleteResult: del,
 
   // Know Yourself
-  kyQuestions: (params = '') =>
-    request(`/admin/know-yourself?includeInactive=true${params}`),
+  // `params` may be a query string, or `{ root, includeInactive }` to scope the
+  // list to one of the three question roots (manufacturing-services | startup |
+  // non-profit). The server does the scoping so the three roots can never bleed
+  // together.
+  //
+  // `includeInactive: false` asks for the LIVE bank only. A root that does not
+  // run the domain-selection step (Start-Up, Non-Profit) is scoped by its own
+  // single business type, so its superseded bank is never served to a
+  // participant; those pages therefore ask for the live rows only, and a
+  // retired question or pillar from another framework cannot appear in them.
+  // It defaults to `true` so every other caller keeps its current behaviour.
+  kyQuestions: (params = '') => {
+    const obj = typeof params === 'string' ? {} : params || {};
+    const qs =
+      typeof params === 'string'
+        ? params
+        : obj.root
+          ? `&root=${encodeURIComponent(obj.root)}`
+          : '';
+    const inactive = obj.includeInactive === false ? 'false' : 'true';
+    return request(`/admin/know-yourself?includeInactive=${inactive}${qs}`);
+  },
   kySessions: (params = '') => request(`/admin/know-yourself/sessions${params}`),
-  // KY result categories (six-dimension scoring config)
-  kyCategories: () => request('/admin/know-yourself/categories?includeInactive=true'),
+  // KY result categories (six-pillar scoring config), per root. Same
+  // `includeInactive` convention as `kyQuestions`.
+  kyCategories: (root, includeInactive = true) =>
+    request(
+      `/admin/know-yourself/categories?includeInactive=${includeInactive ? 'true' : 'false'}${
+        root ? `&root=${encodeURIComponent(root)}` : ''
+      }`
+    ),
+  // All three roots' pillars in one payload, for the root switcher.
+  kyCategoriesGrouped: () =>
+    request('/admin/know-yourself/categories?includeInactive=true&grouped=true'),
   createKYCategory: json('POST'),
   updateKYCategory: json('PUT'),
   deleteKYCategory: del,

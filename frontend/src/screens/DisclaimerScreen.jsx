@@ -9,7 +9,67 @@ const premiumWhite = brand.premiumWhite;
 // Card accents drawn from the official six-colour mark.
 const CARD_ACCENTS = [brand.mark[0], brand.mark[3], brand.mark[5]];
 
-export default function DisclaimerScreen({ onAccept, onDecline, onLogoClick }) {
+/**
+ * Render a copy body, honouring the only markup the backend sends: `**bold**`.
+ *
+ * The emphasised figures ("8–10 minutes") used to be `<strong>` in JSX. Moving
+ * the copy into the backend's per-root table meant it became a string, so the
+ * emphasis is expressed as markup and turned back into real `<strong>` here
+ * rather than being flattened to plain text.
+ */
+function RichText({ text }) {
+  const parts = String(text ?? '').split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith('**') && part.endsWith('**') ? (
+          <strong key={i} className="font-bold">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
+export default function DisclaimerScreen({
+  onAccept,
+  onDecline,
+  onLogoClick,
+  // The copy for the business type the user is actually being assessed as,
+  // resolved from `/know-yourself/meta` by the caller (`rootContentFor`) from
+  // the CURRENT in-session business type — never from stale localStorage.
+  //
+  // This screen used to hard-code one block of Manufacturing & Services copy
+  // for every root, so a Non-Profit user was told this was "BYRGOP's Business
+  // Profit Architecture … hidden profit leaks" and read terms about their
+  // "business". `content` is now required from the caller; the default below
+  // is that same previous text so the component still renders standalone.
+  content = {
+    entity: 'your business',
+    resultActionLabel: 'Your Business',
+    resultHeadingLabel: 'Your Business',
+    screenTitle: 'Welcome to the Profit Architecture Diagnostic (PAD)',
+    terms: {
+      title: 'Disclaimer & Terms of Use',
+      body:
+        'This diagnostic is a proprietary strategic tool intended solely for informational guidance. It does not ' +
+        'constitute formal legal, financial, tax, or investment advice, and financial results are not guaranteed. ' +
+        'All underlying frameworks and intellectual property remain our exclusive property and may not be reproduced ' +
+        'without written consent.',
+    },
+    about: {
+      title: 'Welcome to the Profit Architecture Diagnostic (PAD)',
+      body:
+        "Built on BYRGOP's Business Profit Architecture (BPA) framework, this diagnostic assesses six core " +
+        'operational pillars to uncover hidden profit leaks and growth opportunities. Complete 18 targeted questions ' +
+        'in 8–10 minutes to receive an immediate, complimentary report detailing prioritized optimization strategies ' +
+        'for your business.',
+    },
+  },
+}) {
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
   const [emailConsent, setEmailConsent] = useState(false);
   const [email, setEmail] = useState('');
@@ -130,7 +190,7 @@ export default function DisclaimerScreen({ onAccept, onDecline, onLogoClick }) {
           className="text-center mb-8"
         >
           <h2 className="font-sans text-2xl sm:text-3xl font-bold" style={{ color: premiumWhite.bright }}>
-            Welcome to the Profit Architecture Diagnostic (PAD)
+            {content.screenTitle}
           </h2>
         </motion.div>
 
@@ -145,11 +205,11 @@ export default function DisclaimerScreen({ onAccept, onDecline, onLogoClick }) {
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 flex flex-col transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/[0.05]"
           >
             <h3 className="font-sans text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
-              Disclaimer & Terms of Use
+              {content.terms.title}
             </h3>
             <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
               <p className="font-sans">
-                This diagnostic is a proprietary strategic tool intended solely for informational guidance. It does not constitute formal legal, financial, tax, or investment advice, and financial results are not guaranteed. All underlying frameworks and intellectual property remain our exclusive property and may not be reproduced without written consent.
+                <RichText text={content.terms.body} />
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-white/10">
@@ -176,11 +236,11 @@ export default function DisclaimerScreen({ onAccept, onDecline, onLogoClick }) {
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 flex flex-col transition-all duration-300 hover:border-green-500/50 hover:bg-green-500/[0.05]"
           >
             <h3 className="font-sans text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
-              Welcome to the Profit Architecture Diagnostic (PAD)
+              {content.about.title}
             </h3>
             <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
               <p className="font-sans">
-                Built on BYRGOP's Business Profit Architecture (BPA) framework, this diagnostic assesses six core operational pillars to uncover hidden profit leaks and growth opportunities. Complete 18 targeted questions in <strong className="font-bold">8–10</strong> minutes to receive an immediate, complimentary report detailing prioritized optimization strategies for your business.
+                <RichText text={content.about.body} />
               </p>
             </div>
           </motion.div>
@@ -198,7 +258,10 @@ export default function DisclaimerScreen({ onAccept, onDecline, onLogoClick }) {
             </h3>
             <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
               <p className="font-sans">
-                By submitting your email, you agree to the assessment terms and authorize us to send your personalized diagnostic report and strategic insights. We enforce a strict zero-spam policy, never sell or share your data, and include a one-click unsubscribe link in every email.
+                Enter your email to proceed to your assessment.
+              </p>
+              <p className="font-sans">
+                Disclaimer: By submitting your email, you agree to the assessment terms and consent to the secure collection and storage of the same. At this stage, no report will be sent; your email is collected solely to support the internal progress of your assessment.
               </p>
             </div>
             <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
@@ -210,7 +273,7 @@ export default function DisclaimerScreen({ onAccept, onDecline, onLogoClick }) {
                   className="mt-1 h-5 w-5 shrink-0 rounded border-white/20 bg-white/5 accent-[#C68505] cursor-pointer"
                 />
                 <span className="font-sans text-sm" style={{ color: premiumWhite.warm }}>
-                  I consent to receive my diagnostic report via email.
+                  I consent to BYRGOP collecting and storing my email address for my assessment.
                 </span>
               </label>
               <input

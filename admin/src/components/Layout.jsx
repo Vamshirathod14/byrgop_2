@@ -37,6 +37,18 @@ export default function Layout({ active, onNavigate, children }) {
   const isSuper = admin.role === 'SUPER_ADMIN';
   const can = (perm) => hasPermission(admin, perm);
 
+  // ONE Know Yourself question entry in the sidebar. Which root/type is being
+  // edited — Manufacturing, Services, Start-Up or Non-Profit — is chosen inside
+  // the page, so the four banks are reachable from one place without four
+  // near-identical sidebar rows. The questions and the pillars they score
+  // against are still one workspace, never two.
+  const kyQuestionsNav = {
+    key: 'kyQuestions',
+    label: 'KY Questions',
+    icon: '❋',
+    show: can('questions.view') || can('results.manage'),
+  };
+
   const mainNav = [
     { key: 'dashboard', label: 'Overview', icon: '◈', show: can('dashboard.view') },
     { key: 'analytics', label: 'Analytics', icon: '◔', show: can('dashboard.view') },
@@ -48,8 +60,7 @@ export default function Layout({ active, onNavigate, children }) {
     { key: 'businessTypes', label: 'KY Business Types', icon: '⬢', show: can('domains.view') },
     { key: 'domains', label: 'KY Domains', icon: '❖', show: can('domains.view') },
     { key: 'onboardingQuestions', label: 'Onboarding Questions', icon: '≡', show: can('questions.view') },
-    { key: 'kyQuestions', label: 'KY Questions', icon: '❋', show: can('questions.view') },
-    { key: 'kyResultCategories', label: 'KY Result Categories', icon: '⬡', show: can('results.manage') },
+    kyQuestionsNav,
     { key: 'categories', label: 'Onboarding Categories', icon: '▤', show: can('domains.view') },
     { key: 'results', label: 'Results', icon: '◎', show: can('results.manage') },
     { key: 'stages', label: 'Stages', icon: '▣', show: can('stages.manage') },

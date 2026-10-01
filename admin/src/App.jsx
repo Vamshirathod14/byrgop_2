@@ -11,7 +11,8 @@ import Contacts from './pages/Contacts.jsx';
 import WebsiteContacts from './pages/WebsiteContacts.jsx';
 import Visitors from './pages/Visitors.jsx';
 import OnboardingQuestions from './pages/OnboardingQuestions.jsx';
-import KnowYourselfQuestions from './pages/KnowYourselfQuestions.jsx';
+import KyRootWorkspace from './pages/KyRootWorkspace.jsx';
+import KYQuestionsArea from './pages/KYQuestionsArea.jsx';
 import KYCategories from './pages/KYCategories.jsx';
 import Categories from './pages/Categories.jsx';
 import Domains from './pages/Domains.jsx';
@@ -21,6 +22,7 @@ import Results from './pages/Results.jsx';
 import Admins from './pages/Admins.jsx';
 import ActivityLog from './pages/ActivityLog.jsx';
 import Profile from './pages/Profile.jsx';
+import { KY_ROOTS } from './lib/kyRoots.js';
 
 function Shell() {
   const { admin, loading } = useAuth();
@@ -53,8 +55,15 @@ function Shell() {
       {can('contacts.view') && section('websiteContacts', <WebsiteContacts />)}
       {can('contacts.view') && section('visitors', <Visitors />)}
       {can('questions.view') && section('onboardingQuestions', <OnboardingQuestions />)}
-      {can('questions.view') && section('kyQuestions', <KnowYourselfQuestions />)}
-      {can('results.manage') && section('kyResultCategories', <KYCategories />)}
+      {/* One KY Questions entry, holding all four roots/business types. */}
+      {(can('questions.view') || can('results.manage')) && section('kyQuestions', <KYQuestionsArea />)}
+      {/* The previous per-root keys still resolve, so an old bookmark or in-app
+          link lands on that root's page rather than a blank one. They render the
+          same workspace the unified area renders. */}
+      {KY_ROOTS.map((r) =>
+        section(`kyRoot_${r.id}`, <KyRootWorkspace key={r.id} root={r.id} />)
+      )}
+      {can('results.manage') && section('kyResultCategories', <KYCategories root="manufacturing-services" />)}
       {can('domains.view') && section('businessTypes', <BusinessTypes />)}
       {can('domains.view') && section('domains', <Domains />)}
       {can('domains.view') && section('categories', <Categories />)}

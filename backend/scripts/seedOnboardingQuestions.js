@@ -21,7 +21,7 @@ const DEFAULT_WEIGHT = 10;
 const YES_STAGE_KEY = 'recommendations';
 const NO_STAGE_KEY = 'initiation';
 
-// Startup questions (per the product spec): Strategy / Operations / Financial.
+// Start-Up questions (per the product spec): Strategy / Operations / Financial.
 const STARTUP_QUESTIONS = [
   {
     category: 'strategic',

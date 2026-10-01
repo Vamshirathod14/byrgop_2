@@ -6,14 +6,36 @@ import BusinessType from '../models/BusinessType.js';
 import { buildReportPdf } from './reportPdfService.js';
 import { sendReportEmail } from './reportEmailService.js';
 import { resolveOptionColor, resolveOptionHex } from '../config/optionColors.js';
+import {
+  KY_ROOTS,
+  KY_ROOT_IDS,
+  DEFAULT_KY_ROOT,
+  DOMAIN_SELECTION_ROOT,
+  QUESTIONS_PER_ASSESSMENT,
+  PILLARS_PER_ASSESSMENT,
+  resolveKyRoot,
+  resolveKyRootStrict,
+  rootRequiresDomainSelection,
+  pillarKeysForRoot,
+  pillarsForRoot,
+  businessTypesForRoot,
+  labelForRoot,
+  rootContentFor,
+  requireCompletePillarBank,
+  balancedPillarPlan,
+} from '../config/kyQuestionRoots.js';
 
 // ─── Business-type configuration ──────────────────────────
 // The canonical list lives in the BusinessType collection (Admin-managed).
 // These defaults are inserted once if the collection is empty.
+// Each business type is bound to one of the three question roots via `kyRoot`.
+// That single field decides both whether the flow runs domain selection and
+// which six-pillar structure scores the result. See src/config/kyQuestionRoots.js.
 export const DEFAULT_BUSINESS_TYPES = [
-  { key: 'service', name: 'Service Based', description: 'Consulting, agencies, professional & financial services.', sortOrder: 1 },
-  { key: 'product', name: 'Product Based', description: 'Manufacturing, retail, distribution and product brands.', sortOrder: 2 },
-  { key: 'ngo', name: 'NGO / Non-Profit', description: 'Non-profit organisations, foundations and social impact.', sortOrder: 3 },
+  { key: 'service', name: 'Service Based', description: 'Consulting, agencies, professional & financial services.', sortOrder: 1, kyRoot: 'manufacturing-services' },
+  { key: 'product', name: 'Product Based', description: 'Manufacturing, retail, distribution and product brands.', sortOrder: 2, kyRoot: 'manufacturing-services' },
+  { key: 'ngo', name: 'NGO / Non-Profit', description: 'Non-profit organisations, foundations and social impact.', sortOrder: 3, kyRoot: 'non-profit' },
+  { key: 'startup', name: 'Start-Up', description: 'Early-stage ventures and start-ups.', sortOrder: 4, kyRoot: 'startup' },
 ];
 
 export const ASSESSMENT_SIZE = { generic: 9, domain: 9, total: 18 };
@@ -29,16 +51,16 @@ export const NOT_APPLICABLE_SENTINEL = '__NOT_APPLICABLE__';
 export const OTHERS_DOMAIN_SLUG = 'others';
 export const OTHERS_DOMAIN_LABEL = 'Others';
 
-// Seed defaults used the first time categories are needed; afterwards they are
-// fully admin-managed through /admin/know-yourself/categories.
-export const DEFAULT_KY_CATEGORIES = [
-  { key: 'strategic-direction', name: 'Strategic Direction', color: '#0A78CF', sortOrder: 1 },
-  { key: 'financial-performance', name: 'Financial Performance', color: '#FCA700', sortOrder: 2 },
-  { key: 'sales-market-growth', name: 'Sales & Market Growth', color: '#E52032', sortOrder: 3 },
-  { key: 'operations-execution', name: 'Operations & Execution', color: '#0D8845', sortOrder: 4 },
-  { key: 'people-organization', name: 'People & Organization', color: '#F5630D', sortOrder: 5 },
-  { key: 'digital-innovation', name: 'Digital & Innovation', color: '#7038A5', sortOrder: 6 },
-];
+// Seed defaults for the SHARED Manufacturing & Services pillar set. These keys
+// are the existing production keys and must not be renamed — existing questions,
+// session snapshots and stored results all reference them. Start-Up and
+// Non-Profit have their own pillar sets in src/config/kyQuestionRoots.js.
+export const DEFAULT_KY_CATEGORIES = pillarsForRoot(DOMAIN_SELECTION_ROOT).map((c) => ({
+  key: c.key,
+  name: c.name,
+  color: c.color,
+  sortOrder: c.sortOrder,
+}));
 
 function generateSessionId() {
   const chars = '0123456789ABCDEF';
@@ -116,17 +138,94 @@ export async function resolveActiveDomain(domainKey) {
   return Domain.findOne({ slug: String(domainKey).toLowerCase().trim(), active: true });
 }
 
-/** Active KY result categories, seeded from defaults on first use. */
-export async function getActiveKYCategories() {
-  let cats = await KYCategory.find({ active: true }).sort({ sortOrder: 1, name: 1 }).lean();
+/**
+ * Seed a root's six-pillar set if that root has no categories at all.
+ * Idempotent: only ever inserts rows that do not exist yet, and never
+ * renames or rewrites a category an admin has already configured.
+ */
+async function seedRootCategories(rootId) {
+  const existing = await KYCategory.countDocuments({ kyRoot: rootId });
+  if (existing > 0) return;
+  const rows = pillarsForRoot(rootId).map((c) => ({
+    key: c.key,
+    name: c.name,
+    color: c.color,
+    sortOrder: c.sortOrder,
+    kyRoot: rootId,
+    active: true,
+  }));
+  // ordered:false + a swallowed duplicate-key error keeps concurrent seeding
+  // safe, which matters on the very first request after a deploy.
+  await KYCategory.insertMany(rows, { ordered: false }).catch(() => {});
+}
+
+/**
+ * Active KY result categories ("pillars") for a business type or root.
+ *
+ * Each root has its own six pillars. The Manufacturing & Services pillars are
+ * the pre-existing rows with a null `kyRoot`; Start-Up and Non-Profit have
+ * their own. Passing nothing returns the shared set, so every existing caller
+ * and every historical session keeps resolving the same pillars it always did.
+ */
+export async function getActiveKYCategories(businessTypeOrRoot) {
+  // Accepts a BusinessType doc, a business-type key, a root id, or nothing.
+  // Resolving a root id explicitly (rather than treating it as a business-type
+  // key) keeps 'startup' / 'non-profit' unambiguous, since those strings are
+  // valid in both namespaces.
+  const raw = businessTypeOrRoot ?? null;
+  const asRoot = typeof raw === 'string' ? String(raw).toLowerCase().trim() : null;
+  const rootId =
+    asRoot && KY_ROOT_IDS.includes(asRoot) ? asRoot : resolveKyRoot(raw);
+
+  let cats = await KYCategory.find({ active: true, kyRoot: rootId })
+    .sort({ sortOrder: 1, name: 1 })
+    .lean();
+
+  // The shared set lives under a null kyRoot. Seed it on first use.
   if (cats.length === 0) {
-    await KYCategory.insertMany(
-      DEFAULT_KY_CATEGORIES.map((c) => c),
-      { ordered: false }
-    ).catch(() => {});
-    cats = await KYCategory.find({ active: true }).sort({ sortOrder: 1, name: 1 }).lean();
+    await seedRootCategories(rootId);
+    cats = await KYCategory.find({ active: true, kyRoot: rootId })
+      .sort({ sortOrder: 1, name: 1 })
+      .lean();
   }
   return cats;
+}
+
+/** Every root's categories in one pass — used by the Admin root views. */
+export async function getAllRootKYCategories({ includeInactive = false } = {}) {
+  const filter = includeInactive ? {} : { active: true };
+  for (const rootId of KY_ROOT_IDS) await seedRootCategories(rootId);
+  const cats = await KYCategory.find(filter).sort({ sortOrder: 1, name: 1 }).lean();
+  const out = {};
+  for (const rootId of KY_ROOT_IDS) {
+    const id = rootId === DOMAIN_SELECTION_ROOT ? null : rootId;
+    out[rootId] = cats.filter((c) => (c.kyRoot || null) === id);
+  }
+  return out;
+}
+
+/** Every business-type key that exists in the database (active or not). */
+export async function activeBusinessTypeKeys() {
+  const types = await BusinessType.find({}).select('key').lean();
+  return types.map((t) => t.key).filter(Boolean);
+}
+
+/**
+ * The KY question root a stored session belongs to.
+ *
+ * Order of precedence:
+ *   1. `session.kyRoot` — snapshotted at creation, so a session keeps its
+ *      pillar set for life even if the BusinessType row is edited later.
+ *   2. `session.businessType` — for historical sessions written before kyRoot
+ *      existed, resolved through the current BusinessType configuration.
+ *   3. The shared Manufacturing & Services root.
+ */
+export function getSessionKyRoot(session, businessTypeDoc = null) {
+  const stored = session?.kyRoot ? String(session.kyRoot).toLowerCase().trim() : null;
+  if (stored && KY_ROOT_IDS.includes(stored)) return stored;
+  if (businessTypeDoc) return resolveKyRoot(businessTypeDoc);
+  if (session?.businessType) return resolveKyRoot(session.businessType);
+  return DEFAULT_KY_ROOT;
 }
 
 /** Active business types, seeded from defaults on first use. Admin-managed. */
@@ -139,18 +238,53 @@ export async function getActiveBusinessTypes() {
   return types;
 }
 
-/** Public configuration for the assessment entry flow. */
+/**
+ * Public configuration for the assessment entry flow.
+ *
+ * `requiresDomainSelection` on each business type is the routing contract the
+ * frontend uses: false means "after the Disclaimer go straight into the
+ * questions". It is derived from the business type's configured `kyRoot`, so
+ * the decision is made by backend configuration rather than hardcoded in React.
+ */
 export async function getKYMeta() {
-  const [cats, bts] = await Promise.all([getActiveKYCategories(), getActiveBusinessTypes()]);
+  const [cats, bts] = await Promise.all([
+    getActiveKYCategories(DOMAIN_SELECTION_ROOT),
+    getActiveBusinessTypes(),
+  ]);
+  const rootsById = new Map(KY_ROOTS.map((r) => [r.id, r]));
+  // The Disclaimer copy and the result-screen button label are served per
+  // ROOT, not per business type, and are re-stated on each business type's
+  // own entry. That is what lets the client render the right words from the
+  // one value that also chose the question bank: a Non-Profit user can only
+  // reach this payload having been resolved to the Non-Profit root, and the
+  // Non-Profit entry is the only one carrying "Your Foundation".
+  const contentFor = (rootId) => rootContentFor(rootId);
   return {
-    businessTypes: bts.map((b) => ({
-      key: b.key,
-      label: b.name,
-      name: b.name,
-      description: b.description || '',
+    businessTypes: bts.map((b) => {
+      const kyRoot = resolveKyRoot(b);
+      return {
+        key: b.key,
+        label: b.name,
+        name: b.name,
+        description: b.description || '',
+        kyRoot,
+        rootLabel: rootsById.get(kyRoot)?.label || kyRoot,
+        requiresDomainSelection: rootRequiresDomainSelection(kyRoot),
+        content: contentFor(kyRoot),
+      };
+    }),
+    kyRoots: KY_ROOTS.map((r) => ({
+      id: r.id,
+      label: r.label,
+      description: r.description,
+      requiresDomainSelection: r.requiresDomainSelection,
+      content: contentFor(r.id),
+      pillars: pillarsForRoot(r.id).map((p) => ({ key: p.key, name: p.name, color: p.color })),
     })),
+    // The shared Manufacturing & Services pillars. Kept for backwards
+    // compatibility; per-root pillars are on `kyRoots[].pillars`.
     categories: cats.map((c) => ({ key: c.key, name: c.name, color: c.color })),
-    requirements: ASSESSMENT_SIZE,
+    requirements: { ...ASSESSMENT_SIZE, pillarsPerAssessment: PILLARS_PER_ASSESSMENT },
   };
 }
 
@@ -194,6 +328,142 @@ function businessTypePoolFilter(businessType) {
   return { $or: [{ businessType: null }, { businessType: '' }, { businessType }] };
 }
 
+/**
+ * Fail loudly if a selection is not exclusively the given root's own bank.
+ *
+ * The database query above is already strict, so this is a second, independent
+ * line of defence: it re-reads the questions that are about to be served and
+ * refuses to continue if any of them
+ *
+ *   • carries a different `businessType` (i.e. another root's bank, or the
+ *     untagged generic pool that has no businessType at all),
+ *   • sits in a pillar that is not part of the resolved root, or
+ *   • would make the assessment shorter than the required total.
+ *
+ * It runs on every direct assignment, which is the only path where a wrong
+ * question would be scored into a user's result and reported as their own.
+ * Throwing here is deliberate: serving a nearly-correct bank silently is far
+ * worse than an explicit error naming the root that is misconfigured.
+ */
+function assertQuestionsBelongToRoot(selected, { rootId, businessTypeKey, total }) {
+  const pillarKeys = new Set(pillarKeysForRoot(rootId));
+  const foreign = [];
+  for (const q of selected) {
+    const sameType = String(q.businessType ?? '') === String(businessTypeKey);
+    const samePillar = pillarKeys.has(q.category);
+    if (!sameType || !samePillar) {
+      foreign.push(`${q.questionId || q.text} (businessType=${q.businessType ?? 'none'}, pillar=${q.category})`);
+    }
+  }
+  if (foreign.length > 0 || selected.length !== total) {
+    throw Object.assign(
+      new Error(
+        `The ${labelForRoot(rootId)} question bank is not correctly scoped to the ` +
+          `"${businessTypeKey}" business type and was not served. Offending questions: ` +
+          `${foreign.slice(0, 5).join('; ') || 'none'}. ` +
+          `Expected ${total} questions all scoped to businessType="${businessTypeKey}" and to the ` +
+          `${pillarKeys.size} ${labelForRoot(rootId)} pillars.`
+      ),
+      {
+        status: 500,
+        details: { root: rootId, businessType: businessTypeKey, expected: total, received: selected.length, foreign },
+      }
+    );
+  }
+}
+
+// ─── Direct assignment: Start-Up & Non-Profit (no domain) ──
+// Start-Up and Non-Profit are assessed against their OWN question root. Three
+// properties matter and all three are enforced here:
+//
+//   1. NO DOMAIN. A missing Domain document is a normal, valid state for these
+//      business models — it must never be reported as "Coming Soon" and must
+//      never stop the assessment. The session is created with a null domain.
+//   2. NO CROSS-CONTAMINATION. The pool filter is STRICT (`businessType ===
+//      key`), not the lenient `$or` used by the shared root, so a Start-Up user
+//      can never be served a Non-Profit or Services question and vice versa.
+//   3. NO SILENT ROOT FALLBACK. The root is resolved with `resolveKyRootStrict`,
+//      which throws instead of defaulting to Manufacturing & Services, and the
+//      selection is re-checked against that root before it is served. A
+//      Non-Profit user is therefore served the Non-Profit bank or an error —
+//      never the generic / Manufacturing & Services pool.
+//
+// The 18 questions are spread evenly over the root's six pillars (3 each) so
+// the result always has six dimensions, and the shortfall message names the
+// exact pillars that need more questions when the bank is incomplete.
+async function buildDirectAssignment({ email, bt, browserId }) {
+  // Strict: an unresolvable business type throws here rather than being served
+  // another root's questions. See resolveKyRootStrict.
+  const rootId = resolveKyRootStrict(bt);
+  const pillars = pillarsForRoot(rootId);
+  const pillarKeys = pillars.map((p) => p.key);
+
+  const pool = await KnowYourselfQuestion.find({
+    active: true,
+    type: 'generic',
+    businessType: bt.key,
+    category: { $in: pillarKeys },
+  }).lean();
+
+  const byPillar = new Map(pillars.map((p) => [p.key, []]));
+  for (const q of pool) {
+    const bucket = byPillar.get(q.category);
+    if (bucket) bucket.push(q);
+  }
+
+  const available = {};
+  for (const [key, list] of byPillar) available[key] = list.length;
+
+  // Throws a 400 naming the short pillars when a bank is incomplete.
+  const plan = requireCompletePillarBank({ rootId, availableByPillar: available });
+
+  const selected = [];
+  for (const { key, count } of plan) {
+    selected.push(...shuffle(byPillar.get(key)).slice(0, count));
+  }
+
+  assertQuestionsBelongToRoot(selected, { rootId, businessTypeKey: bt.key, total: plan.length * plan[0].count });
+
+  const snap = snapshotQuestions(selected, 'generic');
+  const sessionId = generateSessionId();
+  const now = new Date();
+
+  const session = await KnowYourselfSession.create({
+    sessionId,
+    status: 'in_progress',
+    email,
+    browserId: browserId || null,
+    // No domain: these business models deliberately have no domain selection.
+    domain: null,
+    domainLabel: null,
+    domainId: null,
+    businessType: bt.key,
+    businessTypeId: bt._id,
+    kyRoot: rootId,
+    startedAt: now,
+    selectedQuestions: snap,
+    answers: [],
+  });
+
+  return {
+    sessionId: session.sessionId,
+    businessType: bt.key,
+    businessTypeLabel: bt.name,
+    kyRoot: rootId,
+    requiresDomainSelection: false,
+    domain: null,
+    domainLabel: null,
+    totalQuestions: snap.length,
+    questions: snap.map((q, i) => ({
+      questionIndex: i,
+      questionId: q.questionId,
+      text: q.text,
+      glossary: serializeGlossary(q.glossary),
+      options: q.options.map((o, j) => ({ optionId: o.optionId, text: o.text, color: resolveOptionHex({ text: o.text, color: o.color, index: j }) })),
+    })),
+  };
+}
+
 // ─── "Others" assignment (18 generic questions) ──────────
 // When a user selects "Others" in domain selection there is no specific
 // domain. Reuses the existing categorized generic question pool (no new
@@ -235,6 +505,7 @@ async function buildGenericAssignment({ email, bt, browserId }) {
     domainId: null,
     businessType: bt.key,
     businessTypeId: bt._id,
+    kyRoot: resolveKyRoot(bt),
     startedAt: now,
     selectedQuestions: snap,
     answers: [],
@@ -261,7 +532,7 @@ async function buildGenericAssignment({ email, bt, browserId }) {
 // Disclaimer page and can be supplied later on the Result page. Only validate
 // when an email is actually provided; otherwise the session is created without
 // one (session.email stays null).
-export async function startKYAssignment(email, domainKey, businessTypeKey, browserId) {
+export async function startKYAssignment(email, domainKey, businessTypeKey, browserId, requestedRoot) {
   let normalizedEmail = null;
   if (email && String(email).trim()) {
     normalizedEmail = String(email).trim().toLowerCase();
@@ -275,6 +546,39 @@ export async function startKYAssignment(email, domainKey, businessTypeKey, brows
   const bt = await resolveActiveBusinessType(businessTypeKey);
   if (!bt) {
     throw Object.assign(new Error('Select a valid business type to continue'), { status: 400 });
+  }
+
+  // ── Routing is decided by the business type's configured question root, not
+  //    by anything the client sends. Start-Up and Non-Profit have no domain
+  //    selection, so they go straight into their own 18-question bank and any
+  //    domain that arrives with the request is ignored (it cannot belong to
+  //    them anyway — the frontend has no screen that could produce one).
+  //
+  //    Resolved STRICTLY: a business type bound to no root is a configuration
+  //    fault and throws here, rather than defaulting to Manufacturing &
+  //    Services and serving a Non-Profit user the wrong 18 questions.
+  const rootId = resolveKyRootStrict(bt);
+
+  // The client may declare which root it believes it is entering (the frontend
+  // sends it so the request is self-describing). It is only ever a CROSS-CHECK:
+  // it can never change the routing, but a mismatch means the two ends disagree
+  // about the configuration, which is worth surfacing loudly rather than
+  // silently serving the server's idea.
+  if (requestedRoot) {
+    const claimed = String(requestedRoot).toLowerCase().trim();
+    if (claimed !== rootId) {
+      throw Object.assign(
+        new Error(
+          `This assessment is configured for the ${labelForRoot(rootId)} question bank, but the ` +
+            `request asked for "${claimed}". Reload the page and try again.`
+        ),
+        { status: 400, details: { requestedRoot: claimed, resolvedRoot: rootId } }
+      );
+    }
+  }
+
+  if (!rootRequiresDomainSelection(rootId)) {
+    return buildDirectAssignment({ email: normalizedEmail, bt, browserId: normalizedBrowserId });
   }
 
   // "Others" is not a real domain — serve the generic 18-question pool.
@@ -353,6 +657,7 @@ export async function startKYAssignment(email, domainKey, businessTypeKey, brows
     domainId: domain._id,
     businessType: bt.key,
     businessTypeId: bt._id,
+    kyRoot: resolveKyRoot(bt),
     startedAt: now,
     selectedQuestions: allSnap,
     answers: [],
@@ -393,7 +698,7 @@ export async function resumeKYAssignment({ email, browserId }) {
 
   const session = await KnowYourselfSession.findOne(query)
     .sort({ lastActiveAt: -1, startedAt: -1 })
-    .select('sessionId email status businessType domain domainLabel selectedQuestions answers lastActiveAt startedAt')
+    .select('sessionId email status businessType kyRoot domain domainLabel selectedQuestions answers lastActiveAt startedAt')
     .lean();
 
   if (!session) return { session: null };
@@ -420,10 +725,15 @@ export async function resumeKYAssignment({ email, browserId }) {
   }
 
   let businessTypeLabel = session.businessType;
+  let businessTypeDoc = null;
   if (session.businessType) {
-    const bt = await resolveActiveBusinessType(session.businessType);
-    if (bt) businessTypeLabel = bt.name;
+    businessTypeDoc = await resolveActiveBusinessType(session.businessType);
+    if (businessTypeDoc) businessTypeLabel = businessTypeDoc.name;
   }
+  // The session's own root wins over the current BusinessType configuration, so
+  // a resumed Start-Up session is still recognised as Start-Up.
+  const kyRoot = getSessionKyRoot(session, businessTypeDoc);
+  const requiresDomainSelection = rootRequiresDomainSelection(kyRoot);
 
   const questions = (session.selectedQuestions || []).map((q, i) => ({
     questionIndex: i,
@@ -450,6 +760,8 @@ export async function resumeKYAssignment({ email, browserId }) {
       email: session.email || null,
       businessType: session.businessType,
       businessTypeLabel,
+      kyRoot,
+      requiresDomainSelection,
       domain: session.domain,
       domainLabel: session.domainLabel || session.domain,
       totalQuestions,
@@ -495,7 +807,12 @@ function bandForPercent(pct) {
 }
 
 async function buildKYResult(session) {
-  const cats = await getActiveKYCategories();
+  const cats = await getActiveKYCategories(session.kyRoot || session.businessType);
+  // The pillar set is the one this session was STARTED against — not whatever
+  // the business-type row says today and never a fallback to the shared set.
+  // A Start-Up session therefore always scores on the Start-Up pillars, and a
+  // historical session (no kyRoot, businessType service/null) still scores on
+  // the shared Manufacturing & Services pillars it was always scored on.
   const catByKey = new Map(cats.map((c) => [c.key, c]));
 
   // Aggregate answered scores per category using the session snapshot.

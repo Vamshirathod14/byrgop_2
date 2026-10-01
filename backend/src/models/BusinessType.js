@@ -7,6 +7,20 @@ const businessTypeSchema = new mongoose.Schema(
     key: { type: String, required: true, unique: true, lowercase: true, trim: true },
     name: { type: String, required: true, trim: true },
     description: { type: String, default: '', trim: true },
+    // Which Know Yourself question root this business type is assessed
+    // against. The root decides two things at runtime:
+    //   • whether the flow runs the domain-selection step, and
+    //   • which six-pillar structure the result is scored on.
+    // `manufacturing-services` is the default so every pre-existing type keeps
+    // its current behaviour; `startup` and `non-profit` skip domain selection
+    // and use their own question banks. See src/config/kyQuestionRoots.js.
+    kyRoot: {
+      type: String,
+      enum: ['manufacturing-services', 'startup', 'non-profit'],
+      default: 'manufacturing-services',
+      lowercase: true,
+      trim: true,
+    },
     sortOrder: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
   },

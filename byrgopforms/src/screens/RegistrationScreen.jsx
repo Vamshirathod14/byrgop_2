@@ -182,7 +182,7 @@ export default function RegistrationScreen({ onRegistered }) {
               required
               htmlFor={`v${index}-category`}
               error={showError(index, 'category') ? errors.category : ''}
-              help="Type the category that best describes this visitor (e.g. Manufacturing, Startup, Supplier)."
+              help="Type the category that best describes this visitor (e.g. Manufacturing, Start-Up, Supplier)."
             >
               <input
                 id={`v${index}-category`}

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { KY_ROOT_IDS } from '../config/kyQuestionRoots.js';
 
 const kyOptionSchema = new mongoose.Schema(
   {
@@ -83,10 +84,42 @@ const knowYourselfQuestionSchema = new mongoose.Schema(
     // selected for new assessments until an admin assigns one.
     category: { type: String, default: null, trim: true, lowercase: true },
     // Optional targeting: null/'' = applies to every business type.
+    //
+    // No enum is declared on purpose. Business types are admin-managed rows in
+    // the BusinessType collection (Start-Up, Non-Profit, Services, Manufacturing
+    // and anything added later), so a hardcoded list here would reject valid
+    // types. The key is validated against that collection in the controller
+    // (see activeBusinessTypeKeys() in knowYourselfService.js), which keeps the
+    // database the single source of truth.
     businessType: {
       type: String,
-      enum: [null, '', 'service', 'product', 'ngo'],
       default: null,
+      lowercase: true,
+      trim: true,
+    },
+    // Which Know Yourself root this question belongs to — the DENORMALISED form
+    // of `resolveKyRoot(businessType)`, stored so a question document states its
+    // own root instead of a reader having to re-derive it.
+    //
+    // It is written by the seeder and re-derived by the controller whenever
+    // `businessType` changes, so the two cannot disagree: the stored value is
+    // always exactly what the resolver would return.
+    //
+    //   non-profit                → the 18 Non-Profit questions
+    //   startup                   → the 18 Start-Up questions
+    //   manufacturing-services    → Manufacturing/Services questions
+    //   null                      → the shared generic pool (businessType is
+    //                                null, i.e. it applies to every business
+    //                                type) and the domain-specific questions
+    //
+    // DELIBERATELY no `default`. A default would make mongoose write
+    // `kyRoot: null` into every Manufacturing & Services document on the next
+    // save, changing rows this fix is not allowed to touch. Without a default
+    // the field is simply absent on documents that never set it, and the
+    // controller's re-derivation is what fills it in going forward.
+    kyRoot: {
+      type: String,
+      enum: [...KY_ROOT_IDS, null],
       lowercase: true,
       trim: true,
     },

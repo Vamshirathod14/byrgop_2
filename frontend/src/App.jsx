@@ -24,8 +24,23 @@ import {
   saveEmail,
   setRejectedResumeSession,
 } from './lib/kyIdentity.js';
+import {
+  SCREEN,
+  nextScreenAfterDisclaimer,
+  screenAfterBusinessTypeSelect,
+  screenAfterBusinessEntry,
+  isFirstTimeSelection,
+  screenAfterFirstTimeOnboarding,
+  kyRootFor,
+  resolveCarriedBusinessType,
+  isValidBusinessType,
+  requiresDomainSelection,
+  rootContentFor,
+  resultActionLabelFor,
+  resultHeadingLabelFor,
+} from './lib/kyFlow.js';
 import { brand } from './theme/brand.js';
-import { applyServerResult, buildLocalQuestion, makeSnapshotResult, optionColorFrom, optionStageFrom } from './onboarding.js';
+import { applyServerResult, buildLocalQuestion, makeSnapshotResult, optionColorFrom, optionStageFrom, kyKeyForOnboardingKey, onboardingKeyFor, onboardingQuestionsFromConfig } from './onboarding.js';
 
 const ease = [0.22, 1, 0.36, 1];
 const AboutScreenLazy = lazy(() => import('./screens/AboutScreen.jsx'));
@@ -194,6 +209,19 @@ export default function App() {
   // Go Back returns the user to that screen ('result' or 'about').
   const [kyDisclaimerOrigin, setKyDisclaimerOrigin] = useState('result');
   const [kyBusinessType, setKyBusinessType] = useState(null);
+  // Live mirror of `kyBusinessType`. The Business entry handler has to read the
+  // CURRENT selection to decide whether Business Type Selection is needed; a
+  // ref gives it that value without re-creating the callback on every
+  // selection, and without ever reading a stale closure.
+  const kyBusinessTypeRef = useRef(null);
+  useEffect(() => {
+    kyBusinessTypeRef.current = kyBusinessType;
+  }, [kyBusinessType]);
+  // `/know-yourself/meta` — the backend's routing contract. Supplies
+  // `requiresDomainSelection` per business type, so the app never hardcodes
+  // "Start-Up skips domain selection"; it follows backend configuration. Held in
+  // state rather than a ref so routing re-evaluates once the payload arrives.
+  const [kyMeta, setKyMeta] = useState(null);
   // optionId per question index — keeps selections when navigating back.
   const [kyAnswers, setKyAnswers] = useState([]);
   const [kySubmitting, setKySubmitting] = useState(false);
@@ -216,6 +244,20 @@ export default function App() {
   const [kyEmail, setKyEmail] = useState('');
   const [kyDomain, setKyDomain] = useState(null); // { slug, label }
   const [kySelectionMode, setKySelectionMode] = useState('select'); // 'select' | 'change'
+  // Live mirror of `kySelectionMode`, for the same reason as
+  // `kyBusinessTypeRef`: a selection handler must read the CURRENT mode.
+  const kySelectionModeRef = useRef('select');
+  useEffect(() => {
+    kySelectionModeRef.current = kySelectionMode;
+  }, [kySelectionMode]);
+  // Set while an onboarding run has been started by a first-time Business Type
+  // pick, and consumed by the completion of that run: it is the flag that sends
+  // the finished onboarding to the Disclaimer instead of the Result screen.
+  //
+  // A ref, not state, because it is read inside `handleAnswer` — the callback
+  // must see the flag without being re-created (and without a stale closure
+  // missing a flag that was set moments earlier).
+  const kyAfterOnboardingRef = useRef(false);
   // Incremented every time the user re-enters Domain Selection, so the screen
   // always remounts fresh and never carries stale `selected` state across a
   // change-Business or change-Domain round trip.
@@ -333,6 +375,29 @@ export default function App() {
       setIndex(0);
       setResult(null);
       setIntroBusinessType({ key, label });
+      // Stage 1 and Stage 2 are ONE journey: the business type is asked once,
+      // here on the landing page, and this is where the answer is carried into
+      // the Know Yourself half of the flow.
+      //
+      // The two halves name the same businesses differently — the onboarding
+      // bank is scoped by `nonprofit`/`manufacturing`, Know Yourself by
+      // `ngo`/`product` — so the pick is translated, not copied. Setting the
+      // state AND persisting it is what makes the CTA on the Stage 1 result go
+      // straight to the Disclaimer: `handleKYExplore` resolves a valid carried
+      // type to the Disclaimer and to the root's own question bank, instead of
+      // finding nothing and dropping the user back on Business Type selection.
+      //
+      // It is also what makes the Stage 1 result screen root-aware, because
+      // `actionLabel` resolves from the same value ("Your Foundation" for
+      // Non-Profit, "Your Business" for Mfg & Services, "Your Enterprise" for
+      // Start-Up) — the onboarding pie no longer calls a Foundation a business.
+      const kyKey = kyKeyForOnboardingKey(key);
+      if (kyKey) {
+        const carried = { key: kyKey, label };
+        setKyBusinessType(carried);
+        kyBusinessTypeRef.current = carried;
+        saveBusinessType(carried);
+      }
       setOnboardingQuestions(qs);
       setQuestion(buildLocalQuestion(qs[0]));
       setScreen('question');
@@ -379,7 +444,26 @@ export default function App() {
         // Admin-configured stage colours as soon as the backend result lands.
         const snapshot = makeSnapshotResult(next);
         setResult(snapshot);
-        setScreen('result');
+        // When this onboarding run was started by a first-time Business Type
+        // pick, the completed onboarding goes to the root's post-onboarding
+        // screen (see `screenAfterFirstTimeOnboarding`): the Disclaimer for
+        // every root except Non-Profit, which shows the onboarding pie first
+        // and reaches the Disclaimer via the Business button. The flag is
+        // consumed here so a later, unrelated onboarding run still ends on the
+        // Result screen. The snapshot is always built and still upgraded,
+        // because declining the Disclaimer — and the Non-Profit pie — land on
+        // this Result screen.
+        if (kyAfterOnboardingRef.current) {
+          kyAfterOnboardingRef.current = false;
+          const nextStop = screenAfterFirstTimeOnboarding(kyBusinessTypeRef.current, kyMeta);
+          // The pie IS the Result screen, so it needs no origin for the
+          // Business button; the Disclaimer is entered from it as a returning
+          // Business entry.
+          if (nextStop !== SCREEN.ONBOARDING_RESULT) setKyDisclaimerOrigin('result');
+          setScreen(nextStop);
+        } else {
+          setScreen('result');
+        }
         finishBackground().then((server) => {
           if (server) {
             const merged = applyServerResult(snapshot, server);
@@ -388,12 +472,27 @@ export default function App() {
         });
       }
     },
-    [question, index, answers, onboardingQuestions, persistAnswerLocal, finishBackground]
+    [
+      question,
+      index,
+      answers,
+      onboardingQuestions,
+      persistAnswerLocal,
+      finishBackground,
+      // The post-onboarding destination depends on which root this Business
+      // Type belongs to (Non-Profit shows the pie; every other root goes
+      // straight to the Disclaimer).
+      kyMeta,
+    ]
   );
 
   // Reset onboarding state and return to landing (timer expiry or logo click)
   const handleRestartOnboarding = useCallback(() => {
     answeredRef.current = false;
+    // Abandoning an onboarding run drops the "send this to the Disclaimer
+    // afterwards" intent with it, so a later onboarding run is never hijacked
+    // onto the Disclaimer by a flag left over from an abandoned one.
+    kyAfterOnboardingRef.current = false;
     setScreen('intro');
     setSessionId(null);
     setIndex(0);
@@ -453,6 +552,13 @@ export default function App() {
           domain: domain?.slug,
           email: kyEmail || getSavedEmail() || undefined,
           businessType: bt?.key,
+          // Send the root this business type is expected to be assessed against
+          // (e.g. "non-profit" for Non-Profit), so the request states which
+          // question bank it is asking for. The backend derives the root from
+          // the business type itself and only uses this as a cross-check — it
+          // refuses a request whose root disagrees, rather than ever letting
+          // the client redirect the assessment into another root's bank.
+          kyRoot: kyRootFor(bt, kyMeta) ?? undefined,
           browserId: getBrowserId(),
         });
         setKySessionId(session.sessionId);
@@ -468,7 +574,7 @@ export default function App() {
         setError(e.message);
       }
     },
-    [kyEmail]
+    [kyEmail, kyMeta]
   );
 
   // Domain chosen on the Domain Selection screen (initial or changed).
@@ -482,21 +588,120 @@ export default function App() {
     [kyBusinessType, restartKYAssignment]
   );
 
+  // Begin the assessment for a business type that has NO domain-selection step
+  // (Start-Up, Non-Profit). The backend serves that root's own 18-question bank
+  // and stores a null domain, so there is nothing to choose here.
+  const startDomainlessAssignment = useCallback(
+    (bt) => {
+      if (!isValidBusinessType(bt)) {
+        setScreen(SCREEN.BUSINESS_TYPE);
+        return;
+      }
+      restartKYAssignment({ bt, domain: null });
+    },
+    [restartKYAssignment]
+  );
+
+  // Apply a routing decision: a "questions" route has to actually start the
+  // assignment (there is no Domain Selection screen to start it from), every
+  // other route is just a screen change.
+  const goToRoute = useCallback(
+    (route, bt) => {
+      if (route === SCREEN.QUESTIONS) startDomainlessAssignment(bt);
+      else setScreen(route);
+    },
+    [startDomainlessAssignment]
+  );
+
+  // Begin the onboarding step that sits between a first-time Business Type pick
+  // and the Disclaimer:
+  //
+  //   Business Type → 3 onboarding questions → Disclaimer → next route
+  //
+  // The onboarding questions themselves are NOT authored here. They are the
+  // exact same Admin-configured questions the Intro screen resolves for the
+  // type, through the exact same `api.onboardingMeta` + `onboardingQuestionsFromConfig`
+  // pair, and they run through the existing `handleBegin` / `handleAnswer`
+  // machinery — so no onboarding content or logic changes.
+  //
+  // When the type has no onboarding questions configured, the questions are
+  // skipped but the Disclaimer is still the next stop. The waypoint is the
+  // requirement; the questions are only there when configured.
+  const startOnboardingForBusinessType = useCallback(
+    (bt) => {
+      const obKey = onboardingKeyFor(bt.key);
+      // No onboarding vocabulary for this type: go straight to the Disclaimer
+      // rather than stranding the user on a screen that does not exist.
+      if (!obKey) {
+        kyAfterOnboardingRef.current = false;
+        setScreen(SCREEN.DISCLAIMER);
+        return;
+      }
+      setBeginLoading(true);
+      api
+        .onboardingMeta(obKey)
+        .then((meta) => {
+          const questions = onboardingQuestionsFromConfig(meta && meta.questions);
+          if (!questions.length) {
+            kyAfterOnboardingRef.current = false;
+            setBeginLoading(false);
+            setScreen(SCREEN.DISCLAIMER);
+            return;
+          }
+          // A brand-new onboarding run under this business type. The background
+          // assessment session is reset so it can never carry the previous
+          // type's session or answers into this run.
+          bg.current.sessionReady = null;
+          bg.current.chain = Promise.resolve();
+          answeredRef.current = false;
+          // Consumed by `handleAnswer` on the last question: it routes the
+          // completed onboarding to the Disclaimer rather than the Result.
+          kyAfterOnboardingRef.current = true;
+          handleBegin(obKey, bt.label, questions);
+        })
+        .catch(() => {
+          // A failed config fetch must not dead-end the flow: the Disclaimer is
+          // still the next stop, and the user can retry from there.
+          kyAfterOnboardingRef.current = false;
+          setBeginLoading(false);
+          setScreen(SCREEN.DISCLAIMER);
+        });
+    },
+    [handleBegin]
+  );
+
   // Business Type chosen. In 'change' mode the existing domain may no longer
   // be valid under the new type (domains are scoped to a business type), so
   // we preserve the request by routing through Domain Selection in change-mode
   // where the user confirms/updates a domain under the new type before the
   // assessment restarts.
-  const handleBusinessTypeSelect = useCallback((key, label) => {
-    const next = { key, label };
-    setKyBusinessType(next);
-    saveBusinessType(next);
-    // The previously selected domain may not belong to the new Business Type —
-    // clear it so Domain Selection starts fresh under the new type.
-    setKyDomain(null);
-    setKyDomainNonce((n) => n + 1);
-    setScreen('kyDomainSelect');
-  }, []);
+  //
+  // A FIRST-TIME pick routes differently: the 3 onboarding questions come next
+  // and the Disclaimer after them, so a first-time pick never jumps straight
+  // to Domain Selection or the 18 questions. The Disclaimer is the consent
+  // gate, and it is what then decides between those two — still
+  // backend-driven via `requiresDomainSelection`:
+  //
+  //   Services / Manufacturing → Domain Selection
+  //   Start-Up / Non-Profit     → the 18 questions for that type
+  const handleBusinessTypeSelect = useCallback(
+    (key, label) => {
+      const next = { key, label };
+      setKyBusinessType(next);
+      saveBusinessType(next);
+      // The previously selected domain may not belong to the new Business Type —
+      // clear it so Domain Selection starts fresh under the new type.
+      setKyDomain(null);
+      setKyDomainNonce((n) => n + 1);
+
+      if (isFirstTimeSelection(kySelectionModeRef.current)) {
+        startOnboardingForBusinessType(next);
+        return;
+      }
+      goToRoute(screenAfterBusinessTypeSelect(next, kyMeta), next);
+    },
+    [kyMeta, goToRoute, startOnboardingForBusinessType]
+  );
 
   // Change actions from the questions screen.
   const handleChangeBusiness = useCallback(() => {
@@ -588,6 +793,22 @@ export default function App() {
     setKyQuestion(kyQuestions[prevIdx]);
   }, [kyIndex, kyQuestions, kySubmitting]);
 
+  // Load the routing contract once. A failure is non-fatal: `nextScreenAfter-
+  // Disclaimer` falls back to requiring domain selection, which is the safe
+  // direction, and the Business Type screen fetches the same payload anyway.
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .kyMeta()
+      .then((meta) => {
+        if (!cancelled) setKyMeta(meta);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // Look for an unfinished KY assignment for this caller (email when known,
   // otherwise the stable browser identifier) and offer to resume it. Runs
   // once per entry — never on every question/render — and never blocks the
@@ -614,17 +835,43 @@ export default function App() {
       .catch(() => {});
   }, []);
 
-  // Updated to go to disclaimer first. `origin` records the screen the
-  // disclaimer was opened from, so Go Back on the disclaimer returns there.
+  // The Business entry handler — what the landing page's "Your Business" button
+  // does, and what the logo click and the About page's call to action share.
+  //
+  // ONE rule, and no fresh-user/returning-user branch:
+  //
+  //   Business Type exists in the current session → Disclaimer
+  //   Business Type does not exist                 → Business Type Selection
+  //
+  // So the only question is whether a Business Type has already been selected
+  // in this session; there is no concept of a new or returning user, because
+  // login is temporary and everybody follows the same flow.
+  //
+  // `origin` records the screen the disclaimer was opened from, so Go Back on
+  // the disclaimer returns there.
   const handleKYExplore = useCallback(
     (origin = 'result') => {
       setKyDisclaimerOrigin(origin);
-      setScreen('kyDisclaimer');
-      // Reuse the previously selected Business Type (persisted alongside the
-      // KY email/browser identity) so re-entering the Business tab skips the
-      // Business Type selection — the in-memory state stays the single source
-      // of truth, this only hydrates it on a fresh page/visit.
-      setKyBusinessType(getSavedBusinessType() || null);
+      // Hydrate the Business Type from the existing `byrgop_ky_business_type`
+      // persistence ONLY when there is nothing usable in memory.
+      //
+      // BUG FIX: this used to be `setKyBusinessType(getSavedBusinessType() ||
+      // null)`, an unconditional overwrite. Any path that had cleared storage
+      // (see applyResume below) therefore destroyed a perfectly good in-memory
+      // selection, and the Disclaimer then routed to the Business Type screen
+      // again — the intermittent
+      // "Business Type → onboarding → Disclaimer → Business Type AGAIN" loop.
+      //
+      // `resolveCarriedBusinessType` only ever returns a valid value or null,
+      // so an existing selection can never be replaced by null/undefined/''.
+      const carried = resolveCarriedBusinessType({
+        current: kyBusinessTypeRef.current,
+        incoming: getSavedBusinessType(),
+      });
+      setKyBusinessType(carried);
+      // The screen decision and the state update are made from the SAME value,
+      // so they can never disagree about whether a Business Type exists.
+      setScreen(screenAfterBusinessEntry(carried));
       setKySessionId(null);
       setKyQuestions([]);
       setKyIndex(0);
@@ -639,7 +886,7 @@ export default function App() {
       kyPendingRef.current = [];
       checkForResume();
     },
-    [checkForResume],
+    [checkForResume]
   );
 
   // Offer to resume an in-progress assessment as soon as the app loads, so a
@@ -661,10 +908,35 @@ export default function App() {
     setKyResumeCandidate(null);
     kyResumeCheckRef.current += 1;
     setKySessionId(session.sessionId);
-    const resumedBt = { key: session.businessType, label: session.businessTypeLabel };
-    setKyBusinessType(resumedBt);
-    saveBusinessType(resumedBt);
-    setKyDomain({ slug: session.domain, label: session.domainLabel });
+    // ROOT CAUSE of the intermittent Business Type re-prompt.
+    //
+    // This used to unconditionally do:
+    //     const resumedBt = { key: session.businessType, ... };
+    //     setKyBusinessType(resumedBt);
+    //     saveBusinessType(resumedBt);
+    // For a session whose `businessType` is null (any session created before
+    // the business type was persisted, and the legacy generic KY session) that
+    // builds `{ key: null }`, and `saveBusinessType` treats a missing key as an
+    // explicit CLEAR — it removes `byrgop_ky_business_type` from storage. The
+    // user's saved Business Type was therefore destroyed as a side effect of
+    // resuming an unrelated session, and the next Business tab entry had
+    // nothing to reuse. Whether it happened depended purely on which session
+    // happened to be resumable, which is why the behaviour was intermittent.
+    //
+    // Fix at the smallest point: a session only ever OVERWRITES the business
+    // type when it actually carries a valid one. Otherwise the existing
+    // selection is left exactly as it is.
+    const sessionKey = typeof session.businessType === 'string' ? session.businessType.trim() : '';
+    if (sessionKey) {
+      const resumedBt = { key: sessionKey, label: session.businessTypeLabel || '' };
+      setKyBusinessType((prev) => resolveCarriedBusinessType({ current: prev, incoming: resumedBt }) || resumedBt);
+      saveBusinessType(resumedBt);
+    }
+    // A session with no domain belongs to a no-domain business type
+    // (Start-Up / Non-Profit). Storing `{ slug: null }` would render as a blank
+    // domain chip on the questions and result screens.
+    const sessionDomain = typeof session.domain === 'string' ? session.domain.trim() : '';
+    setKyDomain(sessionDomain ? { slug: session.domain, label: session.domainLabel } : null);
     setKyQuestions(session.questions);
     setKyAnswers(session.answers);
     setKyEmail(session.email || '');
@@ -785,7 +1057,18 @@ export default function App() {
           >
             <ResultScreen
               result={result}
-              onKY={handleKYExplore}
+              // "Your Business" for Mfg & Services, "Your Enterprise" for
+              // Start-Up, "Your Foundation" for Non-Profit — resolved from the
+              // CURRENT business type via `/know-yourself/meta`, not hard-coded
+              // in the screen and not read from localStorage.
+              actionLabel={resultActionLabelFor(kyBusinessType, kyMeta)}
+              // Called as a zero-arg handler. Wired directly it would receive
+              // the click SyntheticEvent and store it as the Disclaimer's
+              // `origin`, which only ever read correctly because both branches
+              // default to 'result'. The Non-Profit onboarding pie reaches the
+              // Disclaimer through this very button, so the origin is now
+              // stated explicitly instead of depending on that coincidence.
+              onKY={() => handleKYExplore('result')}
               onAbout={() => setScreen('about')}
               onLogoClick={handleLogoClickHome}
               onRetake={() => {
@@ -818,16 +1101,28 @@ export default function App() {
             transition={{ duration: 0.5 }}
           >
             <DisclaimerScreen
+              // The Disclaimer copy for the business type being assessed RIGHT
+              // NOW. It is resolved from `kyBusinessType` — the same in-session
+              // value the accept-handler routes on — and `kyMeta`. Reading a
+              // persisted type from storage here is what let a stale Non-Profit
+              // user be shown the Manufacturing & Services disclaimer.
+              content={rootContentFor(kyBusinessType, kyMeta)}
               onAccept={({ email }) => {
                 kyResumeCheckRef.current += 1;
                 setKyResumeCandidate(null);
                 saveEmail(email || '');
                 setKyEmail(email || '');
-                // A previously selected Business Type is reused: skip the
-                // Business Type screen and go straight to Domain Selection
-                // (filtered server-side by the selected type). Fresh visitors
-                // with no prior selection keep the existing selection flow.
-                setScreen(kyBusinessType ? 'kyDomainSelect' : 'kyBusinessType');
+                // The single routing decision for the whole flow.
+                //
+                // A valid saved Business Type is reused, so Business Type is
+                // asked exactly once. Whether the next screen is Domain
+                // Selection or the questions comes from the backend's
+                // `requiresDomainSelection` flag, not from a hardcoded list:
+                //
+                //   nothing saved            → Business Type
+                //   Services / Manufacturing → Domain Selection
+                //   Start-Up / Non-Profit     → the 18 questions
+                goToRoute(nextScreenAfterDisclaimer(kyBusinessType, kyMeta), kyBusinessType);
               }}
               onDecline={() => {
                 setScreen(kyDisclaimerOrigin === 'about' ? 'about' : 'result');
@@ -919,6 +1214,14 @@ export default function App() {
               domainLabel={kyDomain?.label}
               onChangeBusiness={handleChangeBusiness}
               onChangeDomain={handleChangeDomain}
+              // The Business Type is asked once, on the landing page, and a root
+              // with no domain step has no domain to change. For those roots the
+              // question screen therefore offers NEITHER a second Business Type
+              // selection NOR a Domain selection — both are read from the same
+              // backend `requiresDomainSelection` flag the routing uses, so this
+              // is configuration rather than a hardcoded root list. Services and
+              // Manufacturing are true and keep both Change controls unchanged.
+              canChangeSelection={requiresDomainSelection(kyBusinessType, kyMeta)}
             />
           </motion.div>
         )}
@@ -972,6 +1275,12 @@ export default function App() {
             <KnowYourselfResult
               result={kyResult}
               sessionId={kySessionId}
+              // "Business" / "Enterprise" / "Foundation" — the root's own label,
+              // resolved from the same `/know-yourself/meta` content that
+              // decided the question bank, so the result screen can never be
+              // titled for a different kind of organisation than the one that
+              // was just assessed.
+              resultHeadingLabel={resultHeadingLabelFor(kyBusinessType, kyMeta)}
               onExplore={() => setScreen('about')}
               onLogoClick={handleLogoClick}
               onLogout={handleLogout}

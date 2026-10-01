@@ -2,6 +2,7 @@ import { asyncHandler } from '../middleware/errors.js';
 import BusinessType, { slugifyTypeKey } from '../models/BusinessType.js';
 import Domain from '../models/Domain.js';
 import { logAudit, auditFrom } from '../services/auditService.js';
+import { KY_ROOTS, resolveKyRoot, rootRequiresDomainSelection } from '../config/kyQuestionRoots.js';
 
 // ─── Admin: main business types (hierarchy root) ──────────
 
@@ -14,7 +15,15 @@ export const listBusinessTypes = asyncHandler(async (req, res) => {
   ]);
   const countByType = new Map(counts.map((c) => [String(c._id), c.n]));
   res.json(
-    types.map((t) => ({ ...t, domainCount: countByType.get(String(t._id)) || 0 }))
+    types.map((t) => {
+      const kyRoot = resolveKyRoot(t);
+      return {
+        ...t,
+        kyRoot,
+        requiresDomainSelection: rootRequiresDomainSelection(kyRoot),
+        domainCount: countByType.get(String(t._id)) || 0,
+      };
+    })
   );
 });
 
@@ -42,6 +51,9 @@ export const createBusinessType = asyncHandler(async (req, res) => {
     name: trimmedName,
     key: typeKey,
     description: typeof description === 'string' ? description.trim() : '',
+    kyRoot: KY_ROOTS.some((r) => r.id === String(req.body?.kyRoot || '').toLowerCase().trim())
+      ? String(req.body.kyRoot).toLowerCase().trim()
+      : undefined,
     sortOrder: Number.isFinite(Number(sortOrder)) ? Number(sortOrder) : 0,
     active: active !== false,
   });
@@ -70,6 +82,16 @@ export const updateBusinessType = asyncHandler(async (req, res) => {
   if (typeof description === 'string') bt.description = description.trim();
   if (sortOrder !== undefined) bt.sortOrder = Number(sortOrder) || 0;
   if (active !== undefined) bt.active = active === true;
+  // The KY question root is admin-configurable, which is what makes the
+  // Start-Up / Non-Profit "no domain selection" routing configuration rather
+  // than frontend hardcoding.
+  if (req.body?.kyRoot !== undefined) {
+    const requested = String(req.body.kyRoot).toLowerCase().trim();
+    if (!KY_ROOTS.some((r) => r.id === requested)) {
+      return res.status(400).json({ error: `Unknown KY question root "${req.body.kyRoot}"` });
+    }
+    bt.kyRoot = requested;
+  }
   // Key is immutable — it is referenced by existing sessions and questions.
   if (req.body?.key && slugifyTypeKey(req.body.key) !== bt.key) {
     return res.status(400).json({ error: 'Business type key cannot be changed' });

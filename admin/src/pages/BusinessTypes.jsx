@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import api from '../api/client.js';
+import { DEFAULT_KY_ROOT, KY_ROOTS } from '../lib/kyRoots.js';
 
-const empty = { name: '', key: '', description: '', sortOrder: 0, active: true };
+const empty = { name: '', key: '', description: '', kyRoot: DEFAULT_KY_ROOT, sortOrder: 0, active: true };
 
 function BusinessTypeForm({ initial, nextSortOrder, onCancel, onSaved }) {
   const isEdit = !!initial?._id;
@@ -10,6 +11,7 @@ function BusinessTypeForm({ initial, nextSortOrder, onCancel, onSaved }) {
       ? {
           name: initial.name,
           description: initial.description || '',
+          kyRoot: initial.kyRoot || DEFAULT_KY_ROOT,
           sortOrder: initial.sortOrder ?? 0,
           active: initial.active,
         }
@@ -28,6 +30,11 @@ function BusinessTypeForm({ initial, nextSortOrder, onCancel, onSaved }) {
       const payload = {
         name: form.name.trim(),
         description: form.description.trim(),
+        // The Know Yourself question root this type is assessed against.
+        // It decides both whether the domain-selection step runs and which
+        // six-pillar result structure scores the assessment — configured here
+        // rather than hardcoded in the visitor app.
+        kyRoot: form.kyRoot,
         sortOrder: Number(form.sortOrder) || 0,
         active: form.active,
       };
@@ -78,6 +85,28 @@ function BusinessTypeForm({ initial, nextSortOrder, onCancel, onSaved }) {
           value={form.description}
           onChange={(e) => set({ description: e.target.value })}
         />
+      </div>
+      <div>
+        <label className="mb-1 block text-xs uppercase tracking-[0.15em] text-mist-muted">
+          Know Yourself question root
+        </label>
+        <select
+          className="input"
+          value={form.kyRoot}
+          onChange={(e) => set({ kyRoot: e.target.value })}
+        >
+          {KY_ROOTS.map((r) => (
+            <option key={r.id} value={r.id}>
+              {r.short}
+              {r.requiresDomainSelection ? ' — includes domain selection' : ' — no domain selection'}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1 text-xs text-mist-muted">
+          Decides whether users of this business type see the domain-selection step, and which
+          six-pillar result structure scores their assessment. Changing it repoints this type at a
+          different question bank and pillar set in Admin → KY Questions.
+        </p>
       </div>
       {err && <p className="text-sm text-red-700">{err}</p>}
       <div className="flex gap-2">
@@ -190,16 +219,33 @@ export default function BusinessTypes() {
                         {t.active ? 'Active' : 'Inactive'}
                       </span>
                       <span className="badge bg-slate-50 font-mono text-[10px] text-mist-muted">{t.key}</span>
+                      <span
+                        className="badge shrink-0 bg-violet-500/10 text-violet-700"
+                        title={
+                          t.requiresDomainSelection
+                            ? 'Users of this type are asked to choose a domain after the disclaimer'
+                            : 'Users of this type go straight from the disclaimer into their 18 questions'
+                        }
+                      >
+                        KY root: {KY_ROOTS.find((r) => r.id === t.kyRoot)?.label || t.kyRoot}
+                        {t.requiresDomainSelection === false ? ' · no domain' : ''}
+                      </span>
                     </div>
                     {t.description && <p className="mt-1 text-xs text-mist-muted">{t.description}</p>}
                     <p className="mt-1 text-[11px] text-mist-muted/80">
                       order #{t.sortOrder} ·{' '}
-                      <button
-                        className="underline decoration-dotted underline-offset-2 hover:text-mist"
-                        onClick={() => window.alert(`Open Admin → KY Domains to manage the domains under "${t.name}".`)}
-                      >
-                        {t.domainCount} domain{t.domainCount === 1 ? '' : 's'}
-                      </button>
+                      {t.requiresDomainSelection === false ? (
+                        <span>no domain-selection step</span>
+                      ) : (
+                        <>
+                          <button
+                            className="underline decoration-dotted underline-offset-2 hover:text-mist"
+                            onClick={() => window.alert(`Open Admin → KY Domains to manage the domains under "${t.name}".`)}
+                          >
+                            {t.domainCount} domain{t.domainCount === 1 ? '' : 's'}
+                          </button>
+                        </>
+                      )}
                     </p>
                   </div>
                   <div className="flex shrink-0 items-center gap-1.5">

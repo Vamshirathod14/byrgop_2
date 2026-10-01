@@ -3,8 +3,42 @@ import Domain from '../models/Domain.js';
 import KYCategory from '../models/KYCategory.js';
 import { isAnswerColour } from '../config/optionColors.js';
 import { logAudit, auditFrom } from '../services/auditService.js';
+import { activeBusinessTypeKeys } from '../services/knowYourselfService.js';
+import {
+  KY_ROOT_IDS,
+  DEFAULT_KY_ROOT,
+  rootRequiresDomainSelection,
+  resolveKyRoot,
+  businessTypesForRoot,
+} from '../config/kyQuestionRoots.js';
 
-const BUSINESS_TYPE_KEYS = ['service', 'product', 'ngo'];
+// The shared Manufacturing & Services pillar set is stored with a null kyRoot.
+const DEFAULT_KY_CATEGORY_ROOT = DEFAULT_KY_ROOT;
+
+/**
+ * The KY root a question document belongs to.
+ *
+ * Mirrors the KYCategory convention: a question with no `businessType` is part
+ * of the SHARED pool, so its root is `null`, not a guess at a default. A
+ * question that names a business type inherits that type's root.
+ */
+function rootForQuestion(businessTypeKey) {
+  return businessTypeKey ? resolveKyRoot(businessTypeKey) : null;
+}
+
+// Business-type keys are NOT hardcoded. They are admin-managed rows in the
+// BusinessType collection (Services, Manufacturing, Start-Up, Non-Profit and
+// anything added later), so validity is checked against that collection. This
+// is what lets a newly configured Start-Up type be used without a code change.
+async function assertKnownBusinessType(key) {
+  if (!key) return null; // null = applies to every business type
+  const keys = await activeBusinessTypeKeys();
+  const normalized = String(key).toLowerCase().trim();
+  if (!keys.includes(normalized)) {
+    return { error: `Invalid business type "${key}". Select a business type from the list.` };
+  }
+  return normalized;
+}
 
 // Validates a single option's colour. Returns null when the colour is absent
 // (the render defaults apply), { error } when present but not a valid hex.
@@ -41,13 +75,28 @@ function sanitizeGlossary(raw) {
   return out;
 }
 
-async function resolveCategoryKey(raw) {
+/**
+ * Resolve a pillar/category key for a question.
+ *
+ * A question is scoped to a KY root (derived from its business type), and it
+ * may only be assigned a pillar from that root. Without this, a Start-Up
+ * question could be tagged with a Services pillar and then be dropped at
+ * scoring time because the Start-Up result has no such pillar.
+ *
+ *   undefined = invalid, null = explicitly none
+ */
+async function resolveCategoryKey(raw, businessTypeKey) {
   const value = typeof raw === 'string' ? raw.trim() : '';
   if (!value) return null;
+  const rootId = resolveKyRoot(businessTypeKey);
+  // The shared Manufacturing & Services pillars are stored with a null kyRoot.
+  const rootClause =
+    rootId === DEFAULT_KY_CATEGORY_ROOT ? { $in: [null, ''] } : { $in: [rootId] };
   const cat = await KYCategory.findOne({
+    kyRoot: rootClause,
     $or: [{ key: value.toLowerCase() }, { name: new RegExp(`^${value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') }],
   });
-  return cat ? cat.key : undefined; // undefined = invalid, null = explicitly none
+  return cat ? cat.key : undefined;
 }
 
 export const listKYDomains = async (_req, res, next) => {
@@ -70,8 +119,33 @@ export const listKYQuestions = async (req, res, next) => {
     if (req.query.includeInactive !== 'true') filter.active = true;
     if (req.query.type) filter.type = req.query.type;
     if (req.query.domain) filter.domain = req.query.domain;
+    if (req.query.category) filter.category = String(req.query.category).toLowerCase();
+    if (req.query.businessType) filter.businessType = String(req.query.businessType).toLowerCase();
+    // `?root=<id>` scopes the list to one of the three Admin roots. For a
+    // business type that requires domain selection the shared questions (those
+    // with no businessType) belong to the root too; for Start-Up and Non-Profit
+    // the filter is strict so their roots can never show each other's questions.
+    if (req.query.root) {
+      const rootId = String(req.query.root).toLowerCase().trim();
+      const keys = businessTypesForRoot(rootId);
+      if (rootRequiresDomainSelection(rootId)) {
+        filter.$or = [{ businessType: null }, { businessType: '' }, { businessType: { $in: keys } }];
+      } else {
+        filter.businessType = { $in: keys };
+      }
+    }
     const questions = await KnowYourselfQuestion.find(filter).sort({ createdAt: -1 });
-    res.json(questions);
+    // `kyRoot` is reported for EVERY question, stored or derived, so an Admin
+    // client can see which root each row belongs to without re-implementing the
+    // resolver. Documents written before the field existed fall back to the
+    // value their `businessType` resolves to, which is the same rule the
+    // seeder applies.
+    res.json(
+      questions.map((q) => ({
+        ...q.toObject(),
+        kyRoot: q.kyRoot ?? rootForQuestion(q.businessType),
+      }))
+    );
   } catch (err) { next(err); }
 };
 
@@ -106,13 +180,16 @@ export const createKYQuestion = async (req, res, next) => {
     if (qType === 'domain' && !qDomain) {
       return res.status(400).json({ error: 'Invalid domain. Select a domain from the list.' });
     }
-    const categoryKey = await resolveCategoryKey(category);
+    const qBusinessType = await assertKnownBusinessType(businessType);
+    if (qBusinessType?.error) return res.status(400).json({ error: qBusinessType.error });
+
+    // The pillar must belong to the same KY root as the question's business
+    // type, so a Start-Up question can never be scored on a Services pillar.
+    const categoryKey = await resolveCategoryKey(category, qBusinessType);
     if (categoryKey === undefined) {
-      return res.status(400).json({ error: 'Invalid category. Select a result category from the list.' });
-    }
-    let qBusinessType = businessType || null;
-    if (qBusinessType && !BUSINESS_TYPE_KEYS.includes(qBusinessType)) {
-      return res.status(400).json({ error: 'Invalid business type' });
+      return res.status(400).json({
+        error: 'Invalid category. Select a result category that belongs to this business type\'s pillar set.',
+      });
     }
     const q = await KnowYourselfQuestion.create({
       text: text.trim(),
@@ -124,7 +201,13 @@ export const createKYQuestion = async (req, res, next) => {
       businessType: qBusinessType,
       glossary,
     });
-    await logAudit({ ...auditFrom(req), action: 'ky_question.created', entity: 'ky_question', entityId: q._id, metadata: { text: q.text, type: qType, domain: qDomain, category: categoryKey } });
+    // Stamp the root the question now belongs to. The shared pool (no business
+    // type) is deliberately left without the field, exactly as it already is.
+    if (qBusinessType) {
+      q.kyRoot = rootForQuestion(qBusinessType);
+      await q.save();
+    }
+    await logAudit({ ...auditFrom(req), action: 'ky_question.created', entity: 'ky_question', entityId: q._id, metadata: { text: q.text, type: qType, domain: qDomain, category: categoryKey, kyRoot: q.kyRoot ?? null } });
     res.status(201).json(q);
   } catch (err) { next(err); }
 };
@@ -144,18 +227,19 @@ export const updateKYQuestion = async (req, res, next) => {
     } else if (q.type === 'generic') {
       q.domain = null;
     }
+    if (businessType !== undefined) {
+      const checked = await assertKnownBusinessType(businessType);
+      if (checked?.error) return res.status(400).json({ error: checked.error });
+      q.businessType = checked || null;
+    }
     if (category !== undefined) {
-      const categoryKey = await resolveCategoryKey(category);
+      const categoryKey = await resolveCategoryKey(category, q.businessType);
       if (categoryKey === undefined) {
-        return res.status(400).json({ error: 'Invalid category. Select a result category from the list.' });
+        return res.status(400).json({
+          error: 'Invalid category. Select a result category that belongs to this business type\'s pillar set.',
+        });
       }
       q.category = categoryKey;
-    }
-    if (businessType !== undefined) {
-      if (businessType && !BUSINESS_TYPE_KEYS.includes(businessType)) {
-        return res.status(400).json({ error: 'Invalid business type' });
-      }
-      q.businessType = businessType || null;
     }
     if (options !== undefined) {
       if (options.length !== 4) return res.status(400).json({ error: 'Exactly 4 options are required' });
@@ -177,8 +261,14 @@ export const updateKYQuestion = async (req, res, next) => {
       }
       q.glossary = glossary;
     }
+    // Re-derive the root from the (possibly just-changed) business type so the
+    // stored `kyRoot` can never drift from it. A question in the shared pool
+    // that has never carried the field is left without one.
+    const derivedRoot = rootForQuestion(q.businessType);
+    if (derivedRoot !== null || q.kyRoot != null) q.kyRoot = derivedRoot;
+
     await q.save();
-    await logAudit({ ...auditFrom(req), action: 'ky_question.updated', entity: 'ky_question', entityId: q._id, metadata: { text: q.text, type: q.type, domain: q.domain } });
+    await logAudit({ ...auditFrom(req), action: 'ky_question.updated', entity: 'ky_question', entityId: q._id, metadata: { text: q.text, type: q.type, domain: q.domain, kyRoot: derivedRoot } });
     res.json(q);
   } catch (err) { next(err); }
 };

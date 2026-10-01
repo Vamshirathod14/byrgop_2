@@ -9,7 +9,7 @@ export const ONBOARDING_BUSINESS_TYPES = [
   { key: 'service', label: 'Services' },
   { key: 'manufacturing', label: 'Manufacturing' },
   { key: 'nonprofit', label: 'Non-Profit' },
-  { key: 'startup', label: 'Startup' },
+  { key: 'startup', label: 'Start-Up' },
 ];
 
 export const ONBOARDING_BUSINESS_TYPE_KEYS = ONBOARDING_BUSINESS_TYPES.map(

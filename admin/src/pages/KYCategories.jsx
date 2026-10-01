@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import api from '../api/client.js';
 import { adminBrand as brand } from '../theme/brand.js';
+import { DEFAULT_KY_ROOT, getKyRoot } from '../lib/kyRoots.js';
 
 const empty = { name: '', description: '', color: brand.palette.blue[500], sortOrder: 0, active: true };
 
-function CategoryForm({ initial, nextSortOrder, onCancel, onSaved }) {
+function CategoryForm({ initial, nextSortOrder, root, onCancel, onSaved }) {
   const isEdit = !!initial?._id;
   const [form, setForm] = useState(
     initial
@@ -34,6 +35,10 @@ function CategoryForm({ initial, nextSortOrder, onCancel, onSaved }) {
         sortOrder: Number(form.sortOrder) || 0,
         active: form.active,
       };
+      // The root is only sent on create; a pillar can never be moved between
+      // roots, because doing so would silently re-point every question that
+      // references its key at a different result structure.
+      if (!isEdit) payload.kyRoot = root;
       if (isEdit) await api.updateKYCategory(`/admin/know-yourself/categories/${initial._id}`, payload);
       else await api.createKYCategory('/admin/know-yourself/categories', payload);
       onSaved();
@@ -104,7 +109,8 @@ function CategoryForm({ initial, nextSortOrder, onCancel, onSaved }) {
   );
 }
 
-export default function KYCategories() {
+export default function KYCategories({ root = DEFAULT_KY_ROOT }) {
+  const kyRoot = getKyRoot(root);
   const [categories, setCategories] = useState([]);
   const [editing, setEditing] = useState(null);
   const [showCreate, setShowCreate] = useState(false);
@@ -113,12 +119,20 @@ export default function KYCategories() {
 
   const load = useCallback(async () => {
     try {
-      setCategories(await api.kyCategories());
+      // Scoped to this root on the server: the three six-pillar structures are
+      // never shown mixed in one flat list.
+      //
+      // A root without a domain-selection step (Start-Up, Non-Profit) asks for
+      // the live pillars only, so a superseded pillar set is never offered
+      // here and can never be picked for one of that root's questions. The rows
+      // stay in the database; only the domain-selection root, which genuinely
+      // has retired pillars to manage, still asks for them.
+      setCategories(await api.kyCategories(kyRoot.id, kyRoot.requiresDomainSelection));
       setErr(null);
     } catch (e) {
       setErr(e.message);
     }
-  }, []);
+  }, [kyRoot.id, kyRoot.requiresDomainSelection]);
 
   useEffect(() => {
     load();
@@ -171,16 +185,25 @@ export default function KYCategories() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-3">
+      <div className="rounded-xl border border-slate-200 bg-white p-4">
+        <span className="badge bg-slate-900/10 text-slate-800">Root: {kyRoot.short}</span>
+        <p className="mt-2 text-sm text-mist-muted">{kyRoot.blurb}</p>
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-mist">KY Result Categories</h1>
+          <h1 className="font-display text-3xl font-semibold text-mist">
+            KY Result Pillars
+            <span className="ml-2 align-middle text-base font-normal text-mist-muted">{kyRoot.label}</span>
+          </h1>
           <p className="mt-1 text-sm text-mist-muted">
-            {categories.length} categories · {activeCount} active — the six dimensions scored by the Know Yourself assessment
+            {categories.length} pillars · {activeCount} active — the six dimensions scored for{' '}
+            {kyRoot.short} by the Know Yourself assessment
           </p>
         </div>
         {!showCreate && (
           <button className="btn-primary" onClick={() => setShowCreate(true)}>
-            + New category
+            + New pillar
           </button>
         )}
       </div>
@@ -190,6 +213,7 @@ export default function KYCategories() {
       {showCreate && (
         <div className="mt-6">
           <CategoryForm
+            root={kyRoot.id}
             nextSortOrder={categories.length + 1}
             onCancel={() => setShowCreate(false)}
             onSaved={async () => {
@@ -265,7 +289,8 @@ export default function KYCategories() {
 
       {categories.length === 0 && !showCreate && !err && (
         <p className="mt-10 text-center text-sm text-mist-muted">
-          No categories yet. The six default categories are created automatically when the first assessment runs.
+          No pillars configured for {kyRoot.short} yet. The six default pillars for this root are created
+          automatically the first time it is used.
         </p>
       )}
     </div>

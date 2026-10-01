@@ -495,7 +495,25 @@ function Field({ label, children, className = '' }) {
 const inputCls = 'w-full rounded-xl border border-white/12 bg-white/[0.04] px-4 py-2.5 text-sm outline-none transition-colors focus:border-white/25 disabled:opacity-50';
 
 /* ── Main ───────────────────────────────────────────────── */
-export default function KnowYourselfResult({ result, sessionId, onExplore, onLogoClick, onLogout }) {
+// The noun in the "… Health Score" heading. It is the root's own label with the
+// leading "Your" removed, so the result screen cannot call a Foundation a
+// business: "Business" for Mfg & Services, "Enterprise" for Start-Up,
+// "Foundation" for Non-Profit. Defaults to the Manufacturing & Services wording,
+// which is what this screen showed before it was root-aware.
+function healthScoreEntity(headingLabel) {
+  const stripped = String(headingLabel ?? '').replace(/^\s*your\s+/i, '').trim();
+  return stripped || 'Business';
+}
+
+export default function KnowYourselfResult({
+  result,
+  sessionId,
+  onExplore,
+  onLogoClick,
+  onLogout,
+  resultHeadingLabel,
+}) {
+  const entityLabel = healthScoreEntity(resultHeadingLabel);
   const data = result?.result;
   const isV2 = !!data?.version && Array.isArray(data.categories);
 
@@ -565,7 +583,7 @@ export default function KnowYourselfResult({ result, sessionId, onExplore, onLog
         <div className="relative z-10 flex flex-col items-center justify-center">
           <ContextChips businessTypeLabel={result.businessTypeLabel} domainLabel={result.domainLabel || data?.domainLabel} />
           <h1 className="font-display mt-8 text-center text-3xl font-bold sm:text-4xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-            Business <span className="font-display font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
+            {entityLabel} <span className="font-display font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
           </h1>
           <div className="mt-10 flex flex-col items-center">
             <ScoreRing percent={pct} label="Score" />
@@ -670,7 +688,7 @@ export default function KnowYourselfResult({ result, sessionId, onExplore, onLog
           {brand.tagline}
         </span>
         <h1 className="font-display mt-2 text-2xl font-bold uppercase tracking-wide sm:text-3xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-          Business <span className="font-display italic normal-case font-semibold" style={{ color: brand.accent }}>Health</span> Score
+          {entityLabel} <span className="font-display italic normal-case font-semibold" style={{ color: brand.accent }}>Health</span> Score
         </h1>
         <div className="mt-5">
           <ContextChips

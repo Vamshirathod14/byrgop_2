@@ -11,8 +11,71 @@ export const ONBOARDING_BUSINESS_TYPES = [
   { key: 'service', label: 'Services' },
   { key: 'manufacturing', label: 'Manufacturing' },
   { key: 'nonprofit', label: 'Non-Profit' },
-  { key: 'startup', label: 'Startup' },
+  { key: 'startup', label: 'Start-Up' },
 ];
+
+const ONBOARDING_TYPE_SET = new Set(ONBOARDING_BUSINESS_TYPES.map((t) => t.key));
+
+// The four products are the same in both flows, but each store names them in
+// its own vocabulary: Know Yourself business types are `service` / `product` /
+// `ngo` / `startup`, while the onboarding question bank is scoped by
+// `service` / `manufacturing` / `nonprofit` / `startup`. This is the one place
+// that translates a Know Yourself business type into the key the onboarding
+// questions are actually stored under, so the onboarding step can look up the
+// questions for the type the user just picked instead of silently finding none.
+//
+// Kept here rather than in App.jsx because this module already owns the
+// onboarding business-type vocabulary above.
+const ONBOARDING_KEY_BY_KY_KEY = Object.freeze({
+  service: 'service',
+  product: 'manufacturing',
+  ngo: 'nonprofit',
+  startup: 'startup',
+});
+
+/**
+ * The onboarding business-type key for a Know Yourself business type, or null
+ * when the two vocabularies have no correspondence.
+ *
+ * A key that is already an onboarding key resolves to itself, so the two
+ * vocabularies can converge (or a caller can already speak onboarding) without
+ * this needing to change. Anything unknown resolves to null rather than being
+ * passed through, because the onboarding endpoint rejects an unrecognised
+ * business type with a 400 and the caller must not treat that as "configured".
+ */
+export function onboardingKeyFor(kyBusinessTypeKey) {
+  const key = String(kyBusinessTypeKey ?? '').trim().toLowerCase();
+  if (!key) return null;
+  if (ONBOARDING_KEY_BY_KY_KEY[key]) return ONBOARDING_KEY_BY_KY_KEY[key];
+  return ONBOARDING_TYPE_SET.has(key) ? key : null;
+}
+
+/**
+ * The Know Yourself business-type key for an ONBOARDING key — the reverse of
+ * `onboardingKeyFor`, and the reason the two flows can be joined.
+ *
+ * Stage 1 (the landing page's 3 onboarding questions) and Stage 2 (the Know
+ * Yourself assessment) are one journey, and the user must be asked for their
+ * business type exactly ONCE, on the landing page. Stage 1 speaks the
+ * onboarding vocabulary (`service` / `manufacturing` / `nonprofit` / `startup`)
+ * and Stage 2 speaks the Know Yourself vocabulary (`service` / `product` /
+ * `ngo` / `startup`), so the Stage 1 pick has to be translated before it can
+ * carry forward. Without this the selection is dropped at the seam and the CTA
+ * on the Stage 1 result sends the user back to Business Type selection.
+ *
+ * `manufacturing` is the one that is NOT the same string in both vocabularies,
+ * so it must not be passed through by a naive identity mapping.
+ */
+export function kyKeyForOnboardingKey(onboardingKey) {
+  const key = String(onboardingKey ?? '').trim().toLowerCase();
+  if (!key) return null;
+  for (const [kyKey, obKey] of Object.entries(ONBOARDING_KEY_BY_KY_KEY)) {
+    if (obKey === key) return kyKey;
+  }
+  // A key that is already a Know Yourself key (the two vocabularies agree, as
+  // they do for `service` and `startup`) resolves to itself.
+  return Object.prototype.hasOwnProperty.call(ONBOARDING_KEY_BY_KY_KEY, key) ? key : null;
+}
 
 // Maps a backend onboarding-config question (GET /assessments/onboarding) to
 // the local question shape used by QuestionScreen / buildLocalQuestion.

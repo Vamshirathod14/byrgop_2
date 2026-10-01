@@ -13,7 +13,7 @@ const BUSINESS_TYPE_LABELS = {
   service: 'Services',
   manufacturing: 'Manufacturing',
   nonprofit: 'Non-Profit',
-  startup: 'Startup',
+  startup: 'Start-Up',
 };
 const BUSINESS_TYPE_KEYS = Object.keys(BUSINESS_TYPE_LABELS);
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { brand } from '../theme/brand.js';
+import { toPercent, percentToUnit, percentToExtent } from './kyPercentScale.js';
 
 /* ─────────────────────────────────────────────────────────────
    KNOW-YOURSELF RESULT VISUALIZATIONS
@@ -25,14 +26,19 @@ export const VIEWS = [
   { id: 'bullseye', label: 'Bullseye' },
   { id: 'polar', label: 'Polar' },
   { id: 'nested', label: 'Nested Donut' },
-  { id: 'diverging', label: 'Diverging Bar' },
+  // `id` kept as 'diverging' (it is the view's persisted key); the label now
+  // states the truth — the view is no longer centred on 50%, it is a plain
+  // absolute 0–100 bar on a shared zero baseline.
+  { id: 'diverging', label: 'Bar 0–100' },
   { id: 'heatmap', label: 'Heatmap' },
   { id: 'bubble', label: 'Bubble' },
   { id: 'bar', label: 'Bar' },
   { id: 'scatter', label: 'Scatter' },
 ];
 
-/* Single source of truth: normalize backend categories for every chart. */
+/* Single source of truth: normalize backend categories for every chart.
+   `percent` is the backend's canonical 0–100 integer, passed through
+   untouched so labels and geometry always read the very same number. */
 export function toPillarData(categories) {
   return (categories || []).map((c) => ({
     key: c.key,
@@ -54,16 +60,6 @@ function withAlpha(hex, alpha) {
 function polar(angleDeg, radius, cx, cy) {
   const a = ((angleDeg - 90) * Math.PI) / 180;
   return [cx + radius * Math.cos(a), cy + radius * Math.sin(a)];
-}
-
-/* Annular wedge path between radii r1 < r2 over [a1, a2]. */
-function wedgePath(cx, cy, r1, r2, a1, a2) {
-  const sweep = a2 > a1 ? 1 : 0;
-  const [x1, y1] = polar(a1, r2, cx, cy);
-  const [x2, y2] = polar(a2, r2, cx, cy);
-  const [x3, y3] = polar(a2, r1, cx, cy);
-  const [x4, y4] = polar(a1, r1, cx, cy);
-  return `M ${x1.toFixed(2)} ${y1.toFixed(2)} A ${r2} ${r2} 0 0 ${sweep} ${x2.toFixed(2)} ${y2.toFixed(2)} L ${x3.toFixed(2)} ${y3.toFixed(2)} A ${r1} ${r1} 0 0 ${sweep === 1 ? 0 : 1} ${x4.toFixed(2)} ${y4.toFixed(2)} Z`;
 }
 
 function lines(name) {
@@ -241,10 +237,15 @@ export function VisualizationArea({ view, data, overall, radarSlot }) {
 /* ── 1. Existing radar is rendered directly from KnowYourselfResult ────── */
 
 /* ── 2. Concentric bullseye (reference: 580×580 target, nodes orbit
-        the core ring, hover-grow on the nodes) ─────────────── */
+        the core ring, hover-grow on the nodes) ──────────────
+        Node distance from the centre is strictly proportional to the
+        percentage on a ZERO baseline: 0% sits on the centre, 100% sits
+        exactly on the outer ring. No head offset — otherwise a 20%
+        pillar would drift out past 45% of the radius. */
 export function BullseyeGaugeView({ data, overall }) {
   const n = data.length;
-  const lin = (p) => 15 + (p / 100) * 30; // node distance from center (%)
+  const maxOffset = 40; // % of the box half-width, matching the r=240 ring
+  const lin = (p) => percentToExtent(p, maxOffset);
   return (
     <div
       className="relative mx-auto aspect-square w-full max-w-[min(86vw,580px)]"
@@ -320,12 +321,12 @@ export function PolarWheelView({ data }) {
   return (
     <ChartFrame label="Polar wheel showing each pillar percentage as a spoke length">
       {[25, 50, 75, 100].map((ring) => (
-        <circle key={ring} cx={cx} cy={cy} r={(R * ring) / 100} fill="none" stroke={withAlpha('#FFFFFF', 0.12)} strokeWidth={1.1} />
+        <circle key={ring} cx={cx} cy={cy} r={percentToExtent(ring, R)} fill="none" stroke={withAlpha('#FFFFFF', 0.12)} strokeWidth={1.1} />
       ))}
       {data.map((c, i) => {
         const a = i * step - 90;
         const [ex, ey] = polar(a, R, cx, cy);
-        const [vx, vy] = polar(a, (R * c.percent) / 100, cx, cy);
+        const [vx, vy] = polar(a, percentToExtent(c.percent, R), cx, cy);
         const rad = ((i * step - 90) * Math.PI) / 180;
         const cosA = Math.cos(rad);
         const lx = cx + (R + 22) * Math.cos(rad);
@@ -376,35 +377,51 @@ export function PolarWheelView({ data }) {
   );
 }
 
-/* ── 4. Nested donut ─────────────────────────────────────── */
+/* ── 4. Nested donut ─────────────────────────────────────────
+   One concentric ring per pillar, each ring an INDEPENDENT 0–100 gauge:
+   the filled arc spans percentToUnit(percent) of that ring's own full
+   circumference, so 20% draws exactly a fifth of its ring, 50% half, 100%
+   closes it. Rings are never normalised against the sum of the pillars —
+   a pillar is only ever measured against the 0–100 scale. */
 export function NestedDonutView({ data, overall }) {
   const cx = 170;
   const cy = VH / 2;
-  const rOuter = 108;
-  const tOuter = 34;
-  const rInner = 50;
-  const tInner = 7;
-  const sum = data.reduce((s, c) => s + c.percent, 0) || 1;
-  let angle = -90;
+  const rOuter = 150;
+  const rInner = 40;
+  const tInner = 6;
+  // Radial band left for the pillar rings, between the outer edge and the
+  // overall ring. Dividing it by the pillar count keeps every ring the same
+  // thickness whatever the category count.
+  const gap = 2;
+  const band = 15;
+  const pitch = (rOuter - (rInner + tInner / 2 + gap)) / Math.max(data.length, 1);
   return (
     <div className="mx-auto flex w-full flex-col items-center">
-      <ChartFrame label="Nested donut showing each pillar percentage as a segment">
-        {data.map((c) => {
-          const a1 = angle;
-          const a2 = angle + (c.percent / sum) * 360;
-          angle = a2;
+      <ChartFrame label="Nested donut showing each pillar percentage on its own zero to one hundred percent ring">
+        {data.map((c, i) => {
+          const ringR = rOuter - pitch * (i + 0.5);
+          const pct = toPercent(c.percent);
           return (
-            <motion.path
-              key={c.key}
-              d={wedgePath(cx, cy, rOuter - tOuter, rOuter, a1, a2)}
-              fill={c.color}
-              opacity={0.9}
-              stroke={brand.ink[900]}
-              strokeWidth={1.5}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.9 }}
-              transition={{ duration: 0.5, ease }}
-            />
+            <g key={c.key}>
+              {/* full-circumference 0–100 track for this pillar */}
+              <circle cx={cx} cy={cy} r={ringR} fill="none" stroke={withAlpha(c.color, 0.18)} strokeWidth={band} />
+              {/* fill = percent/100 of that same circumference, from 12 o'clock */}
+              <motion.circle
+                cx={cx}
+                cy={cy}
+                r={ringR}
+                fill="none"
+                stroke={c.color}
+                strokeWidth={band}
+                strokeLinecap="round"
+                pathLength={1}
+                strokeDasharray={1}
+                initial={{ strokeDashoffset: 1 }}
+                animate={{ strokeDashoffset: 1 - percentToUnit(pct) }}
+                transition={{ duration: 0.8, delay: 0.15 + i * 0.07, ease }}
+                transform={`rotate(-90 ${cx} ${cy})`}
+              />
+            </g>
           );
         })}
         <circle cx={cx} cy={cy} r={rInner} fill="none" stroke={withAlpha('#FFFFFF', 0.14)} strokeWidth={tInner} />
@@ -419,7 +436,7 @@ export function NestedDonutView({ data, overall }) {
           pathLength={1}
           strokeDasharray={1}
           initial={{ strokeDashoffset: 1 }}
-          animate={{ strokeDashoffset: overall != null ? 1 - overall / 100 : 1 }}
+          animate={{ strokeDashoffset: 1 - percentToUnit(overall) }}
           transition={{ duration: 1, delay: 0.3, ease }}
           transform={`rotate(-90 ${cx} ${cy})`}
         />
@@ -446,47 +463,81 @@ export function NestedDonutView({ data, overall }) {
   );
 }
 
-/* ── 5. Diverging bar (50% is a visual centerline only) ──── */
+/* ── 5. Absolute 0–100 bar (replaces the old 50%-centred diverging bar) ──
+   Every bar starts from the SAME zero baseline at the left and its length is
+   exactly percent/100 of the plot width, so this chart uses the identical
+   fixed 0–100 scale as the radar, polar, nested donut, bullseye, bar,
+   scatter and bubble views.
+
+   The 50% line is a plain reference gridline, exactly like the 0/25/50/75/100
+   gridlines in the other charts — it no longer moves the bar origin, so it
+   cannot change the magnitude a bar represents. */
 export function DivergingBarView({ data }) {
-  const cx = 280;
-  const scale = 2.8;
-  const rowH = 44;
-  const y0 = 42;
-  const barH = 12;
+  const plotLeft = 124;
+  const plotRight = 430;
+  const plotTop = 26;
+  const plotBottom = 42 + 44 * data.length - 6;
+  const plotW = plotRight - plotLeft;
+  const xFor = (p) => plotLeft + percentToExtent(p, plotW);
   return (
-    <ChartFrame label="Diverging bars with a fifty percent visual centerline showing each pillar percentage">
-      <line x1={cx} y1={26} x2={cx} y2={y0 + rowH * data.length - 6} stroke={withAlpha('#FFFFFF', 0.35)} strokeWidth={1.2} strokeDasharray="3 3" />
-      <text x={cx} y={20} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.45)} style={{ fontSize: 8.5, letterSpacing: '0.06em' }}>
-        50%
-      </text>
+    <ChartFrame label="Bars showing each pillar percentage on a zero to one hundred percent scale">
+      {[0, 25, 50, 75, 100].map((g) => (
+        <g key={g}>
+          <line
+            x1={xFor(g)}
+            y1={plotTop - 8}
+            x2={xFor(g)}
+            y2={plotBottom}
+            stroke={withAlpha('#FFFFFF', g === 50 ? 0.22 : 0.1)}
+            strokeWidth={g === 50 ? 1.2 : 1}
+            strokeDasharray={g === 50 ? '4 3' : undefined}
+          />
+          <text
+            x={xFor(g)}
+            y={plotTop - 12}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill={withAlpha('#FFFFFF', 0.45)}
+            style={{ fontSize: 8 }}
+          >
+            {g}
+          </text>
+        </g>
+      ))}
+      <line x1={plotLeft} y1={plotTop - 8} x2={plotLeft} y2={plotBottom} stroke={withAlpha('#FFFFFF', 0.3)} strokeWidth={1.4} />
       {data.map((c, i) => {
-        const cy = y0 + i * rowH;
-        const byte = c.percent - 50;
-        const len = Math.abs(byte) * scale;
-        const x = byte >= 0 ? cx : cx - len;
-        const valueX = byte >= 0 ? cx + len + 5 : cx - len - 5;
+        const cy = 42 + i * 44;
+        const pct = toPercent(c.percent);
+        const len = percentToExtent(pct, plotW);
         return (
           <g key={c.key}>
-            <line x1={132} y1={cy} x2={428} y2={cy} stroke={withAlpha('#FFFFFF', 0.06)} strokeWidth={1} />
-            {c.percent !== 50 && (
+            <line x1={plotLeft} y1={cy} x2={plotRight} y2={cy} stroke={withAlpha('#FFFFFF', 0.06)} strokeWidth={1} />
+            {len > 0 && (
               <motion.rect
-                x={x}
-                y={cy - barH / 2}
+                x={plotLeft}
+                y={cy - 6}
                 width={len}
-                height={barH}
+                height={12}
                 rx={6}
                 fill={c.color}
                 opacity={0.9}
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ scaleX: 1, opacity: 0.9 }}
                 transition={{ duration: 0.55, delay: 0.08 + i * 0.06, ease }}
-                style={{ transformOrigin: `${byte >= 0 ? cx : cx}px ${cy}px` }}
+                style={{ transformOrigin: `${plotLeft}px ${cy}px` }}
               />
             )}
-            <text x={123} y={cy} textAnchor="end" dominantBaseline="middle" fill={SOFT} style={{ fontSize: 9.5 }}>
+            <text x={plotLeft - 8} y={cy} textAnchor="end" dominantBaseline="middle" fill={SOFT} style={{ fontSize: 9.5 }}>
               {c.name}
             </text>
-            <text x={valueX} y={cy} textAnchor={byte >= 0 ? 'start' : 'end'} dominantBaseline="middle" fill={c.color} style={{ fontSize: 9.5, fontWeight: 700 }}>
+            <text
+              x={Math.min(xFor(pct) + 5, plotRight - 2)}
+              y={cy}
+              textAnchor="start"
+              dominantBaseline="middle"
+              fill={c.color}
+              style={{ fontSize: 9.5, fontWeight: 700 }}
+            >
               {c.percent}%
             </text>
           </g>
@@ -534,8 +585,11 @@ export function BubblePlotView({ data }) {
   const plotTop = 24;
   const plotBottom = 246;
   const slotW = (plotRight - plotLeft) / data.length;
-  const yFor = (p) => plotBottom - (p / 100) * (plotBottom - plotTop);
-  const rFor = (p) => 9 + (p / 100) * 22;
+  const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
+  // Bubble radius is proportional with a ZERO baseline: 0% has no bubble,
+  // 100% keeps the previous 31-unit maximum. No floor radius, otherwise a
+  // 0% pillar would draw a large dot and 20% would read as ~43% of the max.
+  const rFor = (p) => percentToExtent(p, 31);
   return (
     <div className="relative">
       <ChartFrame label="Bubble plot where bubble size represents each pillar percentage">
@@ -594,7 +648,7 @@ export function BarChartView({ data }) {
   const plotTop = 22;
   const plotBottom = 244;
   const slotW = (plotRight - plotLeft) / data.length;
-  const yFor = (p) => plotBottom - (p / 100) * (plotBottom - plotTop);
+  const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
   return (
     <ChartFrame label="Bar chart of the six pillar percentages">
       {[0, 25, 50, 75, 100].map((g) => (
@@ -658,7 +712,7 @@ export function ScatterPlotView({ data }) {
   const plotTop = 24;
   const plotBottom = 246;
   const slotW = (plotRight - plotLeft) / data.length;
-  const yFor = (p) => plotBottom - (p / 100) * (plotBottom - plotTop);
+  const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
   return (
     <div className="relative">
       <ChartFrame label="Scatter plot of pillar order against each pillar percentage">

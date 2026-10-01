@@ -56,7 +56,23 @@ function getCenterEmoji(data) {
   return { emoji: '😢', status: 'Immediate Action' };
 }
 
-export default function ResultScreen({ result, onKY, onAbout, onLogoClick, onRetake, onLogout }) {
+export default function ResultScreen({
+  result,
+  onKY,
+  onAbout,
+  onLogoClick,
+  onRetake,
+  onLogout,
+  // The button label for this business type's root: "Your Business" for
+  // Mfg & Services, "Your Enterprise" for Start-Up, "Your Foundation" for
+  // Non-Profit. It arrives from the caller (which resolves it from
+  // `/know-yourself/meta` via `resultActionLabelFor`) rather than being
+  // hard-coded here, because the label used to read "Your Business" on every
+  // root — a Non-Profit user was told to press "Your Business" to get to
+  // their Foundation assessment. Both the heading and the button read it, so
+  // they can never disagree.
+  actionLabel = 'Your Business',
+}) {
   const totalPossible = result?.overallPossible || 0;
 
   const CANONICAL_SLOTS = [
@@ -245,7 +261,7 @@ export default function ResultScreen({ result, onKY, onAbout, onLogoClick, onRet
             className="font-display text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[3.75rem] tracking-[-0.02em]"
             style={{ color: premiumWhite.bright }}
           >
-            Your Business{' '}
+            {actionLabel}{' '}
             <span className="font-display font-semibold italic" style={{ color: brand.accent }}>
               Snapshot
             </span>
@@ -351,12 +367,12 @@ export default function ResultScreen({ result, onKY, onAbout, onLogoClick, onRet
           </h2>
 
           <div className="mt-3 sm:mt-4 flex w-full max-w-md flex-col items-center gap-3 sm:flex-row sm:w-auto">
-            <PrimaryButton 
-              onClick={onKY} 
+            <PrimaryButton
+              onClick={onKY}
               className="font-display min-w-[13rem]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
-              Your Business
+              {actionLabel}
             </PrimaryButton>
             <PrimaryButton
               onClick={onAbout}

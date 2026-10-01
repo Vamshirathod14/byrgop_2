@@ -84,6 +84,21 @@ export default function KnowYourselfScreen({
   domainLabel,
   onChangeBusiness,
   onChangeDomain,
+  // Whether this root's assessment may be re-configured mid-run, i.e. whether it
+  // is one of the roots that has a domain-selection step at all.
+  //
+  // It comes from the backend's `/know-yourself/meta` `requiresDomainSelection`
+  // — the same flag the routing already uses — so this screen never hardcodes
+  // "Start-Up and Non-Profit have no domain". When it is false the assessment for
+  // this root was entered with the Business Type chosen once, on the landing
+  // page, and there is no domain in it at all. Rendering the Domain row and the
+  // Business Type "Change" button would then offer two dead ends that lead back
+  // into the selection screens the user has already passed: a second Business
+  // Type selection, and a Domain selection for a root that does not use one.
+  //
+  // So for those roots neither control is rendered. Services and Manufacturing
+  // pass true and keep both controls, exactly as before.
+  canChangeSelection = true,
 }) {
   // Question-level abbreviation glossary, configured in Admin against the
   // question itself. Applies to this question's text and all its options.
@@ -162,7 +177,7 @@ export default function KnowYourselfScreen({
             <span className="font-display truncate text-xs font-semibold sm:text-sm" style={{ color: premiumWhite.bright }}>
               {businessTypeLabel || '—'}
             </span>
-            {onChangeBusiness && (
+            {onChangeBusiness && canChangeSelection && (
               <button
                 type="button"
                 onClick={onChangeBusiness}
@@ -173,24 +188,28 @@ export default function KnowYourselfScreen({
               </button>
             )}
           </div>
-          <div className="flex min-w-0 max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
-            <span className="font-display text-[10px] font-medium sm:text-xs" style={{ color: premiumWhite.soft }}>
-              Domain:
-            </span>
-            <span className="font-display truncate text-xs font-semibold sm:text-sm" style={{ color: premiumWhite.bright }}>
-              {domainLabel || '—'}
-            </span>
-            {onChangeDomain && (
-              <button
-                type="button"
-                onClick={onChangeDomain}
-                className="font-display cursor-pointer rounded-full border border-white/15 px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:border-white/30"
-                style={{ color: brand.accent }}
-              >
-                Change
-              </button>
-            )}
-          </div>
+          {/* A root with no domain step has no domain to show or change, so the
+              row is omitted entirely rather than rendered as an empty "—". */}
+          {canChangeSelection && (
+            <div className="flex min-w-0 max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
+              <span className="font-display text-[10px] font-medium sm:text-xs" style={{ color: premiumWhite.soft }}>
+                Domain:
+              </span>
+              <span className="font-display truncate text-xs font-semibold sm:text-sm" style={{ color: premiumWhite.bright }}>
+                {domainLabel || '—'}
+              </span>
+              {onChangeDomain && (
+                <button
+                  type="button"
+                  onClick={onChangeDomain}
+                  className="font-display cursor-pointer rounded-full border border-white/15 px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:border-white/30"
+                  style={{ color: brand.accent }}
+                >
+                  Change
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Mobile progress bar */}

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { KY_ROOT_IDS } from '../config/kyQuestionRoots.js';
 
 const kySelectedQuestionSchema = new mongoose.Schema(
   {
@@ -106,6 +107,19 @@ const knowYourselfSessionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'BusinessType',
       default: null,
+    },
+    // The KY question root this session was started against, snapshotted at
+    // creation. Persisting it guarantees a session stays on the pillar set it
+    // was scored against: a Start-Up session can never fall back to the shared
+    // Manufacturing/Services pillars, even if the BusinessType row is later
+    // edited. Historical sessions have no `kyRoot` and resolve their root from
+    // `businessType` instead, which is why the reader treats null as "derive".
+    kyRoot: {
+      type: String,
+      enum: [...KY_ROOT_IDS, null],
+      default: null,
+      lowercase: true,
+      trim: true,
     },
     // 1-based attempt counter across completed sessions for the same email
     attemptNumber: { type: Number, default: null },

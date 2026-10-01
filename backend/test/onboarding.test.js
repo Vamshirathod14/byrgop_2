@@ -232,7 +232,7 @@ test('config exposes exactly the four intro onboarding business types', async ()
   assert.deepEqual(ONBOARDING_BUSINESS_TYPE_KEYS, ['service', 'manufacturing', 'nonprofit', 'startup']);
   assert.deepEqual(
     ONBOARDING_BUSINESS_TYPES.map((t) => t.label),
-    ['Services', 'Manufacturing', 'Non-Profit', 'Startup']
+    ['Services', 'Manufacturing', 'Non-Profit', 'Start-Up']
   );
 });
 
@@ -256,7 +256,7 @@ test('2 — Manufacturing returns Manufacturing questions only', async (t) => {
   for (const q of list) assert.equal(q.businessType, 'manufacturing');
 });
 
-test('3 — Startup returns Startup questions only', async (t) => {
+test('3 — Start-Up returns Start-Up questions only', async (t) => {
   const { questionPool } = await loadModules(t, { bucket: ALL });
   const list = await resolveForType(questionPool, 'startup');
   assert.deepEqual(list.map((q) => q.questionText), [STARTUP_STRAT, STARTUP_OPS, STARTUP_REV]);
@@ -275,7 +275,7 @@ test('4 — Non-Profit returns Non-Profit questions only', async (t) => {
   for (const q of list) assert.equal(q.businessType, 'nonprofit');
 });
 
-test('5 — Startup never receives Services questions', async (t) => {
+test('5 — Start-Up never receives Services questions', async (t) => {
   const { questionPool } = await loadModules(t, { bucket: ALL });
   const list = await resolveForType(questionPool, 'startup');
   assert.ok(!list.some((q) => [SERVICE_STRAT, SERVICE_OPS, SERVICE_REV].includes(q.questionText)));
@@ -294,7 +294,7 @@ test('6 — Non-Profit never receives Manufacturing questions', async (t) => {
 for (const [type, label] of [
   ['manufacturing', 'Manufacturing'],
   ['service', 'Services'],
-  ['startup', 'Startup'],
+  ['startup', 'Start-Up'],
   ['nonprofit', 'Non-Profit'],
 ]) {
   test(`7/8/9/10 — ${label} with zero active questions resolves to an empty config`, async (t) => {
@@ -398,7 +398,7 @@ test('15 — admin CRUD is scoped by businessType', async (t) => {
   const nonce = `${Date.now()}-${Math.random()}`;
   const svc = await import(`../src/services/onboardingAdminService.js?t=${nonce}`);
 
-  // List: only Startup questions, active first.
+  // List: only Start-Up questions, active first.
   const list = await svc.listOnboardingQuestions({ businessType: 'startup' });
   assert.equal(list.length, 3);
   assert.ok(list.every((q) => q.businessType === 'startup'));
@@ -412,7 +412,7 @@ test('15 — admin CRUD is scoped by businessType', async (t) => {
   assert.equal(listAll.length, 3);
   assert.ok(listAll.every((q) => q.businessType === 'startup'));
 
-  // Create: builds a Startup-scoped Yes/No question.
+  // Create: builds a Start-Up-scoped Yes/No question.
   const created = await svc.createOnboardingQuestion({
     businessType: 'startup',
     category: 'C1',

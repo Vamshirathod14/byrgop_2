@@ -15,8 +15,11 @@ export const startKYSession = async (req, res, next) => {
 
 export const startKYAssignment = async (req, res, next) => {
   try {
-    const { email, domain, businessType, browserId } = req.body;
-    const session = await kyService.startKYAssignment(email, domain, businessType, browserId);
+    const { email, domain, businessType, browserId, kyRoot } = req.body;
+    // `kyRoot` is a cross-check only — the server derives the root from the
+    // business type. Passing it makes the request self-describing and lets the
+    // service reject a client that disagrees with the server's configuration.
+    const session = await kyService.startKYAssignment(email, domain, businessType, browserId, kyRoot);
     res.status(201).json(session);
   } catch (err) { next(err); }
 };
