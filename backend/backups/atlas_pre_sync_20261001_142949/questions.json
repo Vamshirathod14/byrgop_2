@@ -1,0 +1,374 @@
+[
+  {
+    "_id": "6ab180a508155250743d63fb",
+    "text": "Do you spend 80% of your day firefighting operational issues rather than focusing on strategic growth?",
+    "category": "6ab17fc33dc53259ed879c47",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6ab180a508155250743d63fc"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6ab180a508155250743d63fd"
+      }
+    ],
+    "active": true,
+    "businessType": "manufacturing",
+    "displayOrder": 0,
+    "createdAt": "2026-09-21T19:08:21.927Z",
+    "updatedAt": "2026-09-21T19:08:21.927Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab180d208155250743d6411",
+    "text": "Can you take 15 days off without work calling you?",
+    "category": "6ab17fc33dc53259ed879c48",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6ab180d208155250743d6412"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6ab180d208155250743d6413"
+      }
+    ],
+    "active": true,
+    "businessType": "manufacturing",
+    "displayOrder": 0,
+    "createdAt": "2026-09-21T19:09:06.669Z",
+    "updatedAt": "2026-09-21T19:09:06.669Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1810e08155250743d641e",
+    "text": "Do you think despite increasing your revenue, your bottom line net profit isn't growing?",
+    "category": "6ab17fc33dc53259ed879c49",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6ab1810e08155250743d641f"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6ab1810e08155250743d6420"
+      }
+    ],
+    "active": true,
+    "businessType": "manufacturing",
+    "displayOrder": 0,
+    "createdAt": "2026-09-21T19:10:06.881Z",
+    "updatedAt": "2026-09-21T19:10:06.881Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1890b71168e49e1abc4e0",
+    "text": "Do you spend 80% of your day firefighting operational issues rather than focusing on strategic growth?",
+    "category": "6ab17fc33dc53259ed879c47",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6ab1890b71168e49e1abc4e1"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6ab1890b71168e49e1abc4e2"
+      }
+    ],
+    "active": true,
+    "businessType": "service",
+    "displayOrder": 0,
+    "createdAt": "2026-09-21T19:44:11.904Z",
+    "updatedAt": "2026-09-21T19:44:11.904Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1892971168e49e1abc4f7",
+    "text": "Can you take 15 days off without work calling you?",
+    "category": "6ab17fc33dc53259ed879c48",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6ab1892971168e49e1abc4f8"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6ab1892971168e49e1abc4f9"
+      }
+    ],
+    "active": true,
+    "businessType": "service",
+    "displayOrder": 0,
+    "createdAt": "2026-09-21T19:44:41.421Z",
+    "updatedAt": "2026-09-21T19:44:41.421Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1894571168e49e1abc50e",
+    "text": "Do you think despite increasing your revenue, your bottom line net profit isn't growing?",
+    "category": "6ab17fc33dc53259ed879c49",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6ab1894571168e49e1abc50f"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6ab1894571168e49e1abc510"
+      }
+    ],
+    "active": true,
+    "businessType": "service",
+    "displayOrder": 0,
+    "createdAt": "2026-09-21T19:45:09.544Z",
+    "updatedAt": "2026-09-21T19:45:09.544Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aba0ee1fe8514c9d0cb21be",
+    "text": "Are you spending more time chasing grant requirements and writing proposals than checking if your programs actually create real impact?",
+    "category": "6ab17fc33dc53259ed879c47",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6aba0ee1fe8514c9d0cb21bf"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6aba0ee1fe8514c9d0cb21c0"
+      }
+    ],
+    "active": true,
+    "businessType": "nonprofit",
+    "displayOrder": 0,
+    "createdAt": "2026-09-28T06:53:21.999Z",
+    "updatedAt": "2026-09-28T06:53:21.999Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aba0f1efe8514c9d0cb21cb",
+    "text": "Can your team run daily community programs and field activities without you stepping in to handle every issue?",
+    "category": "6ab17fc33dc53259ed879c48",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6aba0f1efe8514c9d0cb21cc"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6aba0f1efe8514c9d0cb21cd"
+      }
+    ],
+    "active": true,
+    "businessType": "nonprofit",
+    "displayOrder": 0,
+    "createdAt": "2026-09-28T06:54:22.630Z",
+    "updatedAt": "2026-09-28T06:54:22.630Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aba0f34fe8514c9d0cb21d8",
+    "text": "Are you struggling to cover basic costs, even when you win new grants or receive donations?",
+    "category": "6ab17fc33dc53259ed879c49",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6aba30f9cdb414ac48be01fd"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6aba30f9cdb414ac48be01fe"
+      }
+    ],
+    "active": true,
+    "businessType": "nonprofit",
+    "displayOrder": 0,
+    "createdAt": "2026-09-28T06:54:44.764Z",
+    "updatedAt": "2026-09-28T09:18:49.027Z",
+    "__v": 1
+  },
+  {
+    "_id": "6aba0fe8fe8514c9d0cb21e9",
+    "text": "Are you spending excessive cycles refining capabilities and presenting, instead of confirming Product market fit and sustained user retention?",
+    "category": "6ab17fc33dc53259ed879c47",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6aba0fe8fe8514c9d0cb21ea"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6aba0fe8fe8514c9d0cb21eb"
+      }
+    ],
+    "active": true,
+    "businessType": "startup",
+    "displayOrder": 0,
+    "createdAt": "2026-09-28T06:57:44.160Z",
+    "updatedAt": "2026-09-28T06:57:44.160Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aba1134fe8514c9d0cb2358",
+    "text": "Do onboarding, delivery, and daily operations run smoothly without constant founder oversight?",
+    "category": "6ab17fc33dc53259ed879c48",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6aba1134fe8514c9d0cb2359"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6aba1134fe8514c9d0cb235a"
+      }
+    ],
+    "active": true,
+    "businessType": "startup",
+    "displayOrder": 0,
+    "createdAt": "2026-09-28T07:03:16.897Z",
+    "updatedAt": "2026-09-28T07:03:16.897Z",
+    "__v": 0
+  },
+  {
+    "_id": "6aba119cfe8514c9d0cb2365",
+    "text": "Despite raising capital or growing your user base, are your unit margins and cash runway shrinking fast?",
+    "category": "6ab17fc33dc53259ed879c49",
+    "weight": 10,
+    "stageKey": null,
+    "options": [
+      {
+        "text": "Yes",
+        "score": 1,
+        "stageKey": null,
+        "active": true,
+        "color": "#E52032",
+        "_id": "6aba119cfe8514c9d0cb2366"
+      },
+      {
+        "text": "No",
+        "score": 0,
+        "stageKey": null,
+        "active": true,
+        "color": "#0D8845",
+        "_id": "6aba119cfe8514c9d0cb2367"
+      }
+    ],
+    "active": true,
+    "businessType": "startup",
+    "displayOrder": 0,
+    "createdAt": "2026-09-28T07:05:00.332Z",
+    "updatedAt": "2026-09-28T07:05:00.332Z",
+    "__v": 0
+  }
+]

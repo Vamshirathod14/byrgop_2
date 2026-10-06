@@ -3,6 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import ByrgopLoader from '../components/ByrgopLoader.jsx';
 import { VisualizationSelector, VisualizationArea, ResultVisualizationStage, toPillarData } from '../components/ResultVisualizations.jsx';
+import { RADAR_SCALE, RADAR_VIEW, axisAngle, polar, ringPoints, tickLabelPoint, dataPoint } from '../components/radarScale.js';
+import { pillarChartColor } from '../components/byrgopChartColors.js';
 import api from '../api/client.js';
 import { brand } from '../theme/brand.js';
 
@@ -18,17 +20,11 @@ function bandColor(band) {
   return brand.palette.red[300];
 }
 
-/* ── Radar / spider chart (six axes) ────────────────────── */
-const VW = 336;
-const VH = 264;
-const CX = 168;
-const CY = 130;
-const R = 84;
-
-function polar(angleDeg, radius) {
-  const a = ((angleDeg - 90) * Math.PI) / 180;
-  return [CX + radius * Math.cos(a), CY + radius * Math.sin(a)];
-}
+/* ── Radar / spider chart (six axes) ──────────────────────
+   Grid rings, tick labels and the plotted polygon ALL come from
+   RADAR_SCALE (0–100, ticks 0/25/50/75/100) via radarScale.js — one
+   radial coordinate system, so labels can never drift off their ring. */
+const { w: VW, h: VH, cx: CX, cy: CY, r: R } = RADAR_VIEW;
 
 function labelLines(name) {
   const words = name.split(' ');
@@ -37,10 +33,10 @@ function labelLines(name) {
   return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
 }
 
-function RadarChart({ categories }) {
+export function RadarChart({ categories }) {
   const n = categories.length;
-  const step = 360 / n;
-  const point = (i, value) => polar(i * step, (R * value) / 100);
+  const step = axisAngle(1, n);
+  const point = (i, value) => dataPoint(n, i, value);
 
   // Hover state — scores appear only on hover, never permanently on the graph.
   const [hover, setHover] = useState(null); // { c, x, y }
@@ -50,27 +46,16 @@ function RadarChart({ categories }) {
   return (
     <div className="relative">
       <svg viewBox={`0 0 ${VW} ${VH}`} className="mx-auto h-auto w-full" role="img" aria-label="Six-category business health radar">
-      {/* rings - brighter white */}
-      {[25, 50, 75, 100].map((ring) => (
+      {/* grid rings — one per non-zero tick of RADAR_SCALE, drawn from the
+          very same radius the labels and the data polygon use */}
+      {RADAR_SCALE.ticks.filter((ring) => ring > 0).map((ring) => (
         <g key={`ring-${ring}`}>
           <polygon
-            points={categories.map((_, i) => polar(i * step, (R * ring) / 100).join(',')).join(' ')}
+            points={ringPoints(n, ring).map(([x, y]) => `${x},${y}`).join(' ')}
             fill="none"
             stroke="rgba(255,255,255,0.35)"
             strokeWidth={1.2}
           />
-          {/* Ring labels - offset to the upper-left so they never collide with the top pillar label/percentage */}
-          <text
-            x={CX - 30}
-            y={CY + (R * ring / 100 + 8) * Math.sin(-Math.PI / 2)}
-            fill="rgba(255,255,255,0.4)"
-            fontSize={7.5}
-            textAnchor="end"
-            dominantBaseline="middle"
-            className="font-display"
-          >
-            {ring}%
-          </text>
         </g>
       ))}
       {/* axes - brighter white */}
@@ -99,7 +84,7 @@ function RadarChart({ categories }) {
             cx={x}
             cy={y}
             r={4}
-            fill={c.color || brand.accent}
+            fill={pillarChartColor(i)}
             stroke={brand.ink[900]}
             strokeWidth={1.5}
             initial={{ scale: 0 }}
@@ -121,11 +106,37 @@ function RadarChart({ categories }) {
             r={14}
             fill="transparent"
             className="cursor-pointer"
-            onMouseEnter={() => setHover({ c, x: hx, y: hy })}
+            onMouseEnter={() => setHover({ c, i, x: hx, y: hy })}
             onMouseLeave={() => setHover(null)}
           >
             {isHover && <animate attributeName="r" values="14;15;14" dur="1.2s" repeatCount="indefinite" />}
           </circle>
+        );
+      })}
+      {/* tick labels — generated from the SAME RADAR_SCALE ticks, placed ON
+          their ring (an axis vertex at exactly radiusFor(tick) from the
+          centre): 0 at the centre, then 25 / 50 / 75 / 100 on their rings.
+          Drawn above the data so the scale stays readable at any score, but
+          pointer-transparent so vertex hover still works. */}
+      {RADAR_SCALE.ticks.map((tick) => {
+        const [tx, ty] = tickLabelPoint(tick, n);
+        return (
+          <text
+            key={`tick-${tick}`}
+            x={tx}
+            y={ty}
+            fill="rgba(255,255,255,0.55)"
+            stroke="rgba(8,8,14,0.9)"
+            strokeWidth={2}
+            style={{ paintOrder: 'stroke' }}
+            fontSize={7.5}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            pointerEvents="none"
+            className="font-display"
+          >
+            {tick}%
+          </text>
         );
       })}
       {/* labels — pillar name, with its percentage on a separate line below it */}
@@ -144,7 +155,7 @@ function RadarChart({ categories }) {
                 {ln}
               </tspan>
             ))}
-            <tspan x={lx} y={ly + (multi ? 19 : 14)} textAnchor={anchor} dominantBaseline="middle" fontSize={9.5} letterSpacing="0.08em" style={{ fill: c.color || brand.accent, fontWeight: 700 }}>
+            <tspan x={lx} y={ly + (multi ? 19 : 14)} textAnchor={anchor} dominantBaseline="middle" fontSize={9.5} letterSpacing="0.08em" style={{ fill: pillarChartColor(i), fontWeight: 700 }}>
               {c.percent}%
             </tspan>
           </text>
@@ -169,10 +180,10 @@ function RadarChart({ categories }) {
             }}
           >
             <p className="font-display flex items-center gap-2 whitespace-nowrap text-sm font-semibold" style={{ color: premiumWhite.soft }}>
-              <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: hover.c.color || brand.accent }} />
+              <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: pillarChartColor(hover.i) }} />
               {hover.c.name}
             </p>
-            <p className="font-display text-right text-base font-bold tabular-nums" style={{ color: hover.c.color || brand.accent }}>
+            <p className="font-display text-right text-base font-bold tabular-nums" style={{ color: pillarChartColor(hover.i) }}>
               {hover.c.percent}%
             </p>
           </motion.div>

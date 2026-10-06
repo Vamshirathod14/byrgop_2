@@ -1,7 +1,9 @@
+import mongoose from 'mongoose';
 import Question from '../models/Question.js';
 import Category from '../models/Category.js';
 import { isValidOnboardingBusinessType } from '../config/onboarding.js';
 import { resolveOptionColor, DEFAULT_YES_COLOR, DEFAULT_NO_COLOR } from '../config/optionColors.js';
+import { syncQuestionToAtlas } from './atlasSyncService.js';
 
 // Dedicated admin data-access layer for the intro onboarding question bank.
 //
@@ -48,13 +50,26 @@ export const NO_STAGE_KEY = 'initiation';
 export { DEFAULT_YES_COLOR, DEFAULT_NO_COLOR };
 
 function requireBusinessType(businessType) {
-  if (!isValidOnboardingBusinessType(businessType)) {
+  if (businessType == null || businessType === '') {
     throw Object.assign(
       new Error('A valid businessType is required (service, manufacturing, nonprofit or startup)'),
       { status: 400 }
     );
   }
-  return String(businessType).trim().toLowerCase();
+  const raw = String(businessType).trim().toLowerCase();
+  const normalized =
+    raw === 'non-profit' || raw === 'ngo' ? 'nonprofit' :
+    raw === 'services' ? 'service' :
+    raw === 'product' || raw === 'manufacture' ? 'manufacturing' :
+    raw;
+
+  if (!isValidOnboardingBusinessType(normalized)) {
+    throw Object.assign(
+      new Error('A valid businessType is required (service, manufacturing, nonprofit or startup)'),
+      { status: 400 }
+    );
+  }
+  return normalized;
 }
 
 // Default Yes/No option set used by the admin create flow. The stage keys reuse
@@ -122,12 +137,19 @@ export async function createOnboardingQuestion(payload = {}) {
     active: payload.active !== false,
     displayOrder: Math.max(0, Number(payload.displayOrder) || 0),
   });
+  await syncQuestionToAtlas(created);
+  return created;
 }
 
+export { syncQuestionToAtlas };
+
 export async function updateOnboardingQuestion({ id, businessType, patch = {} }) {
-  const bt = requireBusinessType(businessType);
+  const bt = businessType ? requireBusinessType(businessType) : null;
   const q = await Question.findById(id).populate('category', 'key name color');
-  if (!q || q.businessType !== bt) {
+  if (!q) {
+    throw Object.assign(new Error('Question not found'), { status: 404 });
+  }
+  if (bt && q.businessType !== bt) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
   if (patch.category) {
@@ -135,8 +157,9 @@ export async function updateOnboardingQuestion({ id, businessType, patch = {} })
     if (!cat) throw Object.assign(new Error('Invalid category'), { status: 400 });
     q.category = cat._id;
   }
-  if (patch.text !== undefined) {
-    const text = String(patch.text || '').trim();
+  const incomingText = patch.text !== undefined ? patch.text : patch.question;
+  if (incomingText !== undefined) {
+    const text = String(incomingText || '').trim();
     if (!text) throw Object.assign(new Error('Question text is required'), { status: 400 });
     q.text = text;
   }
@@ -146,6 +169,7 @@ export async function updateOnboardingQuestion({ id, businessType, patch = {} })
   if (patch.options !== undefined) q.options = toYesNoOptions(patch.options);
   if (patch.displayOrder !== undefined) q.displayOrder = Math.max(0, Number(patch.displayOrder) || 0);
   await q.save();
+  await syncQuestionToAtlas(q);
   return q;
 }
 
@@ -157,6 +181,7 @@ export async function setOnboardingQuestionActive({ id, businessType, active }) 
   }
   q.active = active === true;
   await q.save();
+  await syncQuestionToAtlas(q);
   return q;
 }
 
@@ -167,5 +192,6 @@ export async function deleteOnboardingQuestion({ id, businessType }) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
   await Question.deleteOne({ _id: q._id });
+  await syncQuestionToAtlas(q, { isDelete: true });
   return q;
 }

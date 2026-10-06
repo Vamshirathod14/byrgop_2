@@ -21,7 +21,7 @@ export function isValidQuestion(q) {
 export async function findBestQuestion(category, businessType) {
   const match = { category: category._id, active: true, businessType };
   const q = await Question.findOne(match)
-    .sort({ displayOrder: 1, createdAt: 1 })
+    .sort({ displayOrder: 1, updatedAt: -1, createdAt: -1 })
     .lean();
   return q && isValidQuestion(q) ? q : null;
 }
@@ -38,10 +38,13 @@ export async function getOnboardingQuestionsForType(businessType) {
     if (!q) continue;
     const label = categoryDisplayName(c.key, c.name);
     out.push({
+      _id: q._id,
+      questionId: q._id,
       businessType: q.businessType,
       categoryKey: c.key,
       categoryLabel: label,
       pillar: label,
+      categoryColor: c.color,
       questionText: q.text,
       answerType: 'yes_no',
       active: q.active,

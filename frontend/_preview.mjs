@@ -19,7 +19,7 @@ const others = VIEWS.map(v =>
   )
 ).join('\n');
 
-const css = await import('fs').then(fs=>fs.readFileSync('dist/assets/index-BjaEgwzK.css','utf8'));
+const css = await import('fs').then(fs=>fs.readFileSync('dist/assets/index-CKIEGQlb.css','utf8'));
 const html = `<!doctype html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BYRGOP Result — TwelveLayouts-style</title><style>${css}
 body{background:#0a0a0f;margin:0;padding:0 0 40px}
@@ -31,7 +31,7 @@ ${realPage}
 ${others}
 <div id="m" style="color:#8a93a6;font-family:sans-serif;font-size:11px;padding:6px 20px;"></div>
 <script>
-const el=()=>[...document.querySelectorAll('[data-testid="viz-stage"],[data-testid="chart-box"],[data-testid="bullseye"],[data-testid="heatmap-grid"]')];
+const el=()=>[...document.querySelectorAll('[data-testid="viz-stage"],[data-testid="chart-box"]')];
 const m=document.getElementById('m');
 function measure(){m.innerHTML='<b>@'+Math.round(innerWidth)+'px</b><br>'+el().map((s,i)=>{const r=s.getBoundingClientRect();return '#'+i+' '+s.getAttribute('data-testid')+' '+Math.round(r.width)+'x'+Math.round(r.height);}).join('<br>');}
 addEventListener('resize',measure);measure();

@@ -10,7 +10,7 @@ export default function PrimaryButton({
   ...rest
 }) {
   const base =
-    'inline-flex items-center justify-center gap-2 rounded-full px-9 py-4 text-sm font-semibold uppercase tracking-[0.16em] transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none';
+    'inline-flex items-center justify-center gap-2 rounded-full px-9 py-4 text-sm font-semibold uppercase tracking-[0.16em] whitespace-nowrap transition-all duration-300 disabled:opacity-50 disabled:pointer-events-none';
   const styles =
     variant === 'primary'
       ? 'bg-brand-accent text-ink-950 hover:bg-brand-accentHover hover:shadow-glow'

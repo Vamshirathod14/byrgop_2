@@ -2,7 +2,8 @@ import jwt from 'jsonwebtoken';
 import Admin, { ALL_PERMISSIONS } from '../models/Admin.js';
 
 const JWT_SECRET = process.env.ADMIN_JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.ADMIN_JWT_EXPIRES || '8h';
+// Admin sessions expire after exactly 6 hours (server-enforced via exp).
+const JWT_EXPIRES_IN = process.env.ADMIN_JWT_EXPIRES || '6h';
 
 export function signToken(admin) {
   return jwt.sign(

@@ -45,7 +45,7 @@ export const createQuestion = asyncHandler(async (req, res) => {
 export const updateQuestion = asyncHandler(async (req, res) => {
   const q = await updateOnboardingQuestion({
     id: req.params.id,
-    businessType: req.body.businessType,
+    businessType: req.body?.businessType || req.query?.businessType,
     patch: req.body || {},
   });
   await logAudit({

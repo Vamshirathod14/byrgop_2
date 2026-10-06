@@ -1,0 +1,46 @@
+[
+  {
+    "_id": "6ab1163b21ac960f17e73378",
+    "key": "services",
+    "name": "Services",
+    "description": "",
+    "sortOrder": 1,
+    "active": true,
+    "createdAt": "2026-09-21T11:34:19.773Z",
+    "updatedAt": "2026-09-21T11:34:19.773Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1164421ac960f17e73381",
+    "key": "manufacture",
+    "name": "Manufacture",
+    "description": "",
+    "sortOrder": 2,
+    "active": true,
+    "createdAt": "2026-09-21T11:34:28.916Z",
+    "updatedAt": "2026-09-21T11:34:28.916Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1164b21ac960f17e7338a",
+    "key": "startup",
+    "name": "Startup",
+    "description": "",
+    "sortOrder": 3,
+    "active": true,
+    "createdAt": "2026-09-21T11:34:35.908Z",
+    "updatedAt": "2026-09-21T11:34:35.908Z",
+    "__v": 0
+  },
+  {
+    "_id": "6ab1165f21ac960f17e73393",
+    "key": "non-profit",
+    "name": "Non profit",
+    "description": "",
+    "sortOrder": 4,
+    "active": true,
+    "createdAt": "2026-09-21T11:34:55.347Z",
+    "updatedAt": "2026-09-21T11:34:55.347Z",
+    "__v": 0
+  }
+]

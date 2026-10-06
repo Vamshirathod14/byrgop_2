@@ -1,6 +1,7 @@
 import { asyncHandler } from '../middleware/errors.js';
 import Category from '../models/Category.js';
 import { logAudit, getClientIp, auditFrom } from '../services/auditService.js';
+import { syncCategoryToAtlas } from '../services/atlasSyncService.js';
 
 export const listCategories = asyncHandler(async (req, res) => {
   const { includeInactive } = req.query;
@@ -18,6 +19,7 @@ export const getCategory = asyncHandler(async (req, res) => {
 export const createCategory = asyncHandler(async (req, res) => {
   const category = await Category.create(req.body);
   await logAudit({ ...auditFrom(req), action: 'domain.created', entity: 'domain', entityId: category._id, metadata: { key: category.key, name: category.name } });
+  await syncCategoryToAtlas(category);
   res.status(201).json(category);
 });
 
@@ -28,6 +30,7 @@ export const updateCategory = asyncHandler(async (req, res) => {
   });
   if (!category) return res.status(404).json({ error: 'Category not found' });
   await logAudit({ ...auditFrom(req), action: 'domain.updated', entity: 'domain', entityId: category._id, metadata: { key: category.key, name: category.name } });
+  await syncCategoryToAtlas(category);
   res.json(category);
 });
 
@@ -35,5 +38,6 @@ export const deleteCategory = asyncHandler(async (req, res) => {
   const category = await Category.findByIdAndDelete(req.params.id);
   if (!category) return res.status(404).json({ error: 'Category not found' });
   await logAudit({ ...auditFrom(req), action: 'domain.deleted', entity: 'domain', entityId: category._id, metadata: { key: category.key } });
+  await syncCategoryToAtlas(category, { isDelete: true });
   res.json({ ok: true });
 });

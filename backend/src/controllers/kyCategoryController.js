@@ -2,6 +2,7 @@ import KYCategory from '../models/KYCategory.js';
 import KnowYourselfQuestion from '../models/KnowYourselfQuestion.js';
 import { asyncHandler } from '../middleware/errors.js';
 import { logAudit, auditFrom } from '../services/auditService.js';
+import { syncKYCategoryToAtlas } from '../services/atlasSyncService.js';
 import {
   KY_ROOTS,
   DEFAULT_KY_ROOT,
@@ -100,6 +101,7 @@ export const createKYCategory = asyncHandler(async (req, res) => {
     entityId: category._id,
     metadata: { key: category.key, name: category.name, kyRoot: storedValueToRoot(category.kyRoot) },
   });
+  await syncKYCategoryToAtlas(category);
   res.status(201).json(category);
 });
 
@@ -126,6 +128,7 @@ export const updateKYCategory = asyncHandler(async (req, res) => {
     entityId: category._id,
     metadata: { key: category.key, name: category.name, active: category.active, kyRoot: storedValueToRoot(category.kyRoot) },
   });
+  await syncKYCategoryToAtlas(category);
   res.json(category);
 });
 
@@ -136,6 +139,8 @@ export const reorderKYCategories = asyncHandler(async (req, res) => {
   for (const [index, item] of items.entries()) {
     if (!item?.id) continue;
     await KYCategory.updateOne({ _id: item.id }, { sortOrder: item.sortOrder ?? index });
+    const updated = await KYCategory.findById(item.id);
+    if (updated) await syncKYCategoryToAtlas(updated);
   }
   const categories = await KYCategory.find({}).sort({ sortOrder: 1, name: 1 });
   await logAudit({
@@ -167,5 +172,6 @@ export const deleteKYCategory = asyncHandler(async (req, res) => {
     entityId: category._id,
     metadata: { key: category.key, name: category.name },
   });
+  await syncKYCategoryToAtlas(category, { isDelete: true });
   res.json({ ok: true });
 });

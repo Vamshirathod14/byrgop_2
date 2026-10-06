@@ -98,7 +98,10 @@ export function onboardingQuestionsFromConfig(questions) {
     const yes = src.find((o) => String(o.text || '').trim().toLowerCase() === 'yes');
     const no = src.find((o) => String(o.text || '').trim().toLowerCase() === 'no');
     return {
+      _id: q._id || q.questionId,
+      questionId: q.questionId || q._id,
       category: q.categoryKey,
+      categoryColor: q.categoryColor || null,
       name: q.pillar || q.categoryLabel || categoryLabel(q.categoryKey, q.categoryKey),
       text: q.questionText,
       options: [
@@ -118,7 +121,7 @@ export const NEUTRAL_COLOR = '#8B93A7';
 // optionId/text/color).
 export function buildLocalQuestion(q) {
   return {
-    questionId: `local-${q.category}`,
+    questionId: q.questionId || q._id || `local-${q.category}`,
     text: q.text,
     category: q.category,
     startedAt: new Date().toISOString(),
@@ -169,8 +172,9 @@ export function makeSnapshotResult(entries) {
     scores: entries.map((e) => ({
       categoryKey: e.category,
       categoryName: e.name,
+      categoryColor: e.categoryColor || null,
       answer: e.optionText || null,
-      color: e.optionColor || e.stage?.color || NEUTRAL_COLOR,
+      color: e.categoryColor || e.optionColor || e.stage?.color || NEUTRAL_COLOR,
       selectedOptionColor: e.optionColor || e.stage?.color || null,
       stage: e.stage || null,
       optionColor: e.optionColor || null,
@@ -201,7 +205,8 @@ export function applyServerResult(snapshot, server) {
     return {
       ...s,
       answer: sr.answer ?? s.answer ?? null,
-      color: selectedOptionColor || NEUTRAL_COLOR,
+      color: sr.color || selectedOptionColor || NEUTRAL_COLOR,
+      categoryColor: sr.color || s.categoryColor || null,
       selectedOptionColor,
       optionColor: sr.optionColor ?? s.optionColor ?? null,
       stage: sr.stage || s.stage || null,

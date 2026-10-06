@@ -41,7 +41,7 @@ npm run dev            # http://localhost:5174
 The backend auto-bootstraps an initial **Super Admin** on startup when the env vars are set:
 
 - `ADMIN_JWT_SECRET` — JWT signing secret (change from the default!)
-- `ADMIN_JWT_EXPIRES` — token lifetime (default `8h`)
+- `ADMIN_JWT_EXPIRES` — token lifetime (default `6h`)
 - `ADMIN_BCRYPT_ROUNDS` — bcrypt cost (default `12`)
 - `SUPER_ADMIN_EMAIL` / `SUPER_ADMIN_PASSWORD` — credentials created if no Super Admin exists
 

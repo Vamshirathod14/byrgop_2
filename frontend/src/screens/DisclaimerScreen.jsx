@@ -71,52 +71,13 @@ export default function DisclaimerScreen({
   },
 }) {
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
-  const [emailConsent, setEmailConsent] = useState(false);
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
 
-  // Validate email function
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  // Check if email consent is checked and email is valid
-  const isEmailValid = emailConsent && email.trim() !== '' && isValidEmail(email.trim());
-
-  // Only disclaimer must be checked AND email must be valid if consent is given
-  const canContinue = disclaimerAccepted && (emailConsent ? isEmailValid : true);
+  // Only disclaimer must be checked
+  const canContinue = disclaimerAccepted;
 
   const handleContinue = () => {
     if (!canContinue) return;
-    
-    // If email consent is checked but email is invalid, show error
-    if (emailConsent && !isValidEmail(email.trim())) {
-      setEmailError('Please enter a valid email address.');
-      return;
-    }
-    
-    setEmailError('');
-    onAccept({
-      email: emailConsent ? email.trim().toLowerCase() : '',
-    });
-  };
-
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    if (emailError) {
-      setEmailError('');
-    }
-  };
-
-  const handleEmailConsentChange = (e) => {
-    const checked = e.target.checked;
-    setEmailConsent(checked);
-    if (!checked) {
-      setEmail('');
-      setEmailError('');
-    }
+    onAccept({ email: '' });
   };
 
   return (
@@ -194,7 +155,7 @@ export default function DisclaimerScreen({
           </h2>
         </motion.div>
 
-        {/* Three Boxes - One by One (Vertical) */}
+        {/* Two Boxes - One by One (Vertical) */}
         <div className="flex w-full max-w-3xl flex-col gap-4">
           {/* Box 1: Disclaimer & Terms of Use - Red hover */}
           <motion.div
@@ -242,70 +203,6 @@ export default function DisclaimerScreen({
               <p className="font-sans">
                 <RichText text={content.about.body} />
               </p>
-            </div>
-          </motion.div>
-
-          {/* Box 3: Email Consent & Privacy Confirmation - Purple hover */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4, ease }}
-            whileHover={{ scale: 1.01, y: -2 }}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 flex flex-col transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-500/[0.05]"
-          >
-            <h3 className="font-sans text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
-              Email Consent & Privacy Confirmation
-            </h3>
-            <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
-              <p className="font-sans">
-                Enter your email to proceed to your assessment.
-              </p>
-              <p className="font-sans">
-                Disclaimer: By submitting your email, you agree to the assessment terms and consent to the secure collection and storage of the same. At this stage, no report will be sent; your email is collected solely to support the internal progress of your assessment.
-              </p>
-            </div>
-            <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={emailConsent}
-                  onChange={handleEmailConsentChange}
-                  className="mt-1 h-5 w-5 shrink-0 rounded border-white/20 bg-white/5 accent-[#C68505] cursor-pointer"
-                />
-                <span className="font-sans text-sm" style={{ color: premiumWhite.warm }}>
-                  I consent to BYRGOP collecting and storing my email address for my assessment.
-                </span>
-              </label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={handleEmailChange}
-                disabled={!emailConsent}
-                className={`font-sans w-full rounded-xl border px-5 py-3 text-center text-base outline-none transition-colors sm:text-sm ${
-                  emailError
-                    ? 'border-red-500/50 bg-red-500/10'
-                    : emailConsent && email.trim() !== '' && isValidEmail(email.trim())
-                    ? 'border-green-500/50 bg-green-500/10'
-                    : 'border-white/[0.12] bg-white/[0.04]'
-                } focus:border-white/25 disabled:cursor-not-allowed disabled:opacity-40`}
-                style={{ color: premiumWhite.bright }}
-              />
-              {emailError && (
-                <p className="font-sans text-xs text-red-400">
-                  {emailError}
-                </p>
-              )}
-              {emailConsent && email.trim() !== '' && isValidEmail(email.trim()) && (
-                <p className="font-sans text-xs text-green-400">
-                  ✓ Valid email address
-                </p>
-              )}
-              {!emailConsent && (
-                <p className="font-sans text-xs" style={{ color: premiumWhite.soft }}>
-                  Tick the checkbox above to enter your email.
-                </p>
-              )}
             </div>
           </motion.div>
         </div>

@@ -473,7 +473,7 @@ export default function KnowYourselfQuestions({
   // Category navigation (reuses the existing question fields: type/domain/category/businessType).
   // `businessTypeScope` only chooses WHICH of these tabs is open on arrival —
   // it does not add, remove or change any tab.
-  const [topTab, setTopTab] = useState(businessType || 'all'); // all | generic | service | product | ngo | domain
+  const [topTab, setTopTab] = useState(businessType || 'all'); // all | generic | service | product | domain (domain tabs exist only on the domain root)
   const [pillar, setPillar] = useState('all'); // 'all' or a KYCategory key (pillar)
   const [domainFilter, setDomainFilter] = useState('all'); // 'all' or a domain slug
   const [search, setSearch] = useState('');
@@ -708,13 +708,21 @@ export default function KnowYourselfQuestions({
   };
 
   // Top tabs for this root. Manufacturing & Services keeps the legacy shape
-  // (all / generic / per-business-type / domain). Start-Up and Non-Profit have
-  // no domain step, so they only ever offer "all" and "generic" — there is no
-  // dead "Domain-specific" tab that could never contain anything.
+  // (all / generic / per-business-type / domain) exactly as it always had.
+  //
+  // Start-Up and Non-Profit are PILLAR-based banks: there is no Generic-vs-
+  // Domain axis to pick from — every question in such a root has one shape —
+  // and no business-type tab either, because each of those roots IS a single
+  // business type. So they get exactly ONE tab, "All <root> Questions", instead
+  // of a Generic tab and a business-type tab that could never contain anything
+  // else. Pillar is the only classification there, and it has its own filter
+  // below. This is a view decision only: nothing about how a question is stored,
+  // fetched or saved changes with it (`type` remains 'generic' on disk, as the
+  // API contract requires).
   const topTabs = [
-    { key: 'all', label: 'All Questions' },
-    { key: 'generic', label: 'Generic' },
-    ...rootBtKeys.map((key) => ({ key, label: btOf(key)?.name || key })),
+    { key: 'all', label: rootHasDomains ? 'All Questions' : `All ${kyRoot.short} Questions` },
+    ...(rootHasDomains ? [{ key: 'generic', label: 'Generic' }] : []),
+    ...(rootHasDomains ? rootBtKeys.map((key) => ({ key, label: btOf(key)?.name || key })) : []),
     ...(rootHasDomains ? [{ key: 'domain', label: 'Domain-specific' }] : []),
   ];
 
@@ -878,9 +886,13 @@ export default function KnowYourselfQuestions({
                   {q.type === 'domain' ? 'Domain' : 'Generic'}
                 </span>
               )}
-              {/* Which business type this question belongs to. Shown on every
-                  card so a root's bank is never ambiguous about who answers it. */}
-              {q.businessType && (
+              {/* Which business type this question belongs to. Only the
+                  domain-selection root shows it: Start-Up and Non-Profit pages
+                  are already scoped to their one and only business type, so
+                  repeating it on every card would put a Business Type
+                  classification in front of an editor for whom it can never
+                  vary. The root header above already names the bank. */}
+              {rootHasDomains && q.businessType && (
                 <span className="badge bg-slate-900/10 text-slate-800 text-[10px]">
                   {btOf(q.businessType)?.name || q.businessType}
                 </span>
@@ -1071,7 +1083,10 @@ export default function KnowYourselfQuestions({
                   key={p.key}
                   type="button"
                   onClick={() => {
-                    setTopTab('generic');
+                    // On a root whose only tab is "all" (Start-Up, Non-Profit),
+                    // 'generic' is a tab that no longer exists — the pillar card
+                    // must not send the page there.
+                    setTopTab(rootHasDomains ? 'generic' : 'all');
                     setPillar(pillar === p.key ? 'all' : p.key);
                     setDomainFilter('all');
                   }}
@@ -1169,8 +1184,13 @@ export default function KnowYourselfQuestions({
         ))}
       </div>
 
-      {/* Generic pillar sub-tabs */}
-      {topTab === 'generic' && (
+      {/* Pillar sub-tabs — the pillar axis, which every root has. On
+          Manufacturing & Services this sits inside the Generic view, exactly as
+          it always did; on Start-Up / Non-Profit, whose only view is "All
+          <root> Questions", it sits there. Pillar is a real classification for
+          every root, unlike Generic/Domain which are not offered at all on a
+          root that has no domain step. */}
+      {(rootHasDomains ? topTab === 'generic' : topTab === 'all') && (
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className="text-xs uppercase tracking-[0.15em] text-mist-muted">Pillar:</span>
           <button

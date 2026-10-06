@@ -29,7 +29,7 @@ function SectionLabel({ children }) {
 const accent = adminBrand.accent;
 
 export default function Layout({ active, onNavigate, children }) {
-  const { admin, logout } = useAuth();
+  const { admin } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -116,15 +116,6 @@ export default function Layout({ active, onNavigate, children }) {
             className="block w-full px-4 py-2 text-left text-sm text-mist transition-colors hover:bg-slate-100"
           >
             Profile
-          </button>
-          <button
-            onClick={() => {
-              setProfileOpen(false);
-              logout();
-            }}
-            className="block w-full px-4 py-2 text-left text-sm text-red-700 transition-colors hover:bg-slate-100"
-          >
-            Logout
           </button>
         </div>
       )}

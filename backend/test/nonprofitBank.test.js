@@ -15,6 +15,7 @@
    in a checkout with no Mongo.
    ───────────────────────────────────────────────────────────────────────── */
 
+import 'dotenv/config';
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 

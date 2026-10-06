@@ -9,6 +9,9 @@ import { categoryLabel } from '../lib/categories.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
+// Timer gold — matches the default `goldMain` used by the Timer component.
+const TIMER_GOLD = '#FCA700';
+
 const normalizedKey = (value) => String(value || '').trim().toLowerCase();
 
 function resolveCategory(category) {
@@ -91,12 +94,25 @@ export default function ResultScreen({
     const earned = score?.earned ?? 0;
     const answer = score?.answer ?? null;
     const optionColor = score?.optionColor ?? score?.selectedOptionColor ?? score?.stage?.color ?? null;
-    const displayColor = optionColor || NEUTRAL_COLOR;
+    const categoryColor = score?.categoryColor ?? score?.color ?? null;
+    // An option color customized by Admin (different from default Yes #4CAF50 / No #E53935) takes precedence;
+    // otherwise the Admin Category color ("Color (used in the result chart)") takes precedence;
+    // followed by optionColor, and finally NEUTRAL_COLOR.
+    const isCustomOptionColor =
+      optionColor &&
+      optionColor.toLowerCase() !== '#4caf50' &&
+      optionColor.toLowerCase() !== '#e53935';
+    const displayColor =
+      (isCustomOptionColor ? optionColor : null) ||
+      categoryColor ||
+      optionColor ||
+      NEUTRAL_COLOR;
     return {
       categoryKey: slot.key,
       categoryName: slot.label,
       answer,
       optionColor,
+      categoryColor,
       stageKey: score?.stage?.key || score?.stageKey || null,
       stageName: score?.stage?.name || null,
       earned,
@@ -262,7 +278,10 @@ export default function ResultScreen({
             style={{ color: premiumWhite.bright }}
           >
             {actionLabel}{' '}
-            <span className="font-display font-semibold italic" style={{ color: brand.accent }}>
+            <span
+              className="font-display font-semibold shine-text"
+              style={{ color: TIMER_GOLD }}
+            >
               Snapshot
             </span>
           </h1>
@@ -366,17 +385,17 @@ export default function ResultScreen({
             Know more about 
           </h2>
 
-          <div className="mt-3 sm:mt-4 flex w-full max-w-md flex-col items-center gap-3 sm:flex-row sm:w-auto">
+          <div className="mt-4 sm:mt-6 flex w-full max-w-xl flex-row items-center justify-center gap-3 sm:gap-4 px-2">
             <PrimaryButton
               onClick={onKY}
-              className="font-display min-w-[13rem]"
+              className="font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 px-4 sm:px-8 py-3 whitespace-nowrap text-xs sm:text-sm font-bold tracking-[0.12em] sm:tracking-[0.16em] inline-flex items-center justify-center leading-none"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               {actionLabel}
             </PrimaryButton>
             <PrimaryButton
               onClick={onAbout}
-              className="font-display min-w-[13rem]"
+              className="font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 px-4 sm:px-8 py-3 whitespace-nowrap text-xs sm:text-sm font-bold tracking-[0.12em] sm:tracking-[0.16em] inline-flex items-center justify-center leading-none"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               BYRGOP
@@ -395,6 +414,41 @@ export default function ResultScreen({
           )}
         </motion.div>
       </div>
+
+      {/* Shine sweep animation for the "Snapshot" word */}
+      <style>{`
+        .shine-text {
+          position: relative;
+          display: inline-block;
+          background-image: linear-gradient(
+            100deg,
+            ${TIMER_GOLD} 0%,
+            ${TIMER_GOLD} 35%,
+            #FFF3D6 50%,
+            ${TIMER_GOLD} 65%,
+            ${TIMER_GOLD} 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine-sweep 3.2s ease-in-out infinite;
+        }
+        @keyframes shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .shine-text {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: ${TIMER_GOLD};
+            color: ${TIMER_GOLD};
+          }
+        }
+      `}</style>
     </div>
   );
 }

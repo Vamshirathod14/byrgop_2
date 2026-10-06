@@ -1,50 +1,61 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { brand } from '../theme/brand.js';
-import { toPercent, percentToUnit, percentToExtent } from './kyPercentScale.js';
+import { percentToExtent } from './kyPercentScale.js';
+import { pillarChartColor } from './byrgopChartColors.js';
 
 /* ─────────────────────────────────────────────────────────────
    KNOW-YOURSELF RESULT VISUALIZATIONS
-   One assessment result dataset → multiple visualization formats.
-   All views consume ONLY the normalized `data` array produced by
+
+   The result page renders EXACTLY four visualization types:
+
+     1. Radar   (rendered by KnowYourselfResult — this module's
+        VisualizationArea embeds it via `radarSlot`)
+     2. Bubble
+     3. Bullet
+     4. Bar
+
+   The removed former view is permanently gone and no other chart type
+   is offered by the selector.
+
+   Every view consumes ONLY the normalized `data` array produced by
    toPillarData(result.categories) — i.e. the exact same six-pillar
    percentages returned by the backend (result.categories[].percent).
    No scores are invented; no second dataset is created.
+
+   COLORS: all four charts take their pillar colors from the single
+   centralized 6-color BYRGOP palette (byrgopChartColors.js). toPillarData
+   assigns color = pillarChartColor(pillarIndex), so the same pillar gets
+   the same BYRGOP color in the Radar, Bubble, Bullet and Bar views and no
+   chart holds its own hardcoded color array. Neutral geometry (grid lines,
+   axes, labels) uses the existing design-system whites only — never a hue.
    ───────────────────────────────────────────────────────────── */
 
 const ease = [0.22, 1, 0.36, 1];
 const VW = 460;
 const VH = 340;
 
-const BRIGHT = brand.premiumWhite.bright;
 const SOFT = brand.premiumWhite.soft;
-const WARM = brand.premiumWhite.warm;
-const MUTED = brand.textMuted;
 
 export const VIEWS = [
   { id: 'radar', label: 'Radar' },
-  { id: 'bullseye', label: 'Bullseye' },
-  { id: 'polar', label: 'Polar' },
-  { id: 'nested', label: 'Nested Donut' },
-  // `id` kept as 'diverging' (it is the view's persisted key); the label now
-  // states the truth — the view is no longer centred on 50%, it is a plain
-  // absolute 0–100 bar on a shared zero baseline.
-  { id: 'diverging', label: 'Bar 0–100' },
-  { id: 'heatmap', label: 'Heatmap' },
   { id: 'bubble', label: 'Bubble' },
+  { id: 'bullet', label: 'Bullet' },
   { id: 'bar', label: 'Bar' },
-  { id: 'scatter', label: 'Scatter' },
 ];
 
 /* Single source of truth: normalize backend categories for every chart.
    `percent` is the backend's canonical 0–100 integer, passed through
-   untouched so labels and geometry always read the very same number. */
+   untouched so labels and geometry always read the very same number.
+   The color is assigned deterministically from the centralized palette by
+   pillar index — the same pillar always receives the same BYRGOP color
+   across Radar / Bubble / Bullet / Bar. */
 export function toPillarData(categories) {
-  return (categories || []).map((c) => ({
+  return (categories || []).map((c, i) => ({
     key: c.key,
     name: c.name,
     percent: c.percent,
-    color: c.color || brand.accent,
+    color: pillarChartColor(i),
   }));
 }
 
@@ -55,11 +66,6 @@ function withAlpha(hex, alpha) {
   const g = (n >> 8) & 255;
   const b = n & 255;
   return `rgba(${r},${g},${b},${alpha})`;
-}
-
-function polar(angleDeg, radius, cx, cy) {
-  const a = ((angleDeg - 90) * Math.PI) / 180;
-  return [cx + radius * Math.cos(a), cy + radius * Math.sin(a)];
 }
 
 function lines(name) {
@@ -153,8 +159,7 @@ export function VisualizationSelector({ value, onChange }) {
 }
 
 /* Reference chart-box: the centered, substantial panel that holds each
-   canvas-style visualization (max ~680px, card surface — reference uses
-   the same max-width box for spider/polar/donut/bubble/bar/scatter). */
+   canvas-style visualization (max ~680px, card surface). */
 function ChartBox({ children }) {
   return (
     <div
@@ -166,10 +171,7 @@ function ChartBox({ children }) {
   );
 }
 
-/* ── Dedicated visualization stage ─────────────────────────
-   TwelveLayouts-style view panel: a centered area that the active
-   visualization dominates. Content size defines height, generous
-   vertical rhythm, never a side column or a small card. */
+/* ── Dedicated visualization stage ───────────────────────── */
 export function ResultVisualizationStage({ children }) {
   return (
     <div
@@ -182,8 +184,9 @@ export function ResultVisualizationStage({ children }) {
 }
 
 /* ── Active panel ──────────────────────────────────────────
-   Reference-style switching: one view mounted at a time, fading/sliding
-   in on change (reference `fadeIn` 0.4s translateY(10px)). */
+   One view mounted at a time, fading/sliding in on change. The radar is
+   embedded via radarSlot (it is rendered by KnowYourselfResult so its
+   grid/labels/polygon share the single radarScale.js coordinate system). */
 export function VisualizationArea({ view, data, overall, radarSlot }) {
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -197,26 +200,14 @@ export function VisualizationArea({ view, data, overall, radarSlot }) {
         data-testid="viz-area"
       >
         {view === 'radar' && <ChartBox>{radarSlot}</ChartBox>}
-        {view === 'bullseye' && <BullseyeGaugeView data={data} overall={overall} />}
-        {view === 'polar' && (
-          <ChartBox>
-            <PolarWheelView data={data} />
-          </ChartBox>
-        )}
-        {view === 'nested' && (
-          <ChartBox>
-            <NestedDonutView data={data} overall={overall} />
-          </ChartBox>
-        )}
-        {view === 'diverging' && (
-          <div className="mx-auto w-full max-w-[800px]">
-            <DivergingBarView data={data} />
-          </div>
-        )}
-        {view === 'heatmap' && <HeatmapView data={data} />}
         {view === 'bubble' && (
           <ChartBox>
             <BubblePlotView data={data} />
+          </ChartBox>
+        )}
+        {view === 'bullet' && (
+          <ChartBox>
+            <BulletChartView data={data} />
           </ChartBox>
         )}
         {view === 'bar' && (
@@ -224,360 +215,17 @@ export function VisualizationArea({ view, data, overall, radarSlot }) {
             <BarChartView data={data} />
           </ChartBox>
         )}
-        {view === 'scatter' && (
-          <ChartBox>
-            <ScatterPlotView data={data} />
-          </ChartBox>
-        )}
       </motion.div>
     </AnimatePresence>
   );
 }
 
-/* ── 1. Existing radar is rendered directly from KnowYourselfResult ────── */
-
-/* ── 2. Concentric bullseye (reference: 580×580 target, nodes orbit
-        the core ring, hover-grow on the nodes) ──────────────
-        Node distance from the centre is strictly proportional to the
-        percentage on a ZERO baseline: 0% sits on the centre, 100% sits
-        exactly on the outer ring. No head offset — otherwise a 20%
-        pillar would drift out past 45% of the radius. */
-export function BullseyeGaugeView({ data, overall }) {
-  const n = data.length;
-  const maxOffset = 40; // % of the box half-width, matching the r=240 ring
-  const lin = (p) => percentToExtent(p, maxOffset);
-  return (
-    <div
-      className="relative mx-auto aspect-square w-full max-w-[min(86vw,580px)]"
-      data-testid="bullseye"
-    >
-      {/* concentric target rings */}
-      <svg viewBox="0 0 600 600" className="pointer-events-none absolute inset-0 h-full w-full" role="img" aria-hidden="true">
-        {[240, 165, 95].map((r) => (
-          <circle key={r} cx={300} cy={300} r={r} fill="none" stroke={withAlpha('#FFFFFF', 0.14)} strokeWidth={2} strokeDasharray="6 6" />
-        ))}
-      </svg>
-
-      {/* center core — overall score */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.15, type: 'spring', stiffness: 210, damping: 18 }}
-        className="absolute left-1/2 top-1/2 z-10 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-2 text-center px-1 sm:h-28 sm:w-28"
-        style={{
-          borderColor: brand.accent,
-          background: 'linear-gradient(145deg, #1b1400, #0a0a0f)',
-          boxShadow: `0 0 30px ${withAlpha(brand.accent, 0.35)}`,
-        }}
-      >
-        <span className="font-display text-[9px] font-extrabold tracking-[0.2em] sm:text-[10px]" style={{ color: withAlpha('#FFFFFF', 0.66) }}>
-          OVERALL
-        </span>
-        <span className="font-display text-2xl font-extrabold tabular-nums sm:text-3xl" style={{ color: BRIGHT }}>
-          {overall ?? 0}
-          <span className="text-base sm:text-lg">%</span>
-        </span>
-      </motion.div>
-
-      {/* pillar nodes — positioned by angle + percentage radius */}
-      {data.map((c, i) => {
-        const ang = ((i * (360 / n) - 90) * Math.PI) / 180;
-        const off = lin(c.percent);
-        return (
-          <div
-            key={c.key}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${50 + off * Math.cos(ang)}%`, top: `${50 + off * Math.sin(ang)}%` }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + i * 0.08, type: 'spring', stiffness: 200, damping: 18 }}
-              whileHover={{ scale: 1.12 }}
-              className="flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full border-2 text-center px-1 sm:h-24 sm:w-24"
-              style={{ background: withAlpha(c.color, 0.16), borderColor: c.color, boxShadow: '0 8px 20px rgba(0,0,0,0.45)' }}
-            >
-              <span className="font-display text-[9px] font-semibold leading-tight sm:text-[10px]" style={{ color: SOFT }}>
-                {c.name}
-              </span>
-              <span className="font-display text-base font-extrabold tabular-nums sm:text-lg" style={{ color: c.color }}>
-                {c.percent}%
-              </span>
-            </motion.div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ── 3. Polar wheel ──────────────────────────────────────── */
-export function PolarWheelView({ data }) {
-  const n = data.length;
-  const cx = 230;
-  const cy = VH / 2;
-  const R = 105;
-  const step = 360 / n;
-  return (
-    <ChartFrame label="Polar wheel showing each pillar percentage as a spoke length">
-      {[25, 50, 75, 100].map((ring) => (
-        <circle key={ring} cx={cx} cy={cy} r={percentToExtent(ring, R)} fill="none" stroke={withAlpha('#FFFFFF', 0.12)} strokeWidth={1.1} />
-      ))}
-      {data.map((c, i) => {
-        const a = i * step - 90;
-        const [ex, ey] = polar(a, R, cx, cy);
-        const [vx, vy] = polar(a, percentToExtent(c.percent, R), cx, cy);
-        const rad = ((i * step - 90) * Math.PI) / 180;
-        const cosA = Math.cos(rad);
-        const lx = cx + (R + 22) * Math.cos(rad);
-        const ly = cy + (R + 22) * Math.sin(rad);
-        const anchor = Math.abs(cosA) < 0.35 ? 'middle' : cosA > 0 ? 'start' : 'end';
-        const lbl = lines(c.name);
-        const multi = lbl.length > 1;
-        return (
-          <g key={c.key}>
-            <line x1={cx} y1={cy} x2={ex} y2={ey} stroke={withAlpha('#FFFFFF', 0.16)} strokeWidth={1} />
-            <motion.line
-              x1={cx}
-              y1={cy}
-              x2={vx}
-              y2={vy}
-              stroke={c.color}
-              strokeWidth={2.5}
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.07, ease }}
-            />
-            <motion.circle
-              cx={vx}
-              cy={vy}
-              r={5}
-              fill={c.color}
-              stroke={brand.ink[900]}
-              strokeWidth={1.4}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2 + i * 0.07, duration: 0.3 }}
-              style={{ transformOrigin: `${vx}px ${vy}px` }}
-            />
-            {lbl.map((ln, li) => (
-              <text key={li} x={lx} y={ly - (multi ? 8 : 2) + li * 11} textAnchor={anchor} dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.62)} style={{ fontSize: 9.5 }}>
-                {ln}
-              </text>
-            ))}
-            <text x={lx} y={ly + (multi ? 17 : 14)} textAnchor={anchor} dominantBaseline="middle" fill={c.color} style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em' }}>
-              {c.percent}%
-            </text>
-          </g>
-        );
-      })}
-      <circle cx={cx} cy={cy} r={5} fill={brand.accent} />
-    </ChartFrame>
-  );
-}
-
-/* ── 4. Nested donut ─────────────────────────────────────────
-   One concentric ring per pillar, each ring an INDEPENDENT 0–100 gauge:
-   the filled arc spans percentToUnit(percent) of that ring's own full
-   circumference, so 20% draws exactly a fifth of its ring, 50% half, 100%
-   closes it. Rings are never normalised against the sum of the pillars —
-   a pillar is only ever measured against the 0–100 scale. */
-export function NestedDonutView({ data, overall }) {
-  const cx = 170;
-  const cy = VH / 2;
-  const rOuter = 150;
-  const rInner = 40;
-  const tInner = 6;
-  // Radial band left for the pillar rings, between the outer edge and the
-  // overall ring. Dividing it by the pillar count keeps every ring the same
-  // thickness whatever the category count.
-  const gap = 2;
-  const band = 15;
-  const pitch = (rOuter - (rInner + tInner / 2 + gap)) / Math.max(data.length, 1);
-  return (
-    <div className="mx-auto flex w-full flex-col items-center">
-      <ChartFrame label="Nested donut showing each pillar percentage on its own zero to one hundred percent ring">
-        {data.map((c, i) => {
-          const ringR = rOuter - pitch * (i + 0.5);
-          const pct = toPercent(c.percent);
-          return (
-            <g key={c.key}>
-              {/* full-circumference 0–100 track for this pillar */}
-              <circle cx={cx} cy={cy} r={ringR} fill="none" stroke={withAlpha(c.color, 0.18)} strokeWidth={band} />
-              {/* fill = percent/100 of that same circumference, from 12 o'clock */}
-              <motion.circle
-                cx={cx}
-                cy={cy}
-                r={ringR}
-                fill="none"
-                stroke={c.color}
-                strokeWidth={band}
-                strokeLinecap="round"
-                pathLength={1}
-                strokeDasharray={1}
-                initial={{ strokeDashoffset: 1 }}
-                animate={{ strokeDashoffset: 1 - percentToUnit(pct) }}
-                transition={{ duration: 0.8, delay: 0.15 + i * 0.07, ease }}
-                transform={`rotate(-90 ${cx} ${cy})`}
-              />
-            </g>
-          );
-        })}
-        <circle cx={cx} cy={cy} r={rInner} fill="none" stroke={withAlpha('#FFFFFF', 0.14)} strokeWidth={tInner} />
-        <motion.circle
-          cx={cx}
-          cy={cy}
-          r={rInner}
-          fill="none"
-          stroke={brand.accent}
-          strokeWidth={tInner}
-          strokeLinecap="round"
-          pathLength={1}
-          strokeDasharray={1}
-          initial={{ strokeDashoffset: 1 }}
-          animate={{ strokeDashoffset: 1 - percentToUnit(overall) }}
-          transition={{ duration: 1, delay: 0.3, ease }}
-          transform={`rotate(-90 ${cx} ${cy})`}
-        />
-        <text x={cx} y={cy - 2} textAnchor="middle" dominantBaseline="middle" fill={BRIGHT} style={{ fontSize: 22, fontWeight: 700 }}>
-          {overall != null ? overall : ''}
-          {overall != null && <tspan style={{ fontSize: 13 }}>%</tspan>}
-        </text>
-        <text x={cx} y={cy + 18} textAnchor="middle" dominantBaseline="middle" fill={MUTED} style={{ fontSize: 8, letterSpacing: '0.18em' }}>
-          OVERALL
-        </text>
-      </ChartFrame>
-      <div className="mt-4 grid w-full grid-cols-1 gap-x-4 gap-y-1.5 sm:grid-cols-2">
-        {data.map((c) => (
-          <div key={c.key} className="font-display flex items-center gap-2 text-xs" style={{ color: SOFT }}>
-            <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: c.color }} />
-            <span className="truncate">{c.name}</span>
-            <span className="ml-auto font-bold tabular-nums" style={{ color: c.color }}>
-              {c.percent}%
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── 5. Absolute 0–100 bar (replaces the old 50%-centred diverging bar) ──
-   Every bar starts from the SAME zero baseline at the left and its length is
-   exactly percent/100 of the plot width, so this chart uses the identical
-   fixed 0–100 scale as the radar, polar, nested donut, bullseye, bar,
-   scatter and bubble views.
-
-   The 50% line is a plain reference gridline, exactly like the 0/25/50/75/100
-   gridlines in the other charts — it no longer moves the bar origin, so it
-   cannot change the magnitude a bar represents. */
-export function DivergingBarView({ data }) {
-  const plotLeft = 124;
-  const plotRight = 430;
-  const plotTop = 26;
-  const plotBottom = 42 + 44 * data.length - 6;
-  const plotW = plotRight - plotLeft;
-  const xFor = (p) => plotLeft + percentToExtent(p, plotW);
-  return (
-    <ChartFrame label="Bars showing each pillar percentage on a zero to one hundred percent scale">
-      {[0, 25, 50, 75, 100].map((g) => (
-        <g key={g}>
-          <line
-            x1={xFor(g)}
-            y1={plotTop - 8}
-            x2={xFor(g)}
-            y2={plotBottom}
-            stroke={withAlpha('#FFFFFF', g === 50 ? 0.22 : 0.1)}
-            strokeWidth={g === 50 ? 1.2 : 1}
-            strokeDasharray={g === 50 ? '4 3' : undefined}
-          />
-          <text
-            x={xFor(g)}
-            y={plotTop - 12}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fill={withAlpha('#FFFFFF', 0.45)}
-            style={{ fontSize: 8 }}
-          >
-            {g}
-          </text>
-        </g>
-      ))}
-      <line x1={plotLeft} y1={plotTop - 8} x2={plotLeft} y2={plotBottom} stroke={withAlpha('#FFFFFF', 0.3)} strokeWidth={1.4} />
-      {data.map((c, i) => {
-        const cy = 42 + i * 44;
-        const pct = toPercent(c.percent);
-        const len = percentToExtent(pct, plotW);
-        return (
-          <g key={c.key}>
-            <line x1={plotLeft} y1={cy} x2={plotRight} y2={cy} stroke={withAlpha('#FFFFFF', 0.06)} strokeWidth={1} />
-            {len > 0 && (
-              <motion.rect
-                x={plotLeft}
-                y={cy - 6}
-                width={len}
-                height={12}
-                rx={6}
-                fill={c.color}
-                opacity={0.9}
-                initial={{ scaleX: 0, opacity: 0 }}
-                animate={{ scaleX: 1, opacity: 0.9 }}
-                transition={{ duration: 0.55, delay: 0.08 + i * 0.06, ease }}
-                style={{ transformOrigin: `${plotLeft}px ${cy}px` }}
-              />
-            )}
-            <text x={plotLeft - 8} y={cy} textAnchor="end" dominantBaseline="middle" fill={SOFT} style={{ fontSize: 9.5 }}>
-              {c.name}
-            </text>
-            <text
-              x={Math.min(xFor(pct) + 5, plotRight - 2)}
-              y={cy}
-              textAnchor="start"
-              dominantBaseline="middle"
-              fill={c.color}
-              style={{ fontSize: 9.5, fontWeight: 700 }}
-            >
-              {c.percent}%
-            </text>
-          </g>
-        );
-      })}
-    </ChartFrame>
-  );
-}
-
-/* ── 6. Heatmap (reference-style tile grid: 3-col cells, big %) ── */
-export function HeatmapView({ data }) {
-  return (
-    <div
-      className="mx-auto grid w-full max-w-[780px] grid-cols-1 gap-4 sm:grid-cols-3"
-      data-testid="heatmap-grid"
-    >
-      {data.map((c, i) => (
-        <motion.div
-          key={c.key}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.08 * i, duration: 0.3, ease }}
-          whileHover={{ scale: 1.04 }}
-          className="flex flex-col items-center justify-center gap-2 rounded-2xl border px-4 py-7 sm:py-9"
-          style={{ borderColor: withAlpha(c.color, 0.55), background: withAlpha(c.color, 0.12) }}
-        >
-          <p className="font-display truncate text-sm font-bold sm:text-base" style={{ color: c.color }}>
-            {c.name}
-          </p>
-          <p className="font-display text-4xl font-extrabold tabular-nums sm:text-5xl" style={{ color: BRIGHT }}>
-            {c.percent}
-            <span className="text-2xl">%</span>
-          </p>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-/* ── 7. Bubble plot ──────────────────────────────────────── */
+/* ── Bubble chart ────────────────────────────────────────── */
+/* Bubble size is strictly proportional with a ZERO baseline: 0% has no
+   bubble, 100% keeps the previous 31-unit maximum radius. No floor radius,
+   otherwise a 0% pillar would draw a large dot and 20% would read as ~43%
+   of the max. Pillar color comes from the centralized palette (via
+   toPillarData), so a pillar is the same color here as in Radar/Bullet/Bar. */
 export function BubblePlotView({ data }) {
   const [hover, setHover] = useState(null);
   const plotLeft = 70;
@@ -586,9 +234,6 @@ export function BubblePlotView({ data }) {
   const plotBottom = 246;
   const slotW = (plotRight - plotLeft) / data.length;
   const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
-  // Bubble radius is proportional with a ZERO baseline: 0% has no bubble,
-  // 100% keeps the previous 31-unit maximum. No floor radius, otherwise a
-  // 0% pillar would draw a large dot and 20% would read as ~43% of the max.
   const rFor = (p) => percentToExtent(p, 31);
   return (
     <div className="relative">
@@ -628,6 +273,18 @@ export function BubblePlotView({ data }) {
                   {ln}
                 </text>
               ))}
+              {/* Permanent score label — the pillar and its value stay visible
+                  without hovering (mobile/tablet have no hover). */}
+              <text
+                x={bx}
+                y={plotBottom + 16 + lines(c.name).length * 11}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill={c.color}
+                style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em' }}
+              >
+                {c.percent}%
+              </text>
             </g>
           );
         })}
@@ -641,7 +298,73 @@ export function BubblePlotView({ data }) {
   );
 }
 
-/* ── 8. Bar chart ────────────────────────────────────────── */
+/* ── Bullet chart ────────────────────────────────────────── */
+/* One 0–100 track per pillar. The filled portion is exactly
+   percentToExtent(percent, track width), so the bar always sits on the
+   same absolute 0–100 scale as the other three charts. The result dataset
+   carries no benchmark/target value, so none is invented — the chart shows
+   the actual score against the 0/25/50/75/100 scale only. Pillar color
+   comes from the centralized palette (via toPillarData), matching the
+   Radar / Bubble / Bar color of the same pillar. */
+export function BulletChartView({ data }) {
+  const plotLeft = 130;
+  const plotRight = 430;
+  const rowH = 44;
+  const row0Y = 60;
+  const trackW = plotRight - plotLeft;
+  const lastY = row0Y + rowH * data.length - 8;
+  const wFor = (p) => percentToExtent(p, trackW);
+  return (
+    <ChartFrame label="Bullet chart of the six pillar percentages on a zero to one hundred scale">
+      {[0, 25, 50, 75, 100].map((g) => {
+        const x = plotLeft + wFor(g);
+        return (
+          <g key={g}>
+            <line x1={x} y1={row0Y - 10} x2={x} y2={lastY} stroke={withAlpha('#FFFFFF', 0.07)} strokeWidth={1} />
+            <text x={x} y={row0Y - 18} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8 }}>
+              {g}
+            </text>
+          </g>
+        );
+      })}
+      {data.map((c, i) => {
+        const cy = row0Y + i * rowH;
+        const w = wFor(c.percent);
+        return (
+          <g key={c.key}>
+            <text x={plotLeft - 10} y={cy} textAnchor="end" dominantBaseline="middle" fill={SOFT} style={{ fontSize: 9.5 }}>
+              {c.name}
+            </text>
+            {/* neutral track — design-system white, never a data color */}
+            <rect x={plotLeft} y={cy - 5} width={trackW} height={10} rx={5} fill={withAlpha('#FFFFFF', 0.1)} />
+            {w > 0 && (
+              <motion.rect
+                x={plotLeft}
+                y={cy - 5}
+                width={w}
+                height={10}
+                rx={5}
+                fill={c.color}
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ duration: 0.55, delay: 0.08 + i * 0.06, ease }}
+                style={{ transformOrigin: `${plotLeft}px ${cy}px` }}
+              />
+            )}
+            <text x={plotLeft + w + 7} y={cy} textAnchor="start" dominantBaseline="middle" fill={c.color} style={{ fontSize: 10, fontWeight: 700 }}>
+              {c.percent}%
+            </text>
+          </g>
+        );
+      })}
+    </ChartFrame>
+  );
+}
+
+/* ── Bar chart ───────────────────────────────────────────── */
+/* Absolute 0–100 columns on the same shared zero baseline: bar height is
+   exactly percentToExtent(percent, plot height). Gridlines and labels mark
+   the 0/25/50/75/100 scale; bar fills use the centralized palette colors. */
 export function BarChartView({ data }) {
   const plotLeft = 34;
   const plotRight = 430;
@@ -701,67 +424,5 @@ export function BarChartView({ data }) {
         );
       })}
     </ChartFrame>
-  );
-}
-
-/* ── 9. Scatter plot (categorical pillar positions) ──────── */
-export function ScatterPlotView({ data }) {
-  const [hover, setHover] = useState(null);
-  const plotLeft = 70;
-  const plotRight = 430;
-  const plotTop = 24;
-  const plotBottom = 246;
-  const slotW = (plotRight - plotLeft) / data.length;
-  const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
-  return (
-    <div className="relative">
-      <ChartFrame label="Scatter plot of pillar order against each pillar percentage">
-        {[0, 25, 50, 75, 100].map((g) => (
-          <g key={g}>
-            <line x1={plotLeft} y1={yFor(g)} x2={plotRight} y2={yFor(g)} stroke={withAlpha('#FFFFFF', 0.1)} strokeWidth={1} />
-            <text x={plotLeft - 6} y={yFor(g)} textAnchor="end" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8 }}>
-              {g}
-            </text>
-          </g>
-        ))}
-        {data.map((c, i) => {
-          const bx = plotLeft + slotW * (i + 0.5);
-          const by = yFor(c.percent);
-          return (
-            <g key={c.key}>
-              <line x1={bx} y1={plotTop} x2={bx} y2={plotBottom} stroke={withAlpha('#FFFFFF', 0.06)} strokeWidth={1} />
-              <motion.circle
-                cx={bx}
-                cy={by}
-                r={hover === c.key ? 8 : 6}
-                fill={c.color}
-                stroke={brand.ink[900]}
-                strokeWidth={1.6}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.1 + i * 0.06, duration: 0.35, ease }}
-                style={{ transformOrigin: `${bx}px ${by}px` }}
-                className="cursor-pointer"
-                onMouseEnter={() => setHover(c.key)}
-                onMouseLeave={() => setHover(null)}
-              />
-              <text x={bx} y={plotBottom + 12} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8.5 }}>
-                {i + 1}
-              </text>
-              {lines(c.name).map((ln, li) => (
-                <text key={li} x={bx} y={plotBottom + 26 + li * 11} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.55)} style={{ fontSize: 8 }}>
-                  {ln}
-                </text>
-              ))}
-            </g>
-          );
-        })}
-      </ChartFrame>
-      {hover && (() => {
-        const idx = data.findIndex((d) => d.key === hover);
-        const c = data[idx];
-        return <HoverTip x={plotLeft + slotW * (idx + 0.5)} y={yFor(c.percent)} c={c} />;
-      })()}
-    </div>
   );
 }

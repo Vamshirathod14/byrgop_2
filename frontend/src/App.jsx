@@ -424,11 +424,12 @@ export default function App() {
       // from the real backend question for that category — never a local rule.
       const entry = {
         category: q.category,
+        categoryColor: q.categoryColor || null,
         name: q.name,
         answer: opt.optionId,
         optionText: opt.text,
         stage: optionStageFrom(prefetchedQRef.current[q.category], opt.text),
-        optionColor: optionColorFrom(prefetchedQRef.current[q.category], opt.text),
+        optionColor: optionColorFrom(prefetchedQRef.current[q.category], opt.text) || opt.color || null,
       };
       const next = [...answers, entry];
       setAnswers(next);
