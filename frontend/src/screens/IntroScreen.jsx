@@ -369,11 +369,8 @@ export default function IntroScreen({
             textShadow: '0 2px 20px rgba(0,0,0,0.5)',
           }}
         >
-          <span className="whitespace-nowrap">Are you a Business Owner</span>
-          <br />
-          <span className="font-display font-semibold" style={{ color: premiumWhite.soft }}>
-            / Decision Maker?
-          </span>
+          <span className="whitespace-nowrap">Select Business Type</span>
+           
         </h1>
 
         {/* Business Type Selection - gates Proceed */}
@@ -479,7 +476,7 @@ export default function IntroScreen({
           </PrimaryButton>
         </motion.div>
 
-        {!selected && (
+        {/* {!selected && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -489,7 +486,7 @@ export default function IntroScreen({
           >
             Select a business type to proceed.
           </motion.p>
-        )}
+        )} */}
 
         {errorText ? (
           <p
