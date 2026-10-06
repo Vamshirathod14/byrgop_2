@@ -17,6 +17,10 @@ const CARD_ACCENTS = [brand.mark[0], brand.mark[3], brand.mark[5]];
 // Single source of truth lives in brand.js — same values IntroScreen established.
 const premiumWhite = brand.premiumWhite;
 
+// Pale silver — the same sheen family as the white heading font, used as the
+// highlight band of the shine sweep.
+const PALE_SILVER = '#E8ECF2';
+
 export default function IntroScreen({
   onBegin,
   loading = false,
@@ -106,6 +110,15 @@ export default function IntroScreen({
   const readyQuestions = selected ? questionsByType[selected.key] : null;
   const readyForSelected =
     selected && Object.prototype.hasOwnProperty.call(questionsByType, selected.key);
+
+  // The button is only "active" once a type is selected AND its questions have
+  // resolved to a non-empty list. Until then it stays calm (no shine).
+  const proceedActive =
+    !!selected &&
+    readyForSelected &&
+    Array.isArray(readyQuestions) &&
+    readyQuestions.length > 0 &&
+    !loading;
 
   const isFinePointer = () => {
     return (
@@ -361,7 +374,7 @@ export default function IntroScreen({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2, ease }}
       >
-        {/* Hero Title */}
+        {/* Hero Title — white font with pale-silver shine sweep */}
         <h1
           className="font-display text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[4rem] tracking-[-0.02em] px-4"
           style={{
@@ -369,8 +382,7 @@ export default function IntroScreen({
             textShadow: '0 2px 20px rgba(0,0,0,0.5)',
           }}
         >
-          <span className="whitespace-nowrap">Select Business Type</span>
-           
+          <span className="whitespace-nowrap shine-silver">{'Select Business Type'}</span>
         </h1>
 
         {/* Business Type Selection - gates Proceed */}
@@ -450,7 +462,7 @@ export default function IntroScreen({
           </motion.p>
         )}
 
-        {/* Proceed Button */}
+        {/* Proceed Button — calm until a type is selected, then shines */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -459,20 +471,16 @@ export default function IntroScreen({
         >
           <PrimaryButton
             onClick={() => {
-              if (selected && readyForSelected && readyQuestions.length > 0) {
+              if (proceedActive) {
                 onBegin(selected.key, selected.label, readyQuestions);
               }
             }}
-            disabled={
-              !selected ||
-              !readyForSelected ||
-              !Array.isArray(readyQuestions) ||
-              readyQuestions.length === 0 ||
-              loading
-            }
-            className="font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em]"
+            disabled={!proceedActive}
+            className={`font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] ${
+              proceedActive ? 'shine-button' : ''
+            }`}
           >
-            PROCEED
+            <span className={proceedActive ? 'shine-button-label' : ''}>PROCEED</span>
           </PrimaryButton>
         </motion.div>
 
@@ -540,6 +548,67 @@ export default function IntroScreen({
           ))}
         </motion.div>
       </motion.div>
+
+      {/* Shine animations — silver heading sheen + button sweep */}
+      <style>{`
+        .shine-silver {
+          position: relative;
+          display: inline-block;
+          background-image: linear-gradient(
+            100deg,
+            ${premiumWhite.bright} 0%,
+            ${premiumWhite.bright} 35%,
+            ${PALE_SILVER} 50%,
+            ${premiumWhite.bright} 65%,
+            ${premiumWhite.bright} 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine-silver-sweep 3.2s ease-in-out infinite;
+        }
+        @keyframes shine-silver-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        .shine-button {
+          position: relative;
+          overflow: hidden;
+        }
+        .shine-button-label {
+          position: relative;
+          display: inline-block;
+          z-index: 1;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${PALE_SILVER} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine-silver-sweep 3.2s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .shine-silver,
+          .shine-button-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
+          }
+        }
+      `}</style>
     </div>
   );
 }
