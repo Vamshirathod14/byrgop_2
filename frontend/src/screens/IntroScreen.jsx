@@ -374,7 +374,7 @@ export default function IntroScreen({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2, ease }}
       >
-        {/* Hero Title — white font with pale-silver shine sweep */}
+        {/* Hero Title — plain white, no shine */}
         <h1
           className="font-display text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[4rem] tracking-[-0.02em] px-4"
           style={{
@@ -382,7 +382,7 @@ export default function IntroScreen({
             textShadow: '0 2px 20px rgba(0,0,0,0.5)',
           }}
         >
-          <span className="whitespace-nowrap shine-silver">{'Select Business Type'}</span>
+          <span className="whitespace-nowrap">{'Select Business Type'}</span>
         </h1>
 
         {/* Business Type Selection - gates Proceed */}
@@ -549,32 +549,8 @@ export default function IntroScreen({
         </motion.div>
       </motion.div>
 
-      {/* Shine animations — silver heading sheen + button sweep */}
+      {/* Shine animation — button sweep only (heading shine removed) */}
       <style>{`
-        .shine-silver {
-          position: relative;
-          display: inline-block;
-          background-image: linear-gradient(
-            100deg,
-            ${premiumWhite.bright} 0%,
-            ${premiumWhite.bright} 35%,
-            ${PALE_SILVER} 50%,
-            ${premiumWhite.bright} 65%,
-            ${premiumWhite.bright} 100%
-          );
-          background-size: 250% 100%;
-          background-position: 200% 0;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shine-silver-sweep 3.2s ease-in-out infinite;
-        }
-        @keyframes shine-silver-sweep {
-          0%   { background-position: 200% 0; }
-          60%  { background-position: -50% 0; }
-          100% { background-position: -50% 0; }
-        }
-
         .shine-button {
           position: relative;
           overflow: hidden;
@@ -599,8 +575,13 @@ export default function IntroScreen({
           animation: shine-silver-sweep 3.2s ease-in-out infinite;
         }
 
+        @keyframes shine-silver-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .shine-silver,
           .shine-button-label {
             animation: none;
             background: none;
