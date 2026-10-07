@@ -473,7 +473,7 @@ export default function KnowYourselfQuestions({
   // Category navigation (reuses the existing question fields: type/domain/category/businessType).
   // `businessTypeScope` only chooses WHICH of these tabs is open on arrival —
   // it does not add, remove or change any tab.
-  const [topTab, setTopTab] = useState(businessType || 'all'); // all | generic | service | product | domain (domain tabs exist only on the domain root)
+  const [topTab, setTopTab] = useState(businessType || 'all'); // 'all' (domain-less roots) | 'generic' | <business type key> (Mfg & Services)
   const [pillar, setPillar] = useState('all'); // 'all' or a KYCategory key (pillar)
   const [domainFilter, setDomainFilter] = useState('all'); // 'all' or a domain slug
   const [search, setSearch] = useState('');
@@ -707,61 +707,115 @@ export default function KnowYourselfQuestions({
     return !!d && !!bt && String(d.businessTypeId) === String(bt._id);
   };
 
-  // Top tabs for this root. Manufacturing & Services keeps the legacy shape
-  // (all / generic / per-business-type / domain) exactly as it always had.
+  // Top-level sections for this root.
   //
-  // Start-Up and Non-Profit are PILLAR-based banks: there is no Generic-vs-
-  // Domain axis to pick from — every question in such a root has one shape —
-  // and no business-type tab either, because each of those roots IS a single
-  // business type. So they get exactly ONE tab, "All <root> Questions", instead
-  // of a Generic tab and a business-type tab that could never contain anything
-  // else. Pillar is the only classification there, and it has its own filter
-  // below. This is a view decision only: nothing about how a question is stored,
-  // fetched or saved changes with it (`type` remains 'generic' on disk, as the
-  // API contract requires).
-  const topTabs = [
-    { key: 'all', label: rootHasDomains ? 'All Questions' : `All ${kyRoot.short} Questions` },
-    ...(rootHasDomains ? [{ key: 'generic', label: 'Generic' }] : []),
-    ...(rootHasDomains ? rootBtKeys.map((key) => ({ key, label: btOf(key)?.name || key })) : []),
-    ...(rootHasDomains ? [{ key: 'domain', label: 'Domain-specific' }] : []),
-  ];
+  // Manufacturing & Services is one root with two business types, and the whole
+  // shape of this navigation is that a domain is reached FROM its business type —
+  // never as a top-level tab of its own. So the root's top level is exactly three
+  // buttons:
+  //
+  //     [ Generic ] [ Services ] [ Manufacturing ]
+  //
+  // Generic first, then one button per business type in the order the database
+  // declares them. The labels are read live from `/admin/business-types`
+  // (`btOf(key)?.name`), so renaming a type in the database renames its tab —
+  // nothing is hard-coded.
+  //
+  // Start-Up and Non-Profit are PILLAR-based banks: every question in such a
+  // root has one shape, so there is no Generic-vs-Domain axis to pick from, and
+  // they keep exactly ONE tab, "All <root> Questions". This is a view decision
+  // only: nothing about how a question is stored, fetched or saved changes with
+  // it (`type` remains 'generic' on disk, as the API contract requires).
+  const topTabs = rootHasDomains
+    ? [
+        { key: 'generic', label: 'Generic' },
+        ...rootBtKeys.map((key) => ({ key, label: btOf(key)?.name || key })),
+      ]
+    : [{ key: 'all', label: `All ${kyRoot.short} Questions` }];
 
-  const inTopTab = (q) => {
-    switch (topTab) {
-      case 'all': return true;
-      case 'generic': return isGeneric(q);
-      case 'domain': return rootHasDomains && !isGeneric(q);
-      default: return rootBtKeys.includes(topTab) ? inBusinessType(q, topTab) : false;
-    }
+  // A legacy/direct link (`kyRoot_manufacturing-services`) arrives without a
+  // businessType, leaving topTab at 'all' — a tab the Mfg & Services root no
+  // longer has. `sectionTab` maps that to the Generic section so such a link
+  // still lands on a real tab. Start-Up / Non-Profit legitimately keep 'all'.
+  const sectionTab = rootHasDomains && topTab === 'all' ? 'generic' : topTab;
+
+  // The business type under the current tab, when that tab is a domain-carrying
+  // business type ('service', 'product', …). Null on Generic and on the
+  // single-tab Start-Up / Non-Profit views.
+  const selectedBtKey = rootBtKeys.includes(sectionTab) ? sectionTab : null;
+
+  const inSection = (q) => {
+    if (sectionTab === 'all') return true; // Start-Up / Non-Profit: one shape, pre-scoped by root + business type.
+    if (sectionTab === 'generic') return isGeneric(q) && !q.domain; // Generic tab: truly generic rows only.
+    // A business-type section shows that type's DOMAIN questions only. Generic
+    // questions live under the Generic tab, and a question is only "of" this
+    // type when its DOMAIN is owned by it (Domain.businessTypeId), so a
+    // Manufacturing domain's questions can never appear under Services.
+    return q.type === 'domain' && inBusinessType(q, sectionTab);
   };
 
   const visible = liveQuestions.filter((q) => {
-    if (!inTopTab(q)) return false;
+    if (!inSection(q)) return false;
     if (pillar !== 'all' && q.category !== pillar) return false;
     if (domainFilter !== 'all' && q.domain !== domainFilter) return false;
     if (search.trim() && !q.text.toLowerCase().includes(search.trim().toLowerCase())) return false;
     return true;
   });
 
-  // Domain sub-tab list for the current business-type / domain view.
-  const domainTabs =
-    topTab === 'domain'
-      ? domains.filter((d) => d.active !== false)
-      : rootBtKeys.includes(topTab)
-        ? domains.filter((d) => {
-            const bt = btOf(topTab);
-            return d.active !== false && bt && String(d.businessTypeId) === String(bt._id);
-          })
-        : [];
+  // The domain sub-navigation for the current business-type section: the ACTIVE
+  // domains owned by that type (Domain.businessTypeId === BusinessType._id, both
+  // read from the live API — never a hard-coded list). Generic and the
+  // domain-less roots have no chips.
+  const sectionDomains = selectedBtKey
+    ? domains.filter((d) => {
+        const bt = btOf(selectedBtKey);
+        return d.active !== false && bt && String(d.businessTypeId) === String(bt._id);
+      })
+    : [];
 
-  // Group the current view so it is easy to navigate (similar to Domain Selection).
+  // The domain currently open inside a business-type section, or null while the
+  // section is showing its domain grid. `domainFilter` only ever holds a slug
+  // from `sectionDomains`, so the two can never point across sections or types.
+  const selectedDomain = selectedBtKey && domainFilter !== 'all' ? domainOf(domainFilter) : null;
+
+  // Live question count for one domain, measured from the loaded rows — dynamic,
+  // so the chip badges and the "N Questions" header always describe the bank.
+  const activeCountFor = (slug) =>
+    liveQuestions.filter((q) => q.active !== false && q.type === 'domain' && q.domain === slug).length;
+
+  // The pillar filter row's counts — scoped to the CURRENT view, never the whole
+  // bank, so a Services domain's pillar counts can never include Retail's or
+  // Healthcare's questions:
+  //   · selected DOMAIN (Mfg & Services): that domain's active questions only
+  //   · GENERIC tab (Mfg & Services): active generic questions only
+  //   · 'all' (Start-Up / Non-Profit): the whole root's active questions
+  const pillarScope = selectedDomain
+    ? liveQuestions.filter((q) => q.type === 'domain' && q.domain === selectedDomain.slug)
+    : sectionTab === 'generic'
+      ? liveQuestions.filter((q) => isGeneric(q) && !q.domain)
+      : liveQuestions;
+
+  // One chip per CONFIGURED pillar with its dynamic count, from the actual
+  // category assignment of each question. A configured pillar with zero active
+  // questions in this scope stays visible as "Name 0" and is disabled — the page
+  // never hides an empty pillar and never fabricates questions to fill one.
+  const pillarChips = liveCategories.map((c) => ({
+    key: c.key,
+    name: c.name,
+    count: pillarScope.filter((q) => q.category === c.key).length,
+  }));
+
+  // Group the current view so it is easy to navigate.
   //
-  // Grouping is driven by `liveCategories` and the completeness check below is
-  // what stops a question going missing: a question whose pillar is NOT in
-  // `liveCategories` falls into "Uncategorized" instead of being dropped between
-  // groups, so a retired pillar can never silently swallow its questions.
+  // A selected domain (and the Generic tab) groups by the question's ACTUAL
+  // stored pillar — `category`, the same value the assessment groups by — so the
+  // list mirrors the result structure instead of a flat dump. Grouping is driven
+  // by `liveCategories` and the completeness check below is what stops a
+  // question going missing: a question whose pillar is NOT in `liveCategories`
+  // falls into "Uncategorized" instead of being dropped between groups, so a
+  // retired pillar can never silently swallow its questions.
   let groups = null; // null => flat list
-  if (topTab === 'generic' && pillar === 'all') {
+  if (pillar === 'all' && (sectionTab === 'generic' || selectedDomain)) {
     const pillarGroups = liveCategories
       .map((c) => ({
         key: c.key,
@@ -774,20 +828,6 @@ export default function KnowYourselfQuestions({
     groups = [
       ...pillarGroups,
       ...(uncategorized.length ? [{ key: '__uncat', title: 'Uncategorized', color: null, items: uncategorized }] : []),
-    ];
-  } else if (topTab === 'domain' && domainFilter === 'all') {
-    groups = domains
-      .filter((d) => d.active !== false)
-      .map((d) => ({ key: d.slug, title: d.name, color: null, items: visible.filter((q) => q.domain === d.slug) }))
-      .filter((g) => g.items.length);
-  } else if (rootBtKeys.includes(topTab) && domainFilter === 'all') {
-    const genericGroup = visible.filter(isGeneric);
-    groups = [
-      ...(genericGroup.length ? [{ key: '__generic', title: 'Generic', color: null, items: genericGroup }] : []),
-      ...domains
-        .filter((d) => d.active !== false)
-        .map((d) => ({ key: d.slug, title: d.name, color: null, items: visible.filter((q) => q.domain === d.slug) }))
-        .filter((g) => g.items.length),
     ];
   }
 
@@ -1174,7 +1214,7 @@ export default function KnowYourselfQuestions({
             key={f.key}
             onClick={() => switchTopTab(f.key)}
             className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-              topTab === f.key
+              sectionTab === f.key
                 ? 'bg-brand-accent/15 text-brand-accentText'
                 : 'text-mist-muted hover:bg-slate-100 hover:text-mist'
             }`}
@@ -1184,72 +1224,107 @@ export default function KnowYourselfQuestions({
         ))}
       </div>
 
-      {/* Pillar sub-tabs — the pillar axis, which every root has. On
-          Manufacturing & Services this sits inside the Generic view, exactly as
-          it always did; on Start-Up / Non-Profit, whose only view is "All
-          <root> Questions", it sits there. Pillar is a real classification for
-          every root, unlike Generic/Domain which are not offered at all on a
-          root that has no domain step. */}
-      {(rootHasDomains ? topTab === 'generic' : topTab === 'all') && (
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="text-xs uppercase tracking-[0.15em] text-mist-muted">Pillar:</span>
-          <button
-            onClick={() => setPillar('all')}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-              pillar === 'all'
-                ? 'bg-brand-accent/15 text-brand-accentText'
-                : 'text-mist-muted hover:bg-slate-100 hover:text-mist'
-            }`}
-          >
-            All Pillars
-          </button>
-          {categories.filter((c) => (showRetired ? true : c.active !== false)).map((c) => (
-            <button
-              key={c.key}
-              onClick={() => setPillar(c.key)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                pillar === c.key
-                  ? 'bg-brand-accent/15 text-brand-accentText'
-                  : 'text-mist-muted hover:bg-slate-100 hover:text-mist'
-              }`}
-            >
-              {c.name}
-            </button>
-          ))}
+      {/* Domain sub-navigation — sits UNDER Services / Manufacturing, never as a
+          top-level tab. Each chip is one active domain owned by the selected
+          business type (Domain.businessTypeId), read from the API. Clicking one
+          opens exactly that domain's questions, grouped by pillar below. */}
+      {sectionDomains.length > 0 && (
+        <div className="mt-3">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-mist-muted/80">
+            Domains:
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {sectionDomains.map((d) => (
+              <button
+                key={d.slug}
+                type="button"
+                onClick={() => setDomainFilter(d.slug)}
+                aria-pressed={domainFilter === d.slug}
+                className={`rounded-lg border px-3 py-2 text-left text-xs transition-colors ${
+                  domainFilter === d.slug
+                    ? 'border-brand-accent/50 bg-brand-accent/10'
+                    : 'border-slate-200 bg-slate-50 hover:border-slate-300'
+                }`}
+              >
+                <span className="block font-medium text-mist">{d.name}</span>
+                <span className="tabular-nums text-mist-muted">
+                  {activeCountFor(d.slug)} question{activeCountFor(d.slug) === 1 ? '' : 's'}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Domain sub-tabs (business-type + domain-specific views) */}
-      {(topTab === 'domain' || rootBtKeys.includes(topTab)) && (
-        <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="text-xs uppercase tracking-[0.15em] text-mist-muted">
-            {topTab === 'domain'
-              ? 'Domain:'
-              : `${btOf(topTab)?.name || topTab} Domains:`}
+      {/* Active-domain heading — Services → Financial Services & FinTech · 9
+          active questions — directly under the domain selection, above the
+          pillar filters. Both the name and the count come from the API/data. */}
+      {selectedDomain && (
+        <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+          <h2 className="font-display text-lg font-semibold text-mist">
+            {btOf(selectedBtKey)?.name || selectedBtKey}
+            <span className="text-mist-muted">
+              {' '}→ {selectedDomain.name || selectedDomain.slug}
+            </span>
+          </h2>
+          <span className="text-xs tabular-nums text-mist-muted">
+            {activeCountFor(selectedDomain.slug)} active question
+            {activeCountFor(selectedDomain.slug) === 1 ? '' : 's'}
           </span>
-          <button
-            onClick={() => setDomainFilter('all')}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-              domainFilter === 'all'
-                ? 'bg-brand-accent/15 text-brand-accentText'
-                : 'text-mist-muted hover:bg-slate-100 hover:text-mist'
-            }`}
-          >
-            {topTab === 'domain' ? 'All Domains' : 'All'}
-          </button>
-          {domainTabs.map((d) => (
+        </div>
+      )}
+
+      {/* Pillar filter row — BELOW the domain selection, ABOVE the question list.
+          Counts are dynamic and scoped to the current view: a selected
+          Manufacturing & Services domain counts ONLY that domain's active
+          questions; Generic counts generic questions; Start-Up / Non-Profit (the
+          'all' tab) count the whole root's active questions. A configured pillar
+          with zero active questions is shown as "Name 0" and disabled — never
+          hidden, never topped up with fake questions. */}
+      {(rootHasDomains ? sectionTab === 'generic' || !!selectedDomain : sectionTab === 'all') && (
+        <div className="mt-4">
+          {sectionTab === 'all' && (
+            <p className="mb-2 text-sm font-medium text-mist">
+              {kyRoot.short}
+              <span className="ml-1 text-xs font-normal tabular-nums text-mist-muted">
+                · {pillarScope.length} active question{pillarScope.length === 1 ? '' : 's'}
+              </span>
+            </p>
+          )}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs uppercase tracking-[0.15em] text-mist-muted">Pillar:</span>
             <button
-              key={d.slug}
-              onClick={() => setDomainFilter(d.slug)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                domainFilter === d.slug
+              type="button"
+              onClick={() => setPillar('all')}
+              aria-pressed={pillar === 'all'}
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium tabular-nums transition-colors ${
+                pillar === 'all'
                   ? 'bg-brand-accent/15 text-brand-accentText'
                   : 'text-mist-muted hover:bg-slate-100 hover:text-mist'
               }`}
             >
-              {d.name}
+              All {pillarScope.length}
             </button>
-          ))}
+            {pillarChips.map((p) => (
+              <button
+                key={p.key}
+                type="button"
+                onClick={() => p.count > 0 && setPillar(p.key)}
+                disabled={p.count === 0}
+                aria-pressed={pillar === p.key}
+                title={p.count === 0 ? 'No active questions in this pillar' : `Filter to ${p.name}`}
+                className={`rounded-lg px-3 py-1.5 text-xs font-medium tabular-nums transition-colors ${
+                  pillar === p.key
+                    ? 'bg-brand-accent/15 text-brand-accentText'
+                    : p.count === 0
+                      ? 'cursor-not-allowed text-mist-muted/40'
+                      : 'text-mist-muted hover:bg-slate-100 hover:text-mist'
+                }`}
+              >
+                {p.name} {p.count}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
@@ -1408,37 +1483,47 @@ export default function KnowYourselfQuestions({
         </div>
       )}
 
-      <div className="mt-6 space-y-3">
-        {visible.length === 0 && (
-          <p className="text-mist-muted">
-            No questions match this view.
-            {retiredQuestionCount > 0 && !showRetired && (
-              <>
-                {' '}
-                {retiredQuestionCount} retired question{retiredQuestionCount === 1 ? ' is' : 's are'}{' '}
-                hidden — tick “Show retired” above to see {retiredQuestionCount === 1 ? 'it' : 'them'}.
-              </>
-            )}
-          </p>
-        )}
+      {/* A business-type section with no domain picked is a domain GRID, not a
+          question list: the domain must be chosen before its questions show. */}
+      {selectedBtKey && !selectedDomain && (
+        <div className="mt-6 rounded-xl border border-dashed border-slate-300 bg-slate-50/60 p-8 text-center">
+          <p className="text-sm font-medium text-mist">Select a domain above to view its questions.</p>
+        </div>
+      )}
 
-        {visible.length > 0 && !groups && <div className="space-y-3">{visible.map(renderCard)}</div>}
+      {(!selectedBtKey || selectedDomain) && (
+        <div className="mt-6 space-y-3">
+          {visible.length === 0 && (
+            <p className="text-mist-muted">
+              No questions match this view.
+              {retiredQuestionCount > 0 && !showRetired && (
+                <>
+                  {' '}
+                  {retiredQuestionCount} retired question{retiredQuestionCount === 1 ? ' is' : 's are'}{' '}
+                  hidden — tick “Show retired” above to see {retiredQuestionCount === 1 ? 'it' : 'them'}.
+                </>
+              )}
+            </p>
+          )}
 
-        {groups &&
-          groups.map((g) => (
-            <div key={g.key}>
-              <div className="mb-2 flex items-center gap-2">
-                <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ background: groupColor(g) }}
-                />
-                <h2 className="font-display text-sm font-semibold text-mist">{g.title}</h2>
-                <span className="text-xs text-mist-muted">{g.items.length} question(s)</span>
+          {visible.length > 0 && !groups && <div className="space-y-3">{visible.map(renderCard)}</div>}
+
+          {groups &&
+            groups.map((g) => (
+              <div key={g.key}>
+                <div className="mb-2 flex items-center gap-2">
+                  <span
+                    className="h-2 w-2 rounded-full"
+                    style={{ background: groupColor(g) }}
+                  />
+                  <h2 className="font-display text-sm font-semibold text-mist">{g.title}</h2>
+                  <span className="text-xs text-mist-muted">{g.items.length} question(s)</span>
+                </div>
+                <div className="space-y-3">{g.items.map(renderCard)}</div>
               </div>
-              <div className="space-y-3">{g.items.map(renderCard)}</div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 }

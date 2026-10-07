@@ -672,10 +672,12 @@ test('the structure summary is counted from the data, never hard-coded', () => {
 });
 
 test('a root with no domain step renders no domain control at all', () => {
-  // The domain sub-tabs and the domain form field are both behind the same
-  // flag, so neither Non-Profit nor Start-Up can show a Domain selector.
-  assert.match(QUESTIONS_PAGE, /rootHasDomains \? \[\{ key: 'domain', label: 'Domain-specific' \}\] : \[\]/);
-  assert.match(QUESTIONS_PAGE, /\(topTab === 'domain' \|\| rootBtKeys\.includes\(topTab\)\) && \(/);
+  // The domain sub-navigation and the domain form field are both behind the
+  // same flag, so neither Non-Profit nor Start-Up can show a Domain selector.
+  assert.match(QUESTIONS_PAGE, /const sectionDomains = selectedBtKey\s*\?/,
+    'domain chips must be built from the selected business type only');
+  assert.doesNotMatch(QUESTIONS_PAGE, /topTab === 'domain'/,
+    'there is no Domain-specific top-level tab for any root');
   assert.match(QUESTIONS_PAGE, /rootHasDomains\s*\? ` · \$\{genericCount\} generic/,
     'the count line must not promise domains on a root that has none');
 });
@@ -701,10 +703,15 @@ test('selecting Manufacturing or Services is a VIEW scope, not a code path', () 
   // control renders exactly as it did.
   assert.equal(getKyRoot('manufacturing-services').requiresDomainSelection, true);
 
-  // The domain tab, the domain sub-tab strip and the domain count line are all
-  // still reachable on this root.
-  assert.match(QUESTIONS_PAGE, /\{ key: 'domain', label: 'Domain-specific' \}/);
-  assert.match(QUESTIONS_PAGE, /Domain:/);
+  // The domain sub-navigation and the domain count line are all still reachable
+  // on this root — as sub-navigation under the business types, never as a
+  // top-level "Domains" tab and never as a blanket list of every domain.
+  assert.doesNotMatch(QUESTIONS_PAGE, /\{ key: 'domain', label: 'Domain-specific' \}/,
+    'a Domain-specific top-level tab must not exist');
+  assert.doesNotMatch(QUESTIONS_PAGE, /label: 'All Questions'/,
+    'an All-Questions top-level tab must not exist on the Mfg & Services root');
+  assert.match(QUESTIONS_PAGE, /const sectionDomains = selectedBtKey\s*\?/);
+  assert.match(QUESTIONS_PAGE, /Domains:/);
   assert.match(QUESTIONS_PAGE, /\{rootHasDomains && \(/,
     'the Question Type / Business Type / Domain block is still reachable');
 });

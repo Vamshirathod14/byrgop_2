@@ -11,6 +11,13 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
+// Timer gold — matches the default `goldMain` used by the Timer component and
+// the "Snapshot" word on the result screen.
+const TIMER_GOLD = '#FCA700';
+
+// Pale cream highlight band used by the shine sweep (same as the Snapshot word).
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 // Band severity colours — semantic, but drawn from the centralized brand
 // palette (green/yellow/orange/red 300) instead of arbitrary Tailwind hues.
 function bandColor(band) {
@@ -594,7 +601,7 @@ export default function KnowYourselfResult({
         <div className="relative z-10 flex flex-col items-center justify-center">
           <ContextChips businessTypeLabel={result.businessTypeLabel} domainLabel={result.domainLabel || data?.domainLabel} />
           <h1 className="font-display mt-8 text-center text-3xl font-bold sm:text-4xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-            {entityLabel} <span className="font-display font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
+            {entityLabel} <span className="font-display font-semibold shine-gold">Assessment</span>
           </h1>
           <div className="mt-10 flex flex-col items-center">
             <ScoreRing percent={pct} label="Score" />
@@ -699,7 +706,7 @@ export default function KnowYourselfResult({
           {brand.tagline}
         </span>
         <h1 className="font-display mt-2 text-2xl font-bold uppercase tracking-wide sm:text-3xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-          {entityLabel} <span className="font-display italic normal-case font-semibold" style={{ color: brand.accent }}>Health</span> Score
+          {entityLabel} <span className="font-display normal-case font-semibold shine-gold">Health</span> Score
         </h1>
         <div className="mt-5">
           <ContextChips
@@ -866,6 +873,41 @@ export default function KnowYourselfResult({
           if (data) setReportExisting((prev) => ({ ...(prev || {}), ...data }));
         }}
       />
+
+      {/* Gold shine sweep — identical to the "Snapshot" word on the result screen */}
+      <style>{`
+        .shine-gold {
+          position: relative;
+          display: inline-block;
+          background-image: linear-gradient(
+            100deg,
+            ${TIMER_GOLD} 0%,
+            ${TIMER_GOLD} 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            ${TIMER_GOLD} 65%,
+            ${TIMER_GOLD} 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine-gold-sweep 3.2s ease-in-out infinite;
+        }
+        @keyframes shine-gold-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .shine-gold {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: ${TIMER_GOLD};
+            color: ${TIMER_GOLD};
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -77,8 +77,8 @@ test('a root without domains asks for live rows only, so retired questions never
 
 test('every Domain affordance in the Questions page is gated on rootHasDomains', () => {
   const domainUi = [
-    // type filter tab
-    { key: 'domain', label: 'Domain-specific' },
+    // domain chips + question-type/domain fields (Mfg & Services root)
+    { key: 'domain', label: 'domain' },
     // domain select in the form
     { key: 'showDomainSchema', label: 'showDomainSchema' },
     // domain field rendering
@@ -99,8 +99,10 @@ test('every Domain affordance in the Questions page is gated on rootHasDomains',
     'the domain label on a question card must be gated on rootHasDomains');
   assert.match(QUESTIONS_PAGE, /showDomainSchema=\{rootHasDomains\}/,
     'the DomainSelect in the form must be gated on rootHasDomains');
-  // And the type filter tab is conditional rather than present-but-disabled.
-  assert.match(QUESTIONS_PAGE, /rootHasDomains \? \[\{ key: 'domain', label: 'Domain-specific' \}\] : \[\]/);
+  // And the domain sub-navigation is driven by a selected business type only,
+  // never by a top-level "Domain-specific" tab.
+  assert.match(QUESTIONS_PAGE, /const sectionDomains = selectedBtKey\s*\?/);
+  assert.doesNotMatch(QUESTIONS_PAGE, /\{ key: 'domain', label: 'Domain-specific' \}/);
 });
 
 test('the Non-Profit root never receives a Domain schema or a domain question filter', () => {

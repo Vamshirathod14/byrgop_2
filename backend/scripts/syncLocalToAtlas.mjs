@@ -226,37 +226,19 @@ async function sync() {
     { $set: { businessTypeId: null } }
   );
 
-  // Also support the local underscore slugs in Atlas so that requests using either hyphen or underscore slug succeed!
-  // Same for retail_ecommerce, healthcare_wellness, supply_chain_logistics, technology_saas, franchise_multi_unit
-  const underscorePairs = [
-    { localSlug: 'retail_ecommerce', atlasSlug: 'retail-e-commerce', name: 'Retail & E-Commerce', btId: serviceBt?._id },
-    { localSlug: 'healthcare_wellness', atlasSlug: 'healthcare-life-sciences', name: 'Healthcare & Life Sciences Operations', btId: serviceBt?._id },
-    { localSlug: 'supply_chain_logistics', atlasSlug: 'supply-chain-logistics', name: 'Supply Chain, Logistics & Distribution', btId: serviceBt?._id },
-    { localSlug: 'technology_saas', atlasSlug: 'technology-saas', name: 'Technology & SaaS / Digital Products', btId: serviceBt?._id },
-    { localSlug: 'franchise_multi_unit', atlasSlug: 'franchise-multi-unit', name: 'Franchise & Multi-Unit Chains', btId: serviceBt?._id },
-  ];
-
-  for (const pair of underscorePairs) {
-    const localDom = await localDb.collection('domains').findOne({ slug: pair.localSlug });
-    if (localDom) {
-      // Check if already in Atlas by slug
-      const existingInAtlas = await atlasDb.collection('domains').findOne({ slug: pair.localSlug });
-      if (!existingInAtlas) {
-        await atlasDb.collection('domains').insertOne({
-          _id: new mongoose.Types.ObjectId(),
-          slug: pair.localSlug,
-          name: pair.name,
-          description: '',
-          active: true,
-          businessTypeId: pair.btId,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          __v: 0
-        });
-        console.log(`Added alias domain "${pair.localSlug}" to Atlas.`);
-      }
-    }
-  }
+  // NOTE (2026-10-11) — Alias domain creation REMOVED. This block used to
+  // insert underscore-slug alias domain documents (retail_ecommerce,
+  // healthcare_wellness, supply_chain_logistics, technology_saas,
+  // franchise_multi_unit) into Atlas so that requests using either slug form
+  // would resolve. That produced 5 duplicate Services domains on the
+  // Atlas-backed path: each alias was its own active document, so every
+  // domain-list API (participant /domains?businessType=service and Admin
+  // /admin/domains) returned both forms. The aliases were retired in Atlas
+  // (active: false) on 2026-10-11. The canonical Atlas slug for each of these
+  // five domains is its hyphen form (retail-e-commerce, healthcare-life-
+  // sciences, supply-chain-logistics, technology-saas, franchise-multi-unit).
+  // Do NOT recreate alias domain documents: every domain-list API returns one
+  // row per active document.
 
   // ----------------------------------------------------
   // STEP 4: knowyourselfquestions synchronization
@@ -373,35 +355,11 @@ async function sync() {
   }
   console.log(`Manufacturing questions synced to Atlas: ${mfgInserted} inserted, ${mfgUpdated} updated.`);
 
-  // E. Also ensure underscore domain questions exist in Atlas so if someone requests e.g. technology_saas or retail_ecommerce, it finds them
-  for (const pair of underscorePairs) {
-    const localDomainQuestions = await localDb.collection('knowyourselfquestions').find({ domain: pair.localSlug }).toArray();
-    for (const q of localDomainQuestions) {
-      await atlasDb.collection('knowyourselfquestions').updateOne(
-        { text: q.text, domain: pair.localSlug },
-        {
-          $set: {
-            text: q.text,
-            type: 'domain',
-            domain: pair.localSlug,
-            options: q.options,
-            active: q.active,
-            category: q.category,
-            businessType: null,
-            kyRoot: null,
-            glossary: q.glossary || [],
-            updatedAt: new Date()
-          },
-          $setOnInsert: {
-            _id: q._id,
-            createdAt: q.createdAt || new Date(),
-            __v: 0
-          }
-        },
-        { upsert: true }
-      );
-    }
-  }
+  // E. (2026-10-11) — Alias-question sync REMOVED together with the alias
+  // domain records above. The 45 questions keyed to the retired underscore
+  // slugs were deactivated in Atlas alongside their domains (active: false).
+  // Canonical questions for these five Services domains live under their
+  // hyphen slugs and are covered by the regular domain-question sync path.
 
   // ----------------------------------------------------
   // STEP 5: Onboarding stages, categories, resultcontents, questions
