@@ -167,47 +167,82 @@ export default function KnowYourselfScreen({
       </motion.div>
 
       {/* Header */}
-      <header className="flex flex-col items-center pt-11 sm:pt-12 md:pt-14 text-center">
-        {/* Compact selections header — Business Type / Domain with Change actions */}
-        <div className="flex w-full max-w-xl flex-col items-center gap-1 px-3">
-          <div className="flex min-w-0 max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
-            <span className="font-display text-[10px] font-medium sm:text-xs" style={{ color: premiumWhite.soft }}>
-              Business Type:
+      <header className="flex flex-col items-center pt-16 sm:pt-9 md:pt-11 text-center">
+        {/* Selections header — Business Type / Domain with Change actions */}
+        <div className="flex w-full max-w-4xl flex-col items-center gap-1.5 sm:gap-2 px-3 sm:px-6">
+          <div className="text-center">
+            <span
+              className="font-display text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
+              style={{ color: premiumWhite.bright }}
+            >
+              Business Type:{' '}
+              <span className="whitespace-nowrap inline-flex items-center gap-1.5 align-baseline">
+                {businessTypeLabel || '—'}
+                {onChangeBusiness && canChangeSelection && (
+                  <button
+                    type="button"
+                    onClick={onChangeBusiness}
+                    className="inline-flex items-center font-display cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
+                    style={{ color: brand.accent }}
+                  >
+                    Change
+                  </button>
+                )}
+              </span>
             </span>
-            <span className="font-display truncate text-xs font-semibold sm:text-sm" style={{ color: premiumWhite.bright }}>
-              {businessTypeLabel || '—'}
-            </span>
-            {onChangeBusiness && canChangeSelection && (
-              <button
-                type="button"
-                onClick={onChangeBusiness}
-                className="font-display cursor-pointer rounded-full border border-white/15 px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:border-white/30"
-                style={{ color: brand.accent }}
-              >
-                Change
-              </button>
-            )}
           </div>
+
           {/* A root with no domain step has no domain to show or change, so the
               row is omitted entirely rather than rendered as an empty "—". */}
           {canChangeSelection && (
-            <div className="flex min-w-0 max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
-              <span className="font-display text-[10px] font-medium sm:text-xs" style={{ color: premiumWhite.soft }}>
-                Domain:
+            <div className="text-center">
+              <span
+                className="font-display text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
+                style={{ color: premiumWhite.bright }}
+              >
+                Domain:{' '}
+                {(() => {
+                  const label = domainLabel || '—';
+                  const words = label.trim().split(/\s+/);
+                  if (words.length <= 1) {
+                    return (
+                      <span className="whitespace-nowrap inline-flex items-center gap-1.5 align-baseline">
+                        {label}
+                        {onChangeDomain && (
+                          <button
+                            type="button"
+                            onClick={onChangeDomain}
+                            className="inline-flex items-center font-display cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
+                            style={{ color: brand.accent }}
+                          >
+                            Change
+                          </button>
+                        )}
+                      </span>
+                    );
+                  }
+                  const leadingWords = words.slice(0, -1).join(' ');
+                  const lastWord = words[words.length - 1];
+                  return (
+                    <>
+                      {leadingWords}{' '}
+                      <span className="whitespace-nowrap inline-flex items-center gap-1.5 align-baseline">
+                        {lastWord}
+                        {onChangeDomain && (
+                          <button
+                            type="button"
+                            onClick={onChangeDomain}
+                            className="inline-flex items-center font-display cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
+                            style={{ color: brand.accent }}
+                          >
+                            Change
+                          </button>
+                        )}
+                      </span>
+                    </>
+                  );
+                })()}
               </span>
-              <span className="font-display truncate text-xs font-semibold sm:text-sm" style={{ color: premiumWhite.bright }}>
-                {domainLabel || '—'}
-              </span>
-              {onChangeDomain && (
-                <button
-                  type="button"
-                  onClick={onChangeDomain}
-                  className="font-display cursor-pointer rounded-full border border-white/15 px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:border-white/30"
-                  style={{ color: brand.accent }}
-                >
-                  Change
-                </button>
-              )}
             </div>
           )}
         </div>

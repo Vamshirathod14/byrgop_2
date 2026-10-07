@@ -49,61 +49,202 @@ const TEAM_MEMBERS = [
   },
 ];
 
-const frameworksData = {
-  philosophy: {
-    id: 'philosophy',
-    title: 'The Foundation of Business Profit Architecture',
-    subtitle: 'Six essential pillars that work together to build a stronger, more profitable business.',
+const DOMAIN_TABS = [
+  { id: 'service', label: 'Services' },
+  { id: 'manufacturing', label: 'Manufacturing' },
+  { id: 'nonprofit', label: 'Non-Profit' },
+  { id: 'startup', label: 'Start-Up' },
+];
+
+const DOMAIN_PILLARS = {
+  manufacturing: {
+    id: 'manufacturing',
+    domainLabel: 'Manufacturing',
+    title: 'Manufacturing & Industrial Architecture',
+    subtitle: 'Operational rigor, supply-chain balance, and plant efficiency to build a resilient, profitable manufacturing enterprise.',
+    tagline: 'Production & Industrial Focus',
     items: [
       {
         name: 'Strategy',
         color: '#0A78CF',
         subtitle: 'The Vision & Direction',
-        tagline: 'The Vision & Direction',
-        role: 'Blue represents depth, stability, and clarity. Strategy defines where the enterprise is going, why it exists, and how it will differentiate itself in a competitive landscape.',
-        impact: 'Without a clear Strategy, execution lacks alignment. Strategy aligns all resources toward long-term value creation, market positioning, and sustainable competitive advantage.',
+        role: 'Blue represents depth, stability, and clarity. Strategy defines market positioning, capacity investments, and long-term product roadmaps in a competitive manufacturing sector.',
+        impact: 'Aligns plant capital, technological adoption, and operational resources toward sustainable competitive advantage and high-margin production.',
       },
       {
         name: 'Finances',
         color: '#FCA700',
         subtitle: 'The Economic Engine',
-        tagline: 'The Economic Engine',
-        role: 'Yellow signifies value, prosperity, and financial vigilance. Finances form the analytical backbone that converts strategic ambition into measured economic performance.',
-        impact: 'High revenue means little without profit margin control, cash flow discipline, and capital efficiency. Sound financial architecture ensures solvency, funds expansion, and maximizes return on investment.',
+        role: 'Yellow signifies value and financial vigilance. Finances convert manufacturing capability into measured economic yield, tracking COGS, working capital, and asset efficiency.',
+        impact: 'Ensures healthy cash conversion cycles, capital expenditure ROI, and resilient balance sheets across production cycles.',
       },
       {
         name: 'Marketing',
         color: '#E52032',
         subtitle: 'The Market Presence & Magnetism',
-        tagline: 'The Market Presence & Magnetism',
-        role: 'Red embodies passion, urgency, and influence. Marketing builds market equity, establishes brand presence, and drives customer acquisition.',
-        impact: 'An enterprise can offer superior products or services, but without effective positioning and channel execution, value remains uncaptured. Marketing connects value creation to market demand.',
+        role: 'Red embodies influence and market reach. Establishes brand equity, distributor relationships, and direct OEM/industrial customer acquisition.',
+        impact: 'Connects factory output to profitable market demand, safeguarding against commoditization and driving order predictability.',
       },
       {
         name: 'Operations',
         color: '#0D8845',
         subtitle: 'The Value Delivery System',
-        tagline: 'The Value Delivery System',
-        role: 'Green reflects efficiency, balance, and systematic execution. Operations transform strategic intent and customer demand into reliable, scalable output.',
-        impact: 'Operational excellence reduces friction, eliminates waste, and builds repeatable processes. It ensures that delivery meets or exceeds customer expectations every single time.',
+        role: 'Green reflects systematic execution and shop-floor excellence. Governs production scheduling, quality assurance, inventory control, and supply chain logistics.',
+        impact: 'Eliminates manufacturing downtime, reduces scrap and waste, and guarantees on-time delivery at specified tolerances.',
       },
       {
         name: 'People',
         color: '#F5630D',
         subtitle: 'The Capability & Leadership',
-        tagline: 'The Capability & Leadership',
-        role: 'Orange symbolizes human energy, collaboration, and culture. People drive execution; they are the heart of organizational performance.',
-        impact: 'Processes and strategies are only as strong as the teams executing them. Building leadership capacity, defining governance structures, and fostering an accountability-driven culture turn strategy into operational reality.',
+        role: 'Orange symbolizes human energy and skilled craftsmanship. Covers plant workforce safety, technical training, operational leadership, and floor culture.',
+        impact: 'Reduces attrition, enhances shop-floor productivity, and builds an empowered workforce dedicated to zero-defect execution.',
       },
       {
         name: 'Technology',
         color: '#7038A5',
         subtitle: 'The Enablement & Scale',
-        tagline: 'The Enablement & Scale',
-        role: 'Purple represents transformation, logic, and modern enterprise architecture. Technology acts as the force multiplier across all operational areas.',
-        impact: 'Technology serves the business architecture—enabling speed, operational clarity, and scalable infrastructure. It empowers teams to work smarter and accelerates decision-making.',
+        role: 'Purple represents modern automation and smart enterprise infrastructure. Encompasses ERP systems, IoT telemetry, predictive maintenance, and operational analytics.',
+        impact: 'Serves as the manufacturing force multiplier, streamlining throughput, preventing machine failure, and scaling capacity without linear overhead.',
       },
     ],
+  },
+  service: {
+    id: 'service',
+    domainLabel: 'Service',
+    title: 'Professional & Business Services Architecture',
+    subtitle: 'Client-centric capability architecture to scale billable expertise, recurring retainers, and enterprise delivery.',
+    tagline: 'Client & Expertise Focus',
+    items: [
+      {
+        name: 'Strategy',
+        color: '#0A78CF',
+        subtitle: 'The Vision & Direction',
+        role: 'Strategy defines client differentiation, high-value consulting/service niches, and scalable business models in professional and financial services.',
+        impact: 'Prevents fee commoditization, focuses service delivery on high-margin advisory segments, and creates enduring market authority.',
+      },
+      {
+        name: 'Finances',
+        color: '#FCA700',
+        subtitle: 'The Economic Engine',
+        role: 'Governs client project profitability, realization rates, billing cycles, and working capital management.',
+        impact: 'Secures healthy cash flows, controls overhead ratios, and maximizes revenue per consultant/expert.',
+      },
+      {
+        name: 'Marketing',
+        color: '#E52032',
+        subtitle: 'The Market Presence & Magnetism',
+        role: 'Builds thought leadership, client referral networks, institutional reputation, and inbound high-ticket leads.',
+        impact: 'Drives consistent client pipeline velocity and strengthens pricing power in competitive services markets.',
+      },
+      {
+        name: 'Operations',
+        color: '#0D8845',
+        subtitle: 'The Value Delivery System',
+        role: 'Standardizes engagement workflows, delivery methodology, SLA monitoring, and quality assurance across service engagements.',
+        impact: 'Transforms bespoke work into repeatable, scalable delivery while ensuring exceptional client satisfaction and retention.',
+      },
+      {
+        name: 'People',
+        color: '#F5630D',
+        subtitle: 'The Capability & Leadership',
+        role: 'The heart of a professional service firm: talent acquisition, specialized knowledge retention, mentorship, and high-performance team culture.',
+        impact: 'Eliminates single-person delivery bottlenecks and scales enterprise value beyond individual founder hours.',
+      },
+      {
+        name: 'Technology',
+        color: '#7038A5',
+        subtitle: 'The Enablement & Scale',
+        role: 'Leverages digital collaboration, knowledge bases, workflow automation, and proprietary client toolkits.',
+        impact: 'Multiplies team billable efficiency, shortens turnaround cycles, and enables frictionless global service delivery.',
+      },
+    ],
+  },
+  startup: {
+    id: 'startup',
+    domainLabel: 'Start-Up',
+    title: 'Start-Up Venture Architecture',
+    subtitle: 'Velocity-focused framework to de-risk product-market fit, protect cash runway, and compound early growth.',
+    tagline: 'Velocity & Innovation Focus',
+    items: [
+      {
+        name: 'Product & Value Proposition',
+        color: '#0A78CF',
+        subtitle: 'Core customer value & problem-solution fit',
+      },
+      {
+        name: 'Go-To-Market (GTM) & Sales',
+        color: '#FCA700',
+        subtitle: 'Demand generation & customer acquisition',
+      },
+      {
+        name: 'Operations & Delivery',
+        color: '#E52032',
+        subtitle: 'Velocity & scalable fulfillment systems',
+      },
+      {
+        name: 'Finance & Unit Economics',
+        color: '#0D8845',
+        subtitle: 'Runway, burn rate & unit margins',
+      },
+      {
+        name: 'Team & Culture',
+        color: '#F5630D',
+        subtitle: 'Founding alignment & high-output talent',
+      },
+      {
+        name: 'Strategy & Governance',
+        color: '#7038A5',
+        subtitle: 'Vision, IP & investor relations',
+      },
+    ],
+  },
+  nonprofit: {
+    id: 'nonprofit',
+    domainLabel: 'Non-Profit',
+    title: 'Non-Profit & Social Sector Architecture',
+    subtitle: 'Stewardship framework ensuring mission impact, donor confidence, statutory compliance, and community governance.',
+    tagline: 'Impact & Stewardship Focus',
+    items: [
+      {
+        name: 'Strategy',
+        color: '#0A78CF',
+        subtitle: 'Mission & Impact',
+      },
+      {
+        name: 'Revenue',
+        color: '#FCA700',
+        subtitle: 'Fundraising & Donor Relations',
+      },
+      {
+        name: 'Operations',
+        color: '#E52032',
+        subtitle: 'Program Delivery & Field Operations',
+      },
+      {
+        name: 'Finance',
+        color: '#0D8845',
+        subtitle: 'Financial Health & Compliance',
+      },
+      {
+        name: 'People & Culture',
+        color: '#F5630D',
+        subtitle: 'Volunteer & People Management',
+      },
+      {
+        name: 'Governance',
+        color: '#7038A5',
+        subtitle: 'Governance & Community Trust',
+      },
+    ],
+  },
+};
+
+const frameworksData = {
+  philosophy: {
+    id: 'philosophy',
+    title: 'The Foundation of Business Profit Architecture',
+    subtitle: 'Six essential pillars that work together to build a stronger, more profitable business.',
+    items: DOMAIN_PILLARS.manufacturing.items,
   },
   process: {
     id: 'process',
@@ -166,6 +307,7 @@ const normalizePhone = (value) => {
 
 export default function AboutScreen({ onAssess, onNavigateToLanding }) {
   const [activeTab, setActiveTab] = useState('philosophy');
+  const [activeDomain, setActiveDomain] = useState('service');
   const [hoveredPillar, setHoveredPillar] = useState(null);
   const [showMascotInfo, setShowMascotInfo] = useState(false);
   const [email, setEmail] = useState('');
@@ -176,7 +318,16 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
 
   const canSubmit = EMAIL_RE.test(email.trim()) && normalizePhone(phone) && !submitting;
 
-  const currentFramework = frameworksData[activeTab];
+  const currentFramework =
+    activeTab === 'philosophy'
+      ? {
+          id: 'philosophy',
+          title: 'The Foundation of Business Profit Architecture',
+          subtitle:
+            'Six essential pillars that work together to build a stronger, more profitable business.',
+          items: DOMAIN_PILLARS[activeDomain]?.items || [],
+        }
+      : frameworksData[activeTab];
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
@@ -332,8 +483,9 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
 
                       <div className="space-y-2.5 pt-1">
                         <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                          <h4 className="font-display text-lg sm:text-xl font-bold text-amber-400">
-                            Paradise Tanager <span className="font-display text-sm sm:text-base font-normal text-slate-300 italic">(Tangara chilensis)</span>
+                          <h4 className="font-display text-lg sm:text-xl font-bold">
+                            <span className="shine-gold-text font-bold">Paradise Tanager</span>{' '}
+                            <span className="font-display text-sm sm:text-base font-normal text-slate-300 italic">(Tangara chilensis)</span>
                           </h4>
                           <button
                             type="button"
@@ -451,127 +603,142 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                   </div>
                 </div>
               )}
+
+              {/* 4 Domain Selector for Philosophy */}
+              {activeTab === 'philosophy' && (
+                <div className="mt-8 sm:mt-10 max-w-4xl mx-auto flex flex-col items-center gap-3">
+                  <p className="font-display text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-300/80">
+                    Explore Pillars by Type
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+                    {DOMAIN_TABS.map((dom) => {
+                      const isDomActive = activeDomain === dom.id;
+                      return (
+                        <button
+                          key={dom.id}
+                          type="button"
+                          onClick={() => {
+                            setActiveDomain(dom.id);
+                            setHoveredPillar(null);
+                          }}
+                          className={`font-display relative rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+                            isDomActive
+                              ? 'text-white shadow-lg bg-gradient-to-r from-blue-600 via-amber-500 to-purple-600 border border-white/30'
+                              : 'text-slate-300 hover:text-white hover:bg-white/[0.06] border border-transparent'
+                          }`}
+                        >
+                          <span className="relative z-10">{dom.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
 
-          {/* Dynamic Framework 6-Item Grid */}
-          {activeTab === 'philosophy' && (
-            <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.15 }}
-              className="mb-4 sm:mb-6 text-center text-xs sm:text-sm md:text-[15px] font-display text-slate-300/90 font-medium tracking-wide"
-            >
-              Hover or tap any pillar below to explore its role &amp; impact
-            </motion.div>
-          )}
 
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeTab + '-grid'}
+              key={activeTab + '-' + (activeTab === 'philosophy' ? activeDomain : '') + '-grid'}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease }}
-              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4 lg:gap-3 xl:gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-5xl mx-auto"
             >
-              {currentFramework.items.map((item, idx) => (
-                <div
-                  key={item.name}
-                  className="relative h-full flex flex-col"
-                  onMouseEnter={() => setHoveredPillar(idx)}
-                  onMouseLeave={() => setHoveredPillar(null)}
-                  onClick={() => setHoveredPillar(hoveredPillar === idx ? null : idx)}
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: idx * 0.05, ease }}
-                    className={`group relative overflow-hidden rounded-2xl border bg-white/[0.03] px-3 py-4 sm:px-3.5 sm:py-6 flex flex-col items-center justify-center text-center h-full min-h-[140px] sm:min-h-[165px] shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/[0.06] cursor-pointer ${
-                      hoveredPillar === idx ? 'border-white/40 ring-1 ring-white/20' : 'border-white/10'
-                    }`}
+              {currentFramework.items.map((item, idx) => {
+                const hasPopup = Boolean(item.role && item.impact);
+                return (
+                  <div
+                    key={item.name}
+                    className="relative h-full flex flex-col"
+                    onMouseEnter={() => hasPopup && setHoveredPillar(idx)}
+                    onMouseLeave={() => hasPopup && setHoveredPillar(null)}
+                    onClick={() => hasPopup && setHoveredPillar(hoveredPillar === idx ? null : idx)}
                   >
-                    {/* Colored Top Accent Bar */}
-                    <div
-                      className="pointer-events-none absolute inset-x-0 top-0 h-1 opacity-80 group-hover:opacity-100 transition-opacity"
-                      style={{ background: item.color }}
-                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: idx * 0.05, ease }}
+                      className={`group relative overflow-hidden rounded-2xl border bg-white/[0.03] px-4 py-5 sm:px-6 sm:py-6 flex flex-col items-center justify-center text-center h-full min-h-[140px] sm:min-h-[160px] shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/[0.06] ${
+                        hasPopup ? 'cursor-pointer' : 'cursor-default'
+                      } ${
+                        hoveredPillar === idx ? 'border-white/40 ring-1 ring-white/20' : 'border-white/10'
+                      }`}
+                    >
+                      {/* Colored Top Accent Bar */}
+                      <div
+                        className="pointer-events-none absolute inset-x-0 top-0 h-1 opacity-80 group-hover:opacity-100 transition-opacity"
+                        style={{ background: item.color }}
+                      />
 
-                    {/* Subtle Ambient Hover Glow */}
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                      style={{ background: `${item.color}20` }}
-                    />
+                      {/* Subtle Ambient Hover Glow */}
+                      <div
+                        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+                        style={{ background: `${item.color}20` }}
+                      />
 
-                    {/* Pillar Title */}
-                    <h3 className="font-display text-sm sm:text-[14.5px] md:text-base lg:text-[15px] xl:text-[16px] font-bold tracking-tight uppercase text-white leading-snug w-full px-0.5 whitespace-normal break-words">
-                      {item.name}
-                    </h3>
+                      {/* Pillar Title */}
+                      <h3 className="font-display text-sm sm:text-base md:text-lg font-bold tracking-tight uppercase text-white leading-snug w-full px-1 whitespace-normal break-words">
+                        {item.name}
+                      </h3>
 
-                    {/* Pillar Subtitle */}
-                    <p className="font-display mt-2 text-xs sm:text-[13.5px] md:text-[14px] lg:text-[14.5px] text-white/85 font-medium leading-tight sm:leading-relaxed px-0.5">
-                      {item.subtitle}
-                    </p>
-                  </motion.div>
+                      {/* Pillar Subtitle */}
+                      <p className="font-display mt-2 text-xs sm:text-sm text-white/85 font-medium leading-relaxed px-1">
+                        {item.subtitle}
+                      </p>
+                    </motion.div>
 
-                  {/* Mouseover Popover / Tooltip */}
-                  {item.role && item.impact && (
-                    <AnimatePresence>
-                      {hoveredPillar === idx && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                          transition={{ duration: 0.2 }}
-                          className={`absolute top-full mt-2.5 z-50 w-[320px] xs:w-[360px] sm:w-[400px] md:w-[440px] lg:w-[460px] max-w-[92vw] rounded-2xl border border-white/20 bg-[#0c121d]/95 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-left ${
-                            idx % 2 === 0 ? 'left-0' : 'right-0'
-                          } ${
-                            idx % 3 === 0
-                              ? 'sm:left-0 sm:right-auto sm:translate-x-0'
-                              : idx % 3 === 1
-                              ? 'sm:left-1/2 sm:right-auto sm:-translate-x-1/2'
-                              : 'sm:right-0 sm:left-auto sm:translate-x-0'
-                          } ${
-                            idx === 0
-                              ? 'lg:left-0 lg:right-auto lg:translate-x-0'
-                              : idx === 1
-                              ? 'lg:left-0 lg:right-auto lg:translate-x-0'
-                              : idx === 2 || idx === 3
-                              ? 'lg:left-1/2 lg:right-auto lg:-translate-x-1/2'
-                              : 'lg:right-0 lg:left-auto lg:translate-x-0'
-                          }`}
-                          style={{
-                            boxShadow: `0 15px 35px -5px ${item.color}35, 0 0 0 1px rgba(255,255,255,0.15)`,
-                          }}
-                        >
-                          {/* Top colored accent line */}
-                          <div
-                            className="absolute inset-x-0 top-0 h-1 rounded-t-2xl"
-                            style={{ background: item.color }}
-                          />
+                    {/* Mouseover Popover / Tooltip */}
+                    {hasPopup && (
+                      <AnimatePresence>
+                        {hoveredPillar === idx && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                            transition={{ duration: 0.2 }}
+                            className={`absolute top-full mt-2.5 z-50 w-[320px] xs:w-[360px] sm:w-[400px] md:w-[440px] lg:w-[460px] max-w-[92vw] rounded-2xl border border-white/20 bg-[#0c121d]/95 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-left ${
+                              idx % 3 === 0
+                                ? 'left-0'
+                                : idx % 3 === 1
+                                ? 'left-1/2 -translate-x-1/2'
+                                : 'right-0'
+                            }`}
+                            style={{
+                              boxShadow: `0 15px 35px -5px ${item.color}35, 0 0 0 1px rgba(255,255,255,0.15)`,
+                            }}
+                          >
+                            {/* Top colored accent line */}
+                            <div
+                              className="absolute inset-x-0 top-0 h-1 rounded-t-2xl"
+                              style={{ background: item.color }}
+                            />
 
-                          <div className="mb-3 pt-0.5">
-                            <h4 className="font-display text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
-                              {item.name}
-                            </h4>
-                          </div>
+                            <div className="mb-3 pt-0.5">
+                              <h4 className="font-display text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
+                                {item.name}
+                              </h4>
+                            </div>
 
-                          <div className="space-y-3 text-sm sm:text-base md:text-[16px] font-display leading-relaxed text-white">
-                            <p className="flex items-start gap-2.5">
-                              <span className="text-white font-bold text-base select-none shrink-0 leading-none mt-1">•</span>
-                              <span>{item.role}</span>
-                            </p>
-                            <p className="flex items-start gap-2.5">
-                              <span className="text-white font-bold text-base select-none shrink-0 leading-none mt-1">•</span>
-                              <span>{item.impact}</span>
-                            </p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  )}
-                </div>
-              ))}
+                            <div className="space-y-3 text-sm sm:text-base md:text-[16px] font-display leading-relaxed text-white">
+                              <p className="flex items-start gap-2.5">
+                                <span className="text-white font-bold text-base select-none shrink-0 leading-none mt-1">•</span>
+                                <span>{item.role}</span>
+                              </p>
+                              <p className="flex items-start gap-2.5">
+                                <span className="text-white font-bold text-base select-none shrink-0 leading-none mt-1">•</span>
+                                <span>{item.impact}</span>
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
+                  </div>
+                );
+              })}
             </motion.div>
           </AnimatePresence>
 
@@ -1090,6 +1257,42 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           {brand.tagline}
         </motion.p>
       </div>
+
+      {/* Gold Shimmer Sweep Style */}
+      <style>{`
+        .shine-gold-text {
+          position: relative;
+          display: inline-block;
+          background-image: linear-gradient(
+            100deg,
+            #FCA700 0%,
+            #F59E0B 25%,
+            #FFF8E1 50%,
+            #F59E0B 75%,
+            #FCA700 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          filter: drop-shadow(0 0 6px rgba(252, 167, 0, 0.45));
+          animation: shine-gold-sweep 3s ease-in-out infinite;
+        }
+        @keyframes shine-gold-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .shine-gold-text {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: #FCA700;
+            color: #FCA700;
+          }
+        }
+      `}</style>
     </div>
   );
 }

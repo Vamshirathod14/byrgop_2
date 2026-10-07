@@ -3,7 +3,7 @@ import Question from '../models/Question.js';
 import Category from '../models/Category.js';
 import { isValidOnboardingBusinessType } from '../config/onboarding.js';
 import { resolveOptionColor, DEFAULT_YES_COLOR, DEFAULT_NO_COLOR } from '../config/optionColors.js';
-import { syncQuestionToAtlas } from './atlasSyncService.js';
+import { isObjectIdQuestionId } from './questionLookup.js';
 
 // Dedicated admin data-access layer for the intro onboarding question bank.
 //
@@ -100,6 +100,30 @@ function toYesNoOptions(options) {
   ];
 }
 
+// Resolve an onboarding question by id, tolerating the two legacy rows whose
+// `_id` is a string ("q-startup-strategic", "q-startup-operational") that a
+// Mongoose `findById` cannot cast to ObjectId. ObjectId rows keep the normal
+// populated Mongoose path; string-id rows are read through the raw driver.
+async function getOnboardingQuestionDoc(id) {
+  if (id == null || String(id).trim() === '') return null;
+  if (isObjectIdQuestionId(id)) {
+    return Question.findById(id).populate('category', 'key name color');
+  }
+  const raw = await Question.collection.findOne({ _id: String(id) });
+  if (!raw) return null;
+  // Present the category the same way the populated path does.
+  if (raw.category && typeof raw.category !== 'object') {
+    let cat = null;
+    try {
+      cat = await Category.findById(raw.category).select('key name color').lean();
+    } catch {
+      cat = null;
+    }
+    if (cat) raw.category = cat;
+  }
+  return raw;
+}
+
 export async function listOnboardingQuestions({ businessType, includeInactive = false }) {
   const bt = requireBusinessType(businessType);
   const filter = { businessType: bt };
@@ -112,7 +136,7 @@ export async function listOnboardingQuestions({ businessType, includeInactive = 
 
 export async function getOnboardingQuestion({ id, businessType }) {
   const bt = requireBusinessType(businessType);
-  const q = await Question.findById(id).populate('category', 'key name color');
+  const q = await getOnboardingQuestionDoc(id);
   if (!q || q.businessType !== bt) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
@@ -137,61 +161,76 @@ export async function createOnboardingQuestion(payload = {}) {
     active: payload.active !== false,
     displayOrder: Math.max(0, Number(payload.displayOrder) || 0),
   });
-  await syncQuestionToAtlas(created);
-  return created;
 }
-
-export { syncQuestionToAtlas };
 
 export async function updateOnboardingQuestion({ id, businessType, patch = {} }) {
   const bt = businessType ? requireBusinessType(businessType) : null;
-  const q = await Question.findById(id).populate('category', 'key name color');
+  const q = await getOnboardingQuestionDoc(id);
   if (!q) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
   if (bt && q.businessType !== bt) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
+  const $set = {};
   if (patch.category) {
     const cat = await resolveOnboardingCategory(patch.category);
     if (!cat) throw Object.assign(new Error('Invalid category'), { status: 400 });
     q.category = cat._id;
+    $set.category = cat._id;
   }
   const incomingText = patch.text !== undefined ? patch.text : patch.question;
   if (incomingText !== undefined) {
     const text = String(incomingText || '').trim();
     if (!text) throw Object.assign(new Error('Question text is required'), { status: 400 });
     q.text = text;
+    $set.text = text;
   }
-  if (patch.weight !== undefined) q.weight = Number(patch.weight) || q.weight;
-  if (patch.stageKey !== undefined) q.stageKey = patch.stageKey || null;
-  if (patch.active !== undefined) q.active = patch.active === true;
-  if (patch.options !== undefined) q.options = toYesNoOptions(patch.options);
-  if (patch.displayOrder !== undefined) q.displayOrder = Math.max(0, Number(patch.displayOrder) || 0);
-  await q.save();
-  await syncQuestionToAtlas(q);
+  if (patch.weight !== undefined) { q.weight = Number(patch.weight) || q.weight; $set.weight = q.weight; }
+  if (patch.stageKey !== undefined) { q.stageKey = patch.stageKey || null; $set.stageKey = q.stageKey; }
+  if (patch.active !== undefined) { q.active = patch.active === true; $set.active = q.active; }
+  if (patch.options !== undefined) {
+    q.options = toYesNoOptions(patch.options);
+    // Raw-driver rows need explicit subdocument _ids (Mongoose generates these
+    // for ObjectId rows during save()). Do not stamp ObjectId rows: stamped ids
+    // would be written fresh on every save regardless of any in-flight session.
+    $set.options = q.options.map((o) => ({ _id: new mongoose.Types.ObjectId(), ...o }));
+  }
+  if (patch.displayOrder !== undefined) { q.displayOrder = Math.max(0, Number(patch.displayOrder) || 0); $set.displayOrder = q.displayOrder; }
+
+  if (isObjectIdQuestionId(id)) {
+    await q.save();
+  } else if (Object.keys($set).length > 0) {
+    await Question.collection.updateOne({ _id: q._id }, { $set });
+  }
   return q;
 }
 
 export async function setOnboardingQuestionActive({ id, businessType, active }) {
   const bt = requireBusinessType(businessType);
-  const q = await Question.findById(id).populate('category', 'key name color');
+  const q = await getOnboardingQuestionDoc(id);
   if (!q || q.businessType !== bt) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
   q.active = active === true;
-  await q.save();
-  await syncQuestionToAtlas(q);
+  if (isObjectIdQuestionId(id)) {
+    await q.save();
+  } else {
+    await Question.collection.updateOne({ _id: q._id }, { $set: { active: q.active } });
+  }
   return q;
 }
 
 export async function deleteOnboardingQuestion({ id, businessType }) {
   const bt = requireBusinessType(businessType);
-  const q = await Question.findById(id);
+  const q = await getOnboardingQuestionDoc(id);
   if (!q || q.businessType !== bt) {
     throw Object.assign(new Error('Question not found'), { status: 404 });
   }
-  await Question.deleteOne({ _id: q._id });
-  await syncQuestionToAtlas(q, { isDelete: true });
+  if (isObjectIdQuestionId(id)) {
+    await Question.deleteOne({ _id: q._id });
+  } else {
+    await Question.collection.deleteOne({ _id: q._id });
+  }
   return q;
 }

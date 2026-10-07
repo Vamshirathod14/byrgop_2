@@ -2,7 +2,11 @@ import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
 
-const ATLAS_URI = 'mongodb+srv://ramavathvamshicse_db_user:vamshi123@cluster0.p4u8yex.mongodb.net/?appName=Cluster0';
+const ATLAS_URI = process.env.ATLAS_MONGO_URI || process.env.MONGO_URI || '';
+if (!ATLAS_URI) {
+  console.error('ATLAS_MONGO_URI is required to run this backup.');
+  process.exit(1);
+}
 const BACKUP_DIR = path.resolve('backend/backups/atlas_pre_sync_20261001_142949');
 
 async function backup() {

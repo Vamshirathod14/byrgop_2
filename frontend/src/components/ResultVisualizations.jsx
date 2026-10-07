@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { brand } from '../theme/brand.js';
 import { percentToExtent } from './kyPercentScale.js';
-import { pillarChartColor } from './byrgopChartColors.js';
+import { BYRGOP_CHART_COLORS, pillarChartColor } from './byrgopChartColors.js';
 
 /* ─────────────────────────────────────────────────────────────
    KNOW-YOURSELF RESULT VISUALIZATIONS
@@ -39,9 +39,9 @@ const SOFT = brand.premiumWhite.soft;
 
 export const VIEWS = [
   { id: 'radar', label: 'Radar' },
-  { id: 'bubble', label: 'Bubble' },
-  { id: 'bullet', label: 'Bullet' },
   { id: 'bar', label: 'Bar' },
+  { id: 'bullseye', label: 'Bullseye' },
+  { id: 'bubble', label: 'Bubble' },
 ];
 
 /* Single source of truth: normalize backend categories for every chart.
@@ -69,13 +69,15 @@ function withAlpha(hex, alpha) {
 }
 
 function lines(name) {
-  const w = String(name).split(' ');
-  if (w.length <= 2) return [String(name)];
+  const w = String(name || '').trim().split(/\s+/);
+  if (w.length <= 1) return [String(name)];
+  if (w.length === 2) return [w[0], w[1]];
+  if (w.length === 3) return [`${w[0]} ${w[1]}`, w[2]];
   const mid = Math.ceil(w.length / 2);
   return [w.slice(0, mid).join(' '), w.slice(mid).join(' ')];
 }
 
-function ChartFrame({ label, children }) {
+function ChartFrame({ label, children, width = VW, height = VH }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -83,7 +85,7 @@ function ChartFrame({ label, children }) {
       transition={{ duration: 0.35, ease }}
       className="mx-auto w-full"
     >
-      <svg viewBox={`0 0 ${VW} ${VH}`} className="font-display h-auto w-full" role="img" aria-label={label}>
+      <svg viewBox={`0 0 ${width} ${height}`} className="font-display h-auto w-full" role="img" aria-label={label}>
         {children}
       </svg>
     </motion.div>
@@ -91,7 +93,7 @@ function ChartFrame({ label, children }) {
 }
 
 /* Hover tooltip — pillar name + percent only (same style as the radar tooltip). */
-function HoverTip({ x, y, c }) {
+function HoverTip({ x, y, c, vw = VW, vh = VH }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 4, scale: 0.96 }}
@@ -99,7 +101,7 @@ function HoverTip({ x, y, c }) {
       exit={{ opacity: 0, y: 4, scale: 0.96 }}
       transition={{ duration: 0.18 }}
       className="pointer-events-none absolute z-10 -translate-x-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-ink-850/95 px-3.5 py-2 shadow-card backdrop-blur-md"
-      style={{ left: `${(x / VW) * 100}%`, top: `${(y / VH) * 100}%`, marginTop: '-2.6rem' }}
+      style={{ left: `${(x / vw) * 100}%`, top: `${(y / vh) * 100}%`, marginTop: '-2.6rem' }}
     >
       <p className="font-display flex items-center gap-2 text-sm font-semibold" style={{ color: SOFT }}>
         <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: c.color }} />
@@ -120,7 +122,7 @@ function HoverTip({ x, y, c }) {
 export function VisualizationSelector({ value, onChange }) {
   return (
     <div
-      className="mx-auto flex w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-ink-850/85 p-2 shadow-card backdrop-blur-sm sm:gap-2 sm:p-2.5"
+      className="mx-auto flex w-fit max-w-full flex-wrap items-center justify-center gap-1.5 rounded-2xl border border-white/10 bg-ink-850/85 p-1.5 shadow-card backdrop-blur-sm sm:gap-2.5 sm:p-2"
       role="group"
       aria-label="Visualization type"
       data-testid="viz-selector"
@@ -144,7 +146,7 @@ export function VisualizationSelector({ value, onChange }) {
                   }
                 : undefined
             }
-            className={`font-display rounded-lg px-2.5 py-1.5 text-[11px] font-semibold tracking-wide transition-all duration-200 sm:px-3.5 sm:py-2 sm:text-xs ${
+            className={`font-display rounded-xl px-4 py-2 text-sm sm:px-6 sm:py-2.5 sm:text-base md:text-lg font-bold tracking-wide transition-all duration-200 ${
               active
                 ? ''
                 : 'text-mist-muted hover:bg-white/5 hover:text-mist'
@@ -200,19 +202,19 @@ export function VisualizationArea({ view, data, overall, radarSlot }) {
         data-testid="viz-area"
       >
         {view === 'radar' && <ChartBox>{radarSlot}</ChartBox>}
-        {view === 'bubble' && (
-          <ChartBox>
-            <BubblePlotView data={data} />
-          </ChartBox>
-        )}
-        {view === 'bullet' && (
-          <ChartBox>
-            <BulletChartView data={data} />
-          </ChartBox>
-        )}
         {view === 'bar' && (
           <ChartBox>
             <BarChartView data={data} />
+          </ChartBox>
+        )}
+        {view === 'bullseye' && (
+          <ChartBox>
+            <BullseyeChartView data={data} overall={overall} />
+          </ChartBox>
+        )}
+        {view === 'bubble' && (
+          <ChartBox>
+            <BubblePlotView data={data} />
           </ChartBox>
         )}
       </motion.div>
@@ -228,10 +230,10 @@ export function VisualizationArea({ view, data, overall, radarSlot }) {
    toPillarData), so a pillar is the same color here as in Radar/Bullet/Bar. */
 export function BubblePlotView({ data }) {
   const [hover, setHover] = useState(null);
-  const plotLeft = 70;
-  const plotRight = 430;
-  const plotTop = 24;
-  const plotBottom = 246;
+  const plotLeft = 52;
+  const plotRight = 444;
+  const plotTop = 38;
+  const plotBottom = 232;
   const slotW = (plotRight - plotLeft) / data.length;
   const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
   const rFor = (p) => percentToExtent(p, 31);
@@ -241,7 +243,7 @@ export function BubblePlotView({ data }) {
         {[0, 25, 50, 75, 100].map((g) => (
           <g key={g}>
             <line x1={plotLeft} y1={yFor(g)} x2={plotRight} y2={yFor(g)} stroke={withAlpha('#FFFFFF', 0.1)} strokeWidth={1} />
-            <text x={plotLeft - 6} y={yFor(g)} textAnchor="end" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8 }}>
+            <text x={plotLeft - 6} y={yFor(g)} textAnchor="end" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.45)} style={{ fontSize: 8 }}>
               {g}
             </text>
           </g>
@@ -269,7 +271,15 @@ export function BubblePlotView({ data }) {
                 onMouseLeave={() => setHover(null)}
               />
               {lines(c.name).map((ln, li) => (
-                <text key={li} x={bx} y={plotBottom + 16 + li * 11} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.55)} style={{ fontSize: 8 }}>
+                <text
+                  key={li}
+                  x={bx}
+                  y={plotBottom + 14 + li * 11}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="#FFFFFF"
+                  style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.01em' }}
+                >
                   {ln}
                 </text>
               ))}
@@ -277,11 +287,11 @@ export function BubblePlotView({ data }) {
                   without hovering (mobile/tablet have no hover). */}
               <text
                 x={bx}
-                y={plotBottom + 16 + lines(c.name).length * 11}
+                y={plotBottom + 14 + lines(c.name).length * 11 + 3}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill={c.color}
-                style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em' }}
+                style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.04em' }}
               >
                 {c.percent}%
               </text>
@@ -298,15 +308,12 @@ export function BubblePlotView({ data }) {
   );
 }
 
-/* ── Bullet chart ────────────────────────────────────────── */
-/* One 0–100 track per pillar. The filled portion is exactly
-   percentToExtent(percent, track width), so the bar always sits on the
-   same absolute 0–100 scale as the other three charts. The result dataset
-   carries no benchmark/target value, so none is invented — the chart shows
-   the actual score against the 0/25/50/75/100 scale only. Pillar color
-   comes from the centralized palette (via toPillarData), matching the
-   Radar / Bubble / Bar color of the same pillar. */
-export function BulletChartView({ data }) {
+/* ── Bar chart (horizontal) ──────────────────────────────── */
+/* One horizontal 0–100 track per pillar. The filled portion is exactly
+   percentToExtent(percent, track width), on the same absolute 0–100 scale.
+   Pillar colors use the centralized BYRGOP palette:
+   B - #0A78CF, Y - #FCA700, R - #E52032, G - #0D8845, O - #F5630D, P - #7038A5. */
+export function BarChartView({ data }) {
   const plotLeft = 130;
   const plotRight = 430;
   const rowH = 44;
@@ -315,7 +322,7 @@ export function BulletChartView({ data }) {
   const lastY = row0Y + rowH * data.length - 8;
   const wFor = (p) => percentToExtent(p, trackW);
   return (
-    <ChartFrame label="Bullet chart of the six pillar percentages on a zero to one hundred scale">
+    <ChartFrame label="Horizontal bar chart of the six pillar percentages on a zero to one hundred scale">
       {[0, 25, 50, 75, 100].map((g) => {
         const x = plotLeft + wFor(g);
         return (
@@ -361,68 +368,187 @@ export function BulletChartView({ data }) {
   );
 }
 
-/* ── Bar chart ───────────────────────────────────────────── */
-/* Absolute 0–100 columns on the same shared zero baseline: bar height is
-   exactly percentToExtent(percent, plot height). Gridlines and labels mark
-   the 0/25/50/75/100 scale; bar fills use the centralized palette colors. */
-export function BarChartView({ data }) {
-  const plotLeft = 34;
-  const plotRight = 430;
-  const plotTop = 22;
-  const plotBottom = 244;
-  const slotW = (plotRight - plotLeft) / data.length;
-  const yFor = (p) => plotBottom - percentToExtent(p, plotBottom - plotTop);
+// Backward compatibility alias
+export const BulletChartView = BarChartView;
+
+/* ── Bullseye chart ──────────────────────────────────────── */
+/* Diagnostic target chart with concentric percentage rings:
+     - 0%, 25%, 50%, 75%, 100% full solid gray circles with percentage ticks
+     - Six radial pillar nodes mapped continuously to their exact percentage:
+       positioned at/near the concentric circle corresponding to their score
+     - Circular Node Badges:
+         Rendered as a circular badge with pillar name and bold percentage score
+         in that pillar's designated BYRGOP brand color:
+           B - #0A78CF (Blue)
+           Y - #FCA700 (Yellow)
+           R - #E52032 (Red)
+           G - #0D8845 (Green)
+           O - #F5630D (Orange)
+           P - #7038A5 (Purple) */
+
+function formatNodeBadge(c) {
+  const rawWords = String(c.name || '').trim().split(/\s+/);
+  if (rawWords.length <= 1) {
+    return { line1: rawWords[0] || '', line2: '' };
+  }
+  if (rawWords.length === 2) {
+    return { line1: rawWords[0], line2: rawWords[1] };
+  }
+  const mid = Math.ceil(rawWords.length / 2);
+  return {
+    line1: rawWords.slice(0, mid).join(' '),
+    line2: rawWords.slice(mid).join(' '),
+  };
+}
+
+export function BullseyeChartView({ data }) {
+  const [hover, setHover] = useState(null);
+  const cx = VW / 2;
+  const cy = 170;
+  const maxR = 132;
+  const n = data.length || 6;
+  const stepDeg = 360 / n;
+  const TICKS = [0, 25, 50, 75, 100];
+  const RINGS = [25, 50, 75, 100];
+
   return (
-    <ChartFrame label="Bar chart of the six pillar percentages">
-      {[0, 25, 50, 75, 100].map((g) => (
-        <g key={g}>
-          <line x1={plotLeft} y1={yFor(g)} x2={plotRight} y2={yFor(g)} stroke={withAlpha('#FFFFFF', 0.1)} strokeWidth={1} />
-          <text x={plotLeft - 6} y={yFor(g)} textAnchor="end" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8 }}>
-            {g}
-          </text>
-        </g>
-      ))}
-      <line x1={plotLeft} y1={plotBottom} x2={plotRight} y2={plotBottom} stroke={withAlpha('#FFFFFF', 0.25)} strokeWidth={1.2} />
-      {data.map((c, i) => {
-        const bx = plotLeft + slotW * (i + 0.5);
-        const bw = 40;
-        const h = plotBottom - yFor(c.percent);
-        return (
-          <g key={c.key}>
-            <motion.rect
-              x={bx - bw / 2}
-              y={yFor(c.percent)}
-              width={bw}
-              height={h}
-              rx={4}
-              fill={c.color}
-              opacity={0.92}
-              initial={{ scaleY: 0, opacity: 0 }}
-              animate={{ scaleY: 1, opacity: 0.92 }}
-              transition={{ duration: 0.5, delay: 0.08 + i * 0.06, ease }}
-              style={{ transformOrigin: `${bx}px ${plotBottom}px` }}
+    <div className="relative">
+      <ChartFrame label="Bullseye target chart of the six core pillars">
+        {/* Concentric Background Target Rings - Full Solid Gray Circles */}
+        {RINGS.map((lvl) => {
+          const r = percentToExtent(lvl, maxR);
+          const isOuter = lvl === 100;
+          return (
+            <circle
+              key={`ring-${lvl}`}
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill="none"
+              stroke={withAlpha('#FFFFFF', isOuter ? 0.24 : 0.18)}
+              strokeWidth={isOuter ? 1.5 : 1.2}
             />
-            <motion.text
-              x={bx}
-              y={yFor(c.percent) - 7}
+          );
+        })}
+
+        {/* Center Origin Dot representing 0% */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={2.5}
+          fill={withAlpha('#FFFFFF', 0.5)}
+          stroke="none"
+        />
+
+        {/* Concentric Percentage Tick Labels along top vertical radius */}
+        {TICKS.map((lvl) => {
+          const r = percentToExtent(lvl, maxR);
+          const ty = lvl === 0 ? cy - 7 : cy - r - 3;
+          return (
+            <text
+              key={`tick-${lvl}`}
+              x={cx}
+              y={ty}
               textAnchor="middle"
-              dominantBaseline="middle"
-              fill={c.color}
-              style={{ fontSize: 10, fontWeight: 700 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 + i * 0.06, duration: 0.3 }}
+              dominantBaseline="auto"
+              fill={withAlpha('#FFFFFF', 0.55)}
+              style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.04em' }}
             >
-              {c.percent}%
-            </motion.text>
-            {lines(c.name).map((ln, li) => (
-              <text key={li} x={bx} y={plotBottom + 16 + li * 11} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.55)} style={{ fontSize: 8 }}>
-                {ln}
+              {lvl}%
+            </text>
+          );
+        })}
+
+        {/* Six radial pillar nodes mapped continuously to their exact percentage */}
+        {data.map((c, i) => {
+          const ang = (i * stepDeg * Math.PI) / 180;
+          const cosA = Math.cos(ang);
+          const sinA = Math.sin(ang);
+          const r = percentToExtent(c.percent, maxR);
+          const nx = cx + r * cosA;
+          const ny = cy + r * sinA;
+          const isHover = hover === c.key;
+          const nodeR = isHover ? 28 : 25;
+          const { line1, line2 } = formatNodeBadge(c);
+
+          return (
+            <g
+              key={c.key}
+              className="cursor-pointer"
+              onMouseEnter={() => setHover(c.key)}
+              onMouseLeave={() => setHover(null)}
+            >
+              {/* Circular badge container */}
+              <motion.circle
+                cx={nx}
+                cy={ny}
+                r={nodeR}
+                fill={brand.ink[900]}
+                stroke={c.color}
+                strokeWidth={isHover ? 2.8 : 2}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.12 + i * 0.06, duration: 0.45, ease }}
+                style={{ transformOrigin: `${nx}px ${ny}px` }}
+              />
+              <circle
+                cx={nx}
+                cy={ny}
+                r={nodeR}
+                fill={withAlpha(c.color, isHover ? 0.28 : 0.16)}
+                stroke="none"
+              />
+
+              {/* Title inside badge */}
+              <text
+                x={nx}
+                y={line2 ? ny - 9 : ny - 5}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#FFFFFF"
+                style={{ fontSize: line2 ? 6.8 : 7.2, fontWeight: 700, letterSpacing: '0.01em' }}
+              >
+                {line1}
               </text>
-            ))}
-          </g>
-        );
-      })}
-    </ChartFrame>
+              {line2 && (
+                <text
+                  x={nx}
+                  y={ny - 2}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill={withAlpha('#FFFFFF', 0.85)}
+                  style={{ fontSize: 6.2, fontWeight: 600 }}
+                >
+                  {line2}
+                </text>
+              )}
+
+              {/* Percentage score inside badge */}
+              <text
+                x={nx}
+                y={line2 ? ny + 10 : ny + 8}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill={c.color}
+                style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: '0.02em' }}
+              >
+                {c.percent}%
+              </text>
+            </g>
+          );
+        })}
+      </ChartFrame>
+
+      {hover && (() => {
+        const c = data.find((d) => d.key === hover);
+        if (!c) return null;
+        const idx = data.findIndex((d) => d.key === hover);
+        const ang = (idx * stepDeg * Math.PI) / 180;
+        const r = percentToExtent(c.percent, maxR);
+        const nx = cx + r * Math.cos(ang);
+        const ny = cy + r * Math.sin(ang);
+        return <HoverTip x={nx} y={ny - 34} c={c} />;
+      })()}
+    </div>
   );
 }

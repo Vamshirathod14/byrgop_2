@@ -319,28 +319,32 @@ test('onboarding admin: create/update apply Yes/No hex colours and reject colour
     { _id: 'C3', key: 'revenue', name: 'Revenue', color: '#F5630D', sortOrder: 3, active: true },
   ];
   const docs = {};
+  // In-memory registry for the raw-driver path (legacy string-_id rows that
+  // cannot be cast by Question.findById).
+  const byId = new Map();
+  const LEGACY = {
+    _id: 'q-startup-strategic',
+    businessType: 'startup',
+    category: 'C1',
+    text: 'Existing startup question?',
+    options: [
+      { text: 'Yes', score: 1, stageKey: 'recommendations', active: true, color: '#4CAF50' },
+      { text: 'No', score: 0, stageKey: 'initiation', active: true, color: '#E53935' },
+    ],
+    save: async function () { return this; },
+  };
+  byId.set('q-startup-strategic', LEGACY);
   await t.mock.module('../src/models/Question.js', {
     defaultExport: {
       create: async (d) => {
         const doc = { ...d, _id: `n${createdDocs.length + 1}`, options: (d.options || []).map((o) => ({ ...o })) };
         createdDocs.push(doc);
+        byId.set(String(doc._id), doc);
         return doc;
       },
       findById: (id) => {
         // Awaitable directly AND chainable with .populate(...) like Mongoose.
-        const target = id === 'q-startup-strategic'
-          ? {
-              _id: id,
-              businessType: 'startup',
-              category: 'C1',
-              text: 'Existing startup question?',
-              options: [
-                { text: 'Yes', score: 1, stageKey: 'recommendations', active: true, color: '#4CAF50' },
-                { text: 'No', score: 0, stageKey: 'initiation', active: true, color: '#E53935' },
-              ],
-              save: async function () { return this; },
-            }
-          : null;
+        const target = byId.get(String(id)) || null;
         const value = Promise.resolve(target);
         value.populate = () => value;
         return value;
@@ -354,6 +358,20 @@ test('onboarding admin: create/update apply Yes/No hex colours and reject colour
       findByIdAndDelete: async () => null,
       deleteOne: async () => ({}),
       find: async () => ({ populate: () => ({ sort: () => ({ lean: async () => [] }) }) }),
+      // Raw-driver facade for legacy string-_id rows (see onboarding.test.js).
+      collection: {
+        findOne: async ({ _id }) => {
+          const doc = byId.get(String(_id));
+          return doc ? { ...doc, options: (doc.options || []).map((o) => ({ ...o })) } : null;
+        },
+        updateOne: async ({ _id }, { $set }) => {
+          const doc = byId.get(String(_id));
+          if (!doc) return { matchedCount: 0, modifiedCount: 0 };
+          Object.assign(doc, $set);
+          return { matchedCount: 1, modifiedCount: 1 };
+        },
+        deleteOne: async ({ _id }) => ({ deletedCount: byId.delete(String(_id)) ? 1 : 0 }),
+      },
     },
     namedExports: { validateActiveQuestion },
     cache: false,

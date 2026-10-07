@@ -117,6 +117,20 @@ export function onboardingQuestionsFromConfig(questions) {
 // colour — answered categories always use the selected option's colour.
 export const NEUTRAL_COLOR = '#8B93A7';
 
+// The single source of truth for the donut sector colour. The Admin-configured
+// answer-option colour (optionColor, else the legacy stage colour) ALWAYS wins;
+// the category/pillar colour is only a fallback when the option genuinely has
+// no configured colour, and NEUTRAL_COLOR is the last resort. It never inspects
+// the answer text, letter, or position — a "Yes" that Admin coloured red stays
+// red, and a stored hex that happens to equal the default Yes/No values is
+// still a configured colour and is never replaced by a pillar colour.
+export function resolveAnswerDisplayColor(score) {
+  const optionColor =
+    score?.optionColor ?? score?.selectedOptionColor ?? score?.stage?.color ?? null;
+  const categoryColor = score?.categoryColor ?? score?.color ?? null;
+  return optionColor || categoryColor || NEUTRAL_COLOR;
+}
+
 // Shape expected by QuestionScreen (questionId, text, category, options with
 // optionId/text/color).
 export function buildLocalQuestion(q) {
@@ -157,10 +171,11 @@ export function optionColorFrom(question, optionText) {
 }
 
 // Snapshot result rendered the moment the third answer lands. Colours are the
-// selected option's configured stage colour when the real question has been
-// fetched, otherwise a neutral placeholder until the backend result lands
-// (which is the authoritative source). Scores are provisional: the real score
-// arrives with the result and is deliberately not used to pick a colour.
+// selected option's configured colour when the real question has been fetched
+// (optionColor first), otherwise the category colour as a placeholder until the
+// backend result lands (which is the authoritative source). Scores are
+// provisional: the real score arrives with the result and is deliberately not
+// used to pick a colour.
 export function makeSnapshotResult(entries) {
   return {
     overallPct: 0,
@@ -174,7 +189,7 @@ export function makeSnapshotResult(entries) {
       categoryName: e.name,
       categoryColor: e.categoryColor || null,
       answer: e.optionText || null,
-      color: e.categoryColor || e.optionColor || e.stage?.color || NEUTRAL_COLOR,
+      color: e.optionColor || e.stage?.color || e.categoryColor || NEUTRAL_COLOR,
       selectedOptionColor: e.optionColor || e.stage?.color || null,
       stage: e.stage || null,
       optionColor: e.optionColor || null,
@@ -205,7 +220,7 @@ export function applyServerResult(snapshot, server) {
     return {
       ...s,
       answer: sr.answer ?? s.answer ?? null,
-      color: sr.color || selectedOptionColor || NEUTRAL_COLOR,
+      color: selectedOptionColor || sr.color || NEUTRAL_COLOR,
       categoryColor: sr.color || s.categoryColor || null,
       selectedOptionColor,
       optionColor: sr.optionColor ?? s.optionColor ?? null,

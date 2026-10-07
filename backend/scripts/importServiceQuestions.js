@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import KnowYourselfQuestion from '../src/models/KnowYourselfQuestion.js';
 import { DATA, PILLAR_TO_CATEGORY } from './serviceQuestionData.js';
+import { connectDB } from '../src/config/db.js';
 
 const SERVICE_DOMAINS = [
   'technology-saas',
@@ -16,7 +17,7 @@ const SERVICE_DOMAINS = [
 ];
 
 async function main() {
-  await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/byrgop');
+  await connectDB();
 
   // ---- 1. Identify old Service-Based questions ----
   const oldQs = await KnowYourselfQuestion.find({ type: 'domain', domain: { $in: SERVICE_DOMAINS } });

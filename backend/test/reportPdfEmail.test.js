@@ -13,6 +13,16 @@ async function loadService(t, sessionsById) {
       findOne: async ({ sessionId }) => sessionsById[sessionId] || null,
     },
   });
+  // The report pipeline re-resolves the CURRENT pillar names from KYCategory
+  // before generating the PDF. An empty registry keeps these PDF tests
+  // deterministic and database-free: with no rows the service falls back to
+  // the names already stored on the result, which is exactly what makeResult
+  // builds.
+  await t.mock.module('../src/models/KYCategory.js', {
+    defaultExport: {
+      find: () => ({ select: () => ({ lean: async () => [] }) }),
+    },
+  });
   // Query string forces a fresh module instance so this test sees its own mock.
   return import(`../src/services/knowYourselfService.js?t=${Date.now()}-${Math.random()}`);
 }

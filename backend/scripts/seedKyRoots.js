@@ -12,10 +12,11 @@
    SAFETY
    ------
    • DRY RUN BY DEFAULT. Nothing is written without `--apply`.
-   • Never runs against production by accident: the script refuses to start
-     unless MONGO_URI points at a database you have explicitly named via
-     `--allow-db <name>` (or the host is localhost), and it prints the target
-     host so you can check it before applying.
+   • Never runs against the wrong database by accident: the script refuses to
+     start unless the URI (ATLAS_MONGO_URI or MONGO_URI) points at a database
+     you have explicitly named via `--allow-db <name>` (or the host is
+     localhost), and it prints the target host so you can check it before
+     applying.
    • Every write is a $setOnInsert / upsert keyed on the natural key, so
      re-running is safe and never duplicates, never deletes, and never
      activates an unrelated question.
@@ -35,7 +36,7 @@
      node scripts/seedKyRoots.js                 # report only
      node scripts/seedKyRoots.js --apply         # write
      node scripts/seedKyRoots.js --apply --retire-orphans   # also deactivate superseded pillars/questions
-     MONGO_URI=mongodb://127.0.0.1:27017/byrgop node scripts/seedKyRoots.js --apply
+     ATLAS_MONGO_URI=mongodb+srv://<...>/byrgop node scripts/seedKyRoots.js --apply --allow-db byrgop
    ───────────────────────────────────────────────────────────── */
 
 import 'dotenv/config';
@@ -61,9 +62,9 @@ const APPLY = process.argv.includes('--apply');
 const allowDbIdx = process.argv.indexOf('--allow-db');
 const ALLOW_DB = allowDbIdx !== -1 ? process.argv[allowDbIdx + 1] : null;
 
-const uri = process.env.MONGO_URI || '';
+const uri = process.env.ATLAS_MONGO_URI || process.env.MONGO_URI || '';
 if (!uri) {
-  console.error('MONGO_URI is not set. Refusing to run.');
+  console.error('ATLAS_MONGO_URI/MONGO_URI is not set. Refusing to run.');
   process.exit(1);
 }
 

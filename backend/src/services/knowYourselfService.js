@@ -144,19 +144,37 @@ export async function resolveActiveDomain(domainKey) {
  * renames or rewrites a category an admin has already configured.
  */
 async function seedRootCategories(rootId) {
-  const existing = await KYCategory.countDocuments({ kyRoot: rootId });
+  // Seed into the SAME stored kyRoot value the read path queries. The shared
+  // Manufacturing & Services set is stored under a null kyRoot (matching the
+  // Admin controller), so a first-use seed can never recreate the duplicate
+  // 'manufacturing-services' rows the old root-id query used to leave behind.
+  const storedRoot = rootToStoredValue(rootId);
+  const existing = await KYCategory.countDocuments({ kyRoot: storedRoot });
   if (existing > 0) return;
   const rows = pillarsForRoot(rootId).map((c) => ({
     key: c.key,
     name: c.name,
     color: c.color,
     sortOrder: c.sortOrder,
-    kyRoot: rootId,
+    kyRoot: storedRoot,
     active: true,
   }));
   // ordered:false + a swallowed duplicate-key error keeps concurrent seeding
   // safe, which matters on the very first request after a deploy.
   await KYCategory.insertMany(rows, { ordered: false }).catch(() => {});
+}
+
+/**
+ * The kyRoot VALUE a root's pillar rows are stored with. The shared
+ * Manufacturing & Services set is stored under a null kyRoot (exactly what the
+ * Admin controller and `getAllRootKYCategories` address); every other root
+ * stores its own id. Keeping this one mapping shared by the read, query, seed
+ * and Admin paths is what stops a second copy of the shared set from being
+ * created again.
+ */
+function rootToStoredValue(rootId) {
+  const id = String(rootId || DEFAULT_KY_ROOT).toLowerCase().trim();
+  return id === DOMAIN_SELECTION_ROOT ? null : id;
 }
 
 /**
@@ -176,15 +194,19 @@ export async function getActiveKYCategories(businessTypeOrRoot) {
   const asRoot = typeof raw === 'string' ? String(raw).toLowerCase().trim() : null;
   const rootId =
     asRoot && KY_ROOT_IDS.includes(asRoot) ? asRoot : resolveKyRoot(raw);
+  // The participant flow reads the SAME rows the Admin category pages edit —
+  // the shared set under `kyRoot: null` — not a second copy keyed by the root
+  // id. This is what makes an Admin pillar rename visible in questions/results.
+  const storedRoot = rootToStoredValue(rootId);
 
-  let cats = await KYCategory.find({ active: true, kyRoot: rootId })
+  let cats = await KYCategory.find({ active: true, kyRoot: storedRoot })
     .sort({ sortOrder: 1, name: 1 })
     .lean();
 
   // The shared set lives under a null kyRoot. Seed it on first use.
   if (cats.length === 0) {
     await seedRootCategories(rootId);
-    cats = await KYCategory.find({ active: true, kyRoot: rootId })
+    cats = await KYCategory.find({ active: true, kyRoot: storedRoot })
       .sort({ sortOrder: 1, name: 1 })
       .lean();
   }
@@ -1003,6 +1025,47 @@ export async function submitKYAnswer(sessionId, { questionIndex, optionId, isNot
   return { accepted: true, answered: session.answers.length, complete: session.status === 'completed' };
 }
 
+/**
+ * Current Admin-managed display name for every pillar in a session's set,
+ * keyed by the stable pillar key.
+ *
+ * The session's root decides WHICH pillar set is authoritative — never the
+ * names persisted on the result. Active AND inactive pillars are included: a
+ * result completed before a pillar was deactivated still renders that
+ * pillar's current name. The map is empty when the set has no records, in
+ * which case callers keep the names already stored on the result.
+ */
+async function currentCategoryNameByKey(session) {
+  const storedRoot = rootToStoredValue(getSessionKyRoot(session));
+  const rows = await KYCategory.find({ kyRoot: storedRoot }).select('key name').lean();
+  return new Map(rows.map((r) => [r.key, r.name]));
+}
+
+/**
+ * Re-labelled copy of a completed result using the CURRENT pillar names from
+ * Admin, matched by stable key.
+ *
+ * Only the display labels change: keys, scores, colours and sort order stay
+ * the persisted values, and a pillar whose row has since been deleted keeps
+ * the name the result was completed with. The Result page is therefore a live
+ * view of the Admin-managed pillar set, not a replay of the name snapshot
+ * written when the session finished.
+ */
+async function applyCurrentCategoryNames(result, session) {
+  if (!result) return result;
+  const plain = typeof result.toObject === 'function' ? result.toObject() : result;
+  if (!Array.isArray(plain.categories) || plain.categories.length === 0) return result;
+  const byKey = await currentCategoryNameByKey(session);
+  if (byKey.size === 0) return result;
+  const withName = (cat) => (cat && byKey.has(cat.key) ? { ...cat, name: byKey.get(cat.key) } : cat);
+  return {
+    ...plain,
+    categories: plain.categories.map(withName),
+    strongest: withName(plain.strongest),
+    priority: withName(plain.priority),
+  };
+}
+
 export async function getKYResult(sessionId) {
   const session = await KnowYourselfSession.findOne({ sessionId });
   if (!session) throw Object.assign(new Error('Session not found'), { status: 404 });
@@ -1021,7 +1084,7 @@ export async function getKYResult(sessionId) {
     businessType: session.businessType || null,
     businessTypeLabel: btLabel,
     attemptNumber: session.result?.attemptNumber ?? session.attemptNumber ?? 1,
-    result: session.result,
+    result: await applyCurrentCategoryNames(session.result, session),
     notApplicableCount: session.result?.notApplicableCount ?? 0,
     proBono: {
       requested: session.proBonoRequested || false,
@@ -1223,7 +1286,19 @@ async function deliverReport(session, reportRequest) {
 
   let pdfBuffer = null;
   try {
-    pdfBuffer = await buildReportPdf({ session, reportRequest });
+    // The PDF is presentation: it is generated from the CURRENT Admin pillar
+    // names (the same read-time resolution getKYResult applies to the Result
+    // page), never the names snapshotted when the session completed. The copy
+    // is transient — the stored session keeps its original result unchanged.
+    let pdfSession = session;
+    if (session.result) {
+      const plain = typeof session.toObject === 'function' ? session.toObject() : session;
+      // `toObject()` leaves `categories` as a native array — safe to test.
+      if (Array.isArray(plain.result?.categories) && plain.result.categories.length > 0) {
+        pdfSession = { ...plain, result: await applyCurrentCategoryNames(session.result, session) };
+      }
+    }
+    pdfBuffer = await buildReportPdf({ session: pdfSession, reportRequest });
     reportRequest.pdfGeneratedAt = new Date();
   } catch (err) {
     reportRequest.emailStatus = 'failed';

@@ -1,7 +1,8 @@
-/* Local end-to-end verification of the four KY flows against a real Mongo.
-   Run with an explicit MONGO_URI pointing at a LOCAL database:
+/* End-to-end verification of the four KY flows against the single database
+   (Atlas). Run without arguments — ATLAS_MONGO_URI (or MONGO_URI) is read from
+   backend/.env:
 
-     MONGO_URI=mongodb://127.0.0.1:27017/byrgop node scripts/verifyKyFlows.js
+     node scripts/verifyKyFlows.js
 
    Read-only: it starts sessions, inspects them, then deletes the sessions it
    created. It never writes questions, pillars or business types. */
@@ -12,9 +13,9 @@ import KnowYourselfSession from '../src/models/KnowYourselfSession.js';
 import { startKYAssignment, getKYMeta, getActiveKYCategories, submitKYAnswer, getKYResult } from '../src/services/knowYourselfService.js';
 import { resolveKyRoot, rootRequiresDomainSelection, pillarKeysForRoot } from '../src/config/kyQuestionRoots.js';
 
-const uri = process.env.MONGO_URI || '';
-if (!/^(mongodb:\/\/)?(localhost|127\.0\.0\.1)/.test(uri)) {
-  console.error('Refusing to run against a non-local MONGO_URI.');
+const uri = process.env.ATLAS_MONGO_URI || process.env.MONGO_URI || '';
+if (!uri) {
+  console.error('ATLAS_MONGO_URI is not set. Refusing to run.');
   process.exit(1);
 }
 

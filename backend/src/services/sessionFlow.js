@@ -1,12 +1,12 @@
 import crypto from 'crypto';
 import AssessmentSession from '../models/AssessmentSession.js';
 import Category from '../models/Category.js';
-import Question from '../models/Question.js';
 import { rollQuestion, toPublicQuestion, getTimeoutSeconds, findBestQuestion } from './questionPool.js';
 import { buildResult } from './scoringEngine.js';
 import { resolveStage } from './stages.js';
 import { isValidOnboardingBusinessType } from '../config/onboarding.js';
 import { resolveOptionHex } from '../config/optionColors.js';
+import { findQuestionById } from './questionLookup.js';
 
 function isExpired(startedAt) {
   const timeoutMs = getTimeoutSeconds() * 1000;
@@ -168,7 +168,7 @@ export async function submitAnswer(sessionId, { questionId, optionId, categoryKe
       const category = await Category.findOne({ key: categoryKey });
       if (!category) throw Object.assign(new Error('Category not found'), { status: 404 });
 
-      const question = await Question.findById(questionId);
+      const question = await findQuestionById(questionId);
       if (!question) throw Object.assign(new Error('Question not found'), { status: 404 });
 
       const option = (question.options || []).find(
@@ -258,7 +258,7 @@ export async function recordTimeout(sessionId, questionId, categoryKey) {
       if (existing?.optionId) return session;
 
       const category = await Category.findOne({ key: categoryKey });
-      const question = await Question.findById(questionId);
+      const question = await findQuestionById(questionId);
 
       if (existing) {
         existing.timedOut = true;

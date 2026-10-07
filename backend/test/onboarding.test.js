@@ -173,10 +173,32 @@ function makeQuestionMock(bucket, { createdHook } = {}) {
           return this;
         },
       };
+      // Register so the raw-driver path (legacy string-_id rows) sees it too.
+      byId.set(String(created._id), created);
       if (createdHook) createdHook(created);
       return created;
     },
     deleteOne: async () => true,
+    // Raw-driver facade: questionLookup / onboardingAdminService read and write
+    // legacy string-_id rows through Question.collection (Mongoose casting is
+    // impossible for ids like "q-startup-strategic"). This mirrors that path
+    // over the same in-memory registry.
+    collection: {
+      findOne: async ({ _id }) => {
+        const doc = byId.get(String(_id));
+        return doc ? { ...doc } : null;
+      },
+      updateOne: async ({ _id }, { $set }) => {
+        const doc = byId.get(String(_id));
+        if (!doc) return { matchedCount: 0, modifiedCount: 0 };
+        Object.assign(doc, $set);
+        return { matchedCount: 1, modifiedCount: 1 };
+      },
+      deleteOne: async ({ _id }) => {
+        const existed = byId.delete(String(_id));
+        return { deletedCount: existed ? 1 : 0 };
+      },
+    },
   };
 }
 

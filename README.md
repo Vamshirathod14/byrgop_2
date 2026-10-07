@@ -13,7 +13,9 @@ byrgop/
 
 ## Requirements
 
-- Node 18+ and MongoDB running locally (`mongod` on `127.0.0.1:27017`).
+- Node 18+ and an **Atlas MongoDB** connection string (the single source of
+  truth). No local `mongod` is needed — the app refuses to connect to a local
+  MongoDB (see `backend/src/config/db.js`).
 
 ## Setup & run
 
@@ -22,6 +24,8 @@ byrgop/
 cd backend
 npm install
 cp .env.example .env   # if not present; adjust secrets before running
+#    Set ATLAS_MONGO_URI=<your Atlas connection string> in backend/.env.
+#    NEVER commit real credentials.
 npm run seed           # idempotent placeholder content (categories, demo questions, result bands)
 npm run dev            # http://localhost:5000
 
@@ -35,6 +39,12 @@ cd admin
 npm install
 npm run dev            # http://localhost:5174
 ```
+
+> **Single source of truth.** Admin, the participant frontend, and the deployed
+> API all read and write ONE database — Atlas. The API path is the only path:
+> `Admin → API → Atlas` and `Participant → API → Atlas`. There is no local
+> MongoDB datastore and no sync layer; running the app against a
+> localhost/127.0.0.1 MongoDB is rejected by the backend connection layer.
 
 ### First-run Super Admin
 

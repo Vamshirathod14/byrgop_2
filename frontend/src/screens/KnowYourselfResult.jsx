@@ -11,13 +11,6 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
-// Timer gold — matches the default `goldMain` used by the Timer component and
-// the "Snapshot" word on the result screen.
-const TIMER_GOLD = '#FCA700';
-
-// Pale cream highlight band used by the shine sweep (same as the Snapshot word).
-const SHINE_HIGHLIGHT = '#FFF3D6';
-
 // Band severity colours — semantic, but drawn from the centralized brand
 // palette (green/yellow/orange/red 300) instead of arbitrary Tailwind hues.
 function bandColor(band) {
@@ -601,7 +594,7 @@ export default function KnowYourselfResult({
         <div className="relative z-10 flex flex-col items-center justify-center">
           <ContextChips businessTypeLabel={result.businessTypeLabel} domainLabel={result.domainLabel || data?.domainLabel} />
           <h1 className="font-display mt-8 text-center text-3xl font-bold sm:text-4xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-            {entityLabel} <span className="font-display font-semibold shine-gold">Assessment</span>
+            {entityLabel} <span className="font-display font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
           </h1>
           <div className="mt-10 flex flex-col items-center">
             <ScoreRing percent={pct} label="Score" />
@@ -706,7 +699,7 @@ export default function KnowYourselfResult({
           {brand.tagline}
         </span>
         <h1 className="font-display mt-2 text-2xl font-bold uppercase tracking-wide sm:text-3xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-          {entityLabel} <span className="font-display normal-case font-semibold shine-gold">Health</span> Score
+          {entityLabel} <span className="font-display not-italic normal-case font-semibold shine-text" style={{ color: brand.accent }}>Health</span> Score
         </h1>
         <div className="mt-5">
           <ContextChips
@@ -743,7 +736,7 @@ export default function KnowYourselfResult({
           </p>
         </div>
 
-        <div className="mt-6 sm:mt-7">
+        <div className="mt-6 flex justify-center sm:mt-7">
           <VisualizationSelector value={view} onChange={setView} />
         </div>
 
@@ -802,29 +795,7 @@ export default function KnowYourselfResult({
         </motion.div>
       )}
 
-      {/* Primary insight — driven by the lowest category score */}
-      {data.priority && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.15, duration: 0.65, ease }}
-          className="relative z-10 mx-auto mt-6 w-full max-w-4xl overflow-hidden rounded-2xl border px-6 py-5 sm:px-8"
-          style={{ borderColor: `${data.priority.color}40`, background: `${data.priority.color}0d` }}
-        >
-          <span className="font-display text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: `${data.priority.color}cc` }}>
-            Primary area to strengthen
-          </span>
-          <p className="font-display mt-1.5 text-xl font-bold sm:text-2xl" style={{ color: premiumWhite.bright }}>
-            {data.priority.name}
-          </p>
-          <p className="font-display mt-0.5 text-sm tabular-nums" style={{ color: data.priority.color }}>
-            {data.priority.percent}% · {data.priority.score} of {data.priority.maxScore} points
-          </p>
-          <p className="font-display mt-1.5 max-w-2xl text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
-            Focusing here offers the greatest opportunity to lift your overall business health.
-          </p>
-        </motion.div>
-      )}
+
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -874,37 +845,37 @@ export default function KnowYourselfResult({
         }}
       />
 
-      {/* Gold shine sweep — identical to the "Snapshot" word on the result screen */}
+      {/* Shine sweep animation for "Health" */}
       <style>{`
-        .shine-gold {
+        .shine-text {
           position: relative;
           display: inline-block;
           background-image: linear-gradient(
             100deg,
-            ${TIMER_GOLD} 0%,
-            ${TIMER_GOLD} 35%,
-            ${SHINE_HIGHLIGHT} 50%,
-            ${TIMER_GOLD} 65%,
-            ${TIMER_GOLD} 100%
+            ${brand.accent} 0%,
+            ${brand.accent} 35%,
+            #FFF3D6 50%,
+            ${brand.accent} 65%,
+            ${brand.accent} 100%
           );
           background-size: 250% 100%;
           background-position: 200% 0;
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          animation: shine-gold-sweep 3.2s ease-in-out infinite;
+          animation: shine-sweep 3.2s ease-in-out infinite;
         }
-        @keyframes shine-gold-sweep {
+        @keyframes shine-sweep {
           0%   { background-position: 200% 0; }
           60%  { background-position: -50% 0; }
           100% { background-position: -50% 0; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .shine-gold {
+          .shine-text {
             animation: none;
             background: none;
-            -webkit-text-fill-color: ${TIMER_GOLD};
-            color: ${TIMER_GOLD};
+            -webkit-text-fill-color: ${brand.accent};
+            color: ${brand.accent};
           }
         }
       `}</style>

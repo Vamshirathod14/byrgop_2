@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Sector } from 'recharts';
 import PrimaryButton from '../components/PrimaryButton.jsx';
 import { brand } from '../theme/brand.js';
-import { NEUTRAL_COLOR } from '../onboarding.js';
+import { NEUTRAL_COLOR, resolveAnswerDisplayColor } from '../onboarding.js';
 import { categoryLabel } from '../lib/categories.js';
 
 const ease = [0.22, 1, 0.36, 1];
@@ -93,20 +93,20 @@ export default function ResultScreen({
   const buildDisplay = (slot, score) => {
     const earned = score?.earned ?? 0;
     const answer = score?.answer ?? null;
-    const optionColor = score?.optionColor ?? score?.selectedOptionColor ?? score?.stage?.color ?? null;
+    // The Admin-configured answer-option colour (optionColor / legacy stage
+    // colour) and the category/pillar colour — kept separate by design.
+    const optionColor =
+      score?.optionColor ?? score?.selectedOptionColor ?? score?.stage?.color ?? null;
     const categoryColor = score?.categoryColor ?? score?.color ?? null;
-    // An option color customized by Admin (different from default Yes #4CAF50 / No #E53935) takes precedence;
-    // otherwise the Admin Category color ("Color (used in the result chart)") takes precedence;
-    // followed by optionColor, and finally NEUTRAL_COLOR.
-    const isCustomOptionColor =
-      optionColor &&
-      optionColor.toLowerCase() !== '#4caf50' &&
-      optionColor.toLowerCase() !== '#e53935';
-    const displayColor =
-      (isCustomOptionColor ? optionColor : null) ||
-      categoryColor ||
-      optionColor ||
-      NEUTRAL_COLOR;
+    // Admin-configured answer-option colour is the single source of truth for
+    // the donut sector. resolveAnswerDisplayColor applies the same rule as the
+    // instant snapshot and the server merge: configured option colour wins,
+    // the category/pillar colour is only a fallback when no option colour
+    // exists, and NEUTRAL_COLOR is the last resort. Stored hexes that happen to
+    // equal the default Yes/No values are configured colours too — they are
+    // never swapped for a category colour, and the answer text/letter/position
+    // is never inspected.
+    const displayColor = resolveAnswerDisplayColor(score);
     return {
       categoryKey: slot.key,
       categoryName: slot.label,
