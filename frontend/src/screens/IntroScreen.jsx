@@ -462,12 +462,15 @@ export default function IntroScreen({
           </motion.p>
         )}
 
-        {/* Proceed Button — calm until a type is selected, then shines */}
+        {/* Proceed Button — calm until a type is selected, then shines.
+            min-h + inline-flex keeps the button the same broad size on every
+            screen; the shine classes are on the OUTER button so they survive
+            whatever the PrimaryButton renders inside. */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.6, ease }}
-          className="mt-8 sm:mt-10"
+          className="mt-8 sm:mt-10 w-full flex justify-center"
         >
           <PrimaryButton
             onClick={() => {
@@ -476,11 +479,13 @@ export default function IntroScreen({
               }
             }}
             disabled={!proceedActive}
-            className={`font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] ${
+            className={`intro-proceed-btn font-display inline-flex items-center justify-center text-center min-w-[9rem] sm:min-w-[11rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] leading-none ${
               proceedActive ? 'shine-button' : ''
             }`}
           >
-            <span className={proceedActive ? 'shine-button-label' : ''}>PROCEED</span>
+            <span className={`inline-block ${proceedActive ? 'shine-button-label' : ''}`}>
+              PROCEED
+            </span>
           </PrimaryButton>
         </motion.div>
 
@@ -551,6 +556,22 @@ export default function IntroScreen({
 
       {/* Shine animation — button sweep only (heading shine removed) */}
       <style>{`
+        /* Lock the Proceed button to a consistent, broad box on every screen.
+           The display/height live here (not on the label) so the button cannot
+           collapse to a thin strip when the shine label is applied. */
+        .intro-proceed-btn {
+          position: relative;
+          overflow: hidden;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: 3rem;
+          line-height: 1;
+        }
+        @media (min-width: 640px) {
+          .intro-proceed-btn { min-height: 3.25rem; }
+        }
+
         .shine-button {
           position: relative;
           overflow: hidden;
@@ -573,6 +594,9 @@ export default function IntroScreen({
           background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: shine-silver-sweep 3.2s ease-in-out infinite;
+          /* Fallback colour so the label is never invisible if a browser
+             drops background-clip:text mid-animation. */
+          color: currentColor;
         }
 
         @keyframes shine-silver-sweep {
