@@ -6,6 +6,12 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
+// Timer gold — matches the default `goldMain` used by the Timer component.
+const TIMER_GOLD = '#FCA700';
+
+// Pale cream highlight band used by the shine sweep.
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 // Card accents drawn from the official six-colour mark.
 const CARD_ACCENTS = [brand.mark[0], brand.mark[3], brand.mark[5]];
 
@@ -34,6 +40,19 @@ function RichText({ text }) {
   );
 }
 
+// The "Welcome to the Profit Architecture Diagnostic (PAD)" copy is the same
+// for every business type. It is intentionally a fixed constant here rather
+// than read from the per-root `content` prop, so a Non-Profit or Start-Up user
+// sees the identical wording as Manufacturing & Services.
+const ABOUT_PAD = {
+  title: 'Welcome to the Profit Architecture Diagnostic (PAD)',
+  body:
+    "Built on BYRGOP's Business Profit Architecture (BPA) framework, this diagnostic assesses six core " +
+    'operational pillars to uncover hidden profit leaks and growth opportunities. Complete 18 targeted questions ' +
+    'in 8–10 minutes to receive an immediate, complimentary report detailing prioritized optimization strategies ' +
+    'for your business.',
+};
+
 export default function DisclaimerScreen({
   onAccept,
   onDecline,
@@ -47,6 +66,10 @@ export default function DisclaimerScreen({
   // Profit Architecture … hidden profit leaks" and read terms about their
   // "business". `content` is now required from the caller; the default below
   // is that same previous text so the component still renders standalone.
+  //
+  // NOTE: only `screenTitle` and `terms` come from the caller now. Box 2
+  // ("Welcome to the Profit Architecture Diagnostic") uses the fixed
+  // ABOUT_PAD constant above, so every business type sees the same text there.
   content = {
     entity: 'your business',
     resultActionLabel: 'Your Business',
@@ -59,14 +82,6 @@ export default function DisclaimerScreen({
         'constitute formal legal, financial, tax, or investment advice, and financial results are not guaranteed. ' +
         'All underlying frameworks and intellectual property remain our exclusive property and may not be reproduced ' +
         'without written consent.',
-    },
-    about: {
-      title: 'Welcome to the Profit Architecture Diagnostic (PAD)',
-      body:
-        "Built on BYRGOP's Business Profit Architecture (BPA) framework, this diagnostic assesses six core " +
-        'operational pillars to uncover hidden profit leaks and growth opportunities. Complete 18 targeted questions ' +
-        'in 8–10 minutes to receive an immediate, complimentary report detailing prioritized optimization strategies ' +
-        'for your business.',
     },
   },
 }) {
@@ -188,7 +203,8 @@ export default function DisclaimerScreen({
             </div>
           </motion.div>
 
-          {/* Box 2: About PAD - Green hover */}
+          {/* Box 2: About PAD - Green hover. Uses the fixed ABOUT_PAD constant
+              so every business type sees the same text here. */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -197,11 +213,11 @@ export default function DisclaimerScreen({
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 flex flex-col transition-all duration-300 hover:border-green-500/50 hover:bg-green-500/[0.05]"
           >
             <h3 className="font-sans text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
-              {content.about.title}
+              {ABOUT_PAD.title}
             </h3>
             <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
               <p className="font-sans">
-                <RichText text={content.about.body} />
+                <RichText text={ABOUT_PAD.body} />
               </p>
             </div>
           </motion.div>
@@ -214,10 +230,10 @@ export default function DisclaimerScreen({
           transition={{ duration: 0.7, delay: 0.8, ease }}
           className="mt-8 sm:mt-10 flex w-full max-w-3xl flex-col sm:flex-row items-center gap-3 sm:justify-between"
         >
-          {/* Go Back - Left on desktop, Bottom on mobile */}
+          {/* Go Back - Left on desktop, Bottom on mobile. Permanent gold shine. */}
           <PrimaryButton
             onClick={onDecline}
-            className="font-sans w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-2 sm:order-1"
+            className="disclaimer-shine-btn font-sans w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-2 sm:order-1"
             style={{ 
               background: brand.accent,
               color: '#0A0D16',
@@ -225,14 +241,17 @@ export default function DisclaimerScreen({
               border: '2px solid',
             }}
           >
-            Go Back
+            <span className="disclaimer-shine-label">Go Back</span>
           </PrimaryButton>
 
-          {/* Continue - Right on desktop, Top on mobile */}
+          {/* Continue - Right on desktop, Top on mobile. Permanent gold shine
+              when enabled; calm and disabled-styled when not. */}
           <PrimaryButton
             onClick={handleContinue}
             disabled={!canContinue}
-            className="font-sans w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-1 sm:order-2"
+            className={`disclaimer-shine-btn font-sans w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-1 sm:order-2 ${
+              canContinue ? '' : 'disclaimer-shine-off'
+            }`}
             style={{ 
               background: canContinue ? brand.accent : 'rgba(255,255,255,0.08)',
               color: canContinue ? '#0A0D16' : 'rgba(255,255,255,0.3)',
@@ -241,10 +260,62 @@ export default function DisclaimerScreen({
               border: canContinue ? '2px solid' : '2px solid rgba(255,255,255,0.1)',
             }}
           >
-            Continue
+            <span className="disclaimer-shine-label">Continue</span>
           </PrimaryButton>
         </motion.div>
       </div>
+
+      {/* Permanent gold shine sweep for the Go Back and Continue buttons.
+          The base colour is currentColor, so each button's own text colour is
+          preserved. The sweep runs continuously while the button is enabled;
+          when Continue is disabled the `.disclaimer-shine-off` class removes
+          the sweep so a disabled button stays calm. GPU-layer promotion keeps
+          the sweep animating reliably on Intel UHD 620 devices. */}
+      <style>{`
+        .disclaimer-shine-label {
+          display: inline-block;
+          color: currentColor;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: disclaimer-shine-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes disclaimer-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        /* Disabled state — kill the sweep so a disabled Continue button is
+           calm, and restore the plain text colour. */
+        .disclaimer-shine-off .disclaimer-shine-label {
+          animation: none;
+          background: none;
+          -webkit-text-fill-color: inherit;
+          color: inherit;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .disclaimer-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
+          }
+        }
+      `}</style>
     </div>
   );
 }

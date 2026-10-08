@@ -10,6 +10,12 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 // Premium White Shades — centralized in brand.js
 const premiumWhite = brand.premiumWhite;
 
+// Timer gold — matches the default `goldMain` used by the Timer component.
+const TIMER_GOLD = '#FCA700';
+
+// Pale cream highlight band used by the shine sweep.
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 // Generic, always-present 5th option for every question. Tracking only — never
 // scored. Mirrors the styling/selection behaviour of the normal options.
 function NotApplicableOption({ selected, onSelect, busy, index, compact }) {
@@ -109,6 +115,10 @@ export default function KnowYourselfScreen({
   const effective = answeredCount + (selected && !answeredHere ? 1 : 0);
   const fillPct = total > 0 ? Math.min(100, Math.round((effective / total) * 100)) : 0;
   const basePct = total > 0 ? Math.round((answeredCount / total) * 100) : 0;
+
+  // Whether the primary (Next / Submit) button can be clicked. Used both for
+  // the disabled state and for toggling the shimmer on/off.
+  const primaryActive = !!selected && !busy;
 
   return (
     <div className="relative flex min-h-screen flex-col bg-page px-4 sm:px-6 py-3 sm:py-5">
@@ -386,20 +396,26 @@ export default function KnowYourselfScreen({
                   {isLast ? (
                     <PrimaryButton
                       onClick={() => selected && onNext(selected)}
-                      disabled={!selected || busy}
-                      className="font-display px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden"
+                      disabled={!primaryActive}
+                      className={`question-shine-btn font-display px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden ${
+                        primaryActive ? '' : 'question-shine-off'
+                      }`}
                       style={{ minWidth: '7rem' }}
                     >
-                      {busy ? 'Submitting…' : 'Submit Assessment'}
+                      <span className="question-shine-label">
+                        {busy ? 'Submitting…' : 'Submit Assessment'}
+                      </span>
                     </PrimaryButton>
                   ) : (
                     <PrimaryButton
                       onClick={() => selected && onNext(selected)}
-                      disabled={!selected || busy}
-                      className="font-display px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden"
+                      disabled={!primaryActive}
+                      className={`question-shine-btn font-display px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden ${
+                        primaryActive ? '' : 'question-shine-off'
+                      }`}
                       style={{ minWidth: '5rem' }}
                     >
-                      Next →
+                      <span className="question-shine-label">Next →</span>
                     </PrimaryButton>
                   )}
                 </div>
@@ -502,20 +518,26 @@ export default function KnowYourselfScreen({
                 {isLast ? (
                   <PrimaryButton
                     onClick={() => selected && onNext(selected)}
-                    disabled={!selected || busy}
-                    className="font-display px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden"
+                    disabled={!primaryActive}
+                    className={`question-shine-btn font-display px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden ${
+                      primaryActive ? '' : 'question-shine-off'
+                    }`}
                     style={{ minWidth: '6.5rem' }}
                   >
-                    {busy ? 'Submitting…' : 'Submit Assessment'}
+                    <span className="question-shine-label">
+                      {busy ? 'Submitting…' : 'Submit Assessment'}
+                    </span>
                   </PrimaryButton>
                 ) : (
                   <PrimaryButton
                     onClick={() => selected && onNext(selected)}
-                    disabled={!selected || busy}
-                    className="font-display px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden"
+                    disabled={!primaryActive}
+                    className={`question-shine-btn font-display px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden ${
+                      primaryActive ? '' : 'question-shine-off'
+                    }`}
                     style={{ minWidth: '5rem' }}
                   >
-                    Next →
+                    <span className="question-shine-label">Next →</span>
                   </PrimaryButton>
                 )}
               </div>
@@ -523,6 +545,57 @@ export default function KnowYourselfScreen({
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Permanent gold shimmer for the Next / Submit Assessment button.
+          The base colour is currentColor, so the button's own text colour is
+          preserved. The sweep runs only while the button is enabled; when it
+          is disabled the `.question-shine-off` class removes the sweep so the
+          disabled state stays calm. GPU-layer promotion keeps the sweep
+          animating reliably on Intel UHD 620 devices. */}
+      <style>{`
+        .question-shine-label {
+          display: inline-block;
+          color: currentColor;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: question-shine-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes question-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        /* Disabled state — kill the sweep so a disabled Next/Submit stays calm. */
+        .question-shine-off .question-shine-label {
+          animation: none;
+          background: none;
+          -webkit-text-fill-color: inherit;
+          color: inherit;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .question-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
+          }
+        }
+      `}</style>
     </div>
   );
 }

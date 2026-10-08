@@ -52,7 +52,7 @@ const REQUIRED_NONPROFIT_BANK = [
   ['nonprofit-people-culture', 'What happens if a top leader or key program head leaves suddenly'],
   ['nonprofit-governance', 'How does your governing body/ board oversee the organization'],
   ['nonprofit-governance', 'Do you file all required reports on on time'.replace('on on time', 'on time')],
-  ['nonprofit-governance', 'How open are your accounts, reports and governance details'],
+  ['nonprofit-governance', 'How do you handle conflicts of interest'],
 ];
 
 /** Every pillar key that must NEVER appear on a Non-Profit question. */
@@ -167,8 +167,12 @@ db('DB: no duplicate or leftover versions of the 18 are still active', async () 
   assert.equal(rows.length, 18, 'an extra/superseded active copy exists');
   const texts = rows.map((q) => q.text);
   assert.equal(new Set(texts).size, 18, 'duplicate question text among the active 18');
-  const superseded = rows.filter((q) => /conflicts of interest/i.test(q.text));
-  assert.equal(superseded.length, 0, 'the retired conflicts-of-interest question is still active');
+  const coi = rows.filter((q) => /conflicts of interest/i.test(q.text));
+  assert.equal(coi.length, 1, 'exactly one active conflicts-of-interest question');
+  assert.ok(
+    !rows.some((q) => /How open are your accounts/i.test(q.text)),
+    'the transparency question must now be retired'
+  );
 });
 
 db('DB: every active option list is A/B/C/D scored best→worst 4/3/2/1', async () => {
@@ -202,14 +206,14 @@ db('DB: no Non-Profit question carries Humanitarian / domain content', async () 
 db('DB: retired questions are retained, not deleted', async () => {
   const retired = await KnowYourselfQuestion.find({ businessType: 'ngo', active: false }).lean();
   assert.ok(retired.length > 0, 'the superseded Non-Profit history must be kept as inactive');
-  const coi = retired.find((q) => /conflicts of interest/i.test(q.text));
-  assert.ok(coi, 'the retired conflicts-of-interest question must still exist, inactive');
-  assert.equal(coi.active, false);
+  const transparency = retired.find((q) => /How open are your accounts/i.test(q.text));
+  assert.ok(transparency, 'the retired transparency question must still exist, inactive');
+  assert.equal(transparency.active, false);
 });
 
 db('DB: a retired question is never what the active query returns', async () => {
   const rows = await ngoActive();
-  assert.ok(!rows.some((q) => /conflicts of interest/i.test(q.text)));
+  assert.ok(!rows.some((q) => /How open are your accounts/i.test(q.text)));
 });
 
 /* ══ ADMIN API ═══════════════════════════════════════════════════════ */
@@ -250,7 +254,7 @@ db('Admin: retired questions are excluded from the default list but reachable on
   assert.equal(active.body.length, 18);
   assert.ok(all.body.length > active.body.length, 'inactive questions must be requestable for the archive view');
   assert.ok(
-    all.body.some((q) => q.active === false && /conflicts of interest/i.test(q.text)),
+    all.body.some((q) => q.active === false && /How open are your accounts/i.test(q.text)),
     'the retired question must be visible in the includeInactive view'
   );
 });

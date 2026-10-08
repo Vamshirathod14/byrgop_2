@@ -12,6 +12,9 @@ const premiumWhite = brand.premiumWhite;
 // Timer gold — matches the default `goldMain` used by the Timer component.
 const TIMER_GOLD = '#FCA700';
 
+// Pale cream highlight band used by the shine sweep (same as the Snapshot word).
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 const normalizedKey = (value) => String(value || '').trim().toLowerCase();
 
 function resolveCategory(category) {
@@ -379,7 +382,7 @@ export default function ResultScreen({
           className="mt-4 sm:mt-6 flex flex-col items-center"
         >
           <h2 
-            className="font-display text-lg font-semibold text-center sm:text-xl md:text-2xl lg:text-3xl"
+            className="font-sans text-base font-semibold text-center sm:text-lg md:text-xl lg:text-2xl"
             style={{ color: premiumWhite.bright }}
           >
             Know more about 
@@ -388,17 +391,17 @@ export default function ResultScreen({
           <div className="mt-4 sm:mt-6 flex w-full max-w-xl flex-row items-center justify-center gap-3 sm:gap-4 px-2">
             <PrimaryButton
               onClick={onKY}
-              className="font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 px-4 sm:px-8 py-3 whitespace-nowrap text-xs sm:text-sm font-bold tracking-[0.12em] sm:tracking-[0.16em] inline-flex items-center justify-center leading-none"
+              className="hover-shine-btn know-more-btn font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 font-bold tracking-[0.12em] sm:tracking-[0.16em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
-              {actionLabel}
+              <span className="hover-shine-label">{actionLabel}</span>
             </PrimaryButton>
             <PrimaryButton
               onClick={onAbout}
-              className="font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 px-4 sm:px-8 py-3 whitespace-nowrap text-xs sm:text-sm font-bold tracking-[0.12em] sm:tracking-[0.16em] inline-flex items-center justify-center leading-none"
+              className="hover-shine-btn know-more-btn font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 font-bold tracking-[0.12em] sm:tracking-[0.16em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
-              BYRGOP
+              <span className="hover-shine-label">BYRGOP</span>
             </PrimaryButton>
           </div>
 
@@ -406,7 +409,7 @@ export default function ResultScreen({
             <button
               type="button"
               onClick={onRetake}
-              className="font-display text-sm text-center mt-3 transition-colors hover:opacity-70"
+              className="font-sans text-base sm:text-lg text-center mt-3 transition-colors hover:opacity-70"
               style={{ color: premiumWhite.bright }}
             >
               Retake Assessment
@@ -415,7 +418,7 @@ export default function ResultScreen({
         </motion.div>
       </div>
 
-      {/* Shine sweep animation for the "Snapshot" word */}
+      {/* Shine sweep animations + button centring. */}
       <style>{`
         .shine-text {
           position: relative;
@@ -424,7 +427,7 @@ export default function ResultScreen({
             100deg,
             ${TIMER_GOLD} 0%,
             ${TIMER_GOLD} 35%,
-            #FFF3D6 50%,
+            ${SHINE_HIGHLIGHT} 50%,
             ${TIMER_GOLD} 65%,
             ${TIMER_GOLD} 100%
           );
@@ -440,12 +443,73 @@ export default function ResultScreen({
           60%  { background-position: -50% 0; }
           100% { background-position: -50% 0; }
         }
+
+        /* "Know more about" buttons — force the label dead-centre inside the
+           button, with balanced horizontal padding so the text never crowds
+           either edge. display:grid + place-items:center centres both axes
+           regardless of how long the label is ("Your Business" vs
+           "Your Enterprise" vs "Your Foundation"). */
+        .know-more-btn {
+          display: grid !important;
+          place-items: center !important;
+          padding-left: 1.25rem !important;
+          padding-right: 1.25rem !important;
+          text-align: center !important;
+        }
+        @media (min-width: 640px) {
+          .know-more-btn {
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
+          }
+        }
+
+        /* Hover shine for the two buttons.
+           By default the label is COMPLETELY NORMAL — no gradient, no
+           background-clip, no shine. Only when the parent button is hovered
+           or focus-visible do we apply the gradient and start the sweep. */
+        .hover-shine-label {
+          display: inline-block;
+          color: currentColor;
+          text-align: center;
+        }
+        .hover-shine-btn:hover .hover-shine-label,
+        .hover-shine-btn:focus-visible .hover-shine-label {
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: hover-shine-sweep 1.4s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes hover-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .shine-text {
             animation: none;
             background: none;
             -webkit-text-fill-color: ${TIMER_GOLD};
             color: ${TIMER_GOLD};
+          }
+          .hover-shine-btn:hover .hover-shine-label,
+          .hover-shine-btn:focus-visible .hover-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
           }
         }
       `}</style>

@@ -430,7 +430,7 @@ async function seedQuestions() {
           drift.push('glossary');
         }
 
-        if (drift.length === 0) {
+        if (drift.length === 0 && existing.active !== false) {
           report.questions.push(
             `${businessType}: question already exists — "${question.text.slice(0, 58)}…"`
           );
@@ -438,7 +438,8 @@ async function seedQuestions() {
         }
 
         report.questions.push(
-          `${businessType}: update question [${question.category}] "${question.text.slice(0, 58)}…" — ${drift.join(', ')}`
+          `${businessType}: update question [${question.category}] "${question.text.slice(0, 58)}…" — ` +
+            (drift.length ? drift.join(', ') : 'reactivate (was retired; back in the bank)')
         );
         if (APPLY) {
           // Options are rewritten wholesale, preserving each stored option's
@@ -448,6 +449,12 @@ async function seedQuestions() {
             { _id: existing._id },
             {
               $set: {
+                // Both seeded banks are owned end-to-end by this script, so a
+                // question that IS in the config bank must serve. A doc matched
+                // by text that was previously retired (a question that left the
+                // bank and has now come back) is reactivated in place, keeping
+                // its id and the session history that references it intact.
+                active: true,
                 category: question.category,
                 glossary: question.glossary || [],
                 options: (question.options || []).map((op) => {

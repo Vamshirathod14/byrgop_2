@@ -43,252 +43,228 @@ export const STARTUP_QUESTIONS = [
   /* startup-market-validation */
   q(
     'startup-market-validation',
-    'How many potential customers has your team spoken to in the last six months?',
+    'Do you feel you spend most of your time tweaking features and pitching, rather than validating actual product-market fit (PMF) and customer retention?',
     [
-      'More than 60, including at least a dozen who have paid, signed a letter of intent, or committed a budget',
-      'Between 25 and 60, with several expressing clear buying intent',
-      'Fewer than 25, mostly informal conversations with friends, family or peers',
-      'Almost none — our assumptions about the market have not been tested with real buyers',
-    ],
-    [
-      { abbreviation: 'TAM', fullForm: 'Total Addressable Market' },
-      { abbreviation: 'ICP', fullForm: 'Ideal Customer Profile' },
-    ]
-  ),
-  q(
-    'startup-market-validation',
-    'How would you describe your current product-market fit?',
-    [
-      'Clear and measurable: retention, referrals or inbound demand arrive at a repeatable rate we can forecast',
-      'Early pull in one segment, but growth still depends heavily on founder-led selling',
-      'Uncertain — different segments react very differently to the same positioning',
-      'No evidence yet; we are still deciding who the customer is and what problem we solve',
+      'Never; continuous cohort analysis, Sean Ellis Product-Market Fit (PMF) testing, and strict prioritization govern every release.',
+      'Rarely; a defined roadmap is tied to core user metrics, though some roadmap drift occurs to close deals.',
+      'Mostly; feature decisions are based on gut feel, and customer retention is tracked sporadically.',
+      'Yes; constantly reacting to one-off requests and adding features without measuring retention cohorts.',
     ],
     [{ abbreviation: 'PMF', fullForm: 'Product-Market Fit' }]
   ),
   q(
     'startup-market-validation',
-    'How confident are you that your target segment has this problem urgently?',
+    'How acute and indispensable is the problem your product solves for your primary target profile?',
     [
-      'We have quantified the cost of the problem and interviewed the segment repeatedly to confirm it',
-      'Interviews show real pain, but urgency, budget and authority are still unconfirmed',
-      'The problem is generally recognised but treated as a nice-to-have rather than urgent',
-      'We assume the problem exists; no target customer has confirmed it to us',
+      'Mission-critical infrastructure or urgent priority; removing the solution causes immediate operational disruption for the customer.',
+      'Urgent workflow improvement for target users; customers report quantifiable time or cost savings.',
+      'Solves an operational inconvenience, but alternatives (including manual spreadsheets) are easily substituted.',
+      'Nice-to-have offering; prospects acknowledge the feature set but show high hesitation to pay or pilot.',
     ],
+    []
+  ),
+  q(
+    'startup-market-validation',
+    'How systematically are user analytics, bug reports, and customer churn feedback turned into product decisions?',
     [
-      { abbreviation: 'ICP', fullForm: 'Ideal Customer Profile' },
-      { abbreviation: 'POC', fullForm: 'Proof of Concept' },
-    ]
+      'Automated behavioral analytics (event tracking, cohort churn logs, Net Promoter Score [NPS]) directly dictate sprint prioritization.',
+      'User behavior metrics and churn reasons are reviewed monthly to guide feature backlogs.',
+      'Support issues are resolved reactively, but product roadmap planning remains detached from churn data.',
+      'Feedback is scattered across unstructured chats and emails with no formal review or logging.',
+    ],
+    [{ abbreviation: 'NPS', fullForm: 'Net Promoter Score' }]
   ),
 
   /* startup-product-technology */
   q(
     'startup-product-technology',
-    'How often does the team ship a meaningful product improvement?',
+    'How predictable, reliable, and scalable are your current customer acquisition channels?',
     [
-      'Weekly or better, through an automated build and release pipeline',
-      'Roughly monthly, with a release process the whole team can follow',
-      'Every few months; releases are planned weeks in advance and are disruptive',
-      'Ad hoc, whenever someone has time; there is no repeatable release process',
+      'Two or more diversified, scalable acquisition channels operate with clear funnel conversion benchmarks.',
+      'At least one acquisition channel delivers steady qualified leads with a measured cost per lead.',
+      'Multiple marketing experiments run intermittently, but no single channel produces predictable lead volumes.',
+      'Entirely reliant on founder hustle, personal networks, and unpredictable word-of-mouth.',
     ],
-    [
-      { abbreviation: 'CI', fullForm: 'Continuous Integration' },
-      { abbreviation: 'CD', fullForm: 'Continuous Delivery' },
-    ]
+    []
   ),
   q(
     'startup-product-technology',
-    'How is product quality assured?',
+    'How structured and defensible is your pricing model relative to value delivery and buyer willingness-to-pay?',
     [
-      'Automated tests and monitoring, with incidents usually detected before customers report them',
-      'Monitoring and manual QA are in place, with partial automated coverage',
-      'Mostly manual testing; quality problems surface through customer complaints',
-      'No formal quality process beyond occasional spot checks',
+      'Value-metric-driven pricing with demonstrated pricing power, regular expansion revenue, and contract renewals.',
+      'Standardized pricing tiers aligned with usage or seat count; discounts require formal approval thresholds.',
+      'Cost-plus or competitor-copycat pricing with weak alignment to actual buyer return on investment (ROI).',
+      'Arbitrary pricing decided case-by-case; heavy discounting is routine just to close prospects.',
     ],
-    [
-      { abbreviation: 'QA', fullForm: 'Quality Assurance' },
-      { abbreviation: 'SLA', fullForm: 'Service Level Agreement' },
-    ]
+    [{ abbreviation: 'ROI', fullForm: 'Return on Investment' }]
   ),
   q(
     'startup-product-technology',
-    'How documented and transferable is the technical foundation?',
+    'How well-defined is your sales process from initial prospect qualification to signed contract?',
     [
-      'Documented architecture, owned runbooks, and every engineer can cover another’s work',
-      'Mostly documented, with gaps the team works around',
-      'Knowledge is concentrated in one or two founders',
-      'Undocumented — the code can only be safely maintained by its original author',
+      'Repeatable sales playbook with qualification criteria (Budget, Authority, Need, Timeline [BANT] / Metrics, Economic buyer, Decision criteria, Decision process, Paper process, Identify pain, Champion [MEDDPIC]), monitored sales cycle velocity, and pipeline forecasting.',
+      'Standardized sales pipeline in a Customer Relationship Management (CRM) tool with defined deal stages and typical closing timelines.',
+      'Opportunities are tracked in basic sheets, but deal qualification and stage transitions remain subjective.',
+      'No pipeline visibility; sales cycles vary wildly with frequent silent drop-offs and stalled conversations.',
     ],
     [
-      { abbreviation: 'IP', fullForm: 'Intellectual Property' },
-      { abbreviation: 'SOP', fullForm: 'Standard Operating Procedure' },
+      { abbreviation: 'BANT', fullForm: 'Budget, Authority, Need, Timeline' },
+      { abbreviation: 'CRM', fullForm: 'Customer Relationship Management' },
+      { abbreviation: 'MEDDPIC', fullForm: 'Metrics, Economic buyer, Decision criteria, Decision process, Paper process, Identify pain, Champion' },
     ]
   ),
 
   /* startup-unit-economics */
   q(
     'startup-unit-economics',
-    'Do you know the unit economics behind every new customer?',
+    'Can core business operations and day-to-day service delivery function without direct founder involvement?',
     [
-      'Yes — CAC, average revenue per account, gross margin and payback period are measured and reviewed monthly',
-      'Partially; we know acquisition cost and revenue, but not true margin or payback',
-      'We have rough estimates that have never been validated against actuals',
-      'No — we only know total revenue and total spend',
+      'Fully autonomous operating rhythm driven by clear Key Performance Indicators (KPIs), playbooks, and delegated authority matrices.',
+      'Documented Standard Operating Procedures (SOPs) allow functional leads to handle normal operations independently.',
+      'Team executes daily routines, but any non-standard exception or delivery escalation halts without founder intervention.',
+      'Operations collapse within days if founders are not personally clearing roadblocks and coordinating tasks.',
     ],
     [
-      { abbreviation: 'CAC', fullForm: 'Customer Acquisition Cost' },
-      { abbreviation: 'LTV', fullForm: 'Lifetime Value' },
-      { abbreviation: 'ARPU', fullForm: 'Average Revenue Per User' },
+      { abbreviation: 'KPI', fullForm: 'Key Performance Indicator' },
+      { abbreviation: 'SOP', fullForm: 'Standard Operating Procedure' },
     ]
   ),
   q(
     'startup-unit-economics',
-    'How is the business currently funded?',
+    'How seamless, documented, and rapid is the post-sale onboarding process for a new customer?',
     [
-      'Committed runway beyond 18 months, or revenue that already covers a growing team',
-      'Between 12 and 18 months of runway, with a financing plan under way',
-      'Under 12 months of runway, dependent on closing the next round',
-      'Under 6 months, or the next funding is not secured',
+      'Automated, self-serve or frictionless white-glove onboarding resulting in rapid product adoption and minimal drop-off.',
+      'Standardized onboarding workflow with predictable time-to-value milestones and assigned account managers.',
+      'Informal onboarding checklist exists, but handoffs between sales and delivery teams cause repeated friction.',
+      'Completely manual and custom for every account; customer onboarding is plagued by long, frustrating delays.',
     ],
-    [
-      { abbreviation: 'Runway', fullForm: 'The period a business can operate on its current cash' },
-      { abbreviation: 'Cap Table', fullForm: 'The register of who owns what share of a company' },
-    ]
+    []
   ),
   q(
     'startup-unit-economics',
-    'How predictable is revenue per account over time?',
+    'What happens to delivery quality, error rates, and overhead costs when transaction volume doubles?',
     [
-      'High and improving retention, with revenue per account expanding without heavy discounting',
-      'Stable, with modest expansion and occasional churn',
-      'Erratic — revenue swings with a handful of large deals each quarter',
-      'Entirely dependent on one-off sales, with no repeat pattern',
+      'Elastic delivery architecture and automated systems produce increasing returns to scale without quality loss.',
+      'Tech-enabled infrastructure and vendor workflows absorb volume increases with minor headcount adjustments.',
+      'Capacity can grow only by hiring proportional manual support, compressing operational margins.',
+      'Volume spikes result in system outages, delivery backlogs, service errors, or immediate customer churn.',
     ],
-    [
-      { abbreviation: 'NRR', fullForm: 'Net Revenue Retention' },
-      { abbreviation: 'Churn', fullForm: 'The rate at which customers stop buying' },
-    ]
+    []
   ),
 
   /* startup-growth-engine */
   q(
     'startup-growth-engine',
-    'Which acquisition channel drives most of your growth?',
+    'How many months of runway does your company possess based on its current liquid bank balances and net burn rate?',
     [
-      'Two or more channels work profitably, and each is measured separately',
-      'One channel works, and we measure it weekly',
-      'One channel works, but we cannot yet attribute results to it',
-      'No channel is repeatable — every new customer arrives by a different route',
+      '12+ months of runway or net cash-flow positive, backed by conservative budget controls and financial governance.',
+      '6 to 12 months of runway with active cash-burn scenario models (best-case, base-case, downside-case).',
+      '3 to 6 months of runway; runway management is reactive and dependent on closing impending capital injections.',
+      'Less than 3 months of runway; organization operates under constant payroll and payables emergency.',
+    ],
+    []
+  ),
+  q(
+    'startup-growth-engine',
+    'How healthy, verified, and sustainable are your fundamental unit economics?',
+    [
+      'Superior unit economics with CAC-to-LTV exceeding 1:4, rapid payback (under 12 months), and strong net revenue retention.',
+      'Unit economics break even or produce healthy gross margins with a CAC-to-LTV ratio near 1:3 and clear CAC payback timelines.',
+      'Positive gross margins on paper, but CAC payback period exceeds 18–24 months when accounting for all sales/marketing costs.',
+      'Negative contribution margin; fully loaded Customer Acquisition Cost (CAC) exceeds customer Lifetime Value (LTV).',
     ],
     [
       { abbreviation: 'CAC', fullForm: 'Customer Acquisition Cost' },
-      { abbreviation: 'PLG', fullForm: 'Product-Led Growth' },
+      { abbreviation: 'LTV', fullForm: 'Lifetime Value' },
     ]
   ),
   q(
     'startup-growth-engine',
-    'How is the sales cycle run?',
+    'How tightly are receivables, payables, billing collections, and vendor terms managed?',
     [
-      'Documented pipeline stages with known conversion rates and a defined close process',
-      'A pipeline exists in our CRM, but stage definitions are loose',
-      'Deals are tracked informally and forecasting is based on founder judgement',
-      'There is no pipeline — opportunities live in inboxes and notebooks',
+      'Automated billing, strict working-capital discipline, low Day Sales Outstanding (DSO), and rolling cash forecasts.',
+      'Standard invoicing schedules, formal credit terms, and monthly accounts receivable/payable aging tracking in place.',
+      'Invoices issued, but follow-up is irregular; aging receivables are addressed only when working capital tightens.',
+      'Severe overdue payment cycles; uncollected accounts receivable frequently cause liquid cash shortfalls.',
     ],
-    [{ abbreviation: 'CRM', fullForm: 'Customer Relationship Management' }]
-  ),
-  q(
-    'startup-growth-engine',
-    'How do you price and package what you sell?',
-    [
-      'Tiered pricing tested against real willingness to pay, with usage-based add-ons',
-      'Fixed tiers exist and customers buy them roughly as intended',
-      'Pricing is set case by case during each negotiation',
-      'We have not settled on pricing and discount heavily to close deals',
-    ],
-    [
-      { abbreviation: 'ARPU', fullForm: 'Average Revenue Per User' },
-      { abbreviation: 'SKU', fullForm: 'Stock Keeping Unit' },
-    ]
+    [{ abbreviation: 'DSO', fullForm: 'Day Sales Outstanding' }]
   ),
 
   /* startup-operations-velocity */
   q(
     'startup-operations-velocity',
-    'How are priorities decided and communicated to the team?',
+    'How resilient is your team structure to the sudden exit of critical domain or technical leads?',
     [
-      'A written roadmap with quarterly priorities that everyone can see and trusts',
-      'Priorities exist, but they change often with no formal update rhythm',
-      'Work is decided week to week by whoever is available',
-      'There is no shared view of priorities; everyone works on whatever looks most urgent',
+      'High team talent density, institutionalized code/process documentation, and clear functional redundancies.',
+      'Cross-functional knowledge sharing exists for key systems; recruitment pipeline active for future roles.',
+      'Hiring is purely reactive to bandwidth crises; new hires face steep learning curves without documentation.',
+      'Critical single-point dependencies everywhere; losing one developer or operator halts product/business functions.',
     ],
-    [{ abbreviation: 'OKR', fullForm: 'Objectives and Key Results' }]
+    []
   ),
   q(
     'startup-operations-velocity',
-    'How are legal, compliance and data-protection obligations handled?',
+    'How are employee incentives, compensation packages, and equity schemes structured to drive ownership?',
     [
-      'Contracts, privacy terms and registrations are current and reviewed on a schedule',
-      'Core documents exist, but they are only reviewed when something changes',
-      'Templates are used, but some obligations are not addressed at all',
-      'Handled ad hoc; compliance is largely undefined',
+      'Fully articulated ESOP liquidity roadmap, transparent cap table visibility, and competitive compensation aligned with milestones.',
+      'Registered ESOP pool with clear vesting schedules, grant letters, and performance-based compensation structures.',
+      'Equity promises made informally or via handshake deals; no formal Employee Stock Option Plan (ESOP) policy in place.',
+      'Cash-constrained compensation without transparent equity incentives, resulting in transactional team attitudes.',
     ],
-    [
-      { abbreviation: 'GDPR', fullForm: 'General Data Protection Regulation' },
-      { abbreviation: 'MSA', fullForm: 'Master Services Agreement' },
-    ]
+    [{ abbreviation: 'ESOP', fullForm: 'Employee Stock Option Plan' }]
   ),
   q(
     'startup-operations-velocity',
-    'How well would the business survive losing one key person for a month?',
+    'How effectively are individual responsibilities, targets, and cultural health maintained across departments?',
     [
-      'Key roles have documented backups and a continuity plan that has been tested',
-      'Most critical work can be covered, but a few roles remain single points of failure',
-      'One or two people hold knowledge the business cannot operate without',
-      'The business would stop for a significant period if one person were unavailable',
+      'High-performance culture pairing clear outcome ownership with psychological safety, low unwanted turnover, and active mentorship.',
+      'Objectives and Key Results (OKRs) or Key Performance Indicators (KPIs) tracked quarterly with transparent performance appraisals.',
+      'Basic goal-setting, but evaluations are inconsistent and low performers linger without constructive remediation.',
+      'Roles overlap constantly without clear ownership; finger-pointing occurs when targets and delivery deadlines are missed.',
     ],
     [
-      { abbreviation: 'BCP', fullForm: 'Business Continuity Plan' },
-      { abbreviation: 'SLA', fullForm: 'Service Level Agreement' },
+      { abbreviation: 'KPI', fullForm: 'Key Performance Indicator' },
+      { abbreviation: 'OKR', fullForm: 'Objectives and Key Results' },
     ]
   ),
 
   /* startup-team-governance */
   q(
     'startup-team-governance',
-    'How are equity and ownership handled?',
+    'What prevents well-funded competitors or incumbents from easily duplicating your offering and undercutting your business?',
     [
-      'A current cap table with documented vesting and a shareholders’ agreement',
-      'A cap table exists; vesting and agreements are only partly documented',
-      'Equity has been promised informally with no formal record',
-      'There is no cap table, or it has diverged substantially from reality',
+      'Compounding moat: strong network effects, high switching barriers, deep data assets, or registered intellectual property (IP).',
+      'Growing defensibility through proprietary technology, operational efficiencies, or switching costs.',
+      'Advantage relies solely on first-mover timing, temporary discounts, or personal customer relationships.',
+      'No identifiable moat; product can be cloned within weeks by any competitor with engineering budget.',
     ],
-    [
-      { abbreviation: 'Cap Table', fullForm: 'The register of who owns what share of a company' },
-      { abbreviation: 'Vesting', fullForm: 'A schedule by which founder or employee shares are earned over time' },
-    ]
+    [{ abbreviation: 'IP', fullForm: 'Intellectual Property' }]
   ),
   q(
     'startup-team-governance',
-    'How are decisions and accountability structured?',
+    'How structured is your board oversight, regulatory reporting, and capitalization (cap) table hygiene?',
     [
-      'A named owner for every area, with a regular review cadence',
-      'Roles are broadly understood, but ownership is unclear in a few areas',
-      'Accountability rests mainly with the founders on an ad hoc basis',
-      'No defined ownership; it is unclear who decides or who is answerable',
+      'Institutional-grade corporate governance, independent board advisors, clean audit reports, and investor reporting.',
+      'Clean cap table, quarterly board meetings with recorded minutes, and regular monthly investor updates.',
+      'Shareholder agreements in place, but investor communications are sporadic and board meetings lack structured agendas.',
+      'Disputed or messy shareholding cap table; no regular board meetings, corporate secretarial reviews, or shareholder updates.',
     ],
-    [{ abbreviation: 'RACI', fullForm: 'Responsible, Accountable, Consulted, Informed' }]
+    []
   ),
   q(
     'startup-team-governance',
-    'How do you attract and retain the people you need?',
+    'What is your compliance posture regarding corporate filings, direct/indirect taxes, and data regulations?',
     [
-      'A clear employer proposition reliably produces referrals, and regrettable attrition is low',
-      'Hiring works, but it takes a long time and retention is acceptable',
-      'Recruitment is difficult, and key hires have already left',
-      'There is no structured hiring, and the critical skills are unavailable or unaffordable',
+      'Flawless legal standing: updated regulatory registrations (e.g., DPIIT startup recognition), strict data privacy compliance, and clean due-diligence health.',
+      'Systematic compliance schedule maintaining timely RoC, GST, and direct tax filings along with labor and contract safeguards.',
+      'Compliance handled reactively through outside accountants; filings scrape by close to penalty deadlines.',
+      'Overdue statutory filings with the Registrar of Companies (RoC), pending Tax Deducted at Source (TDS) or Goods and Services Tax (GST) returns, and exposure to fines.',
     ],
     [
-      { abbreviation: 'Attrition', fullForm: 'The rate at which employees leave an organisation' },
+      { abbreviation: 'DPIIT', fullForm: 'Department for Promotion of Industry and Internal Trade' },
+      { abbreviation: 'GST', fullForm: 'Goods and Services Tax' },
+      { abbreviation: 'RoC', fullForm: 'Registrar of Companies' },
+      { abbreviation: 'TDS', fullForm: 'Tax Deducted at Source' },
     ]
   ),
 ];
@@ -453,7 +429,7 @@ export const NONPROFIT_QUESTIONS = [
   ),
   q(
     'nonprofit-finance',
-    'Are your tax and legal registrations up to date (Section 12AB, Section 80G, CSR-1)?',
+    'Are your tax and legal registrations up to date (Section 12AB of the Income-tax Act for registration of charitable trusts, Section 80G of the Income-tax Act for tax deductions on donations, and Corporate Social Responsibility Form-1 [CSR-1])?',
     [
       'All registrations (12AB, 80G, CSR-1, NGO-DARPAN) are current. The Income Tax Department has never sent us a notice',
       'All approvals (12AB, 80G, CSR-1) are valid. We file audits and tax returns on time',
@@ -532,7 +508,7 @@ export const NONPROFIT_QUESTIONS = [
   ),
   q(
     'nonprofit-governance',
-    'Do you file all required reports on time (FCRA / RoS / RoC)?',
+    'Do you file all required reports on time (Foreign Contribution (Regulation) Act [FCRA] / Registrar of Societies [RoS] / Registrar of Companies [RoC])?',
     [
       'We follow every rule. We file the FCRA yearly return (Form FC-4) on time and use the designated SBI New Delhi Main Branch account. We send yearly returns to the Charity Commissioner, RoS, or Registrar of Companies (RoC), and keep our NGO-DARPAN profile updated',
       'We file on time on all needed portals (MCA21, Income Tax Department, NGO-DARPAN)',
@@ -549,16 +525,13 @@ export const NONPROFIT_QUESTIONS = [
   ),
   q(
     'nonprofit-governance',
-    'How open are your accounts, reports and governance details to the public and to donors?',
+    'How do you handle conflicts of interest in your organization?',
     [
-      'Everything is public. Anyone can read our audited accounts, annual reports, board members’ names and our annual return filings on our website or on NGO-DARPAN, without asking us. We also publish what our board members are paid',
-      'Our audited accounts, annual reports and board list are on our website for anyone to read. Pay details of board members are shared only on request',
-      'Our annual report is given to funders when they ask for it. We do not put reports or board details on any public page',
-      'Our accounts and board details are internal. Donors and the public have to ask us, and we usually say no',
+      'We have a written policy and a signed yearly declaration from every board member and staff member. People with a conflict must step away from the decision, and this is written in the meeting minutes. A safe way to report concerns (a whistleblower process) is available, and the board reviews all cases every year',
+      'We have a written conflict of interest policy. Board members and staff sign it every year. If a problem comes up, we deal with it case by case',
+      'We have a short, basic policy. But most people have not read or signed it, and we rarely follow it',
+      'We have no policy on conflict of interest. Board members and staff can make decisions even when they or their relatives’ benefit. Nobody checks',
     ],
-    [
-      { abbreviation: 'NGO-DARPAN', fullForm: 'NGO-DARPAN — the government portal where every non-profit must register and show its public details' },
-    ]
   ),
 ];
 

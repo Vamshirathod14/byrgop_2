@@ -474,7 +474,7 @@ const NONPROFIT_FRAMEWORK = [
   ['nonprofit-people-culture', 'What happens if a top leader or key program head leaves suddenly'],
   ['nonprofit-governance', 'How does your governing body/ board oversee the organization'],
   ['nonprofit-governance', 'Do you file all required reports on time'],
-  ['nonprofit-governance', 'How open are your accounts, reports and governance details'],
+  ['nonprofit-governance', 'How do you handle conflicts of interest'],
 ];
 
 test('the six Non-Profit pillars are named as the framework names them', () => {
@@ -514,25 +514,25 @@ test('the statutory pillars are actually graded against the statutes they name',
     'Registrar of Societies', 'Registrar of Companies', 'Charity Commissioner',
     'Ministry of Corporate Affairs', 'State Bank of India', 'ITR',
   ];
-  // Two questions in these pillars are maturity questions in the source
-  // framework, not compliance ones: the grade turns on months of cash held and
-  // on who sits on the board — neither of which is decided by a named statute.
-  // They are excluded by name, not by loosening the rule, so a genuinely
-  // statutory question slipping through still fails. (Public Disclosure &amp;
-  // Transparency Standards is NOT exempt: it names NGO-DARPAN in both the
-  // question and its best option, so it is graded as a compliance question.)
+  // Three questions in these pillars are maturity questions in the source
+  // framework, not compliance ones: the grade turns on months of cash held,
+  // on who sits on the board, and on how conflicts of interest are handled —
+  // none of which is decided by a named statute. They are excluded by name,
+  // not by loosening the rule, so a genuinely statutory question slipping
+  // through still fails.
   const BY_DESIGN = [
     'How many months of spare cash',
     'How does your governing body/ board oversee',
+    'How do you handle conflicts of interest',
   ];
   const complianceQuestions = NONPROFIT_QUESTIONS.filter(
     (q) => COMPLIANCE.has(q.category) && !BY_DESIGN.some((b) => q.text.startsWith(b))
   );
-  // The two compliance pillars hold six questions, two of which are listed
-  // BY_DESIGN above, so the four that remain must each cite a statute. The
+  // The two compliance pillars hold six questions, three of which are listed
+  // BY_DESIGN above, so the three that remain must each cite a statute. The
   // count is asserted rather than derived, so adding a maturity question to a
   // compliance pillar has to be a deliberate edit here too.
-  assert.equal(complianceQuestions.length, 4);
+  assert.equal(complianceQuestions.length, 3);
   for (const q of complianceQuestions) {
     const all = [q.text, ...q.options.map((o) => o.text)].join(' ');
     assert.ok(
@@ -551,7 +551,7 @@ test('a question is most-compliant under its best option, never its worst', () =
     ['Are your tax and legal registrations up to date', /^All registrations/, /^Key registrations/],
     ['Do you file all required reports on time', /^We follow every rule/, /^Filings with the Registrar of Societies/],
     ['How do you manage admin costs', /^We track costs carefully/, /^We do not separate project costs/],
-    ['How open are your accounts, reports and governance details', /^Everything is public/, /^Our accounts and board details are internal/],
+    ['How do you handle conflicts of interest', /^We have a written policy and a signed yearly declaration/, /^We have no policy on conflict of interest/],
   ];
   for (const [opening, best, worst] of cases) {
     const q = NONPROFIT_QUESTIONS.find((x) => x.text.startsWith(opening));
@@ -607,6 +607,46 @@ test('every Non-Profit question defines its abbreviations for the user', () => {
         `incomplete glossary entry in "${q.text.slice(0, 55)}…": ${JSON.stringify(g)}`);
     }
   }
+});
+
+test('every Start-Up question defines the abbreviations it shows the user', () => {
+  // Same rule as the Non-Profit bank: an abbreviation the user reads (in the
+  // stem or any option) must be explained in that question's glossary, so the
+  // full form is available on hover. Includes plurals (OKRs, KPIs, SOPs) —
+  // normalised back to the singular glossary key below.
+  // Must be /g: matchAll throws on a non-global regex.
+  const ABBREVIATIONS = /\b(BANT|CAC|CRM|DPIIT|DSO|ESOP|GSTs?|IP|KPIs?|LTV|MEDDPIC|NPS|OKRs?|PMF|ROI|RoC|SOPs?|TDSs?)\b/g;
+  for (const q of STARTUP_QUESTIONS) {
+    // The user reads the question stem AND the options, so an abbreviation is
+    // undefined if it is not explained anywhere in what they are shown.
+    const body = [q.text, ...q.options.map((o) => o.text)].join(' | ');
+    const defined = new Set(q.glossary.map((g) => g.abbreviation));
+    for (const m of body.matchAll(ABBREVIATIONS)) {
+      // "SOPs" → "SOP", "KPIs" → "KPI", "OKRs" → "OKR".
+      const abbr = m[1].replace(/s$/, '');
+      assert.ok(defined.has(abbr),
+        `"${q.text.slice(0, 55)}…" uses ${m[1]} but does not define it`);
+    }
+    for (const g of q.glossary) {
+      assert.ok(g.abbreviation && g.fullForm && g.fullForm.trim().length > 10,
+        `incomplete glossary entry in "${q.text.slice(0, 55)}…": ${JSON.stringify(g)}`);
+    }
+  }
+});
+
+test('DPIIT full form shows on hover, never spelled out inline in the option', () => {
+  // Reported bug: option D wrote "Department for Promotion of Industry and
+  // Internal Trade [DPIIT]" straight into the answer text. The full form is
+  // now a glossary term — hovering DPIIT shows it, and the option stays short.
+  const q = STARTUP_QUESTIONS.find((x) => x.text.startsWith('What is your compliance posture'));
+  assert.ok(q, 'no Start-Up compliance question found');
+  const best = q.options[0];
+  assert.match(best.text, /DPIIT/, 'best option should cite the DPIIT abbreviation');
+  assert.ok(!best.text.includes('Department for Promotion'),
+    'the DPIIT full form must not be spelled out inline — it comes from the glossary on hover');
+  const entry = q.glossary.find((g) => g.abbreviation === 'DPIIT');
+  assert.ok(entry, 'DPIIT must be defined in the question glossary');
+  assert.equal(entry.fullForm, 'Department for Promotion of Industry and Internal Trade');
 });
 
 /* ── 8. Root-specific Disclaimer copy and result labels ───────────────────

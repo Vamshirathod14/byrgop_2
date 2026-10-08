@@ -10,6 +10,12 @@ const six = brand.mark;
 // Premium White Shades — centralized in brand.js (IntroScreen source of truth)
 const premiumWhite = brand.premiumWhite;
 
+// Timer gold — matches the default `goldMain` used by the Timer component.
+const TIMER_GOLD = '#FCA700';
+
+// Pale cream highlight band used by the shine sweep.
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 function matchOption(question, prefix) {
   return (question.options || []).find((o) =>
     String(o.text).trim().toLowerCase().startsWith(prefix)
@@ -193,7 +199,7 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                   {question.text}
                 </h1>
 
-                {/* YES/NO Buttons - Centered */}
+                {/* YES/NO Buttons - Centered, with a permanent gold shine sweep */}
                 <div className="mt-8 flex w-full max-w-md flex-row items-center justify-center gap-4 sm:gap-6 sm:mt-12">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -204,11 +210,13 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                     <PrimaryButton
                       onClick={() => handleSelect(yesOption?.optionId)}
                       disabled={!!selected}
-                      className={`font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
+                      className={`question-shine-btn font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
                         selected === yesOption?.optionId ? 'ring-2 ring-white/50' : ''
                       }`}
                     >
-                      {selected === yesOption?.optionId ? '✓ ' : ''}YES
+                      <span className="question-shine-label">
+                        {selected === yesOption?.optionId ? '✓ ' : ''}YES
+                      </span>
                     </PrimaryButton>
                   </motion.div>
 
@@ -221,11 +229,13 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                     <PrimaryButton
                       onClick={() => handleSelect(noOption?.optionId)}
                       disabled={!!selected}
-                      className={`font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
+                      className={`question-shine-btn font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
                         selected === noOption?.optionId ? 'ring-2 ring-white/50' : ''
                       }`}
                     >
-                      {selected === noOption?.optionId ? '✓ ' : ''}NO
+                      <span className="question-shine-label">
+                        {selected === noOption?.optionId ? '✓ ' : ''}NO
+                      </span>
                     </PrimaryButton>
                   </motion.div>
                 </div>
@@ -234,6 +244,47 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
           </div>
         )}
       </div>
+
+      {/* Permanent gold shine sweep for the YES/NO buttons.
+          The base colour is currentColor, so PrimaryButton's own text colour
+          (dark ink on the gold accent) is preserved, with a pale highlight
+          gliding across the label. GPU-layer promotion keeps the sweep
+          animating reliably on Intel UHD 620 devices. */}
+      <style>{`
+        .question-shine-label {
+          display: inline-block;
+          color: currentColor;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: question-shine-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes question-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .question-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
+          }
+        }
+      `}</style>
     </div>
   );
 }
