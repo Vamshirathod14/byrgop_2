@@ -534,7 +534,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           className="mb-16 sm:mb-24 w-full max-w-6xl xl:max-w-[86rem] 2xl:max-w-[90rem] text-center"
         >
           {/* Framework Tabs Navigation */}
-          <div className="mb-8 sm:mb-10 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 md:gap-4 max-w-5xl mx-auto">
+          <div className="mb-8 sm:mb-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3.5 md:gap-4 max-w-5xl mx-auto">
             {FRAMEWORK_TABS.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
@@ -545,7 +545,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                     setActiveTab(tab.id);
                     setHoveredPillar(null);
                   }}
-                  className={`font-display relative rounded-full px-4 sm:px-6 py-2.5 sm:py-3.5 text-sm sm:text-base md:text-lg font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+                  className={`font-display relative rounded-full px-3.5 sm:px-6 py-2 sm:py-3.5 text-xs sm:text-base md:text-lg font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
                     isActive
                       ? 'text-white shadow-xl scale-105'
                       : 'text-slate-200 hover:text-white bg-white/[0.05] hover:bg-white/[0.10] border border-white/15'
@@ -645,7 +645,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-5xl mx-auto"
+              className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5 lg:gap-6 max-w-5xl mx-auto"
             >
               {currentFramework.items.map((item, idx) => {
                 const hasPopup = Boolean(item.role && item.impact);
@@ -661,7 +661,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: idx * 0.05, ease }}
-                      className={`group relative overflow-hidden rounded-2xl border bg-white/[0.03] px-4 py-5 sm:px-6 sm:py-6 flex flex-col items-center justify-center text-center h-full min-h-[140px] sm:min-h-[160px] shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/[0.06] ${
+                      className={`group relative overflow-hidden rounded-2xl border bg-white/[0.03] px-3 py-4 sm:px-6 sm:py-6 flex flex-col items-center justify-center text-center h-full min-h-[120px] sm:min-h-[160px] shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/[0.06] ${
                         hasPopup ? 'cursor-pointer' : 'cursor-default'
                       } ${
                         hoveredPillar === idx ? 'border-white/40 ring-1 ring-white/20' : 'border-white/10'
@@ -680,12 +680,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                       />
 
                       {/* Pillar Title */}
-                      <h3 className="font-display text-sm sm:text-base md:text-lg font-bold tracking-tight uppercase text-white leading-snug w-full px-1 whitespace-normal break-words">
+                      <h3 className="font-display text-xs sm:text-base md:text-lg font-bold tracking-tight uppercase text-white leading-snug w-full px-0.5 whitespace-normal break-words">
                         {item.name}
                       </h3>
 
                       {/* Pillar Subtitle */}
-                      <p className="font-display mt-2 text-xs sm:text-sm text-white/85 font-medium leading-relaxed px-1">
+                      <p className="font-display mt-1.5 sm:mt-2 text-[11px] sm:text-sm text-white/85 font-medium leading-relaxed px-0.5">
                         {item.subtitle}
                       </p>
                     </motion.div>
@@ -699,12 +699,14 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 8, scale: 0.96 }}
                             transition={{ duration: 0.2 }}
-                            className={`absolute top-full mt-2.5 z-50 w-[320px] xs:w-[360px] sm:w-[400px] md:w-[440px] lg:w-[460px] max-w-[92vw] rounded-2xl border border-white/20 bg-[#0c121d]/95 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-left ${
+                            className={`absolute top-full mt-2.5 z-50 w-[290px] xs:w-[340px] sm:w-[400px] md:w-[440px] lg:w-[460px] max-w-[90vw] rounded-2xl border border-white/20 bg-[#0c121d]/95 backdrop-blur-xl p-4 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-left ${
+                              idx % 2 === 0 ? 'left-0 md:left-auto' : 'right-0 md:right-auto'
+                            } ${
                               idx % 3 === 0
-                                ? 'left-0'
+                                ? 'md:left-0 md:right-auto md:translate-x-0'
                                 : idx % 3 === 1
-                                ? 'left-1/2 -translate-x-1/2'
-                                : 'right-0'
+                                ? 'md:left-1/2 md:right-auto md:-translate-x-1/2'
+                                : 'md:left-auto md:right-0 md:translate-x-0'
                             }`}
                             style={{
                               boxShadow: `0 15px 35px -5px ${item.color}35, 0 0 0 1px rgba(255,255,255,0.15)`,
