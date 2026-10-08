@@ -8,7 +8,7 @@ const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
 // Card accents drawn from the official six-colour mark.
-const CARD_ACCENTS = [brand.mark[0], brand.mark[3], brand.mark[5]];
+const CARD_ACCENTS = [brand.mark[0], brand.mark[3], brand.mark[1], brand.mark[5]];
 
 export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode = 'select', initialKey = null }) {
   const [businessTypes, setBusinessTypes] = useState(null);
@@ -37,11 +37,12 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
       })
       .catch((e) => {
         setErr(e.message);
-        // Fallback with all 3 types
+        // Fallback with all 4 types
         const fallback = [
-          { key: 'service', label: 'Service Based' },
-          { key: 'product', label: 'Product Based' },
-          { key: 'ngo', label: 'NGO / Non-Profit' },
+          { key: 'service', label: 'Services' },
+          { key: 'product', label: 'Manufacturing' },
+          { key: 'ngo', label: 'Non-Profit' },
+          { key: 'startup', label: 'Start-Up' },
         ];
         setBusinessTypes(fallback);
         if (initialKey) {
@@ -66,8 +67,12 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
       return 'grid-cols-1 max-w-xs mx-auto';
     } else if (typeCount === 2) {
       return 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto';
-    } else {
+    } else if (typeCount === 3) {
       return 'grid-cols-1 sm:grid-cols-3 max-w-4xl';
+    } else if (typeCount === 4) {
+      return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 max-w-5xl';
+    } else {
+      return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl';
     }
   };
 
@@ -133,7 +138,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 flex w-full max-w-4xl flex-col items-center px-5 sm:px-6 pt-12 sm:pt-16 lg:pt-20 pb-12 sm:pb-16">
+      <div className={`relative z-10 flex w-full ${typeCount >= 4 ? 'max-w-5xl' : 'max-w-4xl'} flex-col items-center px-5 sm:px-6 pt-12 sm:pt-16 lg:pt-20 pb-12 sm:pb-16`}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -198,11 +203,6 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
                   <h2 className="font-display text-xl font-semibold sm:text-2xl" style={{ color: premiumWhite.bright }}>
                     {bt.label}
                   </h2>
-                  {bt.description && (
-                    <p className="font-display mt-2 text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
-                      {bt.description}
-                    </p>
-                  )}
                 </div>
                 <div
                   className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"

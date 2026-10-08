@@ -178,7 +178,7 @@ export default function KnowYourselfScreen({
               Business Type:{' '}
               <span className="whitespace-nowrap inline-flex items-center gap-1.5 align-baseline">
                 {businessTypeLabel || '—'}
-                {onChangeBusiness && canChangeSelection && (
+                {onChangeBusiness && (
                   <button
                     type="button"
                     onClick={onChangeBusiness}
