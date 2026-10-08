@@ -17,10 +17,6 @@ const CARD_ACCENTS = [brand.mark[0], brand.mark[3], brand.mark[5]];
 // Single source of truth lives in brand.js — same values IntroScreen established.
 const premiumWhite = brand.premiumWhite;
 
-// Pale silver — the same sheen family as the white heading font, used as the
-// highlight band of the shine sweep.
-const PALE_SILVER = '#E8ECF2';
-
 export default function IntroScreen({
   onBegin,
   loading = false,
@@ -382,7 +378,7 @@ export default function IntroScreen({
             textShadow: '0 2px 20px rgba(0,0,0,0.5)',
           }}
         >
-          <span className="whitespace-nowrap">{'Select Business Type'}</span>
+          <span className="whitespace-nowrap">{'Select Sector Type'}</span>
         </h1>
 
         {/* Business Type Selection - gates Proceed */}
@@ -462,10 +458,10 @@ export default function IntroScreen({
           </motion.p>
         )}
 
-        {/* Proceed Button — calm until a type is selected, then shines.
-            min-h + inline-flex keeps the button the same broad size on every
-            screen; the shine classes are on the OUTER button so they survive
-            whatever the PrimaryButton renders inside. */}
+        {/* Proceed Button — the fixed box, the stabilised label weight, and the
+            shine sweep all live in index.css (`.proceed-btn`, `.proceed-label`,
+            `.proceed-shine`). Nothing about the button's shape, colour, or
+            border-radius is overridden here; only the class names are applied. */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -479,11 +475,9 @@ export default function IntroScreen({
               }
             }}
             disabled={!proceedActive}
-            className={`intro-proceed-btn font-display inline-flex items-center justify-center text-center min-w-[9rem] sm:min-w-[11rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] leading-none ${
-              proceedActive ? 'shine-button' : ''
-            }`}
+            className="proceed-btn font-display text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em]"
           >
-            <span className={`inline-block ${proceedActive ? 'shine-button-label' : ''}`}>
+            <span className={`proceed-label ${proceedActive ? 'proceed-shine' : ''}`}>
               PROCEED
             </span>
           </PrimaryButton>
@@ -553,67 +547,6 @@ export default function IntroScreen({
           ))}
         </motion.div>
       </motion.div>
-
-      {/* Shine animation — button sweep only (heading shine removed) */}
-      <style>{`
-        /* Lock the Proceed button to a consistent, broad box on every screen.
-           The display/height live here (not on the label) so the button cannot
-           collapse to a thin strip when the shine label is applied. */
-        .intro-proceed-btn {
-          position: relative;
-          overflow: hidden;
-          display: inline-flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 3rem;
-          line-height: 1;
-        }
-        @media (min-width: 640px) {
-          .intro-proceed-btn { min-height: 3.25rem; }
-        }
-
-        .shine-button {
-          position: relative;
-          overflow: hidden;
-        }
-        .shine-button-label {
-          position: relative;
-          display: inline-block;
-          z-index: 1;
-          background-image: linear-gradient(
-            100deg,
-            currentColor 0%,
-            currentColor 35%,
-            ${PALE_SILVER} 50%,
-            currentColor 65%,
-            currentColor 100%
-          );
-          background-size: 250% 100%;
-          background-position: 200% 0;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shine-silver-sweep 3.2s ease-in-out infinite;
-          /* Fallback colour so the label is never invisible if a browser
-             drops background-clip:text mid-animation. */
-          color: currentColor;
-        }
-
-        @keyframes shine-silver-sweep {
-          0%   { background-position: 200% 0; }
-          60%  { background-position: -50% 0; }
-          100% { background-position: -50% 0; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .shine-button-label {
-            animation: none;
-            background: none;
-            -webkit-text-fill-color: inherit;
-            color: inherit;
-          }
-        }
-      `}</style>
     </div>
   );
 }

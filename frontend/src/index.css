@@ -105,4 +105,108 @@ body {
   .bg-page {
     background: linear-gradient(to bottom, #0a0a0f, #14141e);
   }
+
+  /* ── Proceed button ───────────────────────────────────────────────
+     Fixed width/height so no screen, font, breakpoint, or shine state can
+     change the button's box. Grid centring keeps the label vertically fixed
+     regardless of the font's line box.
+     Fully rounded (pill) radius so the button is rounded on every screen. */
+  .proceed-btn {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 176px;
+    min-width: 176px;
+    max-width: 176px;
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    padding: 0;
+    margin: 0;
+    border-radius: 9999px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  @media (min-width: 640px) {
+    .proceed-btn {
+      width: 208px;
+      min-width: 208px;
+      max-width: 208px;
+      height: 52px;
+      min-height: 52px;
+      max-height: 52px;
+    }
+  }
+
+  /* ── Proceed label (the text inside the button) ───────────────────
+     This is the fix for text that looked thin on some screens.
+
+     Cormorant Garamond ships a real 700 face, and the <head> already loads
+     wght@500;600;700, so the browser has a real bold to use — but it will
+     still synthesise bold if it is not told otherwise, and synthetic bold is
+     what looked thin and blurry, most visibly on Windows in Edge/Chrome.
+
+       - font-synthesis: none        → never fake bold; use the real 700 face
+       - font-smoothing: auto        → native OS rendering (ClearType on
+                                       Windows, grayscale on macOS), not the
+                                       forced-thin `antialiased`
+       - text-size-adjust: 100%      → no browser text inflation/deflation
+       - kerning/ligatures off       → no per-OS width or weight drift
+       - font-weight pinned to 700   → resolve to the real bold face */
+  .proceed-label {
+    display: inline-block;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+
+    font-synthesis: none;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+
+    font-kerning: none;
+    font-variant-ligatures: none;
+  }
+
+  /* ── Proceed shine (gold sweep on the label) ──────────────────────
+     Only applied while the button is active. The sweep uses currentColor as
+     its base so the label's own colour (from PrimaryButton) is preserved,
+     with a pale-silver highlight band gliding across it. */
+  .proceed-shine {
+    position: relative;
+    z-index: 1;
+    background-image: linear-gradient(
+      100deg,
+      currentColor 0%,
+      currentColor 35%,
+      #E8ECF2 50%,
+      currentColor 65%,
+      currentColor 100%
+    );
+    background-size: 250% 100%;
+    background-position: 200% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: proceed-shine-sweep 3.2s ease-in-out infinite;
+    /* Fallback colour so the label is never invisible if a browser drops
+       background-clip:text mid-animation. */
+    color: currentColor;
+  }
+
+  @keyframes proceed-shine-sweep {
+    0%   { background-position: 200% 0; }
+    60%  { background-position: -50% 0; }
+    100% { background-position: -50% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proceed-shine {
+      animation: none;
+      background: none;
+      -webkit-text-fill-color: inherit;
+      color: inherit;
+    }
+  }
 }
