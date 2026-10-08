@@ -23,6 +23,31 @@ function bandColor(band) {
   return brand.palette.red[300];
 }
 
+/* ── Circular loader for the report Submit button ───────── */
+function CircularLoader({ size = 18 }) {
+  return (
+    <span
+      className="circular-loader"
+      style={{ width: size, height: size }}
+      role="status"
+      aria-label="Loading"
+    >
+      <svg viewBox="0 0 50 50" className="h-full w-full">
+        <circle
+          cx="25"
+          cy="25"
+          r="20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="5"
+          strokeLinecap="round"
+          className="circular-loader-track"
+        />
+      </svg>
+    </span>
+  );
+}
+
 /* ── Radar / spider chart (six axes) ──────────────────────
    Grid rings, tick labels and the plotted polygon ALL come from
    RADAR_SCALE (0–100, ticks 0/25/50/75/100) via radarScale.js — one
@@ -475,16 +500,18 @@ function ReportRequestModal({ open, sessionId, prefilledEmail, existing, onClose
               <PrimaryButton
                 type="submit"
                 disabled={!canSubmit}
-                className="font-display px-6 py-2.5 text-sm font-bold"
+                className={`submit-shine-btn font-display px-6 py-2.5 text-sm font-bold ${
+                  canSubmit ? '' : 'submit-shine-off'
+                }`}
                 data-testid="rr-submit"
               >
                 {saving ? (
                   <>
-                    <ByrgopLoader />
+                    <CircularLoader size={18} />
                     <span>Sending report...</span>
                   </>
                 ) : (
-                  'Submit'
+                  <span className="submit-shine-label">Submit</span>
                 )}
               </PrimaryButton>
             </div>
@@ -853,8 +880,7 @@ export default function KnowYourselfResult({
         }}
       />
 
-      {/* Shine animations — "Health" always sweeps, "Explore BYRGOP" always
-          sweeps, and the Yes / UPDATE DETAILS button sweeps only on hover. */}
+      {/* Shine animations + circular loader keyframes. */}
       <style>{`
         .shine-text {
           position: relative;
@@ -937,9 +963,64 @@ export default function KnowYourselfResult({
           100% { background-position: -50% 0; }
         }
 
+        /* Submit (report form) — permanent sweep when the form is complete. */
+        .submit-shine-label {
+          display: inline-block;
+          color: currentColor;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: submit-shine-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes submit-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        /* Disabled submit — kill the sweep so a disabled Submit stays calm. */
+        .submit-shine-off .submit-shine-label {
+          animation: none;
+          background: none;
+          -webkit-text-fill-color: inherit;
+          color: inherit;
+        }
+
+        /* Circular spinner used on the Submit button while the report is sent.
+           The SVG circle is a full ring drawn with a dash gap so it reads as a
+           rotating arc; the wrapper rotates to animate it. */
+        .circular-loader {
+          display: inline-block;
+          flex-shrink: 0;
+          vertical-align: middle;
+        }
+        .circular-loader svg {
+          animation: circular-loader-spin 0.9s linear infinite;
+        }
+        .circular-loader-track {
+          stroke-dasharray: 90 150;
+          stroke-dashoffset: 0;
+        }
+        @keyframes circular-loader-spin {
+          100% { transform: rotate(360deg); }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .shine-text,
-          .explore-shine-label {
+          .explore-shine-label,
+          .submit-shine-label {
             animation: none;
             background: none;
             -webkit-text-fill-color: inherit;
@@ -951,6 +1032,9 @@ export default function KnowYourselfResult({
             background: none;
             -webkit-text-fill-color: inherit;
             color: inherit;
+          }
+          .circular-loader svg {
+            animation: none;
           }
         }
       `}</style>
