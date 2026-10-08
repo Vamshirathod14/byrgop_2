@@ -11,6 +11,9 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
+// Pale cream highlight band used by the shine sweep.
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 // Band severity colours — semantic, but drawn from the centralized brand
 // palette (green/yellow/orange/red 300) instead of arbitrary Tailwind hues.
 function bandColor(band) {
@@ -810,10 +813,12 @@ export default function KnowYourselfResult({
           </p>
           <PrimaryButton
             onClick={() => setReportOpen(true)}
-            className="font-display mt-4 px-6 py-2.5 text-sm font-bold"
+            className="hover-shine-btn font-display mt-4 px-6 py-2.5 text-sm font-bold"
             data-testid="report-yes"
           >
-            {reportDone ? 'UPDATE DETAILS' : 'Yes'}
+            <span className="hover-shine-label">
+              {reportDone ? 'UPDATE DETAILS' : 'Yes'}
+            </span>
           </PrimaryButton>
           <p className="font-display mt-2 text-[11px]" style={{ color: premiumWhite.soft }}>
             {reportDone
@@ -826,8 +831,11 @@ export default function KnowYourselfResult({
           </p>
         </div>
 
-        <PrimaryButton onClick={onExplore} className="font-display min-w-[13rem] px-6 py-2.5 text-xl font-bold tracking-[0.05em] mt-6">
-          Explore BYRGOP
+        <PrimaryButton
+          onClick={onExplore}
+          className="explore-shine-btn font-display min-w-[13rem] px-6 py-2.5 text-xl font-bold tracking-[0.05em] mt-6"
+        >
+          <span className="explore-shine-label">Explore BYRGOP</span>
         </PrimaryButton>
       </motion.div>
 
@@ -845,7 +853,8 @@ export default function KnowYourselfResult({
         }}
       />
 
-      {/* Shine sweep animation for "Health" */}
+      {/* Shine animations — "Health" always sweeps, "Explore BYRGOP" always
+          sweeps, and the Yes / UPDATE DETAILS button sweeps only on hover. */}
       <style>{`
         .shine-text {
           position: relative;
@@ -854,7 +863,7 @@ export default function KnowYourselfResult({
             100deg,
             ${brand.accent} 0%,
             ${brand.accent} 35%,
-            #FFF3D6 50%,
+            ${SHINE_HIGHLIGHT} 50%,
             ${brand.accent} 65%,
             ${brand.accent} 100%
           );
@@ -870,12 +879,78 @@ export default function KnowYourselfResult({
           60%  { background-position: -50% 0; }
           100% { background-position: -50% 0; }
         }
+
+        /* Explore BYRGOP — permanent gold sweep, same as the Snapshot word. */
+        .explore-shine-label {
+          display: inline-block;
+          color: currentColor;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: explore-shine-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes explore-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        /* Yes / UPDATE DETAILS — normal until hover, then gold sweep. */
+        .hover-shine-label {
+          display: inline-block;
+          color: currentColor;
+        }
+        .hover-shine-btn:hover .hover-shine-label,
+        .hover-shine-btn:focus-visible .hover-shine-label {
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: hover-shine-sweep 1.4s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes hover-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-          .shine-text {
+          .shine-text,
+          .explore-shine-label {
             animation: none;
             background: none;
-            -webkit-text-fill-color: ${brand.accent};
-            color: ${brand.accent};
+            -webkit-text-fill-color: inherit;
+            color: inherit;
+          }
+          .hover-shine-btn:hover .hover-shine-label,
+          .hover-shine-btn:focus-visible .hover-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
           }
         }
       `}</style>
