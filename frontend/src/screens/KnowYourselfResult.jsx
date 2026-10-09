@@ -551,7 +551,6 @@ export default function KnowYourselfResult({
   sessionId,
   onExplore,
   onLogoClick,
-  onLogout,
   resultHeadingLabel,
 }) {
   const entityLabel = healthScoreEntity(resultHeadingLabel);
@@ -703,25 +702,6 @@ export default function KnowYourselfResult({
           बिरगाप
         </span>
       </motion.div>
-
-      {/* Logout button - Top Right */}
-      {onLogout && (
-        <motion.div
-          className="absolute top-4 right-4 z-10 sm:top-6 sm:right-6 lg:top-8 lg:right-8"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease }}
-        >
-          <button
-            type="button"
-            onClick={onLogout}
-            className="font-display text-xs font-medium px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-white/70 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all"
-            aria-label="Log out"
-          >
-            Logout
-          </button>
-        </motion.div>
-      )}
 
       {/* Header */}
       <header className="relative z-10 flex flex-col items-center text-center">

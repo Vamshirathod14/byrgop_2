@@ -68,7 +68,6 @@ export default function ResultScreen({
   onAbout,
   onLogoClick,
   onRetake,
-  onLogout,
   // The button label for this business type's root: "Your Business" for
   // Mfg & Services, "Your Enterprise" for Start-Up, "Your Foundation" for
   // Non-Profit. It arrives from the caller (which resolves it from
@@ -250,25 +249,6 @@ export default function ResultScreen({
         </span>
       </motion.div>
 
-      {/* Logout button - Top Right */}
-      {onLogout && (
-        <motion.div
-          className="absolute top-4 right-4 z-10 sm:top-6 sm:right-6 lg:top-8 lg:right-8"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease }}
-        >
-          <button
-            type="button"
-            onClick={onLogout}
-            className="font-display text-xs font-medium px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-white/70 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all"
-            aria-label="Log out"
-          >
-            Logout
-          </button>
-        </motion.div>
-      )}
-
       <div className="flex flex-1 flex-col items-center justify-center py-6 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -379,7 +359,7 @@ export default function ResultScreen({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5, ease }}
-          className="mt-4 sm:mt-6 flex flex-col items-center"
+          className="mt-4 sm:mt-6 flex flex-col items-center w-full"
         >
           <h2 
             className="font-sans text-base font-semibold text-center sm:text-lg md:text-xl lg:text-2xl"
@@ -388,17 +368,21 @@ export default function ResultScreen({
             Know more about 
           </h2>
 
-          <div className="mt-4 sm:mt-6 flex w-full max-w-xl flex-row items-center justify-center gap-3 sm:gap-4 px-2">
+          {/* Buttons — stack on mobile, side by side from sm up.
+              Long labels like "Your Enterprise" / "Your Foundation" now have
+              their own full-width row on small screens, so they can never be
+              squeezed and break apart. */}
+          <div className="mt-4 sm:mt-6 flex w-full max-w-xl flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 px-2">
             <PrimaryButton
               onClick={onKY}
-              className="hover-shine-btn know-more-btn font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 font-bold tracking-[0.12em] sm:tracking-[0.16em]"
+              className="hover-shine-btn know-more-btn font-display w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               <span className="hover-shine-label">{actionLabel}</span>
             </PrimaryButton>
             <PrimaryButton
               onClick={onAbout}
-              className="hover-shine-btn know-more-btn font-display flex-1 min-w-0 sm:min-w-[13rem] h-12 sm:h-14 font-bold tracking-[0.12em] sm:tracking-[0.16em]"
+              className="hover-shine-btn know-more-btn font-display w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               <span className="hover-shine-label">BYRGOP</span>
@@ -452,14 +436,15 @@ export default function ResultScreen({
         .know-more-btn {
           display: grid !important;
           place-items: center !important;
-          padding-left: 1.25rem !important;
-          padding-right: 1.25rem !important;
+          padding-left: 0.75rem !important;
+          padding-right: 0.75rem !important;
           text-align: center !important;
+          white-space: nowrap !important;
         }
         @media (min-width: 640px) {
           .know-more-btn {
-            padding-left: 2rem !important;
-            padding-right: 2rem !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
           }
         }
 
@@ -471,6 +456,7 @@ export default function ResultScreen({
           display: inline-block;
           color: currentColor;
           text-align: center;
+          white-space: nowrap;
         }
         .hover-shine-btn:hover .hover-shine-label,
         .hover-shine-btn:focus-visible .hover-shine-label {

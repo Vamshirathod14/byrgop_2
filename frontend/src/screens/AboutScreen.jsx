@@ -34,10 +34,10 @@ const TEAM_MEMBERS = [
     image: '/aishwarya.jpeg',
   },
   {
-    name: 'RAMAVATH VAMSHI',
+    name: 'VAMSHI RAMAVATH',
     value: 'Digital transformation leader with experience across DRDL and V Soft, delivering data-driven products and enterprise digital solutions. Holds a Computer Science and Engineering degree from JNTU Hyderabad, with expertise leading cross-functional teams and end-to-end product delivery across sectors.',
     color: '#7038A5',
-    initials: 'RV',
+    initials: 'VR',
     image: '/vamshi.jpeg',
   },
   {
@@ -511,16 +511,60 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               </div>
             </div>
 
-            {/* Right Side: Text Content & Highlights */}
-            <div className="md:col-span-7 flex flex-col justify-center space-y-5">
-              <div className="text-center md:text-left">
+            {/* Right Side: What Is Business Profit Architecture? */}
+            <div className="md:col-span-7 flex flex-col justify-center space-y-4 text-left">
+              <div>
                 <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
-                  Commitment to Excellence
+                  What Is Business Profit Architecture?
                 </h2>
               </div>
               
-              <p className="font-display text-left text-base sm:text-lg md:text-[19px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                At BYRGOP | Business Profit Architects, we believe that SMEs drive economic growth and innovation. Our mission is to empower businesses with strategic insights, execution-focused solutions, and operational excellence. As your trusted advisor, we uphold the highest standards of integrity, transparency, and strategic innovation to foster sustainable and scalable success.
+              <div
+                className="space-y-3.5 font-display text-base sm:text-lg md:text-[18px] leading-relaxed font-normal"
+                style={{ color: premiumWhite.warm }}
+              >
+                <p>
+                  At BYRGOP, we view an enterprise not as a fragmented collection of departments, but as a living, interconnected engine. Sustainable growth and long-term enterprise value cannot be achieved through isolated fixes; they require a balanced, unified framework.
+                </p>
+                <p>
+                  This is Business Profit Architecture (BPA)—a structured methodology built on six fundamental pillars. Each pillar represents a critical discipline, distinct yet vital to the stability and performance of the overall enterprise.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Mission & Vision Cards */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.25, ease }}
+          className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl"
+        >
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+            {/* Our Mission Card */}
+            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
+              />
+              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+                Our Mission
+              </h3>
+              <p className="font-display text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+                Empowering SMEs in India with innovative, data-driven, and execution-focused strategies to enhance operational efficiency, drive sustainable growth, and create a resilient competitive advantage in an evolving business landscape.
+              </p>
+            </div>
+
+            {/* Our Vision Card */}
+            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
+              />
+              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+                Our Vision
+              </h3>
+              <p className="font-display text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+                To be the most trusted strategy consultancy for SMEs in India, fostering a culture of operational efficiency, relentless innovation, and strategic excellence that transforms local businesses into globally competitive enterprises.
               </p>
             </div>
           </div>
@@ -531,7 +575,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease }}
-          className="mb-16 sm:mb-24 w-full max-w-6xl xl:max-w-[86rem] 2xl:max-w-[90rem] text-center"
+          className="mb-16 sm:mb-24 w-full max-w-5xl lg:max-w-6xl text-center"
         >
           {/* Framework Tabs Navigation */}
           <div className="mb-8 sm:mb-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3.5 md:gap-4 max-w-5xl mx-auto">
@@ -584,33 +628,13 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                 {currentFramework.subtitle}
               </p>
 
-              {/* What Is Business Profit Architecture? Intro for Philosophy Tab */}
-              {activeTab === 'philosophy' && (
-                <div className="mt-8 sm:mt-10 max-w-4xl mx-auto rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 md:p-9 shadow-2xl backdrop-blur-md text-left space-y-4">
-                  <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white">
-                    What Is Business Profit Architecture?
-                  </h3>
-                  <div
-                    className="space-y-3.5 font-display text-base sm:text-lg md:text-[18.5px] leading-relaxed font-normal"
-                    style={{ color: premiumWhite.warm }}
-                  >
-                    <p>
-                      At BYRGOP, we view an enterprise not as a fragmented collection of departments, but as a living, interconnected engine. Sustainable growth and long-term enterprise value cannot be achieved through isolated fixes; they require a balanced, unified framework.
-                    </p>
-                    <p>
-                      This is Business Profit Architecture (BPA)—a structured methodology built on six fundamental pillars. Each pillar represents a critical discipline, distinct yet vital to the stability and performance of the overall enterprise.
-                    </p>
-                  </div>
-                </div>
-              )}
-
               {/* 4 Domain Selector for Philosophy */}
               {activeTab === 'philosophy' && (
                 <div className="mt-8 sm:mt-10 max-w-4xl mx-auto flex flex-col items-center gap-3">
                   <p className="font-display text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-300/80">
-                    Explore Pillars by Type
+                    Explore Pillars by Business Type
                   </p>
-                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
+                  <div className="w-full max-w-[340px] sm:w-auto sm:max-w-none grid grid-cols-2 sm:inline-flex sm:flex-row items-center justify-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl sm:rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
                     {DOMAIN_TABS.map((dom) => {
                       const isDomActive = activeDomain === dom.id;
                       return (
@@ -621,7 +645,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                             setActiveDomain(dom.id);
                             setHoveredPillar(null);
                           }}
-                          className={`font-display relative rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+                          className={`font-display relative w-full sm:w-auto rounded-xl sm:rounded-full px-3.5 sm:px-6 py-2.5 sm:py-2.5 text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer text-center ${
                             isDomActive
                               ? 'text-white shadow-lg bg-gradient-to-r from-blue-600 via-amber-500 to-purple-600 border border-white/30'
                               : 'text-slate-300 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -632,6 +656,18 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                       );
                     })}
                   </div>
+
+                  {/* Hover / Tap Hint for Services & Manufacturing */}
+                  {(activeDomain === 'service' || activeDomain === 'manufacturing') && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-2.5 inline-flex items-center px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-xs sm:text-[13px] text-slate-300/90 backdrop-blur-sm"
+                    >
+                      Click or hover over any card to learn more
+                    </motion.div>
+                  )}
                 </div>
               )}
             </motion.div>
@@ -645,7 +681,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5 lg:gap-6 max-w-5xl mx-auto"
+              className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5 lg:gap-6 w-full mx-auto"
             >
               {currentFramework.items.map((item, idx) => {
                 const hasPopup = Boolean(item.role && item.impact);
@@ -743,210 +779,18 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               })}
             </motion.div>
           </AnimatePresence>
-
-          {/* Philosophy Deep Dive: Value Cycle & 3 Impact Boxes */}
-          {activeTab === 'philosophy' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-10 sm:mt-14 w-full max-w-5xl mx-auto space-y-10"
-            >
-              {/* How the Pillars Work Together: The BPA Value Cycle */}
-              <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-10 shadow-2xl backdrop-blur-md text-left space-y-4">
-                <div className="space-y-1">
-                  <p className="font-display text-xs sm:text-sm font-bold uppercase tracking-widest text-blue-400">
-                    How the Pillars Work Together
-                  </p>
-                  <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white">
-                    The BPA Value Cycle
-                  </h3>
-                </div>
-
-                <div className="space-y-3.5 font-display text-base sm:text-lg md:text-[19px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                  <p>
-                    A single weak pillar compromises the entire structure.
-                  </p>
-                  <p>
-                    High sales (<span className="text-red-400 font-medium">Red</span>) supported by inefficient operations (<span className="text-emerald-400 font-medium">Green</span>) erodes margins.
-                    <br />
-                    Strong strategy (<span className="text-blue-400 font-medium">Blue</span>) without team alignment (<span className="text-orange-400 font-medium">Orange</span>) stalls execution.
-                  </p>
-                  <p className="pt-1 text-white font-semibold">
-                    BYRGOP&rsquo;s Business Profit Architecture balances and integrates all six disciplines to construct a resilient, high-performing enterprise.
-                  </p>
-                </div>
-              </div>
-
-              {/* Why BYRGOP's Framework Delivers Impact */}
-              <div className="space-y-5 text-left">
-                <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-white text-center md:text-left">
-                  Why BYRGOP&rsquo;s Framework Delivers Impact
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-                  {/* Box 01 */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-7 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
-                    <h4 className="font-display text-lg sm:text-xl md:text-[21px] font-bold tracking-tight text-white">
-                      Holistic Diagnosis
-                    </h4>
-                    <p className="font-display mt-3 text-base sm:text-[17px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                      We look across all six dimensions to identify the real bottlenecks&mdash;not just the visible symptoms.
-                    </p>
-                  </div>
-
-                  {/* Box 02 */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-7 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
-                    <h4 className="font-display text-lg sm:text-xl md:text-[21px] font-bold tracking-tight text-white">
-                      Structural Balance
-                    </h4>
-                    <p className="font-display mt-3 text-base sm:text-[17px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                      We align strategy with operations, finance, people, marketing, and technology.
-                    </p>
-                  </div>
-
-                  {/* Box 03 */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-7 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
-                    <h4 className="font-display text-lg sm:text-xl md:text-[21px] font-bold tracking-tight text-white">
-                      Measurable Results
-                    </h4>
-                    <p className="font-display mt-3 text-base sm:text-[17px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                      We use clear KPIs to measure improvement and business performance.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </motion.section>
-
-        {/* Mission & Vision Cards */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.35, ease }}
-          className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl"
-        >
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-            {/* Our Mission Card */}
-            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/30 hover:bg-white/[0.05]">
-              <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-blue-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
-                Our Mission
-              </h3>
-              <p className="font-display text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                Empowering SMEs in India with innovative, data-driven, and execution-focused strategies to enhance operational efficiency, drive sustainable growth, and create a resilient competitive advantage in an evolving business landscape.
-              </p>
-            </div>
-
-            {/* Our Vision Card */}
-            <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/30 hover:bg-white/[0.05]">
-              <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-blue-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
-                Our Vision
-              </h3>
-              <p className="font-display text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
-                To be the most trusted strategy consultancy for SMEs in India, fostering a culture of operational efficiency, relentless innovation, and strategic excellence that transforms local businesses into globally competitive enterprises.
-              </p>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* Pro Bono Consulting Card */}
-        <motion.section
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.38, ease }}
-          className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl"
-        >
-          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/30 hover:bg-white/[0.05]">
-            {/* Top Accent Gradient Bar */}
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-blue-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
-            />
-
-            <div className="space-y-3 text-left">
-              <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
-                Empowering Businesses with Pro Bono Support
-              </h2>
-              <p className="font-display text-base sm:text-lg font-medium text-blue-300/90">
-                Unlock Strategic Growth for Your Business — Without the Cost
-              </p>
-              <p
-                className="font-display text-base sm:text-lg leading-relaxed font-normal max-w-4xl"
-                style={{ color: premiumWhite.warm }}
-              >
-                At BYRGOP, we believe every business deserves access to expert guidance,
-                regardless of financial constraints. That&rsquo;s why we proudly offer pro bono support
-                to select businesses, social enterprises, and mission-driven organizations in need of strategic direction.
-              </p>
-            </div>
-
-            {/* 4 Core Pillars in Editorial Grid Flow */}
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-white/10 text-left">
-              <div className="space-y-1.5">
-                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                  <span className="text-blue-400">✓</span> Strategic Roadmaps
-                </h3>
-                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
-                  Actionable growth strategies tailored to your unique goals and challenges.
-                </p>
-              </div>
-
-              <div className="space-y-1.5">
-                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                  <span className="text-blue-400">✓</span> Operational Excellence
-                </h3>
-                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
-                  Optimizing systems and processes to reduce overhead and improve scalability.
-                </p>
-              </div>
-
-              <div className="space-y-1.5">
-                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                  <span className="text-blue-400">✓</span> Leadership & Mentorship
-                </h3>
-                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
-                  Executive guidance to strengthen leadership and enhance strategic decision-making.
-                </p>
-              </div>
-
-              <div className="space-y-1.5">
-                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                  <span className="text-blue-400">✓</span> Execution Support
-                </h3>
-                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
-                  Practical implementation guidance to turn strategy into measurable results.
-                </p>
-              </div>
-            </div>
-
-            {/* Flowing Footer Note */}
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs sm:text-sm text-white text-left">
-              <p style={{ color: premiumWhite.warm }}>
-                <strong className="text-white font-semibold">Who Can Apply:</strong> Early-stage SMEs, social enterprises, non-profits, women-led ventures, and startup founders.
-              </p>
-              <p className="text-white/80 italic shrink-0">
-                Limited slots per quarter • Reach out below to inquire
-              </p>
-            </div>
-          </div>
         </motion.section>
 
         {/* The Story Behind BYRGOP */}
         <motion.section
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.39, ease }}
+          transition={{ duration: 0.8, delay: 0.35, ease }}
           className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl"
         >
-          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/30 hover:bg-white/[0.05]">
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-blue-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
+              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
             />
 
             <div className="space-y-6 text-left">
@@ -954,7 +798,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                 The Story Behind BYRGOP
               </h2>
 
-              <p className="font-display text-lg sm:text-xl font-medium text-blue-400 leading-relaxed">
+              <p className="font-display text-lg sm:text-xl font-medium leading-relaxed" style={{ color: brand.accent }}>
                 Every great idea has a beginning. Ours began with a simple question about colors.
               </p>
 
@@ -988,6 +832,118 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                   Six Colors. Six Dimensions. One Purpose &mdash; Business Profit Architects.
                 </p>
               </div>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Commitment to Excellence Card */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.37, ease }}
+          className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl"
+        >
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
+            {/* Top Accent Gradient Bar */}
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
+            />
+
+            <div className="space-y-4 text-left">
+              <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+                Commitment to Excellence
+              </h2>
+
+              <p
+                className="font-display text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
+                style={{ color: premiumWhite.warm }}
+              >
+                At BYRGOP | Business Profit Architects, we believe that SMEs drive economic growth and innovation. Our mission is to empower businesses with strategic insights, execution-focused solutions, and operational excellence. As your trusted advisor, we uphold the highest standards of integrity, transparency, and strategic innovation to foster sustainable and scalable success.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Pro Bono Consulting Card */}
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.39, ease }}
+          className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl"
+        >
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-10 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
+            {/* Top Accent Gradient Bar */}
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
+            />
+
+            <div className="space-y-3 text-left">
+              <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+                Empowering Businesses with Pro Bono Support
+              </h2>
+              <p className="font-display text-base sm:text-lg font-medium" style={{ color: brand.accent }}>
+                Unlock Strategic Growth for Your Business — Without the Cost
+              </p>
+              <p
+                className="font-display text-base sm:text-lg leading-relaxed font-normal max-w-4xl"
+                style={{ color: premiumWhite.warm }}
+              >
+                At BYRGOP, we believe every business deserves access to expert guidance,
+                regardless of financial constraints. That&rsquo;s why we proudly offer pro bono support
+                to select businesses, social enterprises, and mission-driven organizations in need of strategic direction.
+              </p>
+            </div>
+
+            {/* 4 Core Pillars in Editorial Grid Flow */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-white/10 text-left">
+              <div className="space-y-1.5">
+                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span style={{ color: brand.accent }}>✓</span> Strategic Roadmaps
+                </h3>
+                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                  Actionable growth strategies tailored to your unique goals and challenges.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span style={{ color: brand.accent }}>✓</span> Operational Excellence
+                </h3>
+                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                  Optimizing systems and processes to reduce overhead and improve scalability.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span style={{ color: brand.accent }}>✓</span> Leadership & Mentorship
+                </h3>
+                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                  Executive guidance to strengthen leadership and enhance strategic decision-making.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                  <span style={{ color: brand.accent }}>✓</span> Execution Support
+                </h3>
+                <p className="font-display text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                  Practical implementation guidance to turn strategy into measurable results.
+                </p>
+              </div>
+            </div>
+
+            {/* Flowing Footer Note */}
+            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
+              <div className="rounded-2xl border border-amber-500/50 bg-amber-500/[0.04] px-5 py-3.5 shadow-sm">
+                <p className="font-display text-sm sm:text-base md:text-[16.5px] leading-relaxed text-slate-300 font-normal">
+                  <strong className="text-slate-200 font-semibold text-sm sm:text-base md:text-[17px]">Who Can Apply:</strong>{' '}
+                  Early-stage SMEs, social enterprises, non-profits, women-led ventures, and startup founders.
+                </p>
+              </div>
+              <p className="font-display text-xs sm:text-sm text-white/70 italic shrink-0">
+                Limited slots per quarter • Reach out below to inquire
+              </p>
             </div>
           </div>
         </motion.section>
@@ -1026,7 +982,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                   }}
                   className="font-display px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-bold tracking-wide shadow-glow"
                 >
-                  Assess Your Business &rarr;
+                  <span className="btn-text-shimmer">Assess Your Business &rarr;</span>
                 </PrimaryButton>
               </div>
             </div>
@@ -1038,26 +994,24 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.398, ease }}
-          className="mb-16 sm:mb-24 w-full max-w-xl"
+          className="mb-16 sm:mb-24 w-full max-w-5xl lg:max-w-6xl"
         >
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-10 sm:px-10 shadow-2xl backdrop-blur-md">
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-10 sm:px-12 sm:py-12 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
+            {/* Top Accent Gradient Bar */}
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{
-                background: `linear-gradient(90deg, transparent, ${brand.accent}, transparent)`,
-              }}
+              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
             />
             <div className="text-center">
               <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 Get in Touch
               </h2>
-              <p className="font-display mx-auto mt-4 max-w-lg text-base sm:text-lg md:text-xl leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+              <p className="font-display mx-auto mt-4 max-w-2xl text-base sm:text-lg md:text-xl leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
                 Want to know more about how BYRGOP can support your business? Reach out and we&rsquo;ll get back to you.
               </p>
             </div>
 
             {submitted ? (
-              <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-8 text-center">
+              <div className="mt-8 max-w-md mx-auto rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-8 text-center">
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -1072,7 +1026,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                 </h3>
               </div>
             ) : (
-              <div className="mt-8 space-y-4">
+              <div className="mt-8 max-w-lg mx-auto space-y-4">
                 <div>
                   <label className="font-display mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
                     Email
@@ -1111,7 +1065,9 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                   disabled={!canSubmit} 
                   className="font-display w-full px-6 py-3 text-lg font-bold tracking-[0.05em]"
                 >
-                  {submitting ? 'Submitting…' : 'Get in Touch'}
+                  <span className={canSubmit ? 'btn-text-shimmer' : ''}>
+                    {submitting ? 'Submitting…' : 'Get in Touch'}
+                  </span>
                 </PrimaryButton>
               </div>
             )}
@@ -1125,10 +1081,10 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           transition={{ duration: 0.8, delay: 0.4, ease }}
           className="mb-16 sm:mb-20 w-full max-w-5xl lg:max-w-6xl text-center"
         >
-          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/30 hover:bg-white/[0.05]">
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-amber-500/30 hover:bg-white/[0.05]">
             {/* Top Accent Gradient Bar */}
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-blue-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
+              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
             />
 
             {/* Section Header */}
@@ -1260,7 +1216,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
         </motion.p>
       </div>
 
-      {/* Gold Shimmer Sweep Style */}
+      {/* Shimmer & Shine Styles */}
       <style>{`
         .shine-gold-text {
           position: relative;
@@ -1286,12 +1242,45 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           60%  { background-position: -50% 0; }
           100% { background-position: -50% 0; }
         }
+
+        .btn-text-shimmer {
+          position: relative;
+          display: inline-block;
+          background-image: linear-gradient(
+            100deg,
+            #060B13 0%,
+            #060B13 32%,
+            #FFFFFF 48%,
+            #FFFDF5 52%,
+            #060B13 68%,
+            #060B13 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: btn-text-shimmer-sweep 3.2s ease-in-out infinite;
+        }
+
+        @keyframes btn-text-shimmer-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .shine-gold-text {
             animation: none;
             background: none;
             -webkit-text-fill-color: #FCA700;
             color: #FCA700;
+          }
+          .btn-text-shimmer {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: #060B13;
+            color: #060B13;
           }
         }
       `}</style>

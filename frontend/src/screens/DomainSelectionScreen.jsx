@@ -7,6 +7,9 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
+// Pale cream highlight band used by the shine sweep.
+const SHINE_HIGHLIGHT = '#FFF3D6';
+
 const STATUS = { loading: 'loading', ready: 'ready', error: 'error', comingSoon: 'coming-soon' };
 
 // Last option in the domain list. The slug has no matching Domain document, so
@@ -316,15 +319,19 @@ export default function DomainSelectionScreen({
           )}
         </AnimatePresence>
 
-        {/* Start Button */}
+        {/* Start Button — shimmers once a domain is selected. */}
           {status !== STATUS.comingSoon && (
             <div className="mt-8 flex w-full flex-col items-center">
               <PrimaryButton
                 onClick={handleStart}
                 disabled={!canStart}
-                className="font-display w-full max-w-xs sm:w-auto min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden"
+                className={`domain-shine-btn font-display w-full max-w-xs sm:w-auto min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
+                  canStart ? '' : 'domain-shine-off'
+                }`}
               >
-                {isChange ? 'Apply' : 'Assess'}
+                <span className="domain-shine-label">
+                  {isChange ? 'Apply' : 'Assess'}
+                </span>
               </PrimaryButton>
               {!canStart && (
                 <p className="font-display mt-3 text-xs text-center max-w-xs" style={{ color: premiumWhite.soft }}>
@@ -338,6 +345,55 @@ export default function DomainSelectionScreen({
             </div>
           )}
       </div>
+
+      {/* Shimmer for the Assess / Apply button — active only after a domain is
+          selected. The base colour is currentColor, so the button's own text
+          colour is preserved; the sweep is continuous while enabled, and the
+          `.domain-shine-off` class kills it when no domain is selected. */}
+      <style>{`
+        .domain-shine-label {
+          display: inline-block;
+          color: currentColor;
+          background-image: linear-gradient(
+            100deg,
+            currentColor 0%,
+            currentColor 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            currentColor 65%,
+            currentColor 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: domain-shine-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes domain-shine-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        /* Disabled — kill the sweep so a disabled button stays calm. */
+        .domain-shine-off .domain-shine-label {
+          animation: none;
+          background: none;
+          -webkit-text-fill-color: inherit;
+          color: inherit;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .domain-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: inherit;
+            color: inherit;
+          }
+        }
+      `}</style>
     </div>
   );
 }
