@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Timer from '../components/Timer.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
@@ -191,13 +191,12 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                   />
                 </div>
 
-                {/* Question Text — reduced two steps and lightened to medium
-                    weight. Bodoni Moda is a high-contrast Didone, so the bold
-                    face reads heavy on a large question; medium keeps the
-                    strokes elegant while the smaller size stops long questions
-                    from spreading over 5–6 lines. */}
+                {/* Question Text — size increased back up one step at every
+                    breakpoint so the question reads clearly, especially on
+                    mobile. Weight stays at medium (500) so Bodoni Moda's
+                    high-contrast strokes stay elegant rather than heavy. */}
                 <h1 
-                  className="font-bodoni max-w-2xl text-balance text-center text-base font-medium leading-snug sm:text-lg md:text-xl lg:text-2xl tracking-[-0.01em]"
+                  className="font-bodoni max-w-2xl text-balance text-center text-xl font-medium leading-snug sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.01em]"
                   style={{ color: premiumWhite.bright }}
                 >
                   {question.text}
