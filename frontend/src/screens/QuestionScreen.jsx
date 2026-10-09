@@ -134,13 +134,13 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -191,9 +191,13 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                   />
                 </div>
 
-                {/* Question Text */}
+                {/* Question Text — reduced two steps and lightened to medium
+                    weight. Bodoni Moda is a high-contrast Didone, so the bold
+                    face reads heavy on a large question; medium keeps the
+                    strokes elegant while the smaller size stops long questions
+                    from spreading over 5–6 lines. */}
                 <h1 
-                  className="font-display max-w-2xl text-balance text-center text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-5xl tracking-[-0.02em]"
+                  className="font-bodoni max-w-2xl text-balance text-center text-base font-medium leading-snug sm:text-lg md:text-xl lg:text-2xl tracking-[-0.01em]"
                   style={{ color: premiumWhite.bright }}
                 >
                   {question.text}
@@ -210,7 +214,7 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                     <PrimaryButton
                       onClick={() => handleSelect(yesOption?.optionId)}
                       disabled={!!selected}
-                      className={`question-shine-btn font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
+                      className={`question-shine-btn font-bodoni min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
                         selected === yesOption?.optionId ? 'ring-2 ring-white/50' : ''
                       }`}
                     >
@@ -229,7 +233,7 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
                     <PrimaryButton
                       onClick={() => handleSelect(noOption?.optionId)}
                       disabled={!!selected}
-                      className={`question-shine-btn font-display min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
+                      className={`question-shine-btn font-bodoni min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
                         selected === noOption?.optionId ? 'ring-2 ring-white/50' : ''
                       }`}
                     >

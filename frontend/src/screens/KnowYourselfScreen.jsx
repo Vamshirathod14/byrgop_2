@@ -313,7 +313,10 @@ export default function KnowYourselfScreen({
                 transition={{ duration: 0.55, ease }}
                 className="flex w-full flex-col items-center"
               >
-                <h1 className="mb-3 sm:mb-4 text-balance text-center font-display text-lg font-semibold leading-snug sm:text-xl md:text-2xl lg:text-3xl tracking-[-0.02em]" style={{ color: premiumWhite.bright }}>
+                {/* Question text — Bodoni Moda (font-bodoni). Size reduced by
+                    one step at every breakpoint so a long question fits in
+                    fewer lines. */}
+                <h1 className="font-bodoni mb-3 sm:mb-4 text-balance text-center text-base font-semibold leading-snug sm:text-lg md:text-xl lg:text-2xl tracking-[-0.01em]" style={{ color: premiumWhite.bright }}>
                   <AbbreviationText text={question.text} glossary={glossary} />
                 </h1>
 
@@ -353,7 +356,8 @@ export default function KnowYourselfScreen({
                         >
                           {LETTERS[i]}
                         </span>
-                        <span className={`flex-1 text-sm leading-relaxed sm:text-base ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
+                        {/* Answer option text — Bodoni Moda (font-bodoni). */}
+                        <span className={`font-bodoni flex-1 text-sm leading-relaxed sm:text-base ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
                           <AbbreviationText text={opt.text} glossary={glossary} />
                         </span>
                         {isSel && (
@@ -435,7 +439,9 @@ export default function KnowYourselfScreen({
               transition={{ duration: 0.55, ease }}
               className="flex w-full flex-col items-center"
             >
-              <h1 className="mb-3 text-balance text-center font-display text-base font-semibold leading-snug sm:text-lg" style={{ color: premiumWhite.bright }}>
+              {/* Question text — Bodoni Moda (font-bodoni). Size reduced so
+                  the question fits in fewer lines on a phone. */}
+              <h1 className="font-bodoni mb-3 text-balance text-center text-sm font-semibold leading-snug" style={{ color: premiumWhite.bright }}>
                 <AbbreviationText text={question.text} glossary={glossary} />
               </h1>
 
@@ -475,7 +481,8 @@ export default function KnowYourselfScreen({
                       >
                         {LETTERS[i]}
                       </span>
-                      <span className={`flex-1 text-sm leading-relaxed ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
+                      {/* Answer option text — Bodoni Moda (font-bodoni). */}
+                      <span className={`font-bodoni flex-1 text-sm leading-relaxed ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
                         <AbbreviationText text={opt.text} glossary={glossary} />
                       </span>
                       {isSel && (
@@ -585,6 +592,18 @@ export default function KnowYourselfScreen({
           background: none;
           -webkit-text-fill-color: inherit;
           color: inherit;
+        }
+
+        /* Bodoni Moda — added locally so the question headings render in it
+           without touching the global font stacks (font-display stays
+           Cormorant Garamond everywhere else). Bodoni Moda is a high-contrast
+           Didone serif; the fallbacks are metric-close serif faces. Optical
+           sizing is left automatic so the high-contrast strokes stay balanced
+           at every heading size. */
+        .font-bodoni {
+          font-family: 'Bodoni Moda', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
         }
 
         @media (prefers-reduced-motion: reduce) {

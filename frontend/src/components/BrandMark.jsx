@@ -21,7 +21,7 @@ export default function BrandMark({ height = 44, className = '' }) {
       fill="none"
       role="img"
       aria-label="BYRGOP six-colour mark"
-      className={`select-none ${className}`}
+      className={`font-bodoni select-none ${className}`}
     >
       {POINTS.map((p, i) => (
         <circle key={i} cx={p.x} cy={p.y} r={R} fill={brand.mark[i]} />

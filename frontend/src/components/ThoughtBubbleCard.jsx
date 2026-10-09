@@ -110,7 +110,7 @@ export default function ThoughtBubbleCard({ isOpen, onClose, onPointerEnter, onP
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <h3 className="font-sans text-base sm:text-lg font-bold text-slate-900 leading-snug mb-4 pr-6">
+                  <h3 className="font-bodoni text-base sm:text-lg font-bold text-slate-900 leading-snug mb-4 pr-6">
                     According to you which are the primary colors?
                   </h3>
 
@@ -128,7 +128,7 @@ export default function ThoughtBubbleCard({ isOpen, onClose, onPointerEnter, onP
                         </div>
 
                         {/* Option text */}
-                        <span className="font-sans text-sm font-medium text-slate-800 transition-colors group-hover:text-blue-950">
+                        <span className="font-bodoni text-sm font-medium text-slate-800 transition-colors group-hover:text-blue-950">
                           {opt.text}
                         </span>
                       </button>
@@ -147,7 +147,7 @@ export default function ThoughtBubbleCard({ isOpen, onClose, onPointerEnter, onP
                 >
                   {/* BYRGOP color explanation statement */}
                   <div className="rounded-xl bg-white/95 border border-slate-200 p-4 shadow-sm space-y-2.5">
-                    <p className="font-sans text-sm sm:text-[14.5px] font-medium text-slate-900 leading-relaxed">
+                    <p className="font-bodoni text-sm sm:text-[14.5px] font-medium text-slate-900 leading-relaxed">
                       In fact, <strong className="text-[#0A78CF] font-bold">Blue</strong>,{' '}
                       <strong className="text-[#FCA700] font-bold">Yellow</strong>,{' '}
                       <strong className="text-[#E52032] font-bold">Red</strong> are the primary colors and{' '}
@@ -155,7 +155,7 @@ export default function ThoughtBubbleCard({ isOpen, onClose, onPointerEnter, onP
                       <strong className="text-[#F5630D] font-bold">Orange</strong>,{' '}
                       <strong className="text-[#7038A5] font-bold">Purple</strong> are secondary colors.
                     </p>
-                    <p className="font-sans text-sm sm:text-[14.5px] font-medium text-slate-900 leading-relaxed">
+                    <p className="font-bodoni text-sm sm:text-[14.5px] font-medium text-slate-900 leading-relaxed">
                       We placed these colors in order aligning 6 stages of business and called{' '}
                       <strong className="font-extrabold text-slate-950 tracking-wider">BYRGOP</strong>.
                     </p>

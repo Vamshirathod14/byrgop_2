@@ -14,12 +14,18 @@ body,
 
 body {
   margin: 0;
-  /* ONE FONT — IntroScreen renders all text in Cormorant Garamond (font-display);
-     Inter stays as the fallback for UI glyphs and dense numerals. */
-  font-family: 'Cormorant Garamond', 'Inter', sans-serif;
+  /* ONE FONT — the entire site renders in Bodoni Moda (a high-contrast Didone
+     serif). Inter stays as the fallback for UI glyphs and dense numerals,
+     and a generic serif is the last resort. */
+  font-family: 'Bodoni Moda', 'Inter', Georgia, 'Times New Roman', serif;
   background: #0a0e16;
   color: #f6f7fa;
   overflow-x: hidden;
+
+  /* Bodoni Moda ships a variable optical-size axis — leaving this on lets the
+     high-contrast strokes balance themselves at every rendered size, so the
+     thin hairlines stay visible on small UI text as well as on large headings. */
+  font-optical-sizing: auto;
 }
 
 ::selection {
@@ -89,14 +95,32 @@ body {
 }
 
 @layer utilities {
+  /* ── Font utilities ──────────────────────────────────────────────
+     .font-display now resolves to Bodoni Moda (the site-wide display font),
+     so every element that already uses font-display switches to Bodoni Moda
+     with no component changes. The other font-* utilities are kept for
+     scripts and compatibility, and each one falls through Bodoni Moda first
+     so nothing on the site ever falls back to a non-Bodoni face unless the
+     glyph is genuinely missing. */
   .font-display {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+    font-optical-sizing: auto;
+    font-feature-settings: 'lnum' 1, 'pnum' 1;
   }
+  .font-bodoni {
+    font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+    font-optical-sizing: auto;
+    font-feature-settings: 'lnum' 1, 'pnum' 1;
+  }
+  /* Script fonts keep their real faces — Bodoni Moda has no Telugu or
+     Devanagari glyphs, so the browser would substitute anyway. Bodoni is
+     listed first as a courtesy in case the browser tries a Latin fallback
+     for a mixed-script string. */
   .font-script-te {
-    font-family: 'Noto Sans Telugu', 'Inter', system-ui, sans-serif;
+    font-family: 'Noto Sans Telugu', 'Bodoni Moda', 'Inter', system-ui, sans-serif;
   }
   .font-script-hi {
-    font-family: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+    font-family: 'Noto Sans Devanagari', 'Bodoni Moda', 'Inter', system-ui, sans-serif;
   }
   .text-balance {
     text-wrap: balance;

@@ -72,8 +72,8 @@ export function RadarChart({ categories }) {
   const shape = categories.map((c, i) => point(i, c.percent).join(','));
 
   return (
-    <div className="relative">
-      <svg viewBox={`0 0 ${VW} ${VH}`} className="mx-auto h-auto w-full" role="img" aria-label="Six-category business health radar">
+    <div className="relative flex h-full w-full items-center justify-center">
+      <svg viewBox={`0 0 ${VW} ${VH}`} className="mx-auto h-auto max-h-full w-full max-w-full" role="img" aria-label="Six-category business health radar">
       {/* grid rings — one per non-zero tick of RADAR_SCALE, drawn from the
           very same radius the labels and the data polygon use */}
       {RADAR_SCALE.ticks.filter((ring) => ring > 0).map((ring) => (
@@ -207,11 +207,11 @@ export function RadarChart({ categories }) {
               marginTop: '-3.2rem',
             }}
           >
-            <p className="font-display flex items-center gap-2 whitespace-nowrap text-sm font-semibold" style={{ color: premiumWhite.soft }}>
+            <p className="font-bodoni flex items-center gap-2 whitespace-nowrap text-sm font-semibold" style={{ color: premiumWhite.soft }}>
               <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: pillarChartColor(hover.i) }} />
               {hover.c.name}
             </p>
-            <p className="font-display text-right text-base font-bold tabular-nums" style={{ color: pillarChartColor(hover.i) }}>
+            <p className="font-bodoni text-right text-base font-bold tabular-nums" style={{ color: pillarChartColor(hover.i) }}>
               {hover.c.percent}%
             </p>
           </motion.div>
@@ -247,14 +247,14 @@ function ScoreRing({ percent, size = 190, label = 'Overall' }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display text-[10px] font-medium uppercase tracking-[0.25em]" style={{ color: premiumWhite.soft }}>
+        <span className="font-bodoni text-[10px] font-medium uppercase tracking-[0.25em]" style={{ color: premiumWhite.soft }}>
           {label}
         </span>
         <motion.span
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.5 }}
-          className="font-display text-5xl font-bold tabular-nums"
+          className="font-bodoni text-5xl font-bold tabular-nums"
           style={{ color: premiumWhite.bright }}
         >
           {percent}
@@ -270,13 +270,13 @@ function ContextChips({ businessTypeLabel, domainLabel }) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
       {businessTypeLabel && (
-        <span className="font-display inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium" style={{ color: premiumWhite.warm }}>
+        <span className="font-bodoni inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium" style={{ color: premiumWhite.warm }}>
           <span className="h-1.5 w-1.5 rounded-full" style={{ background: brand.mark[0] }} />
           {businessTypeLabel}
         </span>
       )}
       {domainLabel && (
-        <span className="font-display inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium" style={{ color: premiumWhite.warm }}>
+        <span className="font-bodoni inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5 text-xs font-medium" style={{ color: premiumWhite.warm }}>
           <span className="h-1.5 w-1.5 rounded-full" style={{ background: brand.mark[3] }} />
           {domainLabel}
         </span>
@@ -410,7 +410,7 @@ function ReportRequestModal({ open, sessionId, prefilledEmail, existing, onClose
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
+        className="result-page font-bodoni fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
         onClick={onClose}
         data-testid="report-request-modal"
       >
@@ -427,10 +427,10 @@ function ReportRequestModal({ open, sessionId, prefilledEmail, existing, onClose
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="font-display text-xl font-bold" style={{ color: premiumWhite.bright }}>
+              <h2 className="font-bodoni text-xl font-bold" style={{ color: premiumWhite.bright }}>
                 Complete Report Delivery
               </h2>
-              <p className="font-display mt-1 text-sm" style={{ color: premiumWhite.soft }}>
+              <p className="font-bodoni mt-1 text-sm" style={{ color: premiumWhite.soft }}>
                 Tell us where to send your complete BYRGOP report.
               </p>
             </div>
@@ -477,14 +477,14 @@ function ReportRequestModal({ open, sessionId, prefilledEmail, existing, onClose
                 aria-invalid={!!phone && !phoneValid}
               />
               {!!phone && !phoneValid && (
-                <span className="font-display mt-1 block text-[11px]" style={{ color: brand.palette.red[400] }} data-testid="rr-phone-error">
+                <span className="font-bodoni mt-1 block text-[11px]" style={{ color: brand.palette.red[400] }} data-testid="rr-phone-error">
                   {phoneError}
                 </span>
               )}
             </Field>
 
             {error && (
-              <p className="font-display sm:col-span-2 text-sm" style={{ color: brand.palette.red[400] }} data-testid="rr-error">
+              <p className="font-bodoni sm:col-span-2 text-sm" style={{ color: brand.palette.red[400] }} data-testid="rr-error">
                 {error}
               </p>
             )}
@@ -493,14 +493,14 @@ function ReportRequestModal({ open, sessionId, prefilledEmail, existing, onClose
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-xl border border-white/10 px-5 py-2.5 text-sm font-semibold text-mist-muted transition-colors hover:text-mist"
+                className="font-bodoni rounded-xl border border-white/10 px-5 py-2.5 text-sm font-semibold text-mist-muted transition-colors hover:text-mist"
               >
                 Cancel
               </button>
               <PrimaryButton
                 type="submit"
                 disabled={!canSubmit}
-                className={`submit-shine-btn font-display px-6 py-2.5 text-sm font-bold ${
+                className={`submit-shine-btn font-bodoni px-6 py-2.5 text-sm font-bold ${
                   canSubmit ? '' : 'submit-shine-off'
                 }`}
                 data-testid="rr-submit"
@@ -525,7 +525,7 @@ function ReportRequestModal({ open, sessionId, prefilledEmail, existing, onClose
 function Field({ label, children, className = '' }) {
   return (
     <label className={`block ${className}`}>
-      <span className="font-display mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
+      <span className="font-bodoni mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
         {label}
       </span>
       {children}
@@ -533,7 +533,7 @@ function Field({ label, children, className = '' }) {
   );
 }
 
-const inputCls = 'w-full rounded-xl border border-white/12 bg-white/[0.04] px-4 py-2.5 text-sm outline-none transition-colors focus:border-white/25 disabled:opacity-50';
+const inputCls = 'w-full rounded-xl border border-white/12 bg-white/[0.04] px-4 py-2.5 text-sm font-bodoni outline-none transition-colors focus:border-white/25 disabled:opacity-50';
 
 /* ── Main ───────────────────────────────────────────────── */
 // The noun in the "… Health Score" heading. It is the root's own label with the
@@ -569,7 +569,7 @@ export default function KnowYourselfResult({
     const maxScore = data?.maxScore ?? 80;
     const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
     return (
-      <div className="relative flex min-h-screen flex-col overflow-hidden bg-page px-6 py-24">
+      <div className="result-page font-bodoni relative flex min-h-screen flex-col overflow-hidden bg-page px-6 py-24">
         {/* Top gradient line - matching IntroScreen */}
         <motion.div
           className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -607,13 +607,13 @@ export default function KnowYourselfResult({
           transition={{ duration: 0.6, ease }}
         >
           <span
-            className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+            className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
             style={{ color: premiumWhite.bright }}
           >
             బిర్ గాప్
           </span>
           <span
-            className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+            className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
             style={{ color: premiumWhite.bright }}
           >
             बिरगाप
@@ -622,23 +622,26 @@ export default function KnowYourselfResult({
 
         <div className="relative z-10 flex flex-col items-center justify-center">
           <ContextChips businessTypeLabel={result.businessTypeLabel} domainLabel={result.domainLabel || data?.domainLabel} />
-          <h1 className="font-display mt-8 text-center text-3xl font-bold sm:text-4xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-            {entityLabel} <span className="font-display font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
+          <h1 className="font-bodoni mt-8 text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[3.75rem] tracking-[-0.02em]" style={{ color: premiumWhite.bright }}>
+            {entityLabel} <span className="font-bodoni font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
           </h1>
           <div className="mt-10 flex flex-col items-center">
             <ScoreRing percent={pct} label="Score" />
-            <h2 className="font-display mt-6 text-2xl font-bold uppercase tracking-[0.12em]" style={{ color: bandColor(data?.band) }}>
+            <h2 className="font-bodoni mt-6 text-2xl font-bold uppercase tracking-[0.12em]" style={{ color: bandColor(data?.band) }}>
               {data?.band}
             </h2>
-            <p className="font-display mt-2 max-w-md text-center text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
+            <p className="font-bodoni mt-2 max-w-md text-center text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
               {data?.message}
             </p>
           </div>
           <p className="mt-8 text-xs" style={{ color: premiumWhite.soft }}>
             Earlier assessment format — take a new assessment for a full six-dimension analysis.
           </p>
-          <div className="mt-10">
-            <PrimaryButton onClick={onExplore} className="font-display min-w-[13rem] px-6 py-2.5 text-xl font-bold tracking-[0.05em]">
+          <div className="mt-10 flex justify-center">
+            <PrimaryButton
+              onClick={onExplore}
+              className="proceed-btn font-bodoni text-sm sm:text-base font-bold tracking-[0.03em]"
+            >
               Explore BYRGOP
             </PrimaryButton>
           </div>
@@ -652,7 +655,7 @@ export default function KnowYourselfResult({
   const pillarData = useMemo(() => toPillarData(cats), [cats]);
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden bg-page px-5 pb-16 pt-20 sm:px-10">
+    <div className="result-page font-bodoni relative flex min-h-screen flex-col overflow-hidden bg-page px-5 pb-16 pt-20 sm:px-10">
       {/* Top gradient line - matching IntroScreen */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -690,13 +693,13 @@ export default function KnowYourselfResult({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -705,11 +708,11 @@ export default function KnowYourselfResult({
 
       {/* Header */}
       <header className="relative z-10 flex flex-col items-center text-center">
-        <span className="font-display text-[10px] font-medium uppercase tracking-[0.32em]" style={{ color: premiumWhite.soft }}>
+        <span className="font-bodoni text-[10px] font-medium uppercase tracking-[0.32em]" style={{ color: premiumWhite.soft }}>
           {brand.tagline}
         </span>
-        <h1 className="font-display mt-2 text-2xl font-bold uppercase tracking-wide sm:text-3xl md:text-5xl" style={{ color: premiumWhite.bright }}>
-          {entityLabel} <span className="font-display not-italic normal-case font-semibold shine-text" style={{ color: brand.accent }}>Health</span> Score
+        <h1 className="font-bodoni mt-2 text-center text-xl font-bold leading-snug sm:text-2xl md:text-3xl lg:text-[2rem] tracking-wide uppercase" style={{ color: premiumWhite.bright }}>
+          {entityLabel} <span className="font-bodoni not-italic normal-case font-semibold shine-text" style={{ color: brand.accent }}>Health</span> Score
         </h1>
         <div className="mt-5">
           <ContextChips
@@ -719,45 +722,46 @@ export default function KnowYourselfResult({
         </div>
       </header>
 
-      {/* Score / status — kept independent from the visualization switcher */}
-      <motion.section
-        initial={{ opacity: 0, y: 22 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease }}
-        className="relative z-10 mx-auto mt-8 flex w-full max-w-4xl flex-col items-center"
-      >
-        <ScoreRing percent={data.overallPercent} />
-        <h2 className="font-display mt-4 text-lg font-bold uppercase tracking-[0.12em]" style={{ color: bandColor(data.band) }}>
-          {data.band}
-        </h2>
-      </motion.section>
+      {/* Hero: Score (Left) and Visualizations (Right) */}
+      <main className="relative z-10 mx-auto mt-8 sm:mt-10 w-full max-w-[1150px] px-4">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Left: Overall Score Ring & Performance Band */}
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease }}
+            className="md:col-span-5 lg:col-span-4 flex flex-col items-center justify-center text-center"
+          >
+            <ScoreRing percent={data.overallPercent} size={200} />
+            <h2
+              className="font-bodoni mt-4 text-lg font-bold uppercase tracking-[0.12em]"
+              style={{ color: bandColor(data.band) }}
+            >
+              {data.band}
+            </h2>
+          </motion.div>
 
-      {/* Hero: visualization heading → selector → dedicated large stage */}
-      <main className="relative z-10 mx-auto mt-10 w-full max-w-[1050px]">
-        <div className="text-center">
-          <p className="font-display text-[10px] font-medium uppercase tracking-[0.32em]" style={{ color: premiumWhite.soft }}>
-            Assessment Visualization
-          </p>
-          <h2 className="font-display mt-2 text-xl font-bold sm:text-3xl" style={{ color: premiumWhite.bright }}>
-            See the full picture
-          </h2>
-          <p className="font-display mx-auto mt-1.5 max-w-md text-sm" style={{ color: premiumWhite.warm }}>
-            Explore your six-pillar business health across different visual formats.
-          </p>
+          {/* Right: Graphs & Selector */}
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.12, ease }}
+            className="md:col-span-7 lg:col-span-8 flex flex-col items-center w-full"
+          >
+            <div className="flex justify-center w-full">
+              <VisualizationSelector value={view} onChange={setView} />
+            </div>
+
+            <ResultVisualizationStage>
+              <VisualizationArea
+                view={view}
+                data={pillarData}
+                overall={data.overallPercent}
+                radarSlot={<RadarChart categories={cats} />}
+              />
+            </ResultVisualizationStage>
+          </motion.div>
         </div>
-
-        <div className="mt-6 flex justify-center sm:mt-7">
-          <VisualizationSelector value={view} onChange={setView} />
-        </div>
-
-        <ResultVisualizationStage>
-          <VisualizationArea
-            view={view}
-            data={pillarData}
-            overall={data.overallPercent}
-            radarSlot={<RadarChart categories={cats} />}
-          />
-        </ResultVisualizationStage>
       </main>
 
       {/* Six category scores */}
@@ -773,10 +777,10 @@ export default function KnowYourselfResult({
             >
               <div className="h-1 w-full" style={{ background: c.color }} />
               <div className="px-4 py-3.5 sm:px-5">
-                <p className="font-display truncate text-xs font-medium" style={{ color: premiumWhite.soft }}>
+                <p className="font-bodoni truncate text-xs font-medium" style={{ color: premiumWhite.soft }}>
                   {c.name}
                 </p>
-                <p className="font-display mt-1 text-2xl font-bold tabular-nums sm:text-3xl" style={{ color: premiumWhite.bright }}>
+                <p className="font-bodoni mt-1 text-2xl font-bold tabular-nums sm:text-3xl" style={{ color: premiumWhite.bright }}>
                   {c.percent}
                   <span className="text-base">%</span>
                 </p>
@@ -795,7 +799,7 @@ export default function KnowYourselfResult({
           className="relative z-10 mx-auto mt-5 w-full max-w-4xl"
         >
           <p
-            className="font-display text-center text-sm"
+            className="font-bodoni text-center text-sm"
             style={{ color: premiumWhite.soft }}
             data-testid="ky-na-count"
           >
@@ -815,19 +819,19 @@ export default function KnowYourselfResult({
       >
         {/* Complete-report request prompt — available to every completed user */}
         <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5 text-center" data-testid="report-prompt">
-          <p className="font-display text-sm" style={{ color: premiumWhite.warm }}>
+          <p className="font-bodoni text-sm" style={{ color: premiumWhite.warm }}>
             {reportDone ? (reportEmailStatus === 'sent' ? '✓ Your full report is on its way' : '✓ Details saved successfully') : 'Want to get the complete report delivered to your email?'}
           </p>
           <PrimaryButton
             onClick={() => setReportOpen(true)}
-            className="hover-shine-btn font-display mt-4 px-6 py-2.5 text-sm font-bold"
+            className="hover-shine-btn font-bodoni mt-4 h-12 sm:h-[52px] min-w-[7rem] sm:min-w-[8rem] px-6 text-sm sm:text-base font-bold inline-flex items-center justify-center rounded-full"
             data-testid="report-yes"
           >
             <span className="hover-shine-label">
               {reportDone ? 'UPDATE DETAILS' : 'Yes'}
             </span>
           </PrimaryButton>
-          <p className="font-display mt-2 text-[11px]" style={{ color: premiumWhite.soft }}>
+          <p className="font-bodoni mt-2 text-[11px]" style={{ color: premiumWhite.soft }}>
             {reportDone
               ? reportEmailStatus === 'sent'
                 ? `We've emailed the full 3-page report to ${reportExisting?.email ? `the address provided` : 'your address'}.`
@@ -838,12 +842,14 @@ export default function KnowYourselfResult({
           </p>
         </div>
 
-        <PrimaryButton
-          onClick={onExplore}
-          className="explore-shine-btn font-display min-w-[13rem] px-6 py-2.5 text-xl font-bold tracking-[0.05em] mt-6"
-        >
-          <span className="explore-shine-label">Explore BYRGOP</span>
-        </PrimaryButton>
+        <div className="mt-6 flex justify-center">
+          <PrimaryButton
+            onClick={onExplore}
+            className="proceed-btn explore-shine-btn font-bodoni text-sm sm:text-base font-bold tracking-[0.03em]"
+          >
+            <span className="explore-shine-label">Explore BYRGOP</span>
+          </PrimaryButton>
+        </div>
       </motion.div>
 
       <ReportRequestModal

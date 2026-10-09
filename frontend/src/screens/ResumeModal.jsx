@@ -21,20 +21,20 @@ export default function ResumeModal({ answeredCount, totalQuestions, onContinue,
         style={{ boxShadow: `0 24px 60px rgba(0,0,0,0.5)` }}
       >
         <span
-          className="font-display inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em]"
+          className="font-bodoni inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.24em]"
           style={{ color: brand.accent }}
         >
           Welcome back
         </span>
 
-        <h2 className="font-display mt-3 text-xl font-semibold leading-snug sm:text-2xl" style={{ color: premiumWhite.bright }}>
+        <h2 className="font-bodoni mt-3 text-xl font-semibold leading-snug sm:text-2xl" style={{ color: premiumWhite.bright }}>
           You have an assessment in progress
         </h2>
 
-        <p className="font-display mt-4 text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
+        <p className="font-bodoni mt-4 text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
           You answered <span className="font-semibold" style={{ color: premiumWhite.bright }}>{answeredCount} of {totalQuestions}</span> questions.
         </p>
-        <p className="font-display mt-1 text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
+        <p className="font-bodoni mt-1 text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
           Would you like to continue where you left off?
         </p>
 
@@ -43,14 +43,14 @@ export default function ResumeModal({ answeredCount, totalQuestions, onContinue,
             variant="border"
             onClick={onStartNew}
             data-testid="resume-startnew"
-            className="font-display min-w-[10rem] uppercase tracking-[0.16em]"
+            className="font-bodoni min-w-[10rem] uppercase tracking-[0.16em]"
           >
             Start New
           </PrimaryButton>
           <PrimaryButton
             onClick={onContinue}
             data-testid="resume-continue"
-            className="font-display min-w-[10rem] uppercase tracking-[0.16em]"
+            className="font-bodoni min-w-[10rem] uppercase tracking-[0.16em]"
             style={{ background: brand.accent, color: '#0A0D16' }}
           >
             Continue

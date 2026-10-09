@@ -187,7 +187,7 @@ export default function ResultScreen({
           fill="#FFFFFF"
           fontSize={13.5}
           style={{
-            fontFamily: brand.fonts.display,
+            fontFamily: brand.fonts.bodoni,
             letterSpacing: '0.03em',
             fontWeight: 600,
           }}
@@ -206,7 +206,7 @@ export default function ResultScreen({
   });
 
   return (
-    <div className="flex min-h-screen flex-col px-6 py-7 sm:px-10 bg-page">
+    <div className="result-page font-bodoni flex min-h-screen flex-col px-6 py-7 sm:px-10 bg-page">
       {/* Logo - Top Left */}
       <motion.div
         className="absolute top-4 left-4 z-10 sm:top-6 sm:left-6 lg:top-8 lg:left-8"
@@ -236,13 +236,13 @@ export default function ResultScreen({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -257,19 +257,19 @@ export default function ResultScreen({
           className="flex flex-col items-center"
         >
           <h1 
-            className="font-display text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[3.75rem] tracking-[-0.02em]"
+            className="font-bodoni text-center text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-[-0.01em]"
             style={{ color: premiumWhite.bright }}
           >
             {actionLabel}{' '}
             <span
-              className="font-display font-semibold shine-text"
+              className="font-bodoni font-semibold shine-text"
               style={{ color: TIMER_GOLD }}
             >
               Snapshot
             </span>
           </h1>
           <p 
-            className="font-sans mt-2 max-w-xl text-center text-sm leading-relaxed sm:text-base md:text-lg lg:text-xl"
+            className="font-bodoni mt-2 max-w-xl text-center text-sm leading-relaxed sm:text-base md:text-lg lg:text-xl"
             style={{ color: premiumWhite.warm }}
           >
             Based on BYRGOP's Business Profit Architecture
@@ -344,7 +344,7 @@ export default function ResultScreen({
                       <div className="text-6xl sm:text-7xl md:text-8xl mb-1" style={{ lineHeight: 1.2 }}>
                         {centerContent.emoji}
                       </div>
-                      <div className="font-display text-[9px] sm:text-[10px] md:text-[11px] font-semibold text-center text-white/70 leading-tight px-1 max-w-full whitespace-nowrap">
+                      <div className="font-bodoni text-[9px] sm:text-[10px] md:text-[11px] font-semibold text-center text-white/70 leading-tight px-1 max-w-full whitespace-nowrap">
                         {centerContent.status}
                       </div>
                     </div>
@@ -362,27 +362,26 @@ export default function ResultScreen({
           className="mt-4 sm:mt-6 flex flex-col items-center w-full"
         >
           <h2 
-            className="font-sans text-base font-semibold text-center sm:text-lg md:text-xl lg:text-2xl"
+            className="font-bodoni text-base font-semibold text-center sm:text-lg md:text-xl lg:text-2xl"
             style={{ color: premiumWhite.bright }}
           >
             Know more about 
           </h2>
 
           {/* Buttons — stack on mobile, side by side from sm up.
-              Long labels like "Your Enterprise" / "Your Foundation" now have
-              their own full-width row on small screens, so they can never be
-              squeezed and break apart. */}
+              Long action labels now have their own full-width row on small
+              screens, so they can never be squeezed and break apart. */}
           <div className="mt-4 sm:mt-6 flex w-full max-w-xl flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 px-2">
             <PrimaryButton
               onClick={onKY}
-              className="hover-shine-btn know-more-btn font-display w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
+              className="hover-shine-btn know-more-btn font-bodoni w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               <span className="hover-shine-label">{actionLabel}</span>
             </PrimaryButton>
             <PrimaryButton
               onClick={onAbout}
-              className="hover-shine-btn know-more-btn font-display w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
+              className="hover-shine-btn know-more-btn font-bodoni w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               <span className="hover-shine-label">BYRGOP</span>
@@ -393,7 +392,7 @@ export default function ResultScreen({
             <button
               type="button"
               onClick={onRetake}
-              className="font-sans text-base sm:text-lg text-center mt-3 transition-colors hover:opacity-70"
+              className="font-bodoni text-base sm:text-lg text-center mt-3 transition-colors hover:opacity-70"
               style={{ color: premiumWhite.bright }}
             >
               Retake Assessment
@@ -431,8 +430,7 @@ export default function ResultScreen({
         /* "Know more about" buttons — force the label dead-centre inside the
            button, with balanced horizontal padding so the text never crowds
            either edge. display:grid + place-items:center centres both axes
-           regardless of how long the label is ("Your Business" vs
-           "Your Enterprise" vs "Your Foundation"). */
+           regardless of how long the action label is. */
         .know-more-btn {
           display: grid !important;
           place-items: center !important;

@@ -7,6 +7,9 @@ import { brand } from '../theme/brand.js';
 const ease = [0.22, 1, 0.36, 1];
 const premiumWhite = brand.premiumWhite;
 
+// Timer gold — matches the default `goldMain` used by the Timer component.
+const TIMER_GOLD = '#FCA700';
+
 // Pale cream highlight band used by the shine sweep.
 const SHINE_HIGHLIGHT = '#FFF3D6';
 
@@ -128,13 +131,13 @@ export default function DomainSelectionScreen({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -147,14 +150,22 @@ export default function DomainSelectionScreen({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease }}
-          className="flex flex-col items-center mb-8 sm:mb-10"
+          className="flex w-full flex-col items-center mb-8 sm:mb-10"
         >
-          <h1 
-            className="font-display text-center text-2xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[4.25rem] tracking-[-0.02em] text-balance"
+          {/* Heading — brought down to a comfortable size. Two steps below
+              the previous too-large scale (was text-3xl / sm:text-4xl /
+              md:text-5xl / lg:text-6xl), which read too heavy with Bodoni
+              Moda. The word "Domain" still carries the same gold shine sweep
+              as the "Snapshot" word. */}
+          <h1
+            className="font-bodoni w-full text-center text-xl font-bold leading-tight sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.02em] px-2 break-words"
             style={{ color: premiumWhite.bright }}
           >
             {isChange ? 'Change Your Business' : 'Select Your Business'}{' '}
-            <span className="font-display font-semibold italic" style={{ color: brand.accent }}>
+            <span
+              className="font-bodoni font-semibold shine-text whitespace-nowrap"
+              style={{ color: TIMER_GOLD }}
+            >
               Domain
             </span>
           </h1>
@@ -187,7 +198,7 @@ export default function DomainSelectionScreen({
                 className="h-8 w-8 animate-spin rounded-full border-2"
                 style={{ borderColor: 'rgba(255,255,255,0.12)', borderTopColor: brand.accent }}
               />
-              <p className="font-display text-sm" style={{ color: premiumWhite.soft }}>
+              <p className="font-bodoni text-sm" style={{ color: premiumWhite.soft }}>
                 Loading domains…
               </p>
             </div>
@@ -211,10 +222,10 @@ export default function DomainSelectionScreen({
                 />
                 Coming Soon
               </span>
-              <h2 className="font-display mt-4 text-xl font-bold tracking-[-0.01em] sm:text-2xl" style={{ color: premiumWhite.bright }}>
+              <h2 className="font-bodoni mt-4 text-xl font-bold tracking-[-0.01em] sm:text-2xl" style={{ color: premiumWhite.bright }}>
                 {businessType?.label || 'This'} assessment is coming soon.
               </h2>
-              <p className="font-display mt-3 max-w-md text-sm leading-relaxed sm:text-base" style={{ color: premiumWhite.warm }}>
+              <p className="font-bodoni mt-3 max-w-md text-sm leading-relaxed sm:text-base" style={{ color: premiumWhite.warm }}>
                 The Know Yourself assessment for {businessType?.label || 'this'} businesses
                 isn&rsquo;t available yet — we&rsquo;re currently preparing it.
               </p>
@@ -233,7 +244,7 @@ export default function DomainSelectionScreen({
           {/* Error */}
           {status === STATUS.error && (
             <div className="rounded-xl border border-red-500/20 bg-red-500/[0.05] px-4 py-8 text-center sm:px-5 sm:py-10">
-              <p className="font-display text-sm" style={{ color: brand.palette.red[400] }}>
+              <p className="font-bodoni text-sm" style={{ color: brand.palette.red[400] }}>
                 Could not load domains.
               </p>
               <PrimaryButton variant="border" onClick={loadDomains} className="mt-4">
@@ -278,7 +289,7 @@ export default function DomainSelectionScreen({
 
                     {/* Domain name */}
                     <span
-                      className={`min-w-0 flex-1 break-words font-display text-base font-semibold tracking-wide transition-colors duration-300 sm:text-lg ${
+                      className={`min-w-0 flex-1 break-words font-bodoni text-base font-semibold tracking-wide transition-colors duration-300 sm:text-lg ${
                         isSel ? 'text-mist' : 'text-mist-soft group-hover:text-mist'
                       }`}
                       style={{ color: isSel ? premiumWhite.bright : premiumWhite.soft }}
@@ -311,7 +322,7 @@ export default function DomainSelectionScreen({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="font-display mt-4 text-sm text-center break-words px-1"
+              className="font-bodoni mt-4 text-sm text-center break-words px-1"
               style={{ color: brand.palette.red[400] }}
             >
               {err}
@@ -325,7 +336,7 @@ export default function DomainSelectionScreen({
               <PrimaryButton
                 onClick={handleStart}
                 disabled={!canStart}
-                className={`domain-shine-btn font-display w-full max-w-xs sm:w-auto min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
+                className={`domain-shine-btn font-bodoni w-full max-w-xs sm:w-auto min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden ${
                   canStart ? '' : 'domain-shine-off'
                 }`}
               >
@@ -334,7 +345,7 @@ export default function DomainSelectionScreen({
                 </span>
               </PrimaryButton>
               {!canStart && (
-                <p className="font-display mt-3 text-xs text-center max-w-xs" style={{ color: premiumWhite.soft }}>
+                <p className="font-bodoni mt-3 text-xs text-center max-w-xs" style={{ color: premiumWhite.soft }}>
                   {status === STATUS.ready
                     ? isChange
                       ? 'Select a domain to continue.'
@@ -346,11 +357,39 @@ export default function DomainSelectionScreen({
           )}
       </div>
 
-      {/* Shimmer for the Assess / Apply button — active only after a domain is
-          selected. The base colour is currentColor, so the button's own text
-          colour is preserved; the sweep is continuous while enabled, and the
-          `.domain-shine-off` class kills it when no domain is selected. */}
+      {/* Shine sweeps — the "Domain" word always sweeps, and the Assess /
+          Apply button sweeps once a domain is selected. The base colour for
+          both is currentColor / the timer gold so nothing about the button's
+          own text colour is overridden. */}
       <style>{`
+        /* The "Domain" word — same gold sweep as the Snapshot word. */
+        .shine-text {
+          position: relative;
+          display: inline-block;
+          background-image: linear-gradient(
+            100deg,
+            ${TIMER_GOLD} 0%,
+            ${TIMER_GOLD} 35%,
+            ${SHINE_HIGHLIGHT} 50%,
+            ${TIMER_GOLD} 65%,
+            ${TIMER_GOLD} 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine-text-sweep 3.2s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+        @keyframes shine-text-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        /* Assess / Apply button — active only after a domain is selected. */
         .domain-shine-label {
           display: inline-block;
           color: currentColor;
@@ -377,7 +416,7 @@ export default function DomainSelectionScreen({
           100% { background-position: -50% 0; }
         }
 
-        /* Disabled — kill the sweep so a disabled button stays calm. */
+        /* Disabled — kill the button sweep so a disabled button stays calm. */
         .domain-shine-off .domain-shine-label {
           animation: none;
           background: none;
@@ -386,6 +425,7 @@ export default function DomainSelectionScreen({
         }
 
         @media (prefers-reduced-motion: reduce) {
+          .shine-text,
           .domain-shine-label {
             animation: none;
             background: none;

@@ -69,7 +69,7 @@ function AbbreviationTerm({ term, entry }) {
             data-abbr={term}
             className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 w-max max-w-[260px] -translate-x-1/2 rounded-xl border border-white/10 bg-ink-850/95 px-3.5 py-2 text-left shadow-card backdrop-blur-md"
           >
-            <span className="block font-display text-sm leading-snug font-semibold" style={{ color: brand.premiumWhite.bright }}>
+            <span className="font-bodoni block text-sm leading-snug font-semibold" style={{ color: brand.premiumWhite.bright }}>
               {term} — {entry?.fullForm}
             </span>
           </motion.span>

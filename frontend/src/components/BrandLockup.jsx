@@ -33,10 +33,11 @@ export default function BrandLockup({
           className="shrink-0"
         />
         <div className="flex min-w-0 flex-col justify-center leading-none">
+          {/* Wordmark — Bodoni Moda (font-bodoni). The size is still derived
+              from markHeight so the lockup scales with the mark. */}
           <span
-            className="font-bold tracking-[0.12em] select-none"
+            className="font-bodoni font-bold tracking-[0.12em] select-none"
             style={{
-              fontFamily: brand.fonts.body,
               fontSize: markHeight * 0.52,
               color: ink,
               lineHeight: 1,
@@ -45,8 +46,10 @@ export default function BrandLockup({
             BYRGOP
           </span>
           {showTagline && (
+            /* Tagline — Bodoni Moda (font-bodoni) as well, so the whole
+               wordmark block reads in one face. */
             <span
-              className="mt-1.5 font-medium uppercase tracking-[0.34em] select-none"
+              className="font-bodoni mt-1.5 font-medium uppercase tracking-[0.34em] select-none"
               style={{ fontSize: markHeight * 0.13, color: muted, lineHeight: 1 }}
             >
               Business Profit Architects

@@ -77,7 +77,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-page py-6 sm:py-8">
+    <div className="business-type-page font-bodoni relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-page py-6 sm:py-8">
       {/* Top gradient line - matching IntroScreen */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -124,13 +124,13 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-display text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -143,14 +143,20 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease }}
-          className="flex flex-col items-center mb-8 sm:mb-10"
+          className="flex w-full flex-col items-center mb-8 sm:mb-10"
         >
+          {/* Heading — kept on ONE line at every breakpoint, including mobile.
+              Bodoni Moda is a wide face, so the sizes are tuned small enough
+              that "Select Your Business Type" / "Change Your Business Type"
+              fit on a phone screen without wrapping. whitespace-nowrap forces
+              a single line; the surrounding div is full width so the text has
+              the widest column available. */}
           <h1 
-            className="font-display text-center text-2xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[4.25rem] tracking-[-0.02em] text-balance"
+            className="font-bodoni w-full max-w-full text-center text-lg font-bold leading-tight whitespace-nowrap sm:text-2xl md:text-3xl lg:text-[2.75rem] tracking-[-0.02em] px-1"
             style={{ color: premiumWhite.bright }}
           >
             {isChange ? 'Change Your' : 'Select Your'}{' '}
-            <span className="font-display font-semibold italic" style={{ color: brand.accent }}>
+            <span className="font-bodoni font-bold shine-gold-text tracking-normal" style={{ color: brand.accent }}>
               Business Type
             </span>
           </h1>
@@ -174,7 +180,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
         )}
 
         {err && (
-          <p className="font-display text-sm text-center break-words" style={{ color: brand.palette.red[400] }}>
+          <p className="font-bodoni text-sm text-center break-words" style={{ color: brand.palette.red[400] }}>
             Could not load configuration — using defaults.
           </p>
         )}
@@ -200,7 +206,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
                 style={isSel ? { borderColor: accent, boxShadow: `0 0 32px ${accent}33` } : undefined}
               >
                 <div className="flex flex-col items-center">
-                  <h2 className="font-display text-xl font-semibold sm:text-2xl" style={{ color: premiumWhite.bright }}>
+                  <h2 className="font-bodoni text-xl font-semibold sm:text-2xl" style={{ color: premiumWhite.bright }}>
                     {bt.label}
                   </h2>
                 </div>
@@ -232,17 +238,109 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
           <PrimaryButton
             onClick={() => selected && onSelect(selected.key, selected.label)}
             disabled={!selected}
-            className="font-display w-full max-w-xs sm:w-auto min-w-[6.5rem] sm:min-w-[8rem] px-6 sm:px-8 py-3 sm:py-3.5 text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] overflow-hidden"
+            className={`proceed-btn font-bodoni text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] ${
+              selected ? 'continue-shine-btn continue-shine-active' : ''
+            }`}
           >
-            Continue
+            <span className="continue-shine-label">Continue</span>
           </PrimaryButton>
           {!selected && businessTypes && (
-            <p className="font-display text-xs text-center" style={{ color: premiumWhite.soft }}>
+            <p className="font-bodoni text-xs text-center" style={{ color: premiumWhite.soft }}>
               Select a business type to continue.
             </p>
           )}
         </motion.div>
       </div>
+
+      <style>{`
+        .shine-gold-text {
+          position: relative;
+          display: inline-block;
+          padding-top: 0.05em;
+          padding-bottom: 0.28em;
+          margin-bottom: -0.28em;
+          padding-right: 0.08em;
+          padding-left: 0.04em;
+          letter-spacing: 0.02em;
+          font-weight: 700;
+          overflow: visible;
+          background-image: linear-gradient(
+            100deg,
+            #FCA700 0%,
+            #F59E0B 25%,
+            #FFF8E1 50%,
+            #F59E0B 75%,
+            #FCA700 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent !important;
+          filter: drop-shadow(0 0 5px rgba(252, 167, 0, 0.4));
+          animation: shine-gold-sweep 3s ease-in-out infinite;
+        }
+
+        @keyframes shine-gold-sweep {
+          0%   { background-position: 200% 0; }
+          60%  { background-position: -50% 0; }
+          100% { background-position: -50% 0; }
+        }
+
+        .continue-shine-btn {
+          position: relative;
+        }
+
+        .continue-shine-label {
+          display: inline-block;
+          color: inherit;
+        }
+
+        .continue-shine-active .continue-shine-label {
+          background-image: linear-gradient(
+            100deg,
+            #060B13 0%,
+            #060B13 28%,
+            #FFFFFF 48%,
+            #FFFDF5 52%,
+            #060B13 72%,
+            #060B13 100%
+          );
+          background-size: 250% 100%;
+          background-position: 200% 0;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent !important;
+          animation: continue-shine-sweep 3s ease-in-out infinite;
+          will-change: background-position;
+          transform: translateZ(0);
+        }
+
+        .continue-shine-active:hover:not(:disabled) .continue-shine-label,
+        .continue-shine-active:focus-visible:not(:disabled) .continue-shine-label {
+          animation-duration: 1.5s;
+        }
+
+        @keyframes continue-shine-sweep {
+          0%   { background-position: 200% 0; }
+          65%  { background-position: -60% 0; }
+          100% { background-position: -60% 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .shine-gold-text {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: #FCA700 !important;
+            color: #FCA700;
+          }
+          .continue-shine-active .continue-shine-label {
+            animation: none;
+            background: none;
+            -webkit-text-fill-color: currentColor !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
