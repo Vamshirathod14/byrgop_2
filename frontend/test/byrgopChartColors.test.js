@@ -102,13 +102,13 @@ async function bundleModule(entry) {
   return mod;
 }
 
-const CHART_IDS = ['radar', 'bubble', 'bullet', 'bar'];
+const CHART_IDS = ['radar', 'bar', 'bullseye', 'bubble'];
 
-test('the result page offers exactly Radar, Bubble, Bullet and Bar (no others)', async () => {
+test('the result page offers exactly Radar, Bar, Bullseye and Bubble (no others)', async () => {
   const mod = await bundleModule('src/components/ResultVisualizations.jsx');
   const ids = mod.VIEWS.map((v) => v.id);
   assert.deepEqual(ids, CHART_IDS, `VIEWS must be exactly ${CHART_IDS.join(', ')} — got ${JSON.stringify(ids)}`);
-  for (const banned of ['heatmap', 'bullseye', 'polar', 'nested', 'diverging', 'scatter']) {
+  for (const banned of ['heatmap', 'polar', 'nested', 'diverging', 'scatter']) {
     assert.ok(!ids.includes(banned), `VIEWS still offers ${banned}`);
   }
 });
@@ -146,15 +146,15 @@ const SIX_PILLARS = ['Strategic Direction', 'Financial Performance', 'Sales & Ma
 const SCORES = [82, 71, 64, 90, 45, 100];
 const sampleData = SIX_PILLARS.map((name, i) => ({ key: `p${i}`, name, percent: SCORES[i], color: '#0A78CF' }));
 
-test('Bubble, Bullet and Bar render with palette colors only (no defaults, no 7th color)', async () => {
+test('Bubble, Bar and Bullseye render with palette colors only (no defaults, no 7th color)', async () => {
   const mod = await bundleModule('src/components/ResultVisualizations.jsx');
   const React = (await import('react')).default;
   const { renderToString } = await import('react-dom/server');
 
   const rendered = {
-    bubble: renderToString(React.createElement(mod.BubblePlotView, { data: sampleData })),
-    bullet: renderToString(React.createElement(mod.BulletChartView, { data: sampleData })),
     bar: renderToString(React.createElement(mod.BarChartView, { data: sampleData })),
+    bullseye: renderToString(React.createElement(mod.BullseyeChartView, { data: sampleData })),
+    bubble: renderToString(React.createElement(mod.BubblePlotView, { data: sampleData })),
   };
 
   for (const [name, svg] of Object.entries(rendered)) {

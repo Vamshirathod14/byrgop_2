@@ -32,6 +32,7 @@ export default {
       fontFamily: {
         display: [brand.fonts.display],
         body: [brand.fonts.body],
+        bodoni: [brand.fonts.bodoni],
       },
       borderRadius: {
         xl2: '1.25rem',

@@ -1303,12 +1303,6 @@ export default function App() {
               onNavigateToLanding={handleLogoClickHome}
               // The CTA now runs the SAME reset the logo does before switching
               // to intro, and closes any open or pending Resume modal first.
-              // Previously this was just `setScreen('intro')`, which left
-              // onboarding state (introBusinessType, onboardingQuestions,
-              // result, answers, sessionId) and possibly an open Resume modal
-              // untouched. After a long stay on the About page those could
-              // drift — the Intro would mount over stale state, or under a
-              // still-visible Resume modal, and the user saw a blank screen.
               onAssess={() => {
                 setKyResumeCandidate(null);
                 kyResumeCheckRef.current += 1;

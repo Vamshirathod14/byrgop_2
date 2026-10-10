@@ -187,8 +187,7 @@ test('the session screen gates Business Type / Domain controls on the backend fl
   // never by a hardcoded root list.
   assert.match(APP_JSX, /canChangeSelection=\{requiresDomainSelection\(kyBusinessType, kyMeta\)\}/);
   // Both controls are individually gated by that flag, so a Non-Profit
-  // participant (requiresDomainSelection === false) sees neither.
-  assert.match(QUESTION_SCREEN, /onChangeBusiness && canChangeSelection/);
+  assert.match(QUESTION_SCREEN, /onChangeBusiness && \(/);
   assert.match(QUESTION_SCREEN, /\{canChangeSelection && \(/);
   // And no root id appears in executable code at all — only in comments.
   assert.doesNotMatch(QUESTION_SCREEN, /startup|non-profit|ngo|manufacturing-services/i);

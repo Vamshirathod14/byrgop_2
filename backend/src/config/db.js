@@ -44,7 +44,9 @@ export async function connectDB(uri = resolveMongoUri()) {
         'connection string in backend/.env.'
     );
   }
-  assertNotLocalMongo(uri);
+  if (process.env.ALLOW_LOCAL_MONGO !== 'true') {
+    assertNotLocalMongo(uri);
+  }
   try {
     const conn = await mongoose.connect(uri);
     console.log(`[db] connected: ${conn.connection.host}/${conn.connection.name}`);

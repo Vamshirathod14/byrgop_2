@@ -54,7 +54,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const HOST = '0.0.0.0';
+const HOST = process.env.HOST || '127.0.0.1';
 
 connectDB()
   .then(async () => {

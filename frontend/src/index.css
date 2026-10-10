@@ -239,4 +239,60 @@ body {
       color: inherit;
     }
   }
+
+  /* ── BYRGOP Six Dots Shimmer ─────────────────────────────────────── */
+  .dot-shimmer-glint {
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      transparent 25%,
+      rgba(255, 255, 255, 0.85) 50%,
+      transparent 75%,
+      transparent 100%
+    );
+    background-size: 250% 100%;
+    background-position: 200% 0;
+    animation: dot-shimmer-sweep 2.4s ease-in-out infinite;
+    will-change: background-position;
+    transform: translateZ(0);
+  }
+
+  @keyframes dot-shimmer-sweep {
+    0%   { background-position: 200% 0; }
+    55%  { background-position: -80% 0; }
+    100% { background-position: -80% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot-shimmer-glint {
+      animation: none;
+      background: none;
+    }
+  }
+
+  /* ── Utility to hide scrollbars ─────────────────────────────────── */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ── About, Business Type & Result Pages Bodoni Moda Typography ──── */
+  .about-page,
+  .about-page *,
+  .about-page .font-display,
+  .about-page .font-bodoni,
+  .business-type-page,
+  .business-type-page *,
+  .business-type-page .font-display,
+  .business-type-page .font-bodoni,
+  .result-page,
+  .result-page *,
+  .result-page .font-display,
+  .result-page .font-bodoni,
+  .result-page .font-sans {
+    font-family: 'Bodoni Moda', 'Noto Sans Telugu', 'Noto Sans Devanagari', serif;
+  }
 }

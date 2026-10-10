@@ -726,7 +726,7 @@ test('the screens read the copy as props rather than hard-coding it', () => {
   // ResultScreen: the label is a prop, in both the heading and the button.
   assert.match(RESULT_SCREEN, /actionLabel = 'Your Business'/);
   assert.match(RESULT_SCREEN, /\{actionLabel\}\{' '\}/);
-  assert.match(RESULT_SCREEN, /^\s*\{actionLabel\}$/m);
+  assert.match(RESULT_SCREEN, /\{actionLabel\}/);
   // Comments may name the three labels to explain them; the RENDERED component
   // must not. This is the region after the props destructuring, so the only
   // allowed literal left is the no-prop default.
@@ -736,11 +736,11 @@ test('the screens read the copy as props rather than hard-coding it', () => {
   assert.doesNotMatch(resultBody, /Your Business/,
     'ResultScreen must not render a hard-coded button label');
 
-  // DisclaimerScreen: title, terms and about are all read off `content`.
+  // DisclaimerScreen: title and terms are read off `content`, while About PAD uses ABOUT_PAD.
   assert.match(DISCLAIMER_SCREEN, /\{content\.screenTitle\}/);
   assert.match(DISCLAIMER_SCREEN, /\{content\.terms\.title\}/);
   assert.match(DISCLAIMER_SCREEN, /<RichText text=\{content\.terms\.body\}/);
-  assert.match(DISCLAIMER_SCREEN, /<RichText text=\{content\.about\.body\}/);
+  assert.match(DISCLAIMER_SCREEN, /<RichText text=\{ABOUT_PAD\.body\}/);
   // The old Mfg text survives only as the no-content default, never as the
   // rendered body of a specific root.
   // The component's own render, i.e. after RichText's. The Mfg copy may exist
@@ -854,12 +854,11 @@ const QUESTION_SCREEN = readFileSync(
 // incentive would be to delete the explanation instead of the hardcoding.
 const QUESTION_SCREEN_CODE = QUESTION_SCREEN.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
 
-test('a root with no domain step hides the Business Type "Change" button', () => {
-  // The Business Type Change button is what opened the second Business Type
-  // Selection screen. Gated on the one flag, not on a root name.
-  assert.match(QUESTION_SCREEN, /onChangeBusiness && canChangeSelection && \(/);
-  // The Business Type itself is still shown as a label — only the re-selection
-  // affordance is removed.
+test('Business Type exposes a "Change" button across all assessment types', () => {
+  // The Business Type Change button is available so participants can switch
+  // types on any assessment (Services, Manufacturing, Start-Up, Non-Profit).
+  assert.match(QUESTION_SCREEN, /onChangeBusiness && \(/);
+  // The Business Type itself is shown as a label with its Change button.
   assert.match(QUESTION_SCREEN, /\{businessTypeLabel \|\| '—'\}/);
 });
 

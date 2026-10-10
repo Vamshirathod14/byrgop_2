@@ -56,6 +56,7 @@ export const brand = {
   fonts: {
     display: "'Cormorant Garamond', serif",
     body: "'Inter', sans-serif",
+    bodoni: "'Bodoni Moda', serif",
   },
   categories: {
     strategic: { name: categoryLabel('strategic'), color: '#0A78CF', soft: 'rgba(10,120,207,0.16)' },

@@ -205,6 +205,7 @@ async function seed() {
       }
       await Question.create({
         ...q,
+        businessType: q.businessType || 'service',
         mark: SEED_MARK,
         category: catDocs[key]._id,
         active: true,

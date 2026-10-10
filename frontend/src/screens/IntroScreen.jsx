@@ -527,12 +527,17 @@ export default function IntroScreen({
               }}
             >
               <div
-                className="h-4 w-4 sm:h-5 sm:w-5 rounded-full shadow-xl transition-transform duration-300 hover:scale-125 cursor-pointer"
+                className="relative overflow-hidden h-4 w-4 sm:h-5 sm:w-5 rounded-full shadow-xl transition-transform duration-300 hover:scale-125 cursor-pointer"
                 style={{
                   background: c,
                   boxShadow: `0 4px 20px ${c}60`,
                 }}
-              />
+              >
+                <span
+                  className="dot-shimmer-glint pointer-events-none absolute inset-0 rounded-full"
+                  style={{ animationDelay: `${i * 0.22}s` }}
+                />
+              </div>
               <motion.div
                 className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-6 sm:w-8 rounded-full bg-black/30 blur-sm"
                 initial={{ scaleX: 0.3, opacity: 0 }}

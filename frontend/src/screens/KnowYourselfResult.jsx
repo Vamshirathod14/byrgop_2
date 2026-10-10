@@ -776,11 +776,11 @@ export default function KnowYourselfResult({
               className="overflow-hidden rounded-2xl border border-white/[0.09] bg-white/[0.03]"
             >
               <div className="h-1 w-full" style={{ background: c.color }} />
-              <div className="px-4 py-3.5 sm:px-5">
-                <p className="font-bodoni truncate text-xs font-medium" style={{ color: premiumWhite.soft }}>
+              <div className="flex h-full flex-col justify-between px-3.5 py-3 sm:px-5 sm:py-3.5">
+                <p className="font-bodoni min-h-[2rem] sm:min-h-[2.5rem] text-xs sm:text-sm font-medium leading-snug break-words" style={{ color: premiumWhite.soft }}>
                   {c.name}
                 </p>
-                <p className="font-bodoni mt-1 text-2xl font-bold tabular-nums sm:text-3xl" style={{ color: premiumWhite.bright }}>
+                <p className="font-bodoni mt-1.5 text-2xl font-bold tabular-nums sm:text-3xl" style={{ color: premiumWhite.bright }}>
                   {c.percent}
                   <span className="text-base">%</span>
                 </p>
