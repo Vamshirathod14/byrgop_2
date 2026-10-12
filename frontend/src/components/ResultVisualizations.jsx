@@ -308,21 +308,23 @@ export function BubblePlotView({ data }) {
    Pillar colors use the centralized BYRGOP palette:
    B - #0A78CF, Y - #FCA700, R - #E52032, G - #0D8845, O - #F5630D, P - #7038A5. */
 export function BarChartView({ data }) {
-  const plotLeft = 130;
-  const plotRight = 430;
-  const rowH = 44;
-  const row0Y = 60;
+  const width = 520;
+  const height = 340;
+  const plotLeft = 168;
+  const plotRight = 472;
+  const rowH = 46;
+  const row0Y = 44;
   const trackW = plotRight - plotLeft;
-  const lastY = row0Y + rowH * data.length - 8;
+  const lastY = row0Y + rowH * (data.length - 1) + 12;
   const wFor = (p) => percentToExtent(p, trackW);
   return (
-    <ChartFrame label="Horizontal bar chart of the six pillar percentages on a zero to one hundred scale">
+    <ChartFrame label="Horizontal bar chart of the six pillar percentages on a zero to one hundred scale" width={width} height={height}>
       {[0, 25, 50, 75, 100].map((g) => {
         const x = plotLeft + wFor(g);
         return (
           <g key={g}>
-            <line x1={x} y1={row0Y - 10} x2={x} y2={lastY} stroke={withAlpha('#FFFFFF', 0.07)} strokeWidth={1} />
-            <text x={x} y={row0Y - 18} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8 }}>
+            <line x1={x} y1={row0Y - 14} x2={x} y2={lastY} stroke={withAlpha('#FFFFFF', 0.07)} strokeWidth={1} />
+            <text x={x} y={row0Y - 22} textAnchor="middle" dominantBaseline="middle" fill={withAlpha('#FFFFFF', 0.4)} style={{ fontSize: 8 }}>
               {g}
             </text>
           </g>
@@ -331,10 +333,19 @@ export function BarChartView({ data }) {
       {data.map((c, i) => {
         const cy = row0Y + i * rowH;
         const w = wFor(c.percent);
+        const nameLines = lines(c.name);
+        const isMulti = nameLines.length > 1;
         return (
           <g key={c.key}>
             <text x={plotLeft - 10} y={cy} textAnchor="end" dominantBaseline="middle" fill={SOFT} style={{ fontSize: 9.5 }}>
-              {c.name}
+              {isMulti ? (
+                <>
+                  <tspan x={plotLeft - 10} dy="-0.55em">{nameLines[0]}</tspan>
+                  <tspan x={plotLeft - 10} dy="1.15em">{nameLines.slice(1).join(' ')}</tspan>
+                </>
+              ) : (
+                c.name
+              )}
             </text>
             {/* neutral track — design-system white, never a data color */}
             <rect x={plotLeft} y={cy - 5} width={trackW} height={10} rx={5} fill={withAlpha('#FFFFFF', 0.1)} />
@@ -483,7 +494,6 @@ export function BullseyeChartView({ data }) {
           const ny = cy + r * sinA;
           const isHover = hover === c.key;
           const nodeR = isHover ? 35 : 31;
-          const { line1, line2 } = formatNodeBadge(c);
 
           return (
             <g
@@ -492,62 +502,19 @@ export function BullseyeChartView({ data }) {
               onMouseEnter={() => setHover(c.key)}
               onMouseLeave={() => setHover(null)}
             >
-              {/* Circular badge container */}
+              {/* Node circle styled like bubble chart */}
               <motion.circle
                 cx={nx}
                 cy={ny}
                 r={nodeR}
-                fill={brand.ink[900]}
+                fill={withAlpha(c.color, 0.65)}
                 stroke={c.color}
-                strokeWidth={isHover ? 3 : 2.2}
+                strokeWidth={isHover ? 3 : 2}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.12 + i * 0.06, duration: 0.45, ease }}
                 style={{ transformOrigin: `${nx}px ${ny}px` }}
               />
-              <circle
-                cx={nx}
-                cy={ny}
-                r={nodeR}
-                fill={withAlpha(c.color, isHover ? 0.28 : 0.16)}
-                stroke="none"
-              />
-
-              {/* Title inside badge */}
-              <text
-                x={nx}
-                y={line2 ? ny - 10 : ny - 6}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#FFFFFF"
-                style={{ fontSize: line2 ? 8.2 : 9, fontWeight: 700, letterSpacing: '0.01em' }}
-              >
-                {line1}
-              </text>
-              {line2 && (
-                <text
-                  x={nx}
-                  y={ny - 2}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fill={withAlpha('#FFFFFF', 0.88)}
-                  style={{ fontSize: 7.8, fontWeight: 600 }}
-                >
-                  {line2}
-                </text>
-              )}
-
-              {/* Percentage score inside badge */}
-              <text
-                x={nx}
-                y={line2 ? ny + 11 : ny + 9}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill={c.color}
-                style={{ fontSize: 15, fontWeight: 800, letterSpacing: '0.02em' }}
-              >
-                {c.percent}%
-              </text>
             </g>
           );
         })}

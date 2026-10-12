@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useRef, useState } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import api, { setAdminTokenGetter } from './api/client.js';
 import AnimatedBackground from './components/AnimatedBackground.jsx';
@@ -44,6 +44,46 @@ import { applyServerResult, buildLocalQuestion, makeSnapshotResult, optionColorF
 
 const ease = [0.22, 1, 0.36, 1];
 const AboutScreenLazy = lazy(() => import('./screens/AboutScreen.jsx'));
+
+// Fallback shown while the code-split About chunk loads. A lazy component that
+// suspends without a Suspense boundary makes React throw ("a component
+// suspended while responding to synchronous input"), which unmounts the app and
+// leaves a blank page — so the boundary below is required, not just cosmetic.
+const aboutLoadingFallback = (
+  <div className="flex min-h-screen items-center justify-center bg-ink-900">
+    <p className="text-sm text-mist-muted">Loading…</p>
+  </div>
+);
+
+// A failed dynamic import (transient network error, or a stale hashed chunk
+// after a redeploy) rejects the lazy import. Without an error boundary that
+// rejection also blanks the whole app; this keeps the failure contained and
+// offers the reload that recovers it.
+class AboutScreenErrorBoundary extends Component {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error) {
+    console.error('About screen failed to load', error);
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-ink-900 px-6 text-center">
+          <p className="text-sm text-mist-muted">
+            The About page couldn’t load. This is usually temporary — please try again.
+          </p>
+          <PrimaryButton onClick={() => window.location.reload()}>Reload</PrimaryButton>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const STORAGE_KEY = 'byrgop_testing_session';
 
@@ -1298,23 +1338,29 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Lazy import - loaded from separate chunk */}
-            <AboutScreenLazy
-              onNavigateToLanding={handleLogoClickHome}
-              // The CTA now runs the SAME reset the logo does before switching
-              // to intro, and closes any open or pending Resume modal first.
-              // Previously this was just `setScreen('intro')`, which left
-              // onboarding state (introBusinessType, onboardingQuestions,
-              // result, answers, sessionId) and possibly an open Resume modal
-              // untouched. After a long stay on the About page those could
-              // drift — the Intro would mount over stale state, or under a
-              // still-visible Resume modal, and the user saw a blank screen.
-              onAssess={() => {
-                setKyResumeCandidate(null);
-                kyResumeCheckRef.current += 1;
-                handleLogoClickHome();
-              }}
-            />
+            {/* Lazy import - loaded from separate chunk. The Suspense boundary
+                covers the loading state and the error boundary covers a failed
+                chunk load, so a slow or failed chunk never blanks the app. */}
+            <AboutScreenErrorBoundary>
+              <Suspense fallback={aboutLoadingFallback}>
+                <AboutScreenLazy
+                  onNavigateToLanding={handleLogoClickHome}
+                  // The CTA now runs the SAME reset the logo does before switching
+                  // to intro, and closes any open or pending Resume modal first.
+                  // Previously this was just `setScreen('intro')`, which left
+                  // onboarding state (introBusinessType, onboardingQuestions,
+                  // result, answers, sessionId) and possibly an open Resume modal
+                  // untouched. After a long stay on the About page those could
+                  // drift — the Intro would mount over stale state, or under a
+                  // still-visible Resume modal, and the user saw a blank screen.
+                  onAssess={() => {
+                    setKyResumeCandidate(null);
+                    kyResumeCheckRef.current += 1;
+                    handleLogoClickHome();
+                  }}
+                />
+              </Suspense>
+            </AboutScreenErrorBoundary>
           </motion.div>
         )}
       </AnimatePresence>

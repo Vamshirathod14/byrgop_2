@@ -26,6 +26,22 @@ function SectionLabel({ children }) {
   );
 }
 
+function LogoutButton() {
+  const { logout } = useAuth();
+  return (
+    <button
+      type="button"
+      onClick={() => logout()}
+      aria-label="Log out"
+      title="Log out"
+      className="mt-2 flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-left text-sm text-mist transition-colors hover:border-red-200 hover:text-red-700"
+    >
+      <span className="w-4 text-base leading-none">↪</span>
+      <span className="truncate">Log out</span>
+    </button>
+  );
+}
+
 const accent = adminBrand.accent;
 
 export default function Layout({ active, onNavigate, children }) {
@@ -54,7 +70,6 @@ export default function Layout({ active, onNavigate, children }) {
     { key: 'analytics', label: 'Analytics', icon: '◔', show: can('dashboard.view') },
     { key: 'assessments', label: 'Assessments', icon: '▤', show: can('sessions.view') },
     { key: 'kySessions', label: 'KY Submissions', icon: '✦', show: can('contacts.view') },
-    { key: 'contacts', label: 'Contacts', icon: '✆', show: can('contacts.view') },
     { key: 'websiteContacts', label: 'Website Contacts', icon: '✉', show: can('contacts.view') },
     { key: 'businessTypes', label: 'KY Business Types', icon: '⬢', show: can('domains.view') },
     { key: 'domains', label: 'KY Domains', icon: '❖', show: can('domains.view') },
@@ -141,6 +156,7 @@ export default function Layout({ active, onNavigate, children }) {
         {buildNav(adminNav)}
       </nav>
       <div className="mt-4">{profileBlock}</div>
+      <LogoutButton />
     </>
   );
 
@@ -165,6 +181,7 @@ export default function Layout({ active, onNavigate, children }) {
             <button onClick={() => setMobileOpen(false)} className="text-mist-muted">✕</button>
           </div>
           <div className="mt-4">{profileBlock}</div>
+          <LogoutButton />
           <div className="mt-6">{buildNav([...mainNav, ...adminNav])}</div>
         </div>
       )}

@@ -7,7 +7,6 @@ import Dashboard from './pages/Dashboard.jsx';
 import Analytics from './pages/Analytics.jsx';
 import Sessions from './pages/Sessions.jsx';
 import KySessions from './pages/KySessions.jsx';
-import Contacts from './pages/Contacts.jsx';
 import WebsiteContacts from './pages/WebsiteContacts.jsx';
 import OnboardingQuestions from './pages/OnboardingQuestions.jsx';
 import KyRootWorkspace from './pages/KyRootWorkspace.jsx';
@@ -50,7 +49,6 @@ function Shell() {
       {can('dashboard.view') && section('analytics', <Analytics />)}
       {can('sessions.view') && section('assessments', <Sessions />)}
       {can('contacts.view') && section('kySessions', <KySessions />)}
-      {can('contacts.view') && section('contacts', <Contacts />)}
       {can('contacts.view') && section('websiteContacts', <WebsiteContacts />)}
       {can('questions.view') && section('onboardingQuestions', <OnboardingQuestions />)}
       {/* One KY Questions entry, holding all four roots/business types. */}
