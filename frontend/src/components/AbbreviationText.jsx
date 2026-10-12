@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { brand } from '../theme/brand.js';
 
@@ -9,43 +10,40 @@ function escapeRegExp(s) {
 /**
  * Interactive full-form tooltip for a single matched abbreviation.
  *
- * The tooltip is drawn with `position: fixed` using coordinates measured from
- * the abbreviation's own on-screen rectangle. Because fixed positioning is
- * relative to the viewport, no ancestor's `overflow: hidden` or `transform`
- * (the option button on the question screen, the framer-motion wrappers
- * around it) can clip it.
+ * The tooltip is rendered into `document.body` via a React portal. This is
+ * what makes `position: fixed` truly viewport-relative: without the portal,
+ * a `transform` on any ancestor (the option `<motion.button>`, the
+ * framer-motion wrappers around it) makes the browser resolve "fixed"
+ * against that ancestor instead of the viewport, which is why the tooltip
+ * was landing off on the right side of the screen.
  *
- * Positioning:
- *   - The bubble's LEFT edge is aligned with the abbreviation's left edge,
- *     so it opens rightward and never gets pushed off the right of the card.
- *   - A generous right margin is kept so the card never touches the viewport
- *     edge. If the bubble would spill past that margin, it shifts left as a
- *     whole so its right edge keeps the margin.
- *   - Vertically, it prefers to sit above the term; flips below if there is
- *     no room above.
+ * Positioning is responsive:
+ *   - Mobile (< 640px): bubble's left edge aligned to the term, opens
+ *     rightward, wide right margin, flip-below fallback.
+ *   - Desktop (>= 640px): bubble centred exactly on the BULB icon so it
+ *     pops directly above the bulb wherever the mouse is.
  */
 function AbbreviationTerm({ term, entry }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState(null);
   const termRef = useRef(null);
+  const bulbRef = useRef(null);
   const bubbleRef = useRef(null);
 
   const fullText = `${term} — ${entry?.fullForm || ''}`;
 
   const computePos = () => {
-    if (!termRef.current) return;
-    const r = termRef.current.getBoundingClientRect();
+    if (!termRef.current || !bulbRef.current) return;
+    const rTerm = termRef.current.getBoundingClientRect();
+    const rBulb = bulbRef.current.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     const GAP = 8;
 
-    // Left margin: small (the term edge is the anchor).
-    const EDGE_LEFT = 12;
-    // Right margin: larger, so the card visibly clears the right edge of
-    // the viewport and the option card, instead of touching them.
-    const EDGE_RIGHT = 24;
+    const isMobile = vw < 640;
+    const EDGE_LEFT = isMobile ? 12 : 16;
+    const EDGE_RIGHT = isMobile ? 24 : 16;
 
-    // Bubble width: measure it once rendered, otherwise use a sensible guess.
     const bw = bubbleRef.current
       ? bubbleRef.current.getBoundingClientRect().width
       : Math.min(300, vw - EDGE_LEFT - EDGE_RIGHT);
@@ -53,25 +51,28 @@ function AbbreviationTerm({ term, entry }) {
       ? bubbleRef.current.getBoundingClientRect().height
       : 48;
 
-    // Horizontal: start from the left edge of the term so the bubble opens
-    // rightward. If that would push the bubble past the right margin, shift
-    // the whole bubble left so its right edge keeps that margin.
-    let x = r.left;
-    if (x + bw > vw - EDGE_RIGHT) x = vw - EDGE_RIGHT - bw;
-    // Never let the left edge go past the left margin either.
-    if (x < EDGE_LEFT) x = EDGE_LEFT;
+    let x;
+    if (isMobile) {
+      x = rTerm.left;
+      if (x + bw > vw - EDGE_RIGHT) x = vw - EDGE_RIGHT - bw;
+      if (x < EDGE_LEFT) x = EDGE_LEFT;
+    } else {
+      // Desktop: centre on the bulb.
+      const bulbCenter = rBulb.left + rBulb.width / 2;
+      x = bulbCenter - bw / 2;
+      if (x + bw > vw - EDGE_RIGHT) x = vw - EDGE_RIGHT - bw;
+      if (x < EDGE_LEFT) x = EDGE_LEFT;
+    }
 
-    // Vertical: prefer above the term; flip below if there is not enough
-    // room above and more room below.
-    const spaceAbove = r.top - GAP;
-    const spaceBelow = vh - r.bottom - GAP;
+    const spaceAbove = rTerm.top - GAP;
+    const spaceBelow = vh - rTerm.bottom - GAP;
     const showBelow = spaceAbove < bh && spaceBelow > spaceAbove;
 
     let y;
     if (showBelow) {
-      y = Math.min(r.bottom + GAP, vh - EDGE_LEFT - bh);
+      y = Math.min(rTerm.bottom + GAP, vh - EDGE_LEFT - bh);
     } else {
-      y = Math.max(r.top - GAP - bh, EDGE_LEFT);
+      y = Math.max(rTerm.top - GAP - bh, EDGE_LEFT);
     }
 
     setPos({ x, y, showBelow });
@@ -80,9 +81,6 @@ function AbbreviationTerm({ term, entry }) {
   useEffect(() => {
     if (!open) return;
     computePos();
-
-    // Second measurement pass after the bubble paints, so its real width /
-    // height are used for the final clamp.
     const raf = requestAnimationFrame(() => computePos());
 
     const onDocPointer = (e) => {
@@ -108,6 +106,40 @@ function AbbreviationTerm({ term, entry }) {
       window.removeEventListener('resize', onMove);
     };
   }, [open]);
+
+  // The tooltip JSX. Rendered via portal so it lives at document.body.
+  const bubble = (
+    <AnimatePresence>
+      {open && pos && (
+        <motion.div
+          ref={bubbleRef}
+          data-glossary-tooltip="true"
+          data-testid="glossary-tooltip"
+          data-abbr={term}
+          initial={{ opacity: 0, y: pos.showBelow ? -4 : 4, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: pos.showBelow ? -4 : 4, scale: 0.97 }}
+          transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-none fixed z-[9999] block rounded-xl border border-white/15 bg-ink-850/98 px-4 py-2.5 text-left shadow-card backdrop-blur-md"
+          style={{
+            left: pos.x,
+            top: pos.y,
+            maxWidth: 'min(20rem, calc(100vw - 2.5rem))',
+            width: 'max-content',
+            whiteSpace: 'normal',
+            overflowWrap: 'break-word',
+          }}
+        >
+          <span
+            className="font-bodoni block text-sm leading-snug font-semibold"
+            style={{ color: brand.premiumWhite.bright }}
+          >
+            {fullText}
+          </span>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <span
@@ -136,6 +168,7 @@ function AbbreviationTerm({ term, entry }) {
       <span>{term}</span>
 
       <svg
+        ref={bulbRef}
         aria-hidden="true"
         viewBox="0 0 24 24"
         className="inline-block shrink-0 transition-colors duration-200"
@@ -156,39 +189,10 @@ function AbbreviationTerm({ term, entry }) {
         <path d="M12 3a6 6 0 0 0-4 10.5c.7.65 1 1.5 1 2.5v.5h6V16c0-1 .3-1.85 1-2.5A6 6 0 0 0 12 3z" />
       </svg>
 
-      <AnimatePresence>
-        {open && pos && (
-          <motion.span
-            ref={bubbleRef}
-            data-glossary-tooltip="true"
-            data-testid="glossary-tooltip"
-            data-abbr={term}
-            initial={{ opacity: 0, y: pos.showBelow ? -4 : 4, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: pos.showBelow ? -4 : 4, scale: 0.97 }}
-            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-none fixed z-[90] block rounded-xl border border-white/15 bg-ink-850/98 px-4 py-2.5 text-left shadow-card backdrop-blur-md"
-            style={{
-              left: pos.x,
-              top: pos.y,
-              // A comfortable maximum width that already leaves room on both
-              // sides of the viewport, so the card never sits flush against
-              // either edge.
-              maxWidth: 'min(20rem, calc(100vw - 2.5rem))',
-              width: 'max-content',
-              whiteSpace: 'normal',
-              overflowWrap: 'break-word',
-            }}
-          >
-            <span
-              className="font-bodoni block text-sm leading-snug font-semibold"
-              style={{ color: brand.premiumWhite.bright }}
-            >
-              {fullText}
-            </span>
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {/* Portal: the tooltip lives at document.body, so fixed positioning is
+          resolved against the real viewport, not against any transformed
+          ancestor on the page. */}
+      {typeof document !== 'undefined' && createPortal(bubble, document.body)}
     </span>
   );
 }

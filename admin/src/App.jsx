@@ -9,7 +9,6 @@ import Sessions from './pages/Sessions.jsx';
 import KySessions from './pages/KySessions.jsx';
 import Contacts from './pages/Contacts.jsx';
 import WebsiteContacts from './pages/WebsiteContacts.jsx';
-import Visitors from './pages/Visitors.jsx';
 import OnboardingQuestions from './pages/OnboardingQuestions.jsx';
 import KyRootWorkspace from './pages/KyRootWorkspace.jsx';
 import KYQuestionsArea from './pages/KYQuestionsArea.jsx';
@@ -53,7 +52,6 @@ function Shell() {
       {can('contacts.view') && section('kySessions', <KySessions />)}
       {can('contacts.view') && section('contacts', <Contacts />)}
       {can('contacts.view') && section('websiteContacts', <WebsiteContacts />)}
-      {can('contacts.view') && section('visitors', <Visitors />)}
       {can('questions.view') && section('onboardingQuestions', <OnboardingQuestions />)}
       {/* One KY Questions entry, holding all four roots/business types. */}
       {(can('questions.view') || can('results.manage')) && section('kyQuestions', <KYQuestionsArea />)}

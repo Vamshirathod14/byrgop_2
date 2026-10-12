@@ -167,10 +167,6 @@ export const api = {
 
   // Website (general) contacts
   websiteContacts: () => request('/admin/contacts'),
-
-  // Visitors (12th Anniversary)
-  visitors: (params = '') => request(`/admin/visitors${params}`),
-  getVisitor: (visitorId) => request(`/admin/visitors/${encodeURIComponent(visitorId)}`),
 };
 
 export default api;
