@@ -831,15 +831,15 @@ export default function KnowYourselfResult({
               {reportDone ? 'UPDATE DETAILS' : 'Yes'}
             </span>
           </PrimaryButton>
-          <p className="font-bodoni mt-2 text-[11px]" style={{ color: premiumWhite.soft }}>
-            {reportDone
-              ? reportEmailStatus === 'sent'
+          {reportDone && (
+            <p className="font-bodoni mt-2 text-[11px]" style={{ color: premiumWhite.soft }}>
+              {reportEmailStatus === 'sent'
                 ? `We've emailed the full 3-page report to ${reportExisting?.email ? `the address provided` : 'your address'}.`
                 : reportEmailStatus === 'failed'
                   ? "We couldn't email the report right now — our team will reach out."
-                  : "We'll send it to the address you provided."
-              : "We'll send it to the address you provide below."}
-          </p>
+                  : "We'll send it to the address you provided."}
+            </p>
+          )}
         </div>
 
         <div className="mt-6 flex justify-center">
