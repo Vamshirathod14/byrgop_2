@@ -152,16 +152,13 @@ export default function DomainSelectionScreen({
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="flex w-full flex-col items-center mb-8 sm:mb-10"
         >
-          {/* Heading — brought down to a comfortable size. Two steps below
-              the previous too-large scale (was text-3xl / sm:text-4xl /
-              md:text-5xl / lg:text-6xl), which read too heavy with Bodoni
-              Moda. The word "Domain" still carries the same gold shine sweep
-              as the "Snapshot" word. */}
+          {/* Heading — "Sector" replaces "Business" throughout.
+              The word "Domain" still carries the gold shine sweep. */}
           <h1
             className="font-bodoni w-full text-center text-xl font-bold leading-tight sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.02em] px-2 break-words"
             style={{ color: premiumWhite.bright }}
           >
-            {isChange ? 'Change Your Business' : 'Select Your Business'}{' '}
+            {isChange ? 'Change Your Sector' : 'Select Your Sector'}{' '}
             <span
               className="font-bodoni font-semibold shine-text whitespace-nowrap"
               style={{ color: TIMER_GOLD }}
@@ -173,7 +170,7 @@ export default function DomainSelectionScreen({
             <button
               type="button"
               onClick={onBack}
-              title="Change business type"
+              title="Change sector type"
               className="mx-auto mt-3 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-center text-xs font-medium transition-colors hover:border-white/30 sm:px-4"
               style={{ color: premiumWhite.soft }}
             >
@@ -204,7 +201,7 @@ export default function DomainSelectionScreen({
             </div>
           )}
 
-          {/* Coming Soon (assessment not available for this business type yet) */}
+          {/* Coming Soon (assessment not available for this sector type yet) */}
           {status === STATUS.comingSoon && (
             <motion.div
               initial={{ opacity: 0, scale: 0.99 }}
@@ -226,7 +223,7 @@ export default function DomainSelectionScreen({
                 {businessType?.label || 'This'} assessment is coming soon.
               </h2>
               <p className="font-bodoni mt-3 max-w-md text-sm leading-relaxed sm:text-base" style={{ color: premiumWhite.warm }}>
-                The Know Yourself assessment for {businessType?.label || 'this'} businesses
+                The Know Yourself assessment for {businessType?.label || 'this'} sectors
                 isn&rsquo;t available yet — we&rsquo;re currently preparing it.
               </p>
               <button
@@ -236,7 +233,7 @@ export default function DomainSelectionScreen({
                 style={{ color: premiumWhite.bright }}
               >
                 <span aria-hidden="true">←</span>
-                {isChange ? 'Back to Questions' : 'Back to Business Type'}
+                {isChange ? 'Back to Questions' : 'Back to Sector Type'}
               </button>
             </motion.div>
           )}
