@@ -12,12 +12,19 @@ body,
   height: 100%;
 }
 
+/* Override Tailwind's preflight sans stack on the document root so the
+   computed font-family is Bodoni Moda everywhere, not just on <body>. */
+html {
+  font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  font-optical-sizing: auto;
+}
+
 body {
   margin: 0;
   /* ONE FONT — the entire site renders in Bodoni Moda (a high-contrast Didone
-     serif). Inter stays as the fallback for UI glyphs and dense numerals,
-     and a generic serif is the last resort. */
-  font-family: 'Bodoni Moda', 'Inter', Georgia, 'Times New Roman', serif;
+     serif). Georgia / Times New Roman are metric-close serif fallbacks used
+     only if the webfont fails to load, so the page never drops to a sans face. */
+  font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
   background: #0a0e16;
   color: #f6f7fa;
   overflow-x: hidden;
@@ -25,6 +32,18 @@ body {
   /* Bodoni Moda ships a variable optical-size axis — leaving this on lets the
      high-contrast strokes balance themselves at every rendered size, so the
      thin hairlines stay visible on small UI text as well as on large headings. */
+  font-optical-sizing: auto;
+}
+
+/* Native form controls do not inherit the page font in every browser; force
+   them onto Bodoni Moda so inputs, textareas, selects and buttons match the
+   rest of the site (their text sizes still come from the utility classes). */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
   font-optical-sizing: auto;
 }
 
@@ -117,10 +136,10 @@ body {
      listed first as a courtesy in case the browser tries a Latin fallback
      for a mixed-script string. */
   .font-script-te {
-    font-family: 'Noto Sans Telugu', 'Bodoni Moda', 'Inter', system-ui, sans-serif;
+    font-family: 'Noto Sans Telugu', 'Bodoni Moda', system-ui, sans-serif;
   }
   .font-script-hi {
-    font-family: 'Noto Sans Devanagari', 'Bodoni Moda', 'Inter', system-ui, sans-serif;
+    font-family: 'Noto Sans Devanagari', 'Bodoni Moda', system-ui, sans-serif;
   }
   .text-balance {
     text-wrap: balance;

@@ -485,7 +485,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                         <div className="flex items-center justify-between border-b border-white/10 pb-2">
                           <h4 className="font-bodoni text-lg sm:text-xl font-bold">
                             <span className="shine-gold-text font-bold">Paradise Tanager</span>{' '}
-                            <span className="font-bodoni text-sm sm:text-base font-normal text-slate-300 italic">(Tangara chilensis)</span>
+                            <span className="font-bodoni text-sm sm:text-base font-normal text-slate-300">(Tangara chilensis)</span>
                           </h4>
                           <button
                             type="button"
@@ -944,7 +944,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                   Early-stage SMEs, social enterprises, non-profits, women-led ventures, and startup founders.
                 </p>
               </div>
-              <p className="font-bodoni text-xs sm:text-sm text-white/70 italic shrink-0">
+              <p className="font-bodoni text-xs sm:text-sm text-white/70 shrink-0">
                 Limited slots per quarter • Reach out below to inquire
               </p>
             </div>
@@ -1228,12 +1228,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
 
       {/* Shimmer & Shine Styles + Bodoni Moda font utility */}
       <style>{`
-        /* Bodoni Moda — loaded locally on this page so the whole screen renders
-           in it, without touching the global font stacks (font-display stays
-           Cormorant Garamond everywhere else). Optical sizing is left
-           automatic so the high-contrast strokes stay balanced at every size. */
+        /* Bodoni Moda is the site-wide font; this page-local copy keeps the
+           lazy-loaded About screen correct regardless of stylesheet load order.
+           Optical sizing is automatic so the high-contrast strokes stay
+           balanced at every size. */
         .font-bodoni {
-          font-family: 'Bodoni Moda', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
           font-optical-sizing: auto;
           font-feature-settings: 'lnum' 1, 'pnum' 1;
         }

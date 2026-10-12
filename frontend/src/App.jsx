@@ -39,6 +39,7 @@ import {
   resultActionLabelFor,
   resultHeadingLabelFor,
 } from './lib/kyFlow.js';
+import { createSession, isSessionExpired, sessionRemainingMs } from './lib/sessionExpiry.js';
 import { brand } from './theme/brand.js';
 import { applyServerResult, buildLocalQuestion, makeSnapshotResult, optionColorFrom, optionStageFrom, kyKeyForOnboardingKey, onboardingKeyFor, onboardingQuestionsFromConfig } from './onboarding.js';
 
@@ -117,6 +118,9 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminToken, setAdminToken] = useState(null);
+  // Absolute epoch-ms deadline for the current session: exactly six hours
+  // after login, persisted so a refresh never resets it.
+  const [sessionExpiresAt, setSessionExpiresAt] = useState(null);
 
   // ─── Onboarding state ───────────────────────────────────
   const [screen, setScreen] = useState('intro');
@@ -138,14 +142,19 @@ export default function App() {
   const [introBusinessType, setIntroBusinessType] = useState(null);
   const [onboardingQuestions, setOnboardingQuestions] = useState([]);
 
-  // Restore session on mount
+  // Restore session on mount. The saved session carries a fixed deadline; an
+  // expired one (or one predating the rule) is cleared so the user must log in
+  // again rather than being restored.
   useEffect(() => {
     const session = loadSession();
-    if (session) {
+    if (session && !isSessionExpired(session)) {
       setIsLoggedIn(true);
       setCurrentUser(session.user);
       setIsAdmin(session.isAdmin || false);
       if (session.adminToken) setAdminToken(session.adminToken);
+      setSessionExpiresAt(session.expiresAt);
+    } else if (session) {
+      clearSession();
     }
   }, []);
 
@@ -165,20 +174,24 @@ export default function App() {
   }, []);
 
   const handleLogin = useCallback((username) => {
+    const session = createSession({ user: username, isAdmin: false });
     setIsLoggedIn(true);
     setCurrentUser(username);
     setIsAdmin(false);
     setAdminToken(null);
-    saveSession({ user: username, isAdmin: false });
+    setSessionExpiresAt(session.expiresAt);
+    saveSession(session);
     setScreen('intro');
   }, []);
 
   const handleAdminLogin = useCallback((token, admin) => {
+    const session = createSession({ user: admin.email, isAdmin: true, adminToken: token });
     setIsLoggedIn(true);
     setCurrentUser(admin.email);
     setIsAdmin(true);
     setAdminToken(token);
-    saveSession({ user: admin.email, isAdmin: true, adminToken: token });
+    setSessionExpiresAt(session.expiresAt);
+    saveSession(session);
     // Admin goes to dashboard - for now redirect to intro, but ideally to admin dashboard
     setScreen('intro');
   }, []);
@@ -189,6 +202,7 @@ export default function App() {
     setIsAdmin(false);
     setAdminToken(null);
     clearSession();
+    setSessionExpiresAt(null);
     // Reset all app state
     setScreen('intro');
     setBeginLoading(false);
@@ -220,6 +234,32 @@ export default function App() {
     suppressResumeRef.current = false;
     resumeCheckRanRef.current = false;
   }, []);
+
+  // Enforce the fixed six-hour deadline while the app is open. The timeout is
+  // always derived from the persisted deadline (never from activity), so
+  // navigating or interacting cannot extend it. A background tab whose timer
+  // fires late is caught on the next visibility/focus change.
+  useEffect(() => {
+    if (!isLoggedIn || !sessionExpiresAt) return undefined;
+    const remaining = sessionRemainingMs({ expiresAt: sessionExpiresAt });
+    if (remaining <= 0) {
+      handleLogout();
+      return undefined;
+    }
+    const timer = setTimeout(() => handleLogout(), remaining);
+    const check = () => {
+      if (sessionRemainingMs({ expiresAt: sessionExpiresAt }) <= 0) handleLogout();
+    };
+    document.addEventListener('visibilitychange', check);
+    window.addEventListener('focus', check);
+    window.addEventListener('pageshow', check);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('visibilitychange', check);
+      window.removeEventListener('focus', check);
+      window.removeEventListener('pageshow', check);
+    };
+  }, [isLoggedIn, sessionExpiresAt, handleLogout]);
 
   // The three onboarding questions are shown straight from memory the instant
   // the user taps "Let's Begin" — nothing waits on the network. In the

@@ -145,19 +145,22 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="flex w-full flex-col items-center mb-8 sm:mb-10"
         >
-          {/* Heading — kept on ONE line at every breakpoint, including mobile.
-              Bodoni Moda is a wide face, so the sizes are tuned small enough
-              that "Select Your Business Type" / "Change Your Business Type"
-              fit on a phone screen without wrapping. whitespace-nowrap forces
-              a single line; the surrounding div is full width so the text has
-              the widest column available. */}
-          <h1 
-            className="font-bodoni w-full max-w-full text-center text-lg font-bold leading-tight whitespace-nowrap sm:text-2xl md:text-3xl lg:text-[2.75rem] tracking-[-0.02em] px-1"
-            style={{ color: premiumWhite.bright }}
+          {/* Heading — "Change Your Sector Type" / "Select Your Sector Type"
+              stay on ONE line at every breakpoint. Sized so the longer phrase
+              fits a 360px phone in Bodoni Moda. */}
+          <h1
+            className="font-bodoni w-full max-w-full text-center text-xl font-bold leading-tight whitespace-nowrap sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.01em] px-2"
+            style={{
+              color: premiumWhite.bright,
+              textShadow: '0 2px 20px rgba(0,0,0,0.5)',
+            }}
           >
-            {isChange ? 'Change Your' : 'Select Your'}{' '}
-            <span className="font-bodoni font-bold shine-gold-text tracking-normal" style={{ color: brand.accent }}>
-              Business Type
+            {isChange ? 'Change Your ' : 'Select Your '}
+            <span
+              className="font-bodoni font-bold shine-gold-text tracking-normal"
+              style={{ color: brand.accent }}
+            >
+              Sector Type
             </span>
           </h1>
           {isChange && onBack && (
@@ -206,7 +209,14 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
                 style={isSel ? { borderColor: accent, boxShadow: `0 0 32px ${accent}33` } : undefined}
               >
                 <div className="flex flex-col items-center">
-                  <h2 className="font-bodoni text-xl font-semibold sm:text-2xl" style={{ color: premiumWhite.bright }}>
+                  {/* Card label — font size reduced so the cards read as
+                      supporting options under the heading, not as loud as
+                      the heading itself. Weight also stepped down from
+                      semibold to medium for the same reason. */}
+                  <h2
+                    className="font-bodoni text-sm font-medium sm:text-base md:text-lg"
+                    style={{ color: premiumWhite.bright }}
+                  >
                     {bt.label}
                   </h2>
                 </div>
@@ -218,7 +228,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
                   <motion.span
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold sm:right-5 sm:top-5"
+                    className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold sm:right-4 sm:top-4 sm:h-6 sm:w-6 sm:text-xs"
                     style={{ background: `${accent}26`, color: accent }}
                   >
                     ✓
@@ -246,7 +256,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
           </PrimaryButton>
           {!selected && businessTypes && (
             <p className="font-bodoni text-xs text-center" style={{ color: premiumWhite.soft }}>
-              Select a business type to continue.
+              Select a Sector type to continue.
             </p>
           )}
         </motion.div>
