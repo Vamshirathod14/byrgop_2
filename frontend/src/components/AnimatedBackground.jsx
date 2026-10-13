@@ -4,7 +4,7 @@ import { brand } from '../theme/brand.js';
 export default function AnimatedBackground() {
   const { purple, blue, orange, yellow } = brand.palette;
   return (
-    <div className="font-bodoni fixed inset-0 -z-10 overflow-hidden bg-ink-900">
+    <div className="font-fraunces fixed inset-0 -z-10 overflow-hidden bg-ink-900">
       <motion.div
         className="absolute -top-40 -left-32 h-[36rem] w-[36rem] rounded-full blur-[130px]"
         style={{ background: `${purple[500]}1f` }}

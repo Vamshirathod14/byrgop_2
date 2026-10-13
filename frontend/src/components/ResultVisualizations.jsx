@@ -88,7 +88,7 @@ function ChartFrame({ label, children, width = VW, height = VH }) {
       transition={{ duration: 0.35, ease }}
       className="mx-auto flex h-full w-full items-center justify-center"
     >
-      <svg viewBox={`0 0 ${width} ${height}`} className="font-bodoni max-h-full max-w-full w-full h-auto mx-auto" role="img" aria-label={label}>
+      <svg viewBox={`0 0 ${width} ${height}`} className="font-fraunces max-h-full max-w-full w-full h-auto mx-auto" role="img" aria-label={label}>
         {children}
       </svg>
     </motion.div>
@@ -106,11 +106,11 @@ function HoverTip({ x, y, c, vw = VW, vh = VH }) {
       className="pointer-events-none absolute z-10 -translate-x-1/2 whitespace-nowrap rounded-xl border border-white/10 bg-ink-850/95 px-3.5 py-2 shadow-card backdrop-blur-md"
       style={{ left: `${(x / vw) * 100}%`, top: `${(y / vh) * 100}%`, marginTop: '-2.6rem' }}
     >
-      <p className="font-bodoni flex items-center gap-2 text-sm font-semibold" style={{ color: SOFT }}>
+      <p className="font-fraunces flex items-center gap-2 text-sm font-semibold" style={{ color: SOFT }}>
         <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: c.color }} />
         {c.name}
       </p>
-      <p className="font-bodoni text-right text-base font-bold tabular-nums" style={{ color: c.color }}>
+      <p className="font-fraunces text-right text-base font-bold tabular-nums" style={{ color: c.color }}>
         {c.percent}%
       </p>
     </motion.div>
@@ -149,7 +149,7 @@ export function VisualizationSelector({ value, onChange }) {
                   }
                 : undefined
             }
-            className={`font-bodoni rounded-xl px-2.5 sm:px-5 md:px-6 py-1.5 sm:py-2 md:py-2.5 text-xs sm:text-sm md:text-base font-bold tracking-wide transition-all duration-200 ${
+            className={`font-fraunces rounded-xl px-2.5 sm:px-5 md:px-6 py-1.5 sm:py-2 md:py-2.5 text-xs sm:text-sm md:text-base font-bold tracking-wide transition-all duration-200 ${
               active
                 ? ''
                 : 'text-mist-muted hover:bg-white/5 hover:text-mist'

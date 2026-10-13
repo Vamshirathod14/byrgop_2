@@ -143,13 +143,13 @@ export default function DisclaimerScreen({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -165,7 +165,7 @@ export default function DisclaimerScreen({
           transition={{ duration: 0.8, delay: 0.2, ease }}
           className="text-center mb-8"
         >
-          <h2 className="font-bodoni text-2xl sm:text-3xl font-bold" style={{ color: premiumWhite.bright }}>
+          <h2 className="font-fraunces text-2xl sm:text-3xl font-bold" style={{ color: premiumWhite.bright }}>
             {content.screenTitle}
           </h2>
         </motion.div>
@@ -180,11 +180,11 @@ export default function DisclaimerScreen({
             whileHover={{ scale: 1.01, y: -2 }}
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 flex flex-col transition-all duration-300 hover:border-red-500/50 hover:bg-red-500/[0.05]"
           >
-            <h3 className="font-bodoni text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
+            <h3 className="font-fraunces text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
               {content.terms.title}
             </h3>
             <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
-              <p className="font-bodoni">
+              <p className="font-fraunces">
                 <RichText text={content.terms.body} />
               </p>
             </div>
@@ -196,7 +196,7 @@ export default function DisclaimerScreen({
                   onChange={(e) => setDisclaimerAccepted(e.target.checked)}
                   className="mt-1 h-5 w-5 shrink-0 rounded border-white/20 bg-white/5 accent-[#C68505] cursor-pointer"
                 />
-                <span className="font-bodoni text-sm" style={{ color: premiumWhite.warm }}>
+                <span className="font-fraunces text-sm" style={{ color: premiumWhite.warm }}>
                   I reviewed and accept the Disclaimer.
                 </span>
               </label>
@@ -212,11 +212,11 @@ export default function DisclaimerScreen({
             whileHover={{ scale: 1.01, y: -2 }}
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 flex flex-col transition-all duration-300 hover:border-green-500/50 hover:bg-green-500/[0.05]"
           >
-            <h3 className="font-bodoni text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
+            <h3 className="font-fraunces text-base sm:text-lg font-semibold mb-3 text-center" style={{ color: premiumWhite.bright }}>
               {ABOUT_PAD.title}
             </h3>
             <div className="flex-1 space-y-3 text-xs sm:text-sm leading-relaxed" style={{ color: premiumWhite.warm }}>
-              <p className="font-bodoni">
+              <p className="font-fraunces">
                 <RichText text={ABOUT_PAD.body} />
               </p>
             </div>
@@ -233,7 +233,7 @@ export default function DisclaimerScreen({
           {/* Go Back - Left on desktop, Bottom on mobile. Permanent gold shine. */}
           <PrimaryButton
             onClick={onDecline}
-            className="disclaimer-shine-btn font-bodoni w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-2 sm:order-1"
+            className="disclaimer-shine-btn font-fraunces w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-2 sm:order-1"
             style={{ 
               background: brand.accent,
               color: '#0A0D16',
@@ -249,7 +249,7 @@ export default function DisclaimerScreen({
           <PrimaryButton
             onClick={handleContinue}
             disabled={!canContinue}
-            className={`disclaimer-shine-btn font-bodoni w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-1 sm:order-2 ${
+            className={`disclaimer-shine-btn font-fraunces w-full sm:w-auto min-w-[8rem] px-6 py-3 text-base font-bold tracking-[0.05em] overflow-hidden order-1 sm:order-2 ${
               canContinue ? '' : 'disclaimer-shine-off'
             }`}
             style={{ 

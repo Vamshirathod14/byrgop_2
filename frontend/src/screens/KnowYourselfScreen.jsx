@@ -313,10 +313,10 @@ export default function KnowYourselfScreen({
                 transition={{ duration: 0.55, ease }}
                 className="flex w-full flex-col items-center"
               >
-                {/* Question text — Bodoni Moda (font-bodoni). Size reduced by
+                {/* Question text — Fraunces (font-fraunces). Size reduced by
                     one step at every breakpoint so a long question fits in
                     fewer lines. */}
-                <h1 className="font-bodoni mb-3 sm:mb-4 text-balance text-center text-base font-semibold leading-snug sm:text-lg md:text-xl lg:text-2xl tracking-[-0.01em]" style={{ color: premiumWhite.bright }}>
+                <h1 className="font-fraunces mb-3 sm:mb-4 text-balance text-center text-base font-semibold leading-snug sm:text-lg md:text-xl lg:text-2xl tracking-[-0.01em]" style={{ color: premiumWhite.bright }}>
                   <AbbreviationText text={question.text} glossary={glossary} />
                 </h1>
 
@@ -356,8 +356,8 @@ export default function KnowYourselfScreen({
                         >
                           {LETTERS[i]}
                         </span>
-                        {/* Answer option text — Bodoni Moda (font-bodoni). */}
-                        <span className={`font-bodoni flex-1 text-sm leading-relaxed sm:text-base ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
+                        {/* Answer option text — Fraunces (font-fraunces). */}
+                        <span className={`font-fraunces flex-1 text-sm leading-relaxed sm:text-base ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
                           <AbbreviationText text={opt.text} glossary={glossary} />
                         </span>
                         {isSel && (
@@ -439,9 +439,9 @@ export default function KnowYourselfScreen({
               transition={{ duration: 0.55, ease }}
               className="flex w-full flex-col items-center"
             >
-              {/* Question text — Bodoni Moda (font-bodoni). Size reduced so
+              {/* Question text — Fraunces (font-fraunces). Size reduced so
                   the question fits in fewer lines on a phone. */}
-              <h1 className="font-bodoni mb-3 text-balance text-center text-sm font-semibold leading-snug" style={{ color: premiumWhite.bright }}>
+              <h1 className="font-fraunces mb-3 text-balance text-center text-sm font-semibold leading-snug" style={{ color: premiumWhite.bright }}>
                 <AbbreviationText text={question.text} glossary={glossary} />
               </h1>
 
@@ -481,8 +481,8 @@ export default function KnowYourselfScreen({
                       >
                         {LETTERS[i]}
                       </span>
-                      {/* Answer option text — Bodoni Moda (font-bodoni). */}
-                      <span className={`font-bodoni flex-1 text-sm leading-relaxed ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
+                      {/* Answer option text — Fraunces (font-fraunces). */}
+                      <span className={`font-fraunces flex-1 text-sm leading-relaxed ${isSel ? 'text-mist' : 'text-mist-warm'}`} style={{ color: isSel ? premiumWhite.bright : premiumWhite.warm }}>
                         <AbbreviationText text={opt.text} glossary={glossary} />
                       </span>
                       {isSel && (
@@ -594,10 +594,10 @@ export default function KnowYourselfScreen({
           color: inherit;
         }
 
-        /* Bodoni Moda is the site-wide font. Optical sizing is left automatic
+        /* Fraunces is the site-wide font. Optical sizing is left automatic
            so the high-contrast strokes stay balanced at every heading size. */
-        .font-bodoni {
-          font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+        .font-fraunces {
+          font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
           font-optical-sizing: auto;
           font-feature-settings: 'lnum' 1, 'pnum' 1;
         }

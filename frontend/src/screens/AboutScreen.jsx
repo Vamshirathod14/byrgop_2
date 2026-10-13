@@ -356,7 +356,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
   };
 
   return (
-    <div className="about-page relative flex min-h-screen flex-col overflow-hidden bg-page font-bodoni">
+    <div className="about-page relative flex min-h-screen flex-col overflow-hidden bg-page font-fraunces">
       {/* Top gradient line */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -407,13 +407,13 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -483,9 +483,9 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
 
                       <div className="space-y-2.5 pt-1">
                         <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                          <h4 className="font-bodoni text-lg sm:text-xl font-bold">
+                          <h4 className="font-fraunces text-lg sm:text-xl font-bold">
                             <span className="shine-gold-text font-bold">Paradise Tanager</span>{' '}
-                            <span className="font-bodoni text-sm sm:text-base font-normal text-slate-300">(Tangara chilensis)</span>
+                            <span className="font-fraunces text-sm sm:text-base font-normal text-slate-300">(Tangara chilensis)</span>
                           </h4>
                           <button
                             type="button"
@@ -501,7 +501,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                             </svg>
                           </button>
                         </div>
-                        <p className="font-bodoni text-base sm:text-lg md:text-[19px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+                        <p className="font-fraunces text-base sm:text-lg md:text-[19px] leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
                           BYRGOP selected the Paradise Tanager (Tangara chilensis) as its mascot to embody strategic elevation, agility, and engineered survival in business. While the jungle floor represents the chaotic firefighting and margin erosion that trap many SME founders, the tanager thrives eighty feet above in the Amazon canopy through unflinching clarity, zero wasted motion, and precision. The bird&rsquo;s brilliant, six-color plumage serves not as ornament, but as an integrated blueprint directly aligning with BYRGOP&rsquo;s core pillars: Cerulean Blue for foundational initiation and balance, Golden Yellow for illuminating due diligence, Scarlet Red for urgent bottleneck analysis, Apple Green for visionary growth recommendations, Warm Amber/Orange for high-velocity execution and lean implementation, and Royal Purple for long-term profit governance and stewardship. Ultimately, the Paradise Tanager personifies the philosophy that true enterprise profitability is never an accident, but rather survival and scalable growth engineered through synchronized structural pillars.
                         </p>
                       </div>
@@ -514,13 +514,13 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             {/* Right Side: What Is Business Profit Architecture? */}
             <div className="md:col-span-7 flex flex-col justify-center space-y-4 text-left">
               <div>
-                <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+                <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                   What Is Business Profit Architecture?
                 </h2>
               </div>
               
               <div
-                className="space-y-3.5 font-bodoni text-base sm:text-lg md:text-[18px] leading-relaxed font-normal"
+                className="space-y-3.5 font-fraunces text-base sm:text-lg md:text-[18px] leading-relaxed font-normal"
                 style={{ color: premiumWhite.warm }}
               >
                 <p>
@@ -547,10 +547,10 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
               />
-              <h3 className="font-bodoni text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+              <h3 className="font-fraunces text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
                 Our Mission
               </h3>
-              <p className="font-bodoni text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+              <p className="font-fraunces text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
                 Empowering SMEs in India with innovative, data-driven, and execution-focused strategies to enhance operational efficiency, drive sustainable growth, and create a resilient competitive advantage in an evolving business landscape.
               </p>
             </div>
@@ -560,10 +560,10 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
               />
-              <h3 className="font-bodoni text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+              <h3 className="font-fraunces text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
                 Our Vision
               </h3>
-              <p className="font-bodoni text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+              <p className="font-fraunces text-base sm:text-lg leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
                 To be the most trusted strategy consultancy for SMEs in India, fostering a culture of operational efficiency, relentless innovation, and strategic excellence that transforms local businesses into globally competitive enterprises.
               </p>
             </div>
@@ -589,7 +589,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                     setActiveTab(tab.id);
                     setHoveredPillar(null);
                   }}
-                  className={`font-bodoni relative shrink-0 whitespace-nowrap rounded-full px-2.5 sm:px-3.5 md:px-4.5 lg:px-5 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-[15px] lg:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
+                  className={`font-fraunces relative shrink-0 whitespace-nowrap rounded-full px-2.5 sm:px-3.5 md:px-4.5 lg:px-5 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-[15px] lg:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
                     isActive
                       ? 'text-white shadow-sm scale-105'
                       : 'text-slate-200 hover:text-white bg-white/[0.05] hover:bg-white/[0.10] border border-white/15'
@@ -618,11 +618,11 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               transition={{ duration: 0.3, ease }}
               className="space-y-3 mb-8 sm:mb-10"
             >
-              <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 {currentFramework.title}
               </h2>
               <p
-                className="font-bodoni mx-auto max-w-3xl text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
+                className="font-fraunces mx-auto max-w-3xl text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
                 style={{ color: premiumWhite.warm }}
               >
                 {currentFramework.subtitle}
@@ -631,7 +631,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               {/* 4 Domain Selector for Philosophy */}
               {activeTab === 'philosophy' && (
                 <div className="mt-8 sm:mt-10 max-w-4xl mx-auto flex flex-col items-center gap-3">
-                  <p className="font-bodoni text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-300/80">
+                  <p className="font-fraunces text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-300/80">
                     Explore Pillars by Business Type
                   </p>
                   <div className="w-full max-w-[340px] sm:w-auto sm:max-w-none grid grid-cols-2 sm:inline-flex sm:flex-row items-center justify-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl sm:rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md">
@@ -645,7 +645,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                             setActiveDomain(dom.id);
                             setHoveredPillar(null);
                           }}
-                          className={`font-bodoni relative w-full sm:w-auto rounded-xl sm:rounded-full px-3.5 sm:px-6 py-2.5 sm:py-2.5 text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer text-center ${
+                          className={`font-fraunces relative w-full sm:w-auto rounded-xl sm:rounded-full px-3.5 sm:px-6 py-2.5 sm:py-2.5 text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer text-center ${
                             isDomActive
                               ? 'text-white shadow-sm bg-amber-500/[0.06] border border-amber-500/50'
                               : 'text-slate-300 hover:text-white hover:bg-white/[0.06] border border-transparent'
@@ -716,12 +716,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                       />
 
                       {/* Pillar Title */}
-                      <h3 className="font-bodoni text-xs sm:text-base md:text-lg font-bold tracking-tight uppercase text-white leading-snug w-full px-0.5 whitespace-normal break-words">
+                      <h3 className="font-fraunces text-xs sm:text-base md:text-lg font-bold tracking-tight uppercase text-white leading-snug w-full px-0.5 whitespace-normal break-words">
                         {item.name}
                       </h3>
 
                       {/* Pillar Subtitle */}
-                      <p className="font-bodoni mt-1.5 sm:mt-2 text-[11px] sm:text-sm text-white/85 font-medium leading-relaxed px-0.5">
+                      <p className="font-fraunces mt-1.5 sm:mt-2 text-[11px] sm:text-sm text-white/85 font-medium leading-relaxed px-0.5">
                         {item.subtitle}
                       </p>
                     </motion.div>
@@ -755,12 +755,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                             />
 
                             <div className="mb-3 pt-0.5">
-                              <h4 className="font-bodoni text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
+                              <h4 className="font-fraunces text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
                                 {item.name}
                               </h4>
                             </div>
 
-                            <div className="space-y-3 text-sm sm:text-base md:text-[16px] font-bodoni leading-relaxed text-white">
+                            <div className="space-y-3 text-sm sm:text-base md:text-[16px] font-fraunces leading-relaxed text-white">
                               <p className="flex items-start gap-2.5">
                                 <span className="text-white font-bold text-base select-none shrink-0 leading-none mt-1">•</span>
                                 <span>{item.role}</span>
@@ -794,16 +794,16 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             />
 
             <div className="space-y-6 text-left">
-              <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 The Story Behind BYRGOP
               </h2>
 
-              <p className="font-bodoni text-lg sm:text-xl font-medium leading-relaxed" style={{ color: brand.accent }}>
+              <p className="font-fraunces text-lg sm:text-xl font-medium leading-relaxed" style={{ color: brand.accent }}>
                 Every great idea has a beginning. Ours began with a simple question about colors.
               </p>
 
               <div
-                className="space-y-0 font-bodoni text-base sm:text-lg md:text-[18px] leading-[2rem] sm:leading-[2.2rem] font-normal"
+                className="space-y-0 font-fraunces text-base sm:text-lg md:text-[18px] leading-[2rem] sm:leading-[2.2rem] font-normal"
                 style={{ color: premiumWhite.warm }}
               >
                 <p className="m-0">
@@ -853,12 +853,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             />
 
             <div className="space-y-4 text-left">
-              <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 Commitment to Excellence
               </h2>
 
               <p
-                className="font-bodoni text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
+                className="font-fraunces text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
                 style={{ color: premiumWhite.warm }}
               >
                 At BYRGOP | Business Profit Architects, we believe that SMEs drive economic growth and innovation. Our mission is to empower businesses with strategic insights, execution-focused solutions, and operational excellence. As your trusted advisor, we uphold the highest standards of integrity, transparency, and strategic innovation to foster sustainable and scalable success.
@@ -881,14 +881,14 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             />
 
             <div className="space-y-3 text-left">
-              <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 Empowering Businesses with Pro Bono Support
               </h2>
-              <p className="font-bodoni text-base sm:text-lg font-medium" style={{ color: brand.accent }}>
+              <p className="font-fraunces text-base sm:text-lg font-medium" style={{ color: brand.accent }}>
                 Unlock Strategic Growth for Your Business — Without the Cost
               </p>
               <p
-                className="font-bodoni text-base sm:text-lg leading-relaxed font-normal max-w-4xl"
+                className="font-fraunces text-base sm:text-lg leading-relaxed font-normal max-w-4xl"
                 style={{ color: premiumWhite.warm }}
               >
                 At BYRGOP, we believe every business deserves access to expert guidance,
@@ -900,37 +900,37 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             {/* 4 Core Pillars in Editorial Grid Flow */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 border-t border-white/10 text-left">
               <div className="space-y-1.5">
-                <h3 className="font-bodoni text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <h3 className="font-fraunces text-sm sm:text-base font-bold text-white flex items-center gap-2">
                   <span style={{ color: brand.accent }}>✓</span> Strategic Roadmaps
                 </h3>
-                <p className="font-bodoni text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                <p className="font-fraunces text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
                   Actionable growth strategies tailored to your unique goals and challenges.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <h3 className="font-bodoni text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <h3 className="font-fraunces text-sm sm:text-base font-bold text-white flex items-center gap-2">
                   <span style={{ color: brand.accent }}>✓</span> Operational Excellence
                 </h3>
-                <p className="font-bodoni text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                <p className="font-fraunces text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
                   Optimizing systems and processes to reduce overhead and improve scalability.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <h3 className="font-bodoni text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <h3 className="font-fraunces text-sm sm:text-base font-bold text-white flex items-center gap-2">
                   <span style={{ color: brand.accent }}>✓</span> Leadership & Mentorship
                 </h3>
-                <p className="font-bodoni text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                <p className="font-fraunces text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
                   Executive guidance to strengthen leadership and enhance strategic decision-making.
                 </p>
               </div>
 
               <div className="space-y-1.5">
-                <h3 className="font-bodoni text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <h3 className="font-fraunces text-sm sm:text-base font-bold text-white flex items-center gap-2">
                   <span style={{ color: brand.accent }}>✓</span> Execution Support
                 </h3>
-                <p className="font-bodoni text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
+                <p className="font-fraunces text-xs sm:text-sm text-white/90 font-normal leading-relaxed" style={{ color: premiumWhite.warm }}>
                   Practical implementation guidance to turn strategy into measurable results.
                 </p>
               </div>
@@ -939,12 +939,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             {/* Flowing Footer Note */}
             <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
               <div className="rounded-2xl border border-amber-500/50 bg-amber-500/[0.04] px-5 py-3.5 shadow-sm">
-                <p className="font-bodoni text-sm sm:text-base md:text-[16.5px] leading-relaxed text-slate-300 font-normal">
+                <p className="font-fraunces text-sm sm:text-base md:text-[16.5px] leading-relaxed text-slate-300 font-normal">
                   <strong className="text-slate-200 font-semibold text-sm sm:text-base md:text-[17px]">Who Can Apply:</strong>{' '}
                   Early-stage SMEs, social enterprises, non-profits, women-led ventures, and startup founders.
                 </p>
               </div>
-              <p className="font-bodoni text-xs sm:text-sm text-white/70 shrink-0">
+              <p className="font-fraunces text-xs sm:text-sm text-white/70 shrink-0">
                 Limited slots per quarter • Reach out below to inquire
               </p>
             </div>
@@ -965,11 +965,11 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
             />
 
             <div className="space-y-5 flex flex-col items-center justify-center">
-              <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 Where Does Your Business Stand?
               </h2>
               <p
-                className="font-bodoni mx-auto max-w-2xl text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
+                className="font-fraunces mx-auto max-w-2xl text-base sm:text-lg md:text-[19px] leading-relaxed font-normal"
                 style={{ color: premiumWhite.warm }}
               >
                 Get a clearer view of your business strengths, gaps, and opportunities.
@@ -985,7 +985,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                       window.location.href = '/';
                     }
                   }}
-                  className="font-bodoni px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-bold tracking-wide shadow-glow"
+                  className="font-fraunces px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg font-bold tracking-wide shadow-glow"
                 >
                   <span className="btn-text-shimmer">Assess Your Business &rarr;</span>
                 </PrimaryButton>
@@ -1007,10 +1007,10 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
               className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"
             />
             <div className="text-center">
-              <h2 className="font-bodoni text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-bold leading-tight tracking-tight text-white">
                 Get in Touch
               </h2>
-              <p className="font-bodoni mx-auto mt-4 max-w-2xl text-base sm:text-lg md:text-xl leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
+              <p className="font-fraunces mx-auto mt-4 max-w-2xl text-base sm:text-lg md:text-xl leading-relaxed font-normal" style={{ color: premiumWhite.warm }}>
                 Want to know more about how BYRGOP can support your business? Reach out and we&rsquo;ll get back to you.
               </p>
             </div>
@@ -1026,14 +1026,14 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                 >
                   <span className="text-2xl" style={{ color: brand.palette.green[400] }}>✓</span>
                 </motion.div>
-                <h3 className="font-bodoni text-xl font-semibold" style={{ color: premiumWhite.bright }}>
+                <h3 className="font-fraunces text-xl font-semibold" style={{ color: premiumWhite.bright }}>
                   Thank you. Our team will be in touch with you.
                 </h3>
               </div>
             ) : (
               <div className="mt-8 max-w-lg mx-auto space-y-4">
                 <div>
-                  <label className="font-bodoni mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
+                  <label className="font-fraunces mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
                     Email
                   </label>
                   <input
@@ -1042,14 +1042,14 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                     placeholder="you@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="font-bodoni w-full rounded-xl border border-white/[0.10] bg-white/[0.04] px-4 py-3 text-sm outline-none transition-colors focus:border-white/25"
+                    className="font-fraunces w-full rounded-xl border border-white/[0.10] bg-white/[0.04] px-4 py-3 text-sm outline-none transition-colors focus:border-white/25"
                     style={{ 
                       color: premiumWhite.bright,
                     }}
                   />
                 </div>
                 <div>
-                  <label className="font-bodoni mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
+                  <label className="font-fraunces mb-1.5 block text-xs font-medium uppercase tracking-[0.15em]" style={{ color: premiumWhite.soft }}>
                     Phone Number
                   </label>
                   <input
@@ -1058,17 +1058,17 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                     placeholder="+91 98765 43210"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="font-bodoni w-full rounded-xl border border-white/[0.10] bg-white/[0.04] px-4 py-3 text-sm outline-none transition-colors focus:border-white/25"
+                    className="font-fraunces w-full rounded-xl border border-white/[0.10] bg-white/[0.04] px-4 py-3 text-sm outline-none transition-colors focus:border-white/25"
                     style={{ 
                       color: premiumWhite.bright,
                     }}
                   />
                 </div>
-                {err && <p className="font-bodoni text-xs" style={{ color: brand.palette.red[400] }}>{err}</p>}
+                {err && <p className="font-fraunces text-xs" style={{ color: brand.palette.red[400] }}>{err}</p>}
                 <PrimaryButton 
                   onClick={handleSubmit} 
                   disabled={!canSubmit} 
-                  className="font-bodoni w-full px-6 py-3 text-lg font-bold tracking-[0.05em]"
+                  className="font-fraunces w-full px-6 py-3 text-lg font-bold tracking-[0.05em]"
                 >
                   <span className={canSubmit ? 'btn-text-shimmer' : ''}>
                     {submitting ? 'Submitting…' : 'Get in Touch'}
@@ -1094,11 +1094,11 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
 
             {/* Section Header */}
             <div className="space-y-3 mb-10 text-center">
-              <h2 className="font-bodoni text-2xl sm:text-3xl md:text-4xl lg:text-[2.4rem] font-bold leading-tight tracking-tight text-white">
+              <h2 className="font-fraunces text-2xl sm:text-3xl md:text-4xl lg:text-[2.4rem] font-bold leading-tight tracking-tight text-white">
                 Our Team
               </h2>
               <p
-                className="font-bodoni mx-auto max-w-2xl text-base sm:text-lg leading-relaxed font-normal"
+                className="font-fraunces mx-auto max-w-2xl text-base sm:text-lg leading-relaxed font-normal"
                 style={{ color: premiumWhite.warm }}
               >
                 The minds driving Business Profit Architecture through strategy, execution, and digital engineering.
@@ -1126,7 +1126,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                             className="w-full h-full rounded-full object-cover"
                           />
                         ) : (
-                          <span className="font-bodoni text-xl sm:text-2xl font-bold tracking-tight text-white">
+                          <span className="font-fraunces text-xl sm:text-2xl font-bold tracking-tight text-white">
                             {member.initials}
                           </span>
                         )}
@@ -1139,7 +1139,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                     <div>
                       {/* Name Header */}
                       <div className="flex items-center justify-center sm:justify-start w-full">
-                        <h3 className="font-bodoni text-lg sm:text-xl md:text-[22px] font-bold tracking-tight text-white uppercase leading-snug text-center sm:text-left">
+                        <h3 className="font-fraunces text-lg sm:text-xl md:text-[22px] font-bold tracking-tight text-white uppercase leading-snug text-center sm:text-left">
                           {member.name.replace('\n', ' ')}
                         </h3>
                       </div>
@@ -1147,7 +1147,7 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
                       {/* Value Add / Experience */}
                       {member.value && (
                         <p
-                          className="font-bodoni text-base sm:text-[16.5px] md:text-[17.5px] font-normal mt-3 leading-relaxed"
+                          className="font-fraunces text-base sm:text-[16.5px] md:text-[17.5px] font-normal mt-3 leading-relaxed"
                           style={{ color: premiumWhite.warm }}
                         >
                           {member.value}
@@ -1219,21 +1219,21 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          className="font-bodoni mt-6 text-[11px] font-medium uppercase tracking-[0.3em]"
+          className="font-fraunces mt-6 text-[11px] font-medium uppercase tracking-[0.3em]"
           style={{ color: premiumWhite.soft }}
         >
           {brand.tagline}
         </motion.p>
       </div>
 
-      {/* Shimmer & Shine Styles + Bodoni Moda font utility */}
+      {/* Shimmer & Shine Styles + Fraunces font utility */}
       <style>{`
-        /* Bodoni Moda is the site-wide font; this page-local copy keeps the
+        /* Fraunces is the site-wide font; this page-local copy keeps the
            lazy-loaded About screen correct regardless of stylesheet load order.
            Optical sizing is automatic so the high-contrast strokes stay
            balanced at every size. */
-        .font-bodoni {
-          font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+        .font-fraunces {
+          font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
           font-optical-sizing: auto;
           font-feature-settings: 'lnum' 1, 'pnum' 1;
         }

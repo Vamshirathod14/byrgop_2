@@ -13,30 +13,30 @@ body,
 }
 
 /* Override Tailwind's preflight sans stack on the document root so the
-   computed font-family is Bodoni Moda everywhere, not just on <body>. */
+   computed font-family is Fraunces everywhere, not just on <body>. */
 html {
-  font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
   font-optical-sizing: auto;
 }
 
 body {
   margin: 0;
-  /* ONE FONT — the entire site renders in Bodoni Moda (a high-contrast Didone
+  /* ONE FONT — the entire site renders in Fraunces (a high-contrast display
      serif). Georgia / Times New Roman are metric-close serif fallbacks used
      only if the webfont fails to load, so the page never drops to a sans face. */
-  font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
   background: #0a0e16;
   color: #f6f7fa;
   overflow-x: hidden;
 
-  /* Bodoni Moda ships a variable optical-size axis — leaving this on lets the
+  /* Fraunces ships a variable optical-size axis — leaving this on lets the
      high-contrast strokes balance themselves at every rendered size, so the
      thin hairlines stay visible on small UI text as well as on large headings. */
   font-optical-sizing: auto;
 }
 
 /* Native form controls do not inherit the page font in every browser; force
-   them onto Bodoni Moda so inputs, textareas, selects and buttons match the
+   them onto Fraunces so inputs, textareas, selects and buttons match the
    rest of the site (their text sizes still come from the utility classes). */
 button,
 input,
@@ -115,31 +115,31 @@ textarea {
 
 @layer utilities {
   /* ── Font utilities ──────────────────────────────────────────────
-     .font-display now resolves to Bodoni Moda (the site-wide display font),
-     so every element that already uses font-display switches to Bodoni Moda
+     .font-display now resolves to Fraunces (the site-wide display font),
+     so every element that already uses font-display switches to Fraunces
      with no component changes. The other font-* utilities are kept for
-     scripts and compatibility, and each one falls through Bodoni Moda first
-     so nothing on the site ever falls back to a non-Bodoni face unless the
+     scripts and compatibility, and each one falls through Fraunces first
+     so nothing on the site ever falls back to a non-Fraunces face unless the
      glyph is genuinely missing. */
   .font-display {
-    font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     font-optical-sizing: auto;
     font-feature-settings: 'lnum' 1, 'pnum' 1;
   }
-  .font-bodoni {
-    font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  .font-fraunces {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     font-optical-sizing: auto;
     font-feature-settings: 'lnum' 1, 'pnum' 1;
   }
-  /* Script fonts keep their real faces — Bodoni Moda has no Telugu or
-     Devanagari glyphs, so the browser would substitute anyway. Bodoni is
+  /* Script fonts keep their real faces — Fraunces has no Telugu or
+     Devanagari glyphs, so the browser would substitute anyway. Fraunces is
      listed first as a courtesy in case the browser tries a Latin fallback
      for a mixed-script string. */
   .font-script-te {
-    font-family: 'Noto Sans Telugu', 'Bodoni Moda', system-ui, sans-serif;
+    font-family: 'Noto Sans Telugu', 'Fraunces', system-ui, sans-serif;
   }
   .font-script-hi {
-    font-family: 'Noto Sans Devanagari', 'Bodoni Moda', system-ui, sans-serif;
+    font-family: 'Noto Sans Devanagari', 'Fraunces', system-ui, sans-serif;
   }
   .text-balance {
     text-wrap: balance;
