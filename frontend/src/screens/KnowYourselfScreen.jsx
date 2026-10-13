@@ -185,7 +185,7 @@ export default function KnowYourselfScreen({
               className="font-fraunces text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
               style={{ color: premiumWhite.bright }}
             >
-              Business Type:{' '}
+              Sector Type:{' '}
               <span className="whitespace-nowrap inline-flex items-center gap-1.5 align-baseline">
                 {businessTypeLabel || '—'}
                 {onChangeBusiness && (
