@@ -167,7 +167,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
             <button
               type="button"
               onClick={onBack}
-              className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs font-medium transition-colors hover:border-white/30"
+              className="font-fraunces mx-auto mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-1.5 text-xs font-medium transition-colors hover:border-white/30"
               style={{ color: premiumWhite.soft }}
             >
               ← Back to questions
@@ -263,6 +263,15 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
       </div>
 
       <style>{`
+        /* Fraunces utility. Optical sizing stays automatic so the strokes
+           adapt to every heading size. */
+        .font-fraunces {
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
+        }
+
         .shine-gold-text {
           position: relative;
           display: inline-block;

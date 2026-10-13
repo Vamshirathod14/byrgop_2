@@ -1228,13 +1228,12 @@ export default function AboutScreen({ onAssess, onNavigateToLanding }) {
 
       {/* Shimmer & Shine Styles + Fraunces font utility */}
       <style>{`
-        /* Fraunces is the site-wide font; this page-local copy keeps the
-           lazy-loaded About screen correct regardless of stylesheet load order.
-           Optical sizing is automatic so the high-contrast strokes stay
-           balanced at every size. */
+        /* Fraunces is the site-wide display font for this page. Optical sizing
+           stays automatic so the strokes adapt to every heading size. */
         .font-fraunces {
-          font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
           font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
           font-feature-settings: 'lnum' 1, 'pnum' 1;
         }
 

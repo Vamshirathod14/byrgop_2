@@ -272,6 +272,15 @@ export default function DisclaimerScreen({
           the sweep so a disabled button stays calm. GPU-layer promotion keeps
           the sweep animating reliably on Intel UHD 620 devices. */}
       <style>{`
+        /* Fraunces utility. Optical sizing stays automatic so the strokes
+           adapt to every heading size. */
+        .font-fraunces {
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
+        }
+
         .disclaimer-shine-label {
           display: inline-block;
           color: currentColor;

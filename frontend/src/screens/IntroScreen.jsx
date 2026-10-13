@@ -350,13 +350,13 @@ export default function IntroScreen({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -372,7 +372,7 @@ export default function IntroScreen({
       >
         {/* Hero Title — plain white, no shine */}
         <h1
-          className="font-fraunces text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[4rem] tracking-[-0.02em] px-4"
+          className="font-bodoni text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[4rem] tracking-[-0.02em] px-4"
           style={{
             color: premiumWhite.bright,
             textShadow: '0 2px 20px rgba(0,0,0,0.5)',
@@ -408,7 +408,7 @@ export default function IntroScreen({
                   style={isSel ? { borderColor: accent, boxShadow: `0 0 28px ${accent}33` } : undefined}
                 >
                   <h2
-                    className="font-fraunces text-base font-semibold sm:text-lg"
+                    className="font-bodoni text-base font-semibold sm:text-lg"
                     style={{ color: premiumWhite.bright }}
                   >
                     {bt.label}
@@ -439,7 +439,7 @@ export default function IntroScreen({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease }}
-            className="font-fraunces mt-5 text-sm font-medium tracking-[0.02em]"
+            className="font-bodoni mt-5 text-sm font-medium tracking-[0.02em]"
             style={{ color: premiumWhite.soft }}
           >
             Onboarding questions are not available for this business type at the
@@ -451,7 +451,7 @@ export default function IntroScreen({
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease }}
-            className="font-fraunces mt-5 text-sm"
+            className="font-bodoni mt-5 text-sm"
             style={{ color: premiumWhite.soft }}
           >
             Loading questions…
@@ -475,7 +475,7 @@ export default function IntroScreen({
               }
             }}
             disabled={!proceedActive}
-            className="proceed-btn font-fraunces text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em]"
+            className="proceed-btn font-bodoni text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em]"
           >
             <span className={`proceed-label ${proceedActive ? 'proceed-shine' : ''}`}>
               PROCEED
@@ -488,7 +488,7 @@ export default function IntroScreen({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.9 }}
-            className="font-fraunces mt-3 text-xs"
+            className="font-bodoni mt-3 text-xs"
             style={{ color: premiumWhite.soft }}
           >
             Select a business type to proceed.
@@ -498,7 +498,7 @@ export default function IntroScreen({
         {errorText ? (
           <p
             role="alert"
-            className="font-fraunces mt-4 text-sm"
+            className="font-bodoni mt-4 text-sm"
             style={{ color: brand.palette.red[500] }}
           >
             {errorText}
