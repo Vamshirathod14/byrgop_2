@@ -131,7 +131,7 @@ function AbbreviationTerm({ term, entry }) {
           }}
         >
           <span
-            className="font-bodoni block text-sm leading-snug font-semibold"
+            className="font-fraunces block text-sm leading-snug font-semibold"
             style={{ color: brand.premiumWhite.bright }}
           >
             {fullText}

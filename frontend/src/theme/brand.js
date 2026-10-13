@@ -53,12 +53,12 @@ export const brand = {
     telugu: 'Telugu',
     hindi: 'Hindi',
   },
-  // One font for the whole public site: Bodoni Moda. Georgia/Times are
+  // One font for the whole public site: Fraunces. Georgia/Times are
   // metric-close serif fallbacks used only if the webfont is unavailable.
   fonts: {
-    display: "'Bodoni Moda', Georgia, 'Times New Roman', serif",
-    body: "'Bodoni Moda', Georgia, 'Times New Roman', serif",
-    bodoni: "'Bodoni Moda', Georgia, 'Times New Roman', serif",
+    display: "'Fraunces', Georgia, 'Times New Roman', serif",
+    body: "'Fraunces', Georgia, 'Times New Roman', serif",
+    fraunces: "'Fraunces', Georgia, 'Times New Roman', serif",
   },
   categories: {
     strategic: { name: categoryLabel('strategic'), color: '#0A78CF', soft: 'rgba(10,120,207,0.16)' },

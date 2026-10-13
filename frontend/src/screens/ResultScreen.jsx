@@ -187,7 +187,7 @@ export default function ResultScreen({
           fill="#FFFFFF"
           fontSize={13.5}
           style={{
-            fontFamily: brand.fonts.bodoni,
+            fontFamily: brand.fonts.fraunces,
             letterSpacing: '0.03em',
             fontWeight: 600,
           }}
@@ -206,7 +206,7 @@ export default function ResultScreen({
   });
 
   return (
-    <div className="result-page font-bodoni flex min-h-screen flex-col px-6 py-7 sm:px-10 bg-page">
+    <div className="result-page font-fraunces flex min-h-screen flex-col px-6 py-7 sm:px-10 bg-page">
       {/* Logo - Top Left */}
       <motion.div
         className="absolute top-4 left-4 z-10 sm:top-6 sm:left-6 lg:top-8 lg:left-8"
@@ -236,13 +236,13 @@ export default function ResultScreen({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -257,19 +257,19 @@ export default function ResultScreen({
           className="flex flex-col items-center"
         >
           <h1 
-            className="font-bodoni text-center text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-[-0.01em]"
+            className="font-fraunces text-center text-2xl font-bold leading-tight sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-[-0.01em]"
             style={{ color: premiumWhite.bright }}
           >
             {actionLabel}{' '}
             <span
-              className="font-bodoni font-semibold shine-text"
+              className="font-fraunces font-semibold shine-text"
               style={{ color: TIMER_GOLD }}
             >
               Snapshot
             </span>
           </h1>
           <p 
-            className="font-bodoni mt-2 max-w-xl text-center text-sm leading-relaxed sm:text-base md:text-lg lg:text-xl"
+            className="font-fraunces mt-2 max-w-xl text-center text-sm leading-relaxed sm:text-base md:text-lg lg:text-xl"
             style={{ color: premiumWhite.warm }}
           >
             Based on BYRGOP's Business Profit Architecture
@@ -344,7 +344,7 @@ export default function ResultScreen({
                       <div className="text-6xl sm:text-7xl md:text-8xl mb-1" style={{ lineHeight: 1.2 }}>
                         {centerContent.emoji}
                       </div>
-                      <div className="font-bodoni text-[9px] sm:text-[10px] md:text-[11px] font-semibold text-center text-white/70 leading-tight px-1 max-w-full whitespace-nowrap">
+                      <div className="font-fraunces text-[9px] sm:text-[10px] md:text-[11px] font-semibold text-center text-white/70 leading-tight px-1 max-w-full whitespace-nowrap">
                         {centerContent.status}
                       </div>
                     </div>
@@ -364,7 +364,7 @@ export default function ResultScreen({
           {/* "Know more about" — font weight reduced from semibold to normal
               so this heading reads lighter than the Snapshot heading above. */}
           <h2 
-            className="font-bodoni text-base font-normal text-center sm:text-lg md:text-xl lg:text-2xl"
+            className="font-fraunces text-base font-normal text-center sm:text-lg md:text-xl lg:text-2xl"
             style={{ color: premiumWhite.bright }}
           >
             Know more about 
@@ -376,14 +376,14 @@ export default function ResultScreen({
           <div className="mt-4 sm:mt-6 flex w-full max-w-xl flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 px-2">
             <PrimaryButton
               onClick={onKY}
-              className="hover-shine-btn know-more-btn font-bodoni w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
+              className="hover-shine-btn know-more-btn font-fraunces w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               <span className="hover-shine-label">{actionLabel}</span>
             </PrimaryButton>
             <PrimaryButton
               onClick={onAbout}
-              className="hover-shine-btn know-more-btn font-bodoni w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
+              className="hover-shine-btn know-more-btn font-fraunces w-full sm:flex-1 sm:min-w-[13rem] h-12 sm:h-14 text-sm sm:text-base font-bold tracking-[0.08em] sm:tracking-[0.12em]"
               style={{ background: brand.accent, color: '#0A0D16' }}
             >
               <span className="hover-shine-label">BYRGOP</span>
@@ -394,7 +394,7 @@ export default function ResultScreen({
             <button
               type="button"
               onClick={onRetake}
-              className="font-bodoni text-base sm:text-lg text-center mt-3 transition-colors hover:opacity-70"
+              className="font-fraunces text-base sm:text-lg text-center mt-3 transition-colors hover:opacity-70"
               style={{ color: premiumWhite.bright }}
             >
               Retake Assessment

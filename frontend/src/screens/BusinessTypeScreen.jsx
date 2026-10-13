@@ -77,7 +77,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
   };
 
   return (
-    <div className="business-type-page font-bodoni relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-page py-6 sm:py-8">
+    <div className="business-type-page font-fraunces relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-page py-6 sm:py-8">
       {/* Top gradient line - matching IntroScreen */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
@@ -124,13 +124,13 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-bodoni text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
+          className="font-fraunces text-base font-semibold tracking-wider leading-none sm:text-lg md:text-xl lg:text-2xl xl:text-3xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -147,9 +147,9 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
         >
           {/* Heading — "Change Your Sector Type" / "Select Your Sector Type"
               stay on ONE line at every breakpoint. Sized so the longer phrase
-              fits a 360px phone in Bodoni Moda. */}
+              fits a 360px phone in Fraunces. */}
           <h1
-            className="font-bodoni w-full max-w-full text-center text-xl font-bold leading-tight whitespace-nowrap sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.01em] px-2"
+            className="font-fraunces w-full max-w-full text-center text-xl font-bold leading-tight whitespace-nowrap sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.01em] px-2"
             style={{
               color: premiumWhite.bright,
               textShadow: '0 2px 20px rgba(0,0,0,0.5)',
@@ -157,7 +157,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
           >
             {isChange ? 'Change Your ' : 'Select Your '}
             <span
-              className="font-bodoni font-bold shine-gold-text tracking-normal"
+              className="font-fraunces font-bold shine-gold-text tracking-normal"
               style={{ color: brand.accent }}
             >
               Sector Type
@@ -183,7 +183,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
         )}
 
         {err && (
-          <p className="font-bodoni text-sm text-center break-words" style={{ color: brand.palette.red[400] }}>
+          <p className="font-fraunces text-sm text-center break-words" style={{ color: brand.palette.red[400] }}>
             Could not load configuration — using defaults.
           </p>
         )}
@@ -214,7 +214,7 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
                       the heading itself. Weight also stepped down from
                       semibold to medium for the same reason. */}
                   <h2
-                    className="font-bodoni text-sm font-medium sm:text-base md:text-lg"
+                    className="font-fraunces text-sm font-medium sm:text-base md:text-lg"
                     style={{ color: premiumWhite.bright }}
                   >
                     {bt.label}
@@ -248,14 +248,14 @@ export default function BusinessTypeScreen({ onSelect, onLogoClick, onBack, mode
           <PrimaryButton
             onClick={() => selected && onSelect(selected.key, selected.label)}
             disabled={!selected}
-            className={`proceed-btn font-bodoni text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] ${
+            className={`proceed-btn font-fraunces text-base sm:text-lg lg:text-xl font-bold tracking-[0.05em] ${
               selected ? 'continue-shine-btn continue-shine-active' : ''
             }`}
           >
             <span className="continue-shine-label">Continue</span>
           </PrimaryButton>
           {!selected && businessTypes && (
-            <p className="font-bodoni text-xs text-center" style={{ color: premiumWhite.soft }}>
+            <p className="font-fraunces text-xs text-center" style={{ color: premiumWhite.soft }}>
               Select a Sector type to continue.
             </p>
           )}
