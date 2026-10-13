@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useRef, useState } from 'react';
+import { Component, lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import api, { setAdminTokenGetter } from './api/client.js';
 import AnimatedBackground from './components/AnimatedBackground.jsx';
@@ -39,11 +39,52 @@ import {
   resultActionLabelFor,
   resultHeadingLabelFor,
 } from './lib/kyFlow.js';
+import { createSession, isSessionExpired, sessionRemainingMs } from './lib/sessionExpiry.js';
 import { brand } from './theme/brand.js';
 import { applyServerResult, buildLocalQuestion, makeSnapshotResult, optionColorFrom, optionStageFrom, kyKeyForOnboardingKey, onboardingKeyFor, onboardingQuestionsFromConfig } from './onboarding.js';
 
 const ease = [0.22, 1, 0.36, 1];
 const AboutScreenLazy = lazy(() => import('./screens/AboutScreen.jsx'));
+
+// Fallback shown while the code-split About chunk loads. A lazy component that
+// suspends without a Suspense boundary makes React throw ("a component
+// suspended while responding to synchronous input"), which unmounts the app and
+// leaves a blank page — so the boundary below is required, not just cosmetic.
+const aboutLoadingFallback = (
+  <div className="flex min-h-screen items-center justify-center bg-ink-900">
+    <p className="text-sm text-mist-muted">Loading…</p>
+  </div>
+);
+
+// A failed dynamic import (transient network error, or a stale hashed chunk
+// after a redeploy) rejects the lazy import. Without an error boundary that
+// rejection also blanks the whole app; this keeps the failure contained and
+// offers the reload that recovers it.
+class AboutScreenErrorBoundary extends Component {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error) {
+    console.error('About screen failed to load', error);
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-ink-900 px-6 text-center">
+          <p className="text-sm text-mist-muted">
+            The About page couldn’t load. This is usually temporary — please try again.
+          </p>
+          <PrimaryButton onClick={() => window.location.reload()}>Reload</PrimaryButton>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const STORAGE_KEY = 'byrgop_testing_session';
 
@@ -77,6 +118,9 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminToken, setAdminToken] = useState(null);
+  // Absolute epoch-ms deadline for the current session: exactly six hours
+  // after login, persisted so a refresh never resets it.
+  const [sessionExpiresAt, setSessionExpiresAt] = useState(null);
 
   // ─── Onboarding state ───────────────────────────────────
   const [screen, setScreen] = useState('intro');
@@ -98,14 +142,19 @@ export default function App() {
   const [introBusinessType, setIntroBusinessType] = useState(null);
   const [onboardingQuestions, setOnboardingQuestions] = useState([]);
 
-  // Restore session on mount
+  // Restore session on mount. The saved session carries a fixed deadline; an
+  // expired one (or one predating the rule) is cleared so the user must log in
+  // again rather than being restored.
   useEffect(() => {
     const session = loadSession();
-    if (session) {
+    if (session && !isSessionExpired(session)) {
       setIsLoggedIn(true);
       setCurrentUser(session.user);
       setIsAdmin(session.isAdmin || false);
       if (session.adminToken) setAdminToken(session.adminToken);
+      setSessionExpiresAt(session.expiresAt);
+    } else if (session) {
+      clearSession();
     }
   }, []);
 
@@ -125,20 +174,24 @@ export default function App() {
   }, []);
 
   const handleLogin = useCallback((username) => {
+    const session = createSession({ user: username, isAdmin: false });
     setIsLoggedIn(true);
     setCurrentUser(username);
     setIsAdmin(false);
     setAdminToken(null);
-    saveSession({ user: username, isAdmin: false });
+    setSessionExpiresAt(session.expiresAt);
+    saveSession(session);
     setScreen('intro');
   }, []);
 
   const handleAdminLogin = useCallback((token, admin) => {
+    const session = createSession({ user: admin.email, isAdmin: true, adminToken: token });
     setIsLoggedIn(true);
     setCurrentUser(admin.email);
     setIsAdmin(true);
     setAdminToken(token);
-    saveSession({ user: admin.email, isAdmin: true, adminToken: token });
+    setSessionExpiresAt(session.expiresAt);
+    saveSession(session);
     // Admin goes to dashboard - for now redirect to intro, but ideally to admin dashboard
     setScreen('intro');
   }, []);
@@ -149,6 +202,7 @@ export default function App() {
     setIsAdmin(false);
     setAdminToken(null);
     clearSession();
+    setSessionExpiresAt(null);
     // Reset all app state
     setScreen('intro');
     setBeginLoading(false);
@@ -180,6 +234,32 @@ export default function App() {
     suppressResumeRef.current = false;
     resumeCheckRanRef.current = false;
   }, []);
+
+  // Enforce the fixed six-hour deadline while the app is open. The timeout is
+  // always derived from the persisted deadline (never from activity), so
+  // navigating or interacting cannot extend it. A background tab whose timer
+  // fires late is caught on the next visibility/focus change.
+  useEffect(() => {
+    if (!isLoggedIn || !sessionExpiresAt) return undefined;
+    const remaining = sessionRemainingMs({ expiresAt: sessionExpiresAt });
+    if (remaining <= 0) {
+      handleLogout();
+      return undefined;
+    }
+    const timer = setTimeout(() => handleLogout(), remaining);
+    const check = () => {
+      if (sessionRemainingMs({ expiresAt: sessionExpiresAt }) <= 0) handleLogout();
+    };
+    document.addEventListener('visibilitychange', check);
+    window.addEventListener('focus', check);
+    window.addEventListener('pageshow', check);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('visibilitychange', check);
+      window.removeEventListener('focus', check);
+      window.removeEventListener('pageshow', check);
+    };
+  }, [isLoggedIn, sessionExpiresAt, handleLogout]);
 
   // The three onboarding questions are shown straight from memory the instant
   // the user taps "Let's Begin" — nothing waits on the network. In the
@@ -1298,17 +1378,29 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Lazy import - loaded from separate chunk */}
-            <AboutScreenLazy
-              onNavigateToLanding={handleLogoClickHome}
-              // The CTA now runs the SAME reset the logo does before switching
-              // to intro, and closes any open or pending Resume modal first.
-              onAssess={() => {
-                setKyResumeCandidate(null);
-                kyResumeCheckRef.current += 1;
-                handleLogoClickHome();
-              }}
-            />
+            {/* Lazy import - loaded from separate chunk. The Suspense boundary
+                covers the loading state and the error boundary covers a failed
+                chunk load, so a slow or failed chunk never blanks the app. */}
+            <AboutScreenErrorBoundary>
+              <Suspense fallback={aboutLoadingFallback}>
+                <AboutScreenLazy
+                  onNavigateToLanding={handleLogoClickHome}
+                  // The CTA now runs the SAME reset the logo does before switching
+                  // to intro, and closes any open or pending Resume modal first.
+                  // Previously this was just `setScreen('intro')`, which left
+                  // onboarding state (introBusinessType, onboardingQuestions,
+                  // result, answers, sessionId) and possibly an open Resume modal
+                  // untouched. After a long stay on the About page those could
+                  // drift — the Intro would mount over stale state, or under a
+                  // still-visible Resume modal, and the user saw a blank screen.
+                  onAssess={() => {
+                    setKyResumeCandidate(null);
+                    kyResumeCheckRef.current += 1;
+                    handleLogoClickHome();
+                  }}
+                />
+              </Suspense>
+            </AboutScreenErrorBoundary>
           </motion.div>
         )}
       </AnimatePresence>

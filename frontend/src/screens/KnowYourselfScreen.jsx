@@ -594,14 +594,10 @@ export default function KnowYourselfScreen({
           color: inherit;
         }
 
-        /* Bodoni Moda — added locally so the question headings render in it
-           without touching the global font stacks (font-display stays
-           Cormorant Garamond everywhere else). Bodoni Moda is a high-contrast
-           Didone serif; the fallbacks are metric-close serif faces. Optical
-           sizing is left automatic so the high-contrast strokes stay balanced
-           at every heading size. */
+        /* Bodoni Moda is the site-wide font. Optical sizing is left automatic
+           so the high-contrast strokes stay balanced at every heading size. */
         .font-bodoni {
-          font-family: 'Bodoni Moda', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-family: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
           font-optical-sizing: auto;
           font-feature-settings: 'lnum' 1, 'pnum' 1;
         }

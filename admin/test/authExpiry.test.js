@@ -7,9 +7,10 @@ import { dirname, join, resolve } from 'node:path';
 /* ─────────────────────────────────────────────────────────────
    ADMIN AUTH UI — 6-hour session + expired-session redirect.
 
-   · The visible Logout control is REMOVED from the Admin UI (Layout),
-     while the underlying session-invalidation capability (AuthContext
-     logout, /admin/auth/logout) is kept for internal use.
+   · A visible Logout control lives in the Admin UI (Layout) and is
+     wired to the shared session-invalidation path (AuthContext logout,
+     POST /admin/auth/logout), which clears the stored token and lands
+     the app back on the Login screen.
    · The client handles an expired session (server 401) by clearing the
      stored token through the unauthorized handler; a browser refresh
      after expiry then boots without a token and lands on the Login
@@ -140,15 +141,15 @@ test('refresh after expiry → remains logged out (boot finds no token → Login
   assert.match(app, /if \(!admin\) return <Login \/>/);
 });
 
-test('Admin UI: visible Logout button removed, underlying capability kept', () => {
+test('Admin UI: visible Logout button wired to the session-invalidation flow', () => {
   const layout = read('src/components/Layout.jsx');
-  assert.ok(!/>Logout</.test(layout), 'Layout still renders a Logout button');
-  assert.ok(!/aria-label="Log ?out"/i.test(layout), 'Layout still renders a log-out control');
-  assert.ok(!/logout\(\)/.test(layout), 'Layout still calls logout() from the UI');
+  assert.match(layout, />Log ?out</i, 'Layout renders a visible Logout control');
+  assert.match(layout, /aria-label="Log ?out"/i, 'the Logout control is labelled for accessibility');
+  assert.match(layout, /logout\(\)/, 'the Logout control invokes logout() from the UI');
 
-  // The session-invalidation capability itself is retained for internal use.
+  // The session-invalidation capability is the single logout path.
   const ctx = read('src/context/AuthContext.jsx');
-  assert.match(ctx, /logout/);
+  assert.match(ctx, /logout/, 'AuthContext still exposes the logout flow');
   const client = read('src/api/client.js');
   assert.match(client, /logout/, 'the /admin/auth/logout capability must remain available');
 });

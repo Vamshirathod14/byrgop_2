@@ -361,8 +361,10 @@ export default function ResultScreen({
           transition={{ duration: 0.7, delay: 0.5, ease }}
           className="mt-4 sm:mt-6 flex flex-col items-center w-full"
         >
+          {/* "Know more about" — font weight reduced from semibold to normal
+              so this heading reads lighter than the Snapshot heading above. */}
           <h2 
-            className="font-bodoni text-base font-semibold text-center sm:text-lg md:text-xl lg:text-2xl"
+            className="font-bodoni text-base font-normal text-center sm:text-lg md:text-xl lg:text-2xl"
             style={{ color: premiumWhite.bright }}
           >
             Know more about 

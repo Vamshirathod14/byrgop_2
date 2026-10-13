@@ -24,6 +24,18 @@ export function AuthProvider({ children }) {
     });
   }, []);
 
+  // If Back/Forward restores this document from the browser's back-forward
+  // cache, it can bring back a pre-logout snapshot (admin already set). When
+  // the session is gone, reload so the protected pages can't be reopened via
+  // browser navigation and the app boots fresh into the Login screen.
+  useEffect(() => {
+    const onShow = (e) => {
+      if (e.persisted && !auth.getToken()) window.location.reload();
+    };
+    window.addEventListener('pageshow', onShow);
+    return () => window.removeEventListener('pageshow', onShow);
+  }, []);
+
   useEffect(() => {
     const token = auth.getToken();
     if (!token) {

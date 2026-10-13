@@ -142,17 +142,15 @@ export default function KySessions() {
               <th className="px-4 py-3">Progress</th>
               <th className="px-4 py-3">Not Applicable</th>
               <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Phone</th>
+              <th className="px-4 py-3">Mobile Number</th>
               <th className="px-4 py-3">Business Type</th>
               <th className="px-4 py-3">Domain</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3">Score</th>
               <th className="px-4 py-3">Contact Requested</th>
               <th className="px-4 py-3">Pro Bono</th>
-              <th className="px-4 py-3">Pro Bono Email</th>
-              <th className="px-4 py-3">Pro Bono Phone</th>
-              <th className="px-4 py-3">Report</th>
-              <th className="px-4 py-3">Report Requested At</th>
+              <th className="px-4 py-3">Report Requested</th>
+              <th className="px-4 py-3">Report Request Date</th>
               <th className="px-4 py-3">Started At</th>
               <th className="px-4 py-3">Completed At</th>
               <th className="px-4 py-3">Contact Submitted At</th>
@@ -162,7 +160,7 @@ export default function KySessions() {
           <tbody className="divide-y divide-slate-200">
             {sessions.length === 0 && (
               <tr>
-                <td colSpan={20} className="px-4 py-6 text-center text-mist-muted">
+                <td colSpan={18} className="px-4 py-6 text-center text-mist-muted">
                   No submissions.
                 </td>
               </tr>
@@ -236,8 +234,6 @@ export default function KySessions() {
                         <span className="badge bg-slate-200 text-mist-muted">Not requested</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-mist">{s.proBonoEmail || '—'}</td>
-                    <td className="px-4 py-3 text-mist">{s.proBonoPhone || '—'}</td>
                     <td className="px-4 py-3">
                       {rrRequested ? (
                         <span className="badge bg-amber-400 px-3 py-1 font-bold text-ink-950">YES</span>
@@ -253,7 +249,7 @@ export default function KySessions() {
                   </tr>
                   {isExpanded && rr && rrRequested && (
                     <tr className="bg-slate-50">
-                      <td colSpan={20} className="px-4 py-4">
+                      <td colSpan={18} className="px-4 py-4">
                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm md:grid-cols-3 lg:grid-cols-4">
                           <Detail label="Owner Name" value={rr.ownerName} />
                           <Detail label="Company Name" value={rr.companyName} />
