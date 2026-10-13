@@ -168,7 +168,7 @@ export function VisualizationSelector({ value, onChange }) {
 function ChartBox({ children }) {
   return (
     <div
-      className="mx-auto flex h-[270px] sm:h-[400px] md:h-[420px] w-full max-w-[680px] items-center justify-center rounded-2xl border border-white/10 bg-ink-850/70 p-1.5 sm:p-5 md:p-7 shadow-card"
+      className="mx-auto flex h-[270px] sm:h-[400px] md:h-[420px] w-full items-center justify-center rounded-2xl border border-white/10 bg-ink-850/70 p-1.5 sm:p-5 md:p-7 shadow-card"
       data-testid="chart-box"
     >
       {children}

@@ -640,7 +640,7 @@ export default function KnowYourselfResult({
           <div className="mt-10 flex justify-center">
             <PrimaryButton
               onClick={onExplore}
-              className="proceed-btn font-bodoni text-sm sm:text-base font-bold tracking-[0.03em]"
+              className="font-bodoni h-12 sm:h-[52px] px-8 sm:px-10 inline-flex items-center justify-center rounded-full text-sm sm:text-base font-bold tracking-[0.03em]"
             >
               Explore BYRGOP
             </PrimaryButton>
@@ -723,14 +723,14 @@ export default function KnowYourselfResult({
       </header>
 
       {/* Hero: Score (Left) and Visualizations (Right) */}
-      <main className="relative z-10 mx-auto mt-8 sm:mt-10 w-full max-w-[1150px] px-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <main className="relative z-10 mx-auto mt-8 sm:mt-10 w-full max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 items-center">
           {/* Left: Overall Score Ring & Performance Band */}
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease }}
-            className="md:col-span-5 lg:col-span-4 flex flex-col items-center justify-center text-center"
+            className="md:col-span-1 flex flex-col items-center justify-center text-center"
           >
             <ScoreRing percent={data.overallPercent} size={200} />
             <h2
@@ -746,7 +746,7 @@ export default function KnowYourselfResult({
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.12, ease }}
-            className="md:col-span-7 lg:col-span-8 flex flex-col items-center w-full"
+            className="md:col-span-2 flex flex-col items-center w-full"
           >
             <div className="flex justify-center w-full">
               <VisualizationSelector value={view} onChange={setView} />
@@ -765,7 +765,7 @@ export default function KnowYourselfResult({
       </main>
 
       {/* Six category scores */}
-      <section className="relative z-10 mx-auto mt-10 w-full max-w-4xl sm:mt-14">
+      <section className="relative z-10 mx-auto mt-10 w-full max-w-5xl sm:mt-14">
         <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4">
           {cats.map((c, i) => (
             <motion.div
@@ -796,7 +796,7 @@ export default function KnowYourselfResult({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.5, ease }}
-          className="relative z-10 mx-auto mt-5 w-full max-w-4xl"
+          className="relative z-10 mx-auto mt-5 w-full max-w-5xl"
         >
           <p
             className="font-bodoni text-center text-sm"
@@ -818,34 +818,46 @@ export default function KnowYourselfResult({
         className="relative z-10 mt-12 flex flex-col items-center"
       >
         {/* Complete-report request prompt — available to every completed user */}
-        <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5 text-center" data-testid="report-prompt">
-          <p className="font-bodoni text-sm" style={{ color: premiumWhite.warm }}>
-            {reportDone ? (reportEmailStatus === 'sent' ? '✓ Your full report is on its way' : '✓ Details saved successfully') : 'Want to get the complete report delivered to your email?'}
-          </p>
-          <PrimaryButton
-            onClick={() => setReportOpen(true)}
-            className="hover-shine-btn font-bodoni mt-4 h-12 sm:h-[52px] min-w-[7rem] sm:min-w-[8rem] px-6 text-sm sm:text-base font-bold inline-flex items-center justify-center rounded-full"
-            data-testid="report-yes"
+        {reportDone ? (
+          <div
+            className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-8 text-center"
+            data-testid="report-prompt"
           >
-            <span className="hover-shine-label">
-              {reportDone ? 'UPDATE DETAILS' : 'Yes'}
-            </span>
-          </PrimaryButton>
-          {reportDone && (
-            <p className="font-bodoni mt-2 text-[11px]" style={{ color: premiumWhite.soft }}>
-              {reportEmailStatus === 'sent'
-                ? `We've emailed the full 3-page report to ${reportExisting?.email ? `the address provided` : 'your address'}.`
-                : reportEmailStatus === 'failed'
-                  ? "We couldn't email the report right now — our team will reach out."
-                  : "We'll send it to the address you provided."}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, ease }}
+              className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full"
+              style={{ background: `${brand.palette.green[500]}22` }}
+            >
+              <span className="text-2xl" style={{ color: brand.palette.green[400] }}>✓</span>
+            </motion.div>
+            <h3 className="font-bodoni text-xl font-semibold" style={{ color: premiumWhite.bright }}>
+              Thank you. Your complete report has been sent to your email.
+            </h3>
+          </div>
+        ) : (
+          <div
+            className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5 text-center"
+            data-testid="report-prompt"
+          >
+            <p className="font-bodoni text-sm" style={{ color: premiumWhite.warm }}>
+              Want to get the complete report delivered to your email?
             </p>
-          )}
-        </div>
+            <PrimaryButton
+              onClick={() => setReportOpen(true)}
+              className="hover-shine-btn font-bodoni mt-4 h-12 sm:h-[52px] min-w-[7rem] sm:min-w-[8rem] px-6 text-sm sm:text-base font-bold inline-flex items-center justify-center rounded-full"
+              data-testid="report-yes"
+            >
+              <span className="hover-shine-label">Yes</span>
+            </PrimaryButton>
+          </div>
+        )}
 
         <div className="mt-6 flex justify-center">
           <PrimaryButton
             onClick={onExplore}
-            className="proceed-btn explore-shine-btn font-bodoni text-sm sm:text-base font-bold tracking-[0.03em]"
+            className="explore-shine-btn font-bodoni h-12 sm:h-[52px] px-8 sm:px-10 inline-flex items-center justify-center rounded-full text-sm sm:text-base font-bold tracking-[0.03em]"
           >
             <span className="explore-shine-label">Explore BYRGOP</span>
           </PrimaryButton>
