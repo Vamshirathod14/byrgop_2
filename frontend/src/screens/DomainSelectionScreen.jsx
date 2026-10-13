@@ -22,6 +22,7 @@ const OTHERS_DOMAIN = { slug: 'others', name: 'Others' };
 export default function DomainSelectionScreen({
   onBegin,
   onBack,
+  onChangeSector,
   businessType,
   onLogoClick,
   mode = 'select',
@@ -169,7 +170,12 @@ export default function DomainSelectionScreen({
           {businessType?.label && (
             <button
               type="button"
-              onClick={onBack}
+              // "Change sector type" is a CHANGE action, not a back action.
+              // It has its own handler so it always reopens the sector picker
+              // ("Change Your Sector Type"); reusing `onBack` used to open the
+              // picker in `select` mode on the first pass and to bounce to the
+              // questions mid-assessment.
+              onClick={onChangeSector || onBack}
               title="Change sector type"
               className="mx-auto mt-3 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-center text-xs font-medium transition-colors hover:border-white/30 sm:px-4"
               style={{ color: premiumWhite.soft }}

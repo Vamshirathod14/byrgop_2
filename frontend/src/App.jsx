@@ -796,6 +796,15 @@ export default function App() {
     setScreen('kyDomainSelect');
   }, []);
 
+  // The "· change" affordance next to the sector label on the Domain step is a
+  // CHANGE action, not a back action. It must always reopen the sector picker
+  // in change mode — "Change Your Sector Type" — whether the user came from the
+  // questions mid-assessment or straight from the first-time Domain step.
+  const handleChangeSector = useCallback(() => {
+    setKySelectionMode('change');
+    setScreen('kyBusinessType');
+  }, []);
+
   // Fetch the KY result once all background answer submissions have landed.
   const finalizeKY = useCallback(async () => {
     if (!kySessionId) return;
@@ -1226,7 +1235,11 @@ export default function App() {
               onSelect={handleBusinessTypeSelect}
               mode={kySelectionMode}
               initialKey={kyBusinessType?.key ?? null}
-              onBack={() => setScreen('kyQuestion')}
+              // "← Back to questions" only makes sense once an assessment is
+              // live. Changing sector from the first-time Domain step there is
+              // no assignment yet, so fall back to the Domain step instead of
+              // rendering an empty questions screen.
+              onBack={() => setScreen(kyQuestion ? 'kyQuestion' : 'kyDomainSelect')}
               onLogoClick={handleLogoClick}
               onDecline={() => {
                 // Check if result exists before navigating back
@@ -1254,6 +1267,11 @@ export default function App() {
               businessType={kyBusinessType}
               mode={kySelectionMode}
               initialDomain={kyDomain?.slug ?? null}
+              // The sector-label "· change" button: always the sector picker in
+              // change mode, never a back-jump to the questions.
+              onChangeSector={handleChangeSector}
+              // `onBack` remains the genuine back action (the "Coming Soon"
+              // screen's Back button).
               onBack={() => {
                 if (kySelectionMode === 'change') setScreen('kyQuestion');
                 else setScreen('kyBusinessType');
