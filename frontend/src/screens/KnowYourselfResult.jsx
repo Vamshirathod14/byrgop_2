@@ -161,7 +161,7 @@ export function RadarChart({ categories }) {
             textAnchor="middle"
             dominantBaseline="middle"
             pointerEvents="none"
-            className="font-display"
+            className="font-fraunces"
           >
             {tick}%
           </text>
@@ -623,7 +623,7 @@ export default function KnowYourselfResult({
         <div className="relative z-10 flex flex-col items-center justify-center">
           <ContextChips businessTypeLabel={result.businessTypeLabel} domainLabel={result.domainLabel || data?.domainLabel} />
           <h1 className="font-fraunces mt-8 text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-[3.75rem] tracking-[-0.02em]" style={{ color: premiumWhite.bright }}>
-            {entityLabel} <span className="font-fraunces font-semibold" style={{ color: brand.accent }}>Assessment</span>
+            {entityLabel} <span className="font-fraunces font-semibold italic" style={{ color: brand.accent }}>Assessment</span>
           </h1>
           <div className="mt-10 flex flex-col items-center">
             <ScoreRing percent={pct} label="Score" />
@@ -1001,6 +1001,15 @@ export default function KnowYourselfResult({
         }
         @keyframes circular-loader-spin {
           100% { transform: rotate(360deg); }
+        }
+
+        /* Fraunces utility. Optical sizing stays automatic so the strokes
+           adapt to every heading size. */
+        .font-fraunces {
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
         }
 
         @media (prefers-reduced-motion: reduce) {

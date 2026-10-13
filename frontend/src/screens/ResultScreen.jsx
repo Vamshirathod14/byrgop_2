@@ -187,7 +187,7 @@ export default function ResultScreen({
           fill="#FFFFFF"
           fontSize={13.5}
           style={{
-            fontFamily: brand.fonts.fraunces,
+            fontFamily: "'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif",
             letterSpacing: '0.03em',
             fontWeight: 600,
           }}
@@ -405,6 +405,15 @@ export default function ResultScreen({
 
       {/* Shine sweep animations + button centring. */}
       <style>{`
+        /* Fraunces utility. Optical sizing stays automatic so the strokes
+           adapt to every heading size. */
+        .font-fraunces {
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
+        }
+
         .shine-text {
           position: relative;
           display: inline-block;

@@ -359,6 +359,15 @@ export default function DomainSelectionScreen({
           both is currentColor / the timer gold so nothing about the button's
           own text colour is overridden. */}
       <style>{`
+        /* Fraunces utility. Optical sizing stays automatic so the strokes
+           adapt to every heading size. */
+        .font-fraunces {
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
+        }
+
         /* The "Domain" word — same gold sweep as the Snapshot word. */
         .shine-text {
           position: relative;

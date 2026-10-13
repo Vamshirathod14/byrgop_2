@@ -41,7 +41,7 @@ function NotApplicableOption({ selected, onSelect, busy, index, compact }) {
       }
     >
       <span
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border font-display text-xs font-bold transition-colors duration-300 sm:h-8 sm:w-8 sm:text-sm"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border font-fraunces text-xs font-bold transition-colors duration-300 sm:h-8 sm:w-8 sm:text-sm"
         style={
           isSel
             ? { borderColor: brand.accent, color: brand.accent, background: `${brand.accent}1a` }
@@ -163,13 +163,13 @@ export default function KnowYourselfScreen({
         transition={{ duration: 0.6, ease }}
       >
         <span
-          className="font-display text-sm font-semibold tracking-wider leading-none sm:text-base md:text-lg lg:text-xl xl:text-2xl"
+          className="font-fraunces text-sm font-semibold tracking-wider leading-none sm:text-base md:text-lg lg:text-xl xl:text-2xl"
           style={{ color: premiumWhite.bright }}
         >
           బిర్‌గాప్
         </span>
         <span
-          className="font-display text-sm font-semibold tracking-wider leading-none sm:text-base md:text-lg lg:text-xl xl:text-2xl"
+          className="font-fraunces text-sm font-semibold tracking-wider leading-none sm:text-base md:text-lg lg:text-xl xl:text-2xl"
           style={{ color: premiumWhite.bright }}
         >
           बिरगाप
@@ -182,7 +182,7 @@ export default function KnowYourselfScreen({
         <div className="flex w-full max-w-4xl flex-col items-center gap-1.5 sm:gap-2 px-3 sm:px-6">
           <div className="text-center">
             <span
-              className="font-display text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
+              className="font-fraunces text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
               style={{ color: premiumWhite.bright }}
             >
               Business Type:{' '}
@@ -192,7 +192,7 @@ export default function KnowYourselfScreen({
                   <button
                     type="button"
                     onClick={onChangeBusiness}
-                    className="inline-flex items-center font-display cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
+                    className="inline-flex items-center font-fraunces cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
                     style={{ color: brand.accent }}
                   >
                     Change
@@ -207,7 +207,7 @@ export default function KnowYourselfScreen({
           {canChangeSelection && (
             <div className="text-center">
               <span
-                className="font-display text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
+                className="font-fraunces text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold tracking-wide leading-snug"
                 style={{ color: premiumWhite.bright }}
               >
                 Domain:{' '}
@@ -222,7 +222,7 @@ export default function KnowYourselfScreen({
                           <button
                             type="button"
                             onClick={onChangeDomain}
-                            className="inline-flex items-center font-display cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
+                            className="inline-flex items-center font-fraunces cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
                             style={{ color: brand.accent }}
                           >
                             Change
@@ -242,7 +242,7 @@ export default function KnowYourselfScreen({
                           <button
                             type="button"
                             onClick={onChangeDomain}
-                            className="inline-flex items-center font-display cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
+                            className="inline-flex items-center font-fraunces cursor-pointer rounded-full border border-white/20 px-2 py-0.5 text-xs sm:text-sm font-medium transition-colors hover:border-white/40 align-middle"
                             style={{ color: brand.accent }}
                           >
                             Change
@@ -268,7 +268,7 @@ export default function KnowYourselfScreen({
             />
           </div>
           <div className="mt-1 flex justify-center">
-            <span key={`m-${fillPct}`} className="font-display text-xs tabular-nums" style={{ color: premiumWhite.warm }}>
+            <span key={`m-${fillPct}`} className="font-fraunces text-xs tabular-nums" style={{ color: premiumWhite.warm }}>
               {basePct}%
             </span>
           </div>
@@ -295,7 +295,7 @@ export default function KnowYourselfScreen({
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
-              className="font-display text-base tabular-nums"
+              className="font-fraunces text-base tabular-nums"
               style={{ color: premiumWhite.warm }}
             >
               {basePct}%
@@ -347,7 +347,7 @@ export default function KnowYourselfScreen({
                         }
                       >
                         <span
-                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border font-display text-xs font-bold transition-colors duration-300 sm:h-8 sm:w-8 sm:text-sm"
+                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border font-fraunces text-xs font-bold transition-colors duration-300 sm:h-8 sm:w-8 sm:text-sm"
                           style={
                             isSel
                               ? { borderColor: brand.accent, color: brand.accent, background: `${brand.accent}1a` }
@@ -401,7 +401,7 @@ export default function KnowYourselfScreen({
                     <PrimaryButton
                       onClick={() => selected && onNext(selected)}
                       disabled={!primaryActive}
-                      className={`question-shine-btn font-display px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden ${
+                      className={`question-shine-btn font-fraunces px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden ${
                         primaryActive ? '' : 'question-shine-off'
                       }`}
                       style={{ minWidth: '7rem' }}
@@ -414,7 +414,7 @@ export default function KnowYourselfScreen({
                     <PrimaryButton
                       onClick={() => selected && onNext(selected)}
                       disabled={!primaryActive}
-                      className={`question-shine-btn font-display px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden ${
+                      className={`question-shine-btn font-fraunces px-5 py-2 text-sm sm:text-base font-bold tracking-[0.05em] overflow-hidden ${
                         primaryActive ? '' : 'question-shine-off'
                       }`}
                       style={{ minWidth: '5rem' }}
@@ -472,7 +472,7 @@ export default function KnowYourselfScreen({
                       }
                     >
                       <span
-                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border font-display text-xs font-bold transition-colors duration-300"
+                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border font-fraunces text-xs font-bold transition-colors duration-300"
                         style={
                           isSel
                             ? { borderColor: brand.accent, color: brand.accent, background: `${brand.accent}1a` }
@@ -526,7 +526,7 @@ export default function KnowYourselfScreen({
                   <PrimaryButton
                     onClick={() => selected && onNext(selected)}
                     disabled={!primaryActive}
-                    className={`question-shine-btn font-display px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden ${
+                    className={`question-shine-btn font-fraunces px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden ${
                       primaryActive ? '' : 'question-shine-off'
                     }`}
                     style={{ minWidth: '6.5rem' }}
@@ -539,7 +539,7 @@ export default function KnowYourselfScreen({
                   <PrimaryButton
                     onClick={() => selected && onNext(selected)}
                     disabled={!primaryActive}
-                    className={`question-shine-btn font-display px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden ${
+                    className={`question-shine-btn font-fraunces px-4 py-2 text-sm font-bold tracking-[0.05em] overflow-hidden ${
                       primaryActive ? '' : 'question-shine-off'
                     }`}
                     style={{ minWidth: '5rem' }}
@@ -594,11 +594,12 @@ export default function KnowYourselfScreen({
           color: inherit;
         }
 
-        /* Fraunces is the site-wide font. Optical sizing is left automatic
-           so the high-contrast strokes stay balanced at every heading size. */
+        /* Fraunces is the site-wide font. Optical sizing is left automatic so
+           the high-contrast strokes stay balanced at every heading size. */
         .font-fraunces {
-          font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
           font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
           font-feature-settings: 'lnum' 1, 'pnum' 1;
         }
 

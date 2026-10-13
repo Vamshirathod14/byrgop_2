@@ -1,4 +1,4 @@
- import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Timer from '../components/Timer.jsx';
 import PrimaryButton from '../components/PrimaryButton.jsx';
@@ -193,7 +193,7 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
 
                 {/* Question Text — size increased back up one step at every
                     breakpoint so the question reads clearly, especially on
-                    mobile. Weight stays at medium (500) so Fraunces's
+                    mobile. Weight stays at medium (500) so Fraunces'
                     high-contrast strokes stay elegant rather than heavy. */}
                 <h1 
                   className="font-fraunces max-w-2xl text-balance text-center text-xl font-medium leading-snug sm:text-2xl md:text-3xl lg:text-4xl tracking-[-0.01em]"
@@ -254,6 +254,15 @@ export default function QuestionScreen({ question, index, total, onAnswer, onTim
           gliding across the label. GPU-layer promotion keeps the sweep
           animating reliably on Intel UHD 620 devices. */}
       <style>{`
+        /* Fraunces utility. Optical sizing stays automatic so the strokes
+           adapt to every heading size. */
+        .font-fraunces {
+          font-family: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+          font-optical-sizing: auto;
+          font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+          font-feature-settings: 'lnum' 1, 'pnum' 1;
+        }
+
         .question-shine-label {
           display: inline-block;
           color: currentColor;
