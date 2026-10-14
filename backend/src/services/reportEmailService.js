@@ -22,6 +22,30 @@ const BUSINESS_TYPE_LABELS = {
   ngo: 'NGO / Non-Profit',
 };
 
+// Business types whose flow has no Domain step. Their assessment has no
+// "industry sector" beyond the business type itself, so their Executive Summary
+// reports the business type on the Industry Sector line and omits the
+// Enterprise Model line (which would otherwise just repeat it).
+//
+// Services and Manufacturing are deliberately absent: they keep both lines and
+// report the chosen Domain as before. The values below are the approved copy.
+const DOMAINLESS_INDUSTRY_SECTOR = Object.freeze({
+  ngo: 'Non-Profit',
+  startup: 'Startup',
+});
+
+function resolveBusinessTypeKey(session) {
+  const raw = session?.businessType ?? session?.result?.businessType ?? null;
+  return raw == null ? '' : String(raw).trim().toLowerCase();
+}
+
+function resolveDomainlessSector(session) {
+  const key = resolveBusinessTypeKey(session);
+  return Object.prototype.hasOwnProperty.call(DOMAINLESS_INDUSTRY_SECTOR, key)
+    ? DOMAINLESS_INDUSTRY_SECTOR[key]
+    : null;
+}
+
 function resolveBusinessTypeLabel(session) {
   return (
     session?.businessTypeLabel ||
@@ -39,12 +63,18 @@ function resolveDomainLabel(session) {
 export function buildReportMail({ to, session, reportRequest, overviewBand, overallPercent }) {
   const subject = `Your BYRGOP Business Health Assessment Report${reportRequest?.companyName ? ` — ${reportRequest.companyName}` : ''}`;
   const pct = `${overallPercent}%`;
+  // Domainless roots (Non-Profit, Start-Up) show the business type as the
+  // Industry Sector and drop the Enterprise Model line. Services and
+  // Manufacturing keep all four rows exactly as before.
+  const domainlessSector = resolveDomainlessSector(session);
   const dynamicRows = [
     ['Composite Score', pct],
     ['Operational Status', overviewBand || '—'],
-    ['Enterprise Model', resolveBusinessTypeLabel(session)],
-    ['Industry Sector', resolveDomainLabel(session)],
   ];
+  if (!domainlessSector) {
+    dynamicRows.push(['Enterprise Model', resolveBusinessTypeLabel(session)]);
+  }
+  dynamicRows.push(['Industry Sector', domainlessSector || resolveDomainLabel(session)]);
   const summaryRows = dynamicRows
     .map(
       ([k, v]) =>
